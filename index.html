@@ -1,210 +1,471 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>はたらいく - 施工業界AX革命プラットフォーム</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-in { animation: slideIn 0.6s ease-out; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .progress-bar { transition: width 0.8s ease; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>はたらいく - 施工業界AX革命</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--p:#4f46e5;--pd:#4338ca;--s:#7c3aed;--a:#06b6d4}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans",sans-serif;background:#0f172a;color:#f1f5f9}
+.tab{display:none;opacity:0;transition:opacity .3s}.tab.on{display:block;opacity:1}
+.nav-i{padding:.75rem 1rem;cursor:pointer;display:flex;align-items:center;gap:.75rem;border-radius:.5rem;margin:.25rem 0;transition:background .2s}
+.nav-i:hover{background:#1e293b}.nav-i.on{background:var(--p);color:#fff}
+.kpi{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #334155;border-radius:.75rem;padding:1.5rem;transition:all .2s}
+.kpi:hover{border-color:var(--p);box-shadow:0 4px 20px rgba(79,70,229,.15)}
+.cn{font-size:1.875rem;font-weight:700;background:linear-gradient(135deg,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sb{display:inline-block;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600}
+.sb-b{background:#1e3a8a;color:#60a5fa}.sb-g{background:#064e3b;color:#6ee7b7}.sb-y{background:#78350f;color:#fbbf24}.sb-r{background:#7c2d12;color:#fb923c}
+.pb{background:#1e293b;border-radius:9999px;height:.5rem;overflow:hidden}
+.pf{background:linear-gradient(90deg,#4f46e5,#7c3aed);height:100%;border-radius:9999px;transition:width .5s}
+.pc{background:#1e293b;border:1px solid #334155;border-radius:.75rem;padding:1.25rem;cursor:pointer;transition:all .2s}
+.pc:hover{border-color:var(--p);box-shadow:0 4px 20px rgba(79,70,229,.15);transform:translateY(-2px)}
+.av{width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.875rem;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;flex-shrink:0}
+.mb{max-width:70%;padding:.75rem 1rem;border-radius:.5rem;word-wrap:break-word}
+.mb-s{background:var(--p);margin-left:auto}.mb-r{background:#1e293b;border:1px solid #334155;margin-right:auto}
+.sc{width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;background:#1e293b;border:2px solid #334155;z-index:1;flex-shrink:0}
+.sc.done{background:var(--p);border-color:var(--p);color:#fff}.sc.now{background:var(--p);border-color:var(--p);color:#fff;box-shadow:0 0 0 4px rgba(79,70,229,.2)}
+.sl{flex:1;height:2px;background:#334155}.sl.done{background:var(--p)}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:40;align-items:center;justify-content:center}.modal.show{display:flex}
+.mc{background:#0f172a;border:1px solid #334155;border-radius:.75rem;padding:2rem;max-width:500px;width:90%}
+.gt{background:linear-gradient(135deg,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#064e3b;border:1px solid #6ee7b7;padding:1rem 1.5rem;border-radius:.5rem;color:#6ee7b7;z-index:50;animation:si .3s}
+@keyframes si{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+.fb{position:fixed;bottom:2rem;right:2rem;width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;cursor:pointer;font-size:1.25rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,.4);z-index:30;transition:all .2s}
+.fb:hover{transform:scale(1.1)}.tip{position:absolute;background:#1e293b;color:#f1f5f9;padding:.75rem 1rem;border-radius:.5rem;font-size:.875rem;white-space:nowrap;z-index:100;border:1px solid #334155}
+.fi{width:2.5rem;height:2.5rem;border-radius:.25rem;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.75rem;flex-shrink:0}
+.fi-p{background:rgba(220,38,38,.2);color:#fca5a5}.fi-d{background:rgba(59,130,246,.2);color:#93c5fd}.fi-i{background:rgba(34,197,94,.2);color:#86efac}
+.wc{background:#1e293b;border:1px solid #334155;border-radius:.75rem;padding:1.25rem;text-align:center;transition:all .2s}
+.wc:hover{border-color:var(--p)}.cb{display:inline-block;padding:.2rem .5rem;background:rgba(79,70,229,.2);color:#a5b4fc;border-radius:.25rem;font-size:.7rem;margin:.15rem}
+.btn{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:.5rem 1.5rem;border-radius:.5rem;border:none;cursor:pointer;font-weight:600;transition:all .2s}
+.btn:hover{box-shadow:0 4px 15px rgba(79,70,229,.4);transform:translateY(-1px)}
+.btn2{background:#1e293b;color:#f1f5f9;padding:.5rem 1.5rem;border-radius:.5rem;border:1px solid #334155;cursor:pointer;font-weight:600}
+.btn2:hover{background:#334155}
+.inp{width:100%;background:#1e293b;border:1px solid #334155;color:#f1f5f9;padding:.5rem 1rem;border-radius:.5rem;font-size:.875rem;margin-bottom:.75rem}
+.inp:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.bar{background:linear-gradient(180deg,#4f46e5,#7c3aed);border-radius:.25rem .25rem 0 0}
+.gg{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.gi{width:100px;height:100px;border-radius:50%;background:#0f172a;display:flex;align-items:center;justify-content:center;flex-direction:column}
+</style>
 </head>
-<body class="bg-gray-900 text-white">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="text-3xl font-bold">⚙️</div>
-                <div>
-                    <h1 class="text-2xl font-bold">はたらいく</h1>
-                    <p class="text-indigo-300 text-sm">施工業界AX革命プラットフォーム</p>
-                </div>
-            </div>
-            <div class="bg-green-500 text-white px-4 py-2 rounded-full font-bold text-sm">✨ AX革命</div>
-        </div>
-    </header>
+<body>
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 bottom-0 w-60 bg-gray-800/90 border-r border-gray-700 p-5 flex flex-col z-20">
+<div class="flex items-center gap-3 mb-6">
+<div class="text-2xl">⚙️</div>
+<div><h1 class="text-lg font-bold">はたらいく</h1><p class="text-xs text-indigo-300">施左業界AX革命</p></div>
+</div>
+<nav class="flex-1 space-y-1" id="nav">
+<div class="nav-i on" data-t="dash" onclick="sw('dash')">📊 ダッシュボード</div>
+<div class="nav-i" data-t="proj" onclick="sw('proj')">📁 プロジェクト管理</div>
+<div class="nav-i" data-t="flow" onclick="sw('flow')">🎯 打合せフロー</div>
+<div class="nav-i" data-t="chat" onclick="sw('chat')">💬 チャット</div>
+<div class="nav-i" data-t="team" onclick="sw('team')">👥 人材管理</div>
+<div class="nav-i" data-t="data" onclick="sw('data')">📂 データ管理</div>
+<div class="nav-i" data-t="ai" onclick="sw('ai')">🤖 AI分析</div>
+</nav>
+<div class="border-t border-gray-700 pt-4 mt-4">
+<p class="text-xs text-gray-400">ログイン中</p>
+<p class="font-semibold text-sm">樋口 春騎</p>
+<p class="text-xs text-gray-500">施工管理者 / AXリーダー</p>
+</div>
+<p class="text-xs text-gray-600 mt-2">v3.0 | 知行合一 × AI</p>
+</aside>
 
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-gray-800 border-r border-gray-700 p-6 space-y-4">
-            <nav class="space-y-3">
-                <button onclick="switchTab('dashboard')" class="nav-btn active w-full text-left px-4 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 transition font-semibold">📊 ダッシュボード</button>
-                <button onclick="switchTab('projects')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-700 transition">📁 プロジェクト管理</button>
-                <button onclick="switchTab('analysis')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-700 transition">🤖 AI施工分析</button>
-                <button onclick="switchTab('meeting')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-700 transition">🎯 打合せフロー</button>
-            </nav>
-            <div class="border-t border-gray-700 pt-4 mt-4">
-                <p class="text-xs text-gray-400">ログイン中</p>
-                <p class="font-semibold text-sm">田中太郎</p>
-                <p class="text-xs text-gray-500">施工管理者</p>
-            </div>
-        </aside>
+<!-- Main -->
+<div class="ml-60">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-gray-900/95 border-b border-gray-800 px-8 py-4 flex items-center justify-between backdrop-blur">
+<div>
+<h2 class="text-xl font-bold gt" id="pageTitle">ダッシュボード</h2>
+<p class="text-xs text-gray-500">知行合一 — 知識と行動の一致が最高の成果を生む</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-xs text-gray-400" id="clock"></span>
+<div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold">✨ AX稼働中</div>
+</div>
+</header>
 
-        <!-- Main Content -->
-        <main class="flex-1 p-8 overflow-auto">
-            <!-- Dashboard Tab -->
-            <div id="dashboard" class="tab-content active animate-in space-y-6">
-                <h2 class="text-3xl font-bold">ダッシュボード</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg border border-gray-600">
-                        <p class="text-gray-400 text-sm">売上</p>
-                        <p class="text-3xl font-bold mt-2">¥2.4億</p>
-                        <p class="text-green-400 text-sm mt-2">▲ +18%</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg border border-gray-600">
-                        <p class="text-gray-400 text-sm">案件数</p>
-                        <p class="text-3xl font-bold mt-2">47件</p>
-                        <p class="text-blue-400 text-sm mt-2">▲ +12件</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg border border-gray-600">
-                        <p class="text-gray-400 text-sm">AI効率化</p>
-                        <p class="text-3xl font-bold mt-2">340時間</p>
-                        <p class="text-orange-400 text-sm mt-2">/ 月</p>
-                    </div>
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-700 p-6 rounded-xl shadow-lg border border-gray-600">
-                        <p class="text-gray-400 text-sm">顧客満足度</p>
-                        <p class="text-3xl font-bold mt-2">98.2%</p>
-                        <p class="text-green-400 text-sm mt-2">▲ +2.1%</p>
-                    </div>
-                </div>
-                <div class="bg-gradient-to-r from-indigo-900 to-purple-900 p-6 rounded-xl shadow-lg border border-indigo-600">
-                    <h3 class="text-xl font-bold mb-4">月別実績推移</h3>
-                    <div class="flex items-end gap-2 h-32">
-                        <div class="flex-1 bg-indigo-500 rounded-t" style="height: 60%"></div>
-                        <div class="flex-1 bg-indigo-500 rounded-t" style="height: 75%"></div>
-                        <div class="flex-1 bg-indigo-500 rounded-t" style="height: 85%"></div>
-                        <div class="flex-1 bg-green-500 rounded-t" style="height: 95%"></div>
-                    </div>
-                </div>
-            </div>
+<main class="p-8 pb-20">
+<!-- Dashboard -->
+<div id="dash" class="tab on">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+<div class="kpi"><p class="text-gray-400 text-xs">売上実績</p><p class="cn" data-v="240000000">¥0</p><p class="text-green-400 text-xs mt-1">▲ +18% 前月比</p></div>
+<div class="kpi"><p class="text-gray-400 text-xs">案件数</p><p class="cn" data-v="47">0</p><p class="text-blue-400 text-xs mt-1">▲ +12件 新規</p></div>
+<div class="kpi"><p class="text-gray-400 text-xs">AI効率化</p><p class="cn" data-v="340">0</p><p class="text-orange-400 text-xs mt-1">時間/月 削減</p></div>
+<div class="kpi"><p class="text-gray-400 text-xs">顧客満足度</p><p class="cn" data-v="98.2">0</p><p class="text-green-400 text-xs mt-1">▲ +2.1% 向上</p></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<div class="lg:col-span-2 kpi">
+<h3 class="font-bold mb-3">月別実績推移</h3>
+<div class="flex items-end gap-2 h-40">
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:45%"></div><span class="text-xs text-gray-500">1月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:55%"></div><span class="text-xs text-gray-500">2月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:50%"></div><span class="text-xs text-gray-500">3月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:65%"></div><span class="text-xs text-gray-500">4月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:72%"></div><span class="text-xs text-gray-500">5月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:68%"></div><span class="text-xs text-gray-500">6月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:78%"></div><span class="text-xs text-gray-500">7月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:82%"></div><span class="text-xs text-gray-500">8月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:88%"></div><span class="text-xs text-gray-500">9月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:92%"></div><span class="text-xs text-gray-500">10月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:95%"></div><span class="text-xs text-gray-500">11月</span></div>
+<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t bg-green-500" style="height:100%"></div><span class="text-xs text-gray-500">12月</span></div>
+</div>
+</div>
+<div class="kpi">
+<h3 class="font-bold mb-3">最近のアクティビティ</h3>
+<div class="space-y-3 text-sm">
+<div class="flex gap-3 items-start"><div class="w-2 h-2 bg-green-500 rounded-full mt-1.5 flex-shrink-0"></div><div><p>梅田タワー 安全検査完了</p><p class="text-xs text-gray-500">10分前</p></div></div>
+<div class="flex gap-3 items-start"><div class="w-2 h-2 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div><div><p>渋谷駅前 見積書承認済み</p><p class="text-xs text-gray-500">1時間前</p></div></div>
+<div class="flex gap-3 items-start"><div class="w-2 h-2 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></div><div><p>横浜港湾 資材発注要確認</p><p class="text-xs text-gray-500">3時間前</p></div></div>
+<div class="flex gap-3 items-start"><div class="w-2 h-2 bg-purple-500 rounded-full mt-1.5 flex-shrink-0"></div><div><p>AI分析: コスト最適化提案</p><p class="text-xs text-gray-500">5時間前</p></div></div>
+<div class="flex gap-3 items-start"><div class="w-2 h-2 bg-indigo-500 rounded-full mt-1.5 flex-shrink-0"></div><div><p>新規案件: 京都寺院修復</p><p class="text-xs text-gray-500">昨日</p></div></div>
+</div>
+</div>
+</div>
+</div>
 
-            <!-- Projects Tab -->
-            <div id="projects" class="tab-content animate-in space-y-6">
-                <h2 class="text-3xl font-bold">プロジェクト管理</h2>
-                <div class="space-y-3">
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold">梅田タワービル新築工事</p>
-                            <p class="text-gray-400 text-sm">責任者: 田中太郎</p>
-                        </div>
-                        <span class="bg-blue-600 px-3 py-1 rounded-full text-xs font-semibold">進行中</span>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold">渋谷駅前改築プロジェクト</p>
-                            <p class="text-gray-400 text-sm">責任者: 佐藤二郎</p>
-                        </div>
-                        <span class="bg-green-600 px-3 py-1 rounded-full text-xs font-semibold">完了</span>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold">横浜港湾施設拡張工事</p>
-                            <p class="text-gray-400 text-sm">責任者: 木村三郎</p>
-                        </div>
-                        <span class="bg-yellow-600 px-3 py-1 rounded-full text-xs font-semibold">計画中</span>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold">京都寺院修復工事</p>
-                            <p class="text-gray-400 text-sm">責任者: 鈴木四郎</p>
-                        </div>
-                        <span class="bg-green-600 px-3 py-1 rounded-full text-xs font-semibold">完了</span>
-                    </div>
-                </div>
-            </div>
+<!-- Projects -->
+<div id="proj" class="tab">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">進行中プロジェクト</h3>
+<button class="btn text-sm" onclick="oam('新規プロジェクト追加の承認')">+ 新規追加</button>
+</div>
+<div class="space-y-3">
+<div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3"><div class="av">田</div><div><p class="font-bold">梅田タワービル新築工事</p><p class="text-xs text-gray-400">責任者: 田中太郎 | 予算: ¥8.5億</p></div></div>
+<span class="sb sb-b">進行中</span>
+</div>
+<div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
+<div class="grid grid-cols-3 gap-3">
+<div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:72%"></div></div><p class="text-xs mt-1">72%</p></div>
+<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-green-400 font-bold">96点</p></div>
+<div><p class="text-gray-400 text-xs">工期</p><p>2025/4 - 2026/3</p></div>
+</div>
+<button class="btn text-xs mt-3" onclick="event.stopPropagation();oam('梅田タワー: ステータス変更承認')">承認フロー開始</button>
+</div>
+</div>
+<div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3"><div class="av">佐</div><div><p class="font-bold">渋谷駅前改築プロジェクト</p><p class="text-xs text-gray-400">責任者: 佐藤二郎 | 予算: ¥12億</p></div></div>
+<span class="sb sb-g">完了</span>
+</div>
+<div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
+<div class="grid grid-cols-3 gap-3">
+<div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div><p class="text-xs mt-1">100%</p></div>
+<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-green-400 font-bold">98点</p></div>
+<div><p class="text-gray-400 text-xs">完了日</p><p>2025/2/28</p></div>
+</div>
+</div>
+</div>
+<div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3"><div class="av">木</div><div><p class="font-bold">横浜港湾施設拡張工事</p><p class="text-xs text-gray-400">責任者: 木村三郎 | 予算: ¥5.2億</p></div></div>
+<span class="sb sb-y">計画中</span>
+</div>
+<div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
+<div class="grid grid-cols-3 gap-3">
+<div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:15%"></div></div><p class="text-xs mt-1">15%</p></div>
+<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-yellow-400 font-bold">評価中</p></div>
+<div><p class="text-gray-400 text-xs">開始予定</p><p>2025/6/1</p></div>
+</div>
+<button class="btn text-xs mt-3" onclick="event.stopPropagation();oam('横浜港湾: 着工承認')">承認フロー開始</button>
+</div>
+</div>
+<div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3"><div class="av">鈴</div><div><p class="font-bold">京都寺院修復工事</p><p class="text-xs text-gray-400">責任者: 鈴木四郎 | 予算: ¥3.8億</p></div></div>
+<span class="sb sb-g">完了</span>
+</div>
+<div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
+<div class="grid grid-cols-3 gap-3">
+<div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div><p class="text-xs mt-1">100%</p></div>
+<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-green-400 font-bold">99点</p></div>
+<div><p class="text-gray-400 text-xs">完了日</p><p>2025/1/15</p></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-            <!-- Analysis Tab -->
-            <div id="analysis" class="tab-content animate-in space-y-6">
-                <h2 class="text-3xl font-bold">AI施工分析</h2>
-                <div class="space-y-4">
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                        <div class="flex justify-between mb-2">
-                            <p class="font-semibold">安全リスク検出</p>
-                            <span class="text-green-400">92%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2"><div class="progress-bar bg-green-500 h-2 rounded-full" style="width: 92%"></div></div>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                        <div class="flex justify-between mb-2">
-                            <p class="font-semibold">コスト最適化</p>
-                            <span class="text-orange-400">76%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2"><div class="progress-bar bg-orange-500 h-2 rounded-full" style="width: 76%"></div></div>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                        <div class="flex justify-between mb-2">
-                            <p class="font-semibold">スケジュール達成率</p>
-                            <span class="text-blue-400">88%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2"><div class="progress-bar bg-blue-500 h-2 rounded-full" style="width: 88%"></div></div>
-                    </div>
-                    <div class="bg-gray-800 p-5 rounded-lg border border-gray-700">
-                        <div class="flex justify-between mb-2">
-                            <p class="font-semibold">品質管理スコア</p>
-                            <span class="text-purple-400">94%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-2"><div class="progress-bar bg-purple-500 h-2 rounded-full" style="width: 94%"></div></div>
-                    </div>
-                </div>
-            </div>
+<!-- Workflow -->
+<div id="flow" class="tab">
+<h3 class="text-lg font-bold mb-4">打合せフロー — 知行合一プロセス</h3>
+<p class="text-sm text-gray-400 mb-6">「知って行わないのは、まだ知らないのと同じ」— 王陽明。各ステップで知識を即座に行動へ変換する設計。</p>
+<div class="flex items-center mb-8">
+<div class="sc done">✓</div><div class="sl done"></div>
+<div class="sc done">✓</div><div class="sl done"></div>
+<div class="sc now">3</div><div class="sl"></div>
+<div class="sc">4</div><div class="sl"></div>
+<div class="sc">5</div>
+</div>
+<div class="grid grid-cols-5 gap-2 text-center text-xs text-gray-400 mb-8">
+<div>要件定義<br>ヒアリング</div><div>現場調査<br>AI映像分析</div><div class="text-indigo-400 font-bold">見積作成<br>自動計算</div><div>契約締結<br>電子署名</div><div>施工開始<br>RT管理</div>
+</div>
+<div class="kpi">
+<h4 class="font-bold mb-3">現在のステップ: 見積作成</h4>
+<p class="text-sm text-gray-400 mb-4">AI が最適な見積を自動計算中。ヒューマンエラー防止のため、二重チェック機構を搭載。</p>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div><label class="text-xs text-gray-400">物件名</label><input class="inp" value="梅田タワービル新築工事" readonly></div>
+<div><label class="text-xs text-gray-400">見積金額 (AI算出)</label><input class="inp" value="¥857,340,000" readonly></div>
+<div><label class="text-xs text-gray-400">工期</label><input class="inp" value="2025年4月 〜 2026年3月" readonly></div>
+<div><label class="text-xs text-gray-400">リスクスコア</label><input class="inp" value="低リスク (92/100)" readonly></div>
+</div>
+<div class="flex gap-3">
+<button class="btn" onclick="oam('見積書の最終承認 — 金額: ¥857,340,000')">承認して次のステップへ</button>
+<button class="btn2" onclick="oam('見積書の差戻し')">差戻し</button>
+</div>
+</div>
+</div>
 
-            <!-- Meeting Flow Tab -->
-            <div id="meeting" class="tab-content animate-in space-y-6">
-                <h2 class="text-3xl font-bold">打合せフロー</h2>
-                <div class="flex flex-col lg:flex-row items-stretch gap-3 text-sm">
-                    <div class="flex-1 bg-gradient-to-b from-indigo-700 to-indigo-800 p-4 rounded-lg text-center border-2 border-indigo-600">
-                        <p class="text-2xl mb-2">📋</p>
-                        <p class="font-bold">要件定義</p>
-                        <p class="text-gray-300 text-xs mt-1">クライアント要望ヒアリング</p>
-                    </div>
-                    <div class="hidden lg:flex items-center text-indigo-500">→</div>
-                    <div class="flex-1 bg-gradient-to-b from-purple-700 to-purple-800 p-4 rounded-lg text-center border-2 border-purple-600">
-                        <p class="text-2xl mb-2">🔍</p>
-                        <p class="font-bold">現場調査</p>
-                        <p class="text-gray-300 text-xs mt-1">AI映像分析・測定</p>
-                    </div>
-                    <div class="hidden lg:flex items-center text-purple-500">→</div>
-                    <div class="flex-1 bg-gradient-to-b from-blue-700 to-blue-800 p-4 rounded-lg text-center border-2 border-blue-600">
-                        <p class="text-2xl mb-2">💰</p>
-                        <p class="font-bold">見積作成</p>
-                        <p class="text-gray-300 text-xs mt-1">自動計算・最適化</p>
-                    </div>
-                    <div class="hidden lg:flex items-center text-blue-500">→</div>
-                    <div class="flex-1 bg-gradient-to-b from-green-700 to-green-800 p-4 rounded-lg text-center border-2 border-green-600">
-                        <p class="text-2xl mb-2">✅</p>
-                        <p class="font-bold">契約締結</p>
-                        <p class="text-gray-300 text-xs mt-1">デジタル㝲名</p>
-                    </div>
-                    <div class="hidden lg:flex items-center text-green-500">→</div>
-                    <div class="flex-1 bg-gradient-to-b from-orange-700 to-orange-800 p-4 rounded-lg text-center border-2 border-orange-600">
-                        <p class="text-2xl mb-2">🚀</p>
-                        <p class="font-bold">施工開始</p>
-                        <p class="text-gray-300 text-xs mt-1">リアルタイム管理</p>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+<!-- Chat -->
+<div id="chat" class="tab">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-4" style="height:calc(100vh - 220px)">
+<div class="kpi lg:col-span-1 overflow-y-auto">
+<h3 class="font-bold text-sm mb-3">連絡先</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-2 p-2 rounded-lg bg-indigo-600/20 cursor-pointer"><div class="av text-xs">田</div><div><p class="text-sm font-semibold">田中太郎</p><p class="text-xs text-gray-400">施工管理者</p></div></div>
+<div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">佐</div><div><p class="text-sm">佐藤二郎</p><p class="text-xs text-gray-400">現場監督</p></div></div>
+<div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">木</div><div><p class="text-sm">木村三郎</p><p class="text-xs text-gray-400">設計士</p></div></div>
+<div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">AI</div><div><p class="text-sm">AI アシスタント</p><p class="text-xs text-green-400">常時稼働</p></div></div>
+</div>
+</div>
+<div class="lg:col-span-3 kpi flex flex-col">
+<div class="border-b border-gray-700 pb-3 mb-3 flex items-center gap-3">
+<div class="av text-xs">田</div>
+<div><p class="font-bold text-sm">田中太郎</p><p class="text-xs text-green-400">オンライン</p></div>
+</div>
+<div class="flex-1 overflow-y-auto space-y-3 flex flex-col" id="msgs">
+<div class="mb mb-r">梅田タワーの安全検査結果、AIで解析してもらえますか？</div>
+<div class="mb mb-s">了解です。AI映像分析を開始します。約3分で結果が出ます。</div>
+<div class="mb mb-r">ありがとうございます。結果出たら承認フローに回してください。</div>
+<div class="mb mb-s">解析完了しました。安全スコア96点。承認フローを起動しますか？</div>
+<div class="mb mb-r">お願いします！</div>
+</div>
+<div class="flex gap-2 mt-3 pt-3 border-t border-gray-700">
+<input class="inp mb-0 flex-1" placeholder="メッセージを入力..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
+<button class="btn text-sm" onclick="sendMsg()">送信</button>
+</div>
+</div>
+</div>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 py-4 text-center text-gray-400 text-xs">
-        © 2025 はたらいく - 施工業界AX革命プラットフォーム | Powered by AI
-    </footer>
+<!-- Team -->
+<div id="team" class="tab">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold">人材管理</h3>
+<div class="flex gap-2">
+<button class="btn text-sm rt on" onclick="filt(this,'all')">全員</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'manager')">管理者</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'worker')">作業員</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="wc" data-r="manager"><div class="av mx-auto mb-3 w-14 h-14 text-lg">樋</div><p class="font-bold">樋口 春騎</p><p class="text-xs text-gray-400 mb-2">AXリーダー / 統括</p><div class="flex flex-wrap justify-center"><span class="cb">1級建築士</span><span class="cb">AX推進</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-g text-xs">稼働中</span></div></div>
+<div class="wc" data-r="manager"><div class="av mx-auto mb-3 w-14 h-14 text-lg">田</div><p class="font-bold">田中太郎</p><p class="text-xs text-gray-400 mb-2">施工管理者</p><div class="flex flex-wrap justify-center"><span class="cb">1級施工管理</span><span class="cb">安全管理</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-g text-xs">稼働中</span></div></div>
+<div class="wc" data-r="worker"><div class="av mx-auto mb-3 w-14 h-14 text-lg">佐</div><p class="font-bold">佐藤二郎</p><p class="text-xs text-gray-400 mb-2">現場監督</p><div class="flex flex-wrap justify-center"><span class="cb">2級建築士</span><span class="cb">品質管理</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-b text-xs">現場作業中</span></div></div>
+<div class="wc" data-r="worker"><div class="av mx-auto mb-3 w-14 h-14 text-lg">木</div><p class="font-bold">木村三郎</p><p class="text-xs text-gray-400 mb-2">設計士</p><div class="flex flex-wrap justify-center"><span class="cb">1級建築士</span><span class="cb">BIM</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-y text-xs">設計中</span></div></div>
+<div class="wc" data-r="worker"><div class="av mx-auto mb-3 w-14 h-14 text-lg">鈴</div><p class="font-bold">鈴木四郎</p><p class="text-xs text-gray-400 mb-2">現場監督</p><div class="flex flex-wrap justify-center"><span class="cb">1級土木</span><span class="cb">環境管理</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-g text-xs">稼働中</span></div></div>
+<div class="wc" data-r="worker"><div class="av mx-auto mb-3 w-14 h-14 text-lg">高</div><p class="font-bold">高橋五郎</p><p class="text-xs text-gray-400 mb-2">電気工事士</p><div class="flex flex-wrap justify-center"><span class="cb">第1種電気</span><span class="cb">消防設備</span></div><div class="mt-2 flex justify-center gap-1"><span class="sb sb-r text-xs">休暇中</span></div></div>
+</div>
+</div>
 
-    <script>
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('bg-indigo-600'));
-            event.target.classList.add('bg-indigo-600');
-        }
-    </script>
+<!-- Data -->
+<div id="data" class="tab">
+<h3 class="text-lg font-bold mb-4">データ管理 — ワンクリックアクセス</h3>
+<p class="text-sm text-gray-400 mb-4">大容量ファイルも直感的にアクセス。ヒューマンエラーを防ぐ設計で、責任を持ちたくなる環境を構築。</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+<div class="kpi text-center cursor-pointer hover:border-indigo-500" onclick="oam('設計図フォルダへのアクセス承認')">
+<p class="text-3xl mb-2">📐</p><p class="font-bold text-sm">設計図</p><p class="text-xs text-gray-400">234 files</p>
+</div>
+<div class="kpi text-center cursor-pointer hover:border-indigo-500" onclick="oam('契約書フォルダへのアクセス承認')">
+<p class="text-3xl mb-2">📝</p><p class="font-bold text-sm">契約書</p><p class="text-xs text-gray-400">89 files</p>
+</div>
+<div class="kpi text-center cursor-pointer hover:border-indigo-500">
+<p class="text-3xl mb-2">📸</p><p class="font-bold text-sm">現場写真</p><p class="text-xs text-gray-400">1,247 files</p>
+</div>
+<div class="kpi text-center cursor-pointer hover:border-indigo-500">
+<p class="text-3xl mb-2">📊</p><p class="font-bold text-sm">報告書</p><p class="text-xs text-gray-400">156 files</p>
+</div>
+</div>
+<div class="kpi mb-4">
+<h4 class="font-bold text-sm mb-3">最近のファイル</h4>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-p">PDF</div><div class="flex-1"><p class="text-sm">梅田タワー_安全検査報告書.pdf</p><p class="text-xs text-gray-500">2.4MB · 10分前 · 田中太郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
+<div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-d">DWG</div><div class="flex-1"><p class="text-sm">渋谷駅前_改築設計図_v12.dwg</p><p class="text-xs text-gray-500">18.7MB · 1時間前 · 木村三郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
+<div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-i">JPG</div><div class="flex-1"><p class="text-sm">横浜港湾_現場写真_0328.jpg</p><p class="text-xs text-gray-500">5.1MB · 3時間前 · 佐藤二郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
+</div>
+</div>
+<div class="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center hover:border-indigo-500 transition cursor-pointer">
+<p class="text-3xl mb-2">📤</p>
+<p class="font-bold">ファイルをドラッグ＆ドロップ</p>
+<p class="text-xs text-gray-400 mt-1">または クリックしてアップロード（最大5GB対応）</p>
+</div>
+</div>
+
+<!-- AI Analytics -->
+<div id="ai" class="tab">
+<h3 class="text-lg font-bold mb-4">AI施工分析</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<div class="kpi">
+<div class="flex justify-between items-center mb-2"><p class="font-semibold text-sm">安全リスク検出</p><span class="text-green-400 font-bold">92%</span></div>
+<div class="pb"><div class="pf" style="width:92%"></div></div>
+<p class="text-xs text-gray-400 mt-2">AI映像分析による危険箇所の自動検出精度</p>
+</div>
+<div class="kpi">
+<div class="flex justify-between items-center mb-2"><p class="font-semibold text-sm">コスト最適化</p><span class="text-orange-400 font-bold">76%</span></div>
+<div class="pb"><div class="pf" style="width:76%;background:linear-gradient(90deg,#f97316,#f59e0b)"></div></div>
+<p class="text-xs text-gray-400 mt-2">資材調達・人員配置のAI最適化スコア</p>
+</div>
+<div class="kpi">
+<div class="flex justify-between items-center mb-2"><p class="font-semibold text-sm">スケジュール達成率</p><span class="text-blue-400 font-bold">88%</span></div>
+<div class="pb"><div class="pf" style="width:88%;background:linear-gradient(90deg,#3b82f6,#06b6d4)"></div></div>
+<p class="text-xs text-gray-400 mt-2">AI予測に基づく工期達成見込み</p>
+</div>
+<div class="kpi">
+<div class="flex justify-between items-center mb-2"><p class="font-semibold text-sm">品質管理スコア</p><span class="text-purple-400 font-bold">94%</span></div>
+<div class="pb"><div class="pf" style="width:94%;background:linear-gradient(90deg,#7c3aed,#a855f7)"></div></div>
+<p class="text-xs text-gray-400 mt-2">検査基準クリア率のリアルタイム追跡</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+<div class="kpi">
+<h4 class="font-bold text-sm mb-3">AI予測: 今後のリスク</h4>
+<div class="space-y-3">
+<div class="flex items-center gap-3"><div class="w-3 h-3 bg-red-500 rounded-full flex-shrink-0"></div><div><p class="text-sm">梅田タワー: 3月末に資材不足リスク</p><p class="text-xs text-gray-400">推奨: 今週中に追加発注</p></div></div>
+<div class="flex items-center gap-3"><div class="w-3 h-3 bg-yellow-500 rounded-full flex-shrink-0"></div><div><p class="text-sm">横浜港湾: 天候による2日遅延可能性</p><p class="text-xs text-gray-400">推奨: 予備日の確保</p></div></div>
+<div class="flex items-center gap-3"><div class="w-3 h-3 bg-green-500 rounded-full flex-shrink-0"></div><div><p class="text-sm">京都寺院: 全項目クリア、問題なし</p><p class="text-xs text-gray-400">次回検査: 来月15日</p></div></div>
+</div>
+</div>
+<div class="kpi">
+<h4 class="font-bold text-sm mb-3">AI効率化サマリー</h4>
+<div class="flex items-center justify-around">
+<div class="gg" style="background:conic-gradient(#4f46e5 0deg 270deg,#334155 270deg)"><div class="gi"><p class="text-2xl font-bold text-indigo-400">75%</p><p class="text-xs text-gray-400">総合効率</p></div></div>
+<div class="text-sm space-y-2">
+<p>📉 コスト削減: <span class="text-green-400 font-bold">¥1.2億/年</span></p>
+<p>⏱️ 時間削減: <span class="text-blue-400 font-bold">340h/月</span></p>
+<p>🛡️ 事故防止: <span class="text-purple-400 font-bold">98.5%</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="fixed bottom-0 right-0 left-60 bg-gray-900/95 border-t border-gray-800 px-8 py-2 text-xs text-gray-500 text-center backdrop-blur">
+© 2025 はたらいく — 施工業界AX革命 | 知行合一 × AI | Powered by AX Engine v3.0
+</footer>
+</div>
+
+<!-- Approval Modal -->
+<div id="amod" class="modal" onclick="if(event.target===this)cam()">
+<div class="mc">
+<h3 class="text-lg font-bold mb-4">⚠️ 承認確認</h3>
+<div id="acnt" class="mb-4 p-4 bg-gray-800 rounded border border-gray-700 text-sm"></div>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div><label class="text-xs text-gray-400">承認者</label><input class="inp" value="樋口 春騎" readonly></div>
+<div><label class="text-xs text-gray-400">タイムスタンプ</label><input class="inp" id="ats" readonly></div>
+</div>
+<p class="text-xs text-gray-400 mb-4">知行合一: この承認は即座にシステムに反映されます。判断に責任を持つ設計。</p>
+<div class="flex gap-3 justify-end">
+<button class="btn2" onclick="cam()">キャンセル</button>
+<button class="btn" onclick="cfm()">✓ 承認する</button>
+</div>
+</div>
+</div>
+
+<!-- Demo Button -->
+<button class="fb" onclick="demo()" title="デモシミュレーション">▶</button>
+
+<script>
+// Tab switch
+function sw(t){
+document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
+document.querySelectorAll('.nav-i').forEach(e=>e.classList.remove('on'));
+document.getElementById(t).classList.add('on');
+document.querySelector('[data-t="'+t+'"]').classList.add('on');
+const titles={dash:'ダッシュボード',proj:'プロジェクト管理',flow:'打合せフロー',chat:'チャット',team:'人材管理',data:'データ管理',ai:'AI施工分析'};
+document.getElementById('pageTitle').textContent=titles[t]||t;
+}
+
+// Counter animation
+function ac(){
+document.querySelectorAll('.cn').forEach(el=>{
+const v=parseFloat(el.dataset.v);if(!v)return;
+const d=1200,inc=v/(d/16);let c=0;
+const t=setInterval(()=>{
+c+=inc;if(c>=v){c=v;clearInterval(t)}
+if(v>1e6)el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP');
+else if(v>100)el.textContent=Math.floor(c).toLocaleString('ja-JP');
+else el.textContent=c.toFixed(1)+'%';
+},16);
+});
+}
+
+// Approval modal
+function oam(c){
+document.getElementById('acnt').innerHTML='<p class="font-semibold">'+c+'</p>';
+document.getElementById('ats').value=new Date().toLocaleString('ja-JP');
+document.getElementById('amod').classList.add('show');
+}
+function cam(){document.getElementById('amod').classList.remove('show')}
+function cfm(){
+const t=document.createElement('div');t.className='toast';
+t.innerHTML='✓ <span class="ml-2">承認が完了しました — 知行合一</span>';
+document.body.appendChild(t);
+setTimeout(()=>{t.remove();cam()},3000);
+}
+
+// Chat
+function sendMsg(){
+const i=document.getElementById('chatIn');
+if(!i.value.trim())return;
+const m=document.createElement('div');m.className='mb mb-s';m.textContent=i.value;
+document.getElementById('msgs').appendChild(m);i.value='';
+setTimeout(()=>{
+const r=document.createElement('div');r.className='mb mb-r';
+r.textContent='AIアシスタント: ご連絡ありがとうございます。確認して対応いたします。';
+document.getElementById('msgs').appendChild(r);
+document.getElementById('msgs').scrollTop=9999;
+},1000);
+}
+
+// Team filter
+function filt(btn,role){
+document.querySelectorAll('.rt').forEach(b=>{b.className='btn2 text-sm rt'});
+btn.className='btn text-sm rt on';
+document.querySelectorAll('.wc').forEach(c=>{
+c.style.display=(role==='all'||c.dataset.r===role)?'':'none';
+});
+}
+
+// Clock
+function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
+setInterval(uc,1000);uc();
+
+// Demo simulation
+async function demo(){
+const tabs=['dash','proj','flow','chat','team','data','ai'];
+const fb=document.querySelector('.fb');fb.disabled=true;fb.style.opacity='.5';
+for(const t of tabs){
+await new Promise(r=>setTimeout(r,1800));sw(t);
+const n=document.querySelector('[data-t="'+t+'"]');
+const tip=document.createElement('div');tip.className='tip';
+tip.style.cssText='left:260px;top:'+(n.offsetTop+80)+'px';
+tip.textContent='← このセクションをご確認ください';
+document.body.appendChild(tip);
+await new Promise(r=>setTimeout(r,1500));tip.remove();
+}
+sw('flow');await new Promise(r=>setTimeout(r,1000));
+oam('デモ: 承認フロー体験');await new Promise(r=>setTimeout(r,2500));cfm();
+fb.disabled=false;fb.style.opacity='1';
+}
+
+// Init
+window.addEventListener('load',ac);
+</script>
 </body>
 </html>
