@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="はたらいく - 施工業界のAX（AI Transformation）革命プラットフォーム。知行合一の哲学に基づく次世代施工管理システム。">
 <title>はたらいく - 施工業界AX革命</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -53,9 +54,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <aside class="fixed left-0 top-0 bottom-0 w-60 bg-gray-800/90 border-r border-gray-700 p-5 flex flex-col z-20">
 <div class="flex items-center gap-3 mb-6">
 <div class="text-2xl">⚙️</div>
-<div><h1 class="text-lg font-bold">はたらいく</h1><p class="text-xs text-indigo-300">施左業界AX革命</p></div>
+<div><h1 class="text-lg font-bold">はたらいく</h1><p class="text-xs text-indigo-300">施工業界AX革命</p></div>
 </div>
-<nav class="flex-1 space-y-1" id="nav">
+<nav class="flex-1 space-y-1" id="nav" aria-label="メインナビゲーション">
 <div class="nav-i on" data-t="dash" onclick="sw('dash')">📊 ダッシュボード</div>
 <div class="nav-i" data-t="proj" onclick="sw('proj')">📁 プロジェクト管理</div>
 <div class="nav-i" data-t="flow" onclick="sw('flow')">🎯 打合せフロー</div>
@@ -69,7 +70,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <p class="font-semibold text-sm">樋口 春騎</p>
 <p class="text-xs text-gray-500">施工管理者 / AXリーダー</p>
 </div>
-<p class="text-xs text-gray-600 mt-2">v3.0 | 知行合一 × AI</p>
+<p class="text-xs text-gray-600 mt-2">v3.1 | 知行合一 × AI</p>
 </aside>
 
 <!-- Main -->
@@ -90,10 +91,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <!-- Dashboard -->
 <div id="dash" class="tab on">
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-<div class="kpi"><p class="text-gray-400 text-xs">売上実績</p><p class="cn" data-v="240000000">¥0</p><p class="text-green-400 text-xs mt-1">▲ +18% 前月比</p></div>
-<div class="kpi"><p class="text-gray-400 text-xs">案件数</p><p class="cn" data-v="47">0</p><p class="text-blue-400 text-xs mt-1">▲ +12件 新規</p></div>
-<div class="kpi"><p class="text-gray-400 text-xs">AI効率化</p><p class="cn" data-v="340">0</p><p class="text-orange-400 text-xs mt-1">時間/月 削減</p></div>
-<div class="kpi"><p class="text-gray-400 text-xs">顧客満足度</p><p class="cn" data-v="98.2">0</p><p class="text-green-400 text-xs mt-1">▲ +2.1% 向上</p></div>
+<div class="kpi" aria-label="売上実績"><p class="text-gray-400 text-xs">売上実績</p><p class="cn" data-v="240000000" data-f="yen">¥0</p><p class="text-green-400 text-xs mt-1">▲ +18% 前月比</p></div>
+<div class="kpi" aria-label="案件数"><p class="text-gray-400 text-xs">案件数</p><p class="cn" data-v="47" data-f="int">0</p><p class="text-blue-400 text-xs mt-1">▲ +12件 新規</p></div>
+<div class="kpi" aria-label="AI効率化"><p class="text-gray-400 text-xs">AI効率化</p><p class="cn" data-v="340" data-f="int">0</p><p class="text-orange-400 text-xs mt-1">時間/月 削減</p></div>
+<div class="kpi" aria-label="顧客満足度"><p class="text-gray-400 text-xs">顧客満足度</p><p class="cn" data-v="98.2" data-f="pct">0</p><p class="text-green-400 text-xs mt-1">▲ +2.1% 向上</p></div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 <div class="lg:col-span-2 kpi">
@@ -135,8 +136,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <div class="space-y-3">
 <div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
 <div class="flex justify-between items-center">
-<div class="flex items-center gap-3"><div class="av">田</div><div><p class="font-bold">梅田タワービル新築工事</p><p class="text-xs text-gray-400">責任者: 田中太郎 | 予算: ¥8.5億</p></div></div>
-<span class="sb sb-b">進行中</span>
+<div class="flex items-center gap-3"><div class="av">田</div><div><p class="font-bold">梅田タワービル新築工事</p><p class="text-xs text-gray-400">責任者: 田中太郎 | 予算: ¥8.5億/年</p></div></div>
+<span class="sb sb-b">耲行中</span>
 </div>
 <div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
 <div class="grid grid-cols-3 gap-3">
@@ -149,12 +150,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 </div>
 <div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
 <div class="flex justify-between items-center">
-<div class="flex items-center gap-3"><div class="av">佐</div><div><p class="font-bold">渋谷駅前改築プロジェクト</p><p class="text-xs text-gray-400">責任者: 佐藤二郎 | 予算: ¥12億</p></div></div>
+<div class="flex items-center gap-3"><div class="av">佐</div><div><p class="font-bold">渋芷駅前改築プロジェクト</p><p class="text-xs text-gray-400">責任者: 佐藤二郎 | 予算: ¥12億</p></div></div>
 <span class="sb sb-g">完了</span>
 </div>
 <div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
 <div class="grid grid-cols-3 gap-3">
-<div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div><p class="text-xs mt-1">100%</p></div>
+<div><p class="text-gray-400 text-xs">耲捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div><p class="text-xs mt-1">100%</p></div>
 <div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-green-400 font-bold">98点</p></div>
 <div><p class="text-gray-400 text-xs">完了日</p><p>2025/2/28</p></div>
 </div>
@@ -162,13 +163,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 </div>
 <div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
 <div class="flex justify-between items-center">
-<div class="flex items-center gap-3"><div class="av">木</div><div><p class="font-bold">横浜港湾施設拡張工事</p><p class="text-xs text-gray-400">責任者: 木村三郎 | 予算: ¥5.2億</p></div></div>
+<div class="flex items-center gap-3"><div class="av">木</div><div><p class="font-bold">横浜港湾施訆拡張工事</p><p class="text-xs text-gray-400">責任者: 木村上郎 | 予算: ¥5.2億</p></div></div>
 <span class="sb sb-y">計画中</span>
 </div>
 <div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
 <div class="grid grid-cols-3 gap-3">
 <div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:15%"></div></div><p class="text-xs mt-1">15%</p></div>
-<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-yellow-400 font-bold">評価中</p></div>
+<div><p class="text-gray-400 text-xs">安全スコア</p><p class="text-yellow-400 font-bold">試価中</p></div>
 <div><p class="text-gray-400 text-xs">開始予定</p><p>2025/6/1</p></div>
 </div>
 <button class="btn text-xs mt-3" onclick="event.stopPropagation();oam('横浜港湾: 着工承認')">承認フロー開始</button>
@@ -176,7 +177,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 </div>
 <div class="pc" onclick="this.querySelector('.det').classList.toggle('hidden')">
 <div class="flex justify-between items-center">
-<div class="flex items-center gap-3"><div class="av">鈴</div><div><p class="font-bold">京都寺院修復工事</p><p class="text-xs text-gray-400">責任者: 鈴木四郎 | 予算: ¥3.8億</p></div></div>
+<div class="flex items-center gap-3"><div class="av">鈭</div><div><p class="font-bold">亜都対院修復工事</p><p class="text-xs text-gray-400">責任者: 鈍木四郎 | 予算: ¥3.8億</p></div></div>
 <span class="sb sb-g">完了</span>
 </div>
 <div class="det hidden mt-3 pt-3 border-t border-gray-700 text-sm">
@@ -201,7 +202,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <div class="sc">4</div><div class="sl"></div>
 <div class="sc">5</div>
 </div>
-<div class="grid grid-cols-5 gap-2 text-center text-xs text-gray-400 mb-8">
+<div class="grid grid-cols-5 gap-2 text-center text-xs text-gray-400 mb8">
 <div>要件定義<br>ヒアリング</div><div>現場調査<br>AI映像分析</div><div class="text-indigo-400 font-bold">見積作成<br>自動計算</div><div>契約締結<br>電子署名</div><div>施工開始<br>RT管理</div>
 </div>
 <div class="kpi">
@@ -229,7 +230,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <div class="flex items-center gap-2 p-2 rounded-lg bg-indigo-600/20 cursor-pointer"><div class="av text-xs">田</div><div><p class="text-sm font-semibold">田中太郎</p><p class="text-xs text-gray-400">施工管理者</p></div></div>
 <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">佐</div><div><p class="text-sm">佐藤二郎</p><p class="text-xs text-gray-400">現場監督</p></div></div>
 <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">木</div><div><p class="text-sm">木村三郎</p><p class="text-xs text-gray-400">設計士</p></div></div>
-<div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">AI</div><div><p class="text-sm">AI アシスタント</p><p class="text-xs text-green-400">常時稼働</p></div></div>
+<div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-700 cursor-pointer"><div class="av text-xs">AI</div><div><p class="text-sm">AI アシスタント</p><p class="text-xs text-green-400">常時稼僎</p></div></div>
 </div>
 </div>
 <div class="lg:col-span-3 kpi flex flex-col">
@@ -294,7 +295,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <h4 class="font-bold text-sm mb-3">最近のファイル</h4>
 <div class="space-y-2">
 <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-p">PDF</div><div class="flex-1"><p class="text-sm">梅田タワー_安全検査報告書.pdf</p><p class="text-xs text-gray-500">2.4MB · 10分前 · 田中太郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
-<div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-d">DWG</div><div class="flex-1"><p class="text-sm">渋谷駅前_改築設計図_v12.dwg</p><p class="text-xs text-gray-500">18.7MB · 1時間前 · 木村三郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
+<div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-d">DWG</div><div class="flex-1"><p class="text-sm">渋芷駅前_改築設計図_v12.dwg</p><p class="text-xs text-gray-500">18.7MB · 1時間前 · 木村三郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
 <div class="flex items-center gap-3 p-2 rounded hover:bg-gray-700/50 cursor-pointer"><div class="fi fi-i">JPG</div><div class="flex-1"><p class="text-sm">横浜港湾_現場写真_0328.jpg</p><p class="text-xs text-gray-500">5.1MB · 3時間前 · 佐藤二郎</p></div><button class="btn text-xs py-1 px-3">開く</button></div>
 </div>
 </div>
@@ -356,7 +357,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 
 <!-- Footer -->
 <footer class="fixed bottom-0 right-0 left-60 bg-gray-900/95 border-t border-gray-800 px-8 py-2 text-xs text-gray-500 text-center backdrop-blur">
-© 2025 はたらいく — 施工業界AX革命 | 知行合一 × AI | Powered by AX Engine v3.0
+© 2026 はたらいく — 施工業界AX革命 | 知行合一 × AI | Powered by AX Engine v3.1
 </footer>
 </div>
 
@@ -369,7 +370,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 <div><label class="text-xs text-gray-400">承認者</label><input class="inp" value="樋口 春騎" readonly></div>
 <div><label class="text-xs text-gray-400">タイムスタンプ</label><input class="inp" id="ats" readonly></div>
 </div>
-<p class="text-xs text-gray-400 mb-4">知行合一: この承認は即座にシステムに反映されます。判断に責任を持つ設計。</p>
+<p class="text-xs text-gray-400 mb-4">知行合一: この承認は即座にシステムに反映されます。判断に責任を持て設計。</p>
 <div class="flex gap-3 justify-end">
 <button class="btn2" onclick="cam()">キャンセル</button>
 <button class="btn" onclick="cfm()">✓ 承認する</button>
@@ -378,7 +379,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sa
 </div>
 
 <!-- Demo Button -->
-<button class="fb" onclick="demo()" title="デモシミュレーション">▶</button>
+<button class="fb" onclick="demo()" title="デモシミュレーション" aria-label="デモシミュレーションを開始">▶</button>
 
 <script>
 // Tab switch
@@ -395,12 +396,14 @@ document.getElementById('pageTitle').textContent=titles[t]||t;
 function ac(){
 document.querySelectorAll('.cn').forEach(el=>{
 const v=parseFloat(el.dataset.v);if(!v)return;
+const f=el.dataset.f||'auto';
 const d=1200,inc=v/(d/16);let c=0;
 const t=setInterval(()=>{
 c+=inc;if(c>=v){c=v;clearInterval(t)}
-if(v>1e6)el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP');
-else if(v>100)el.textContent=Math.floor(c).toLocaleString('ja-JP');
-else el.textContent=c.toFixed(1)+'%';
+if(f==='yen')el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP');
+else if(f==='int')el.textContent=Math.floor(c).toLocaleString('ja-JP');
+else if(f==='pct')el.textContent=c.toFixed(1)+'%';
+else el.textContent=c.toFixed(1);
 },16);
 });
 }
