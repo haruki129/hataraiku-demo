@@ -69,9 +69,40 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .pc:hover{border-color:var(--p);box-shadow:0 2px 8px rgba(99,102,241,.1)}
 footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-top:1px solid var(--border);padding:.5rem 2rem;font-size:.75rem;color:var(--sub);text-align:center}
 @media(max-width:768px){.sidebar{width:60px}.sidebar h1,.ni span{display:none}.ni{padding:.75rem;justify-content:center}.main{margin-left:60px}footer{left:60px}}
+
+.auth-overlay{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#6366f1 100%);display:flex;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s}
+.auth-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.auth-card{background:#fff;border-radius:1.25rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,.3);text-align:center}
+.auth-card h1{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.25rem}
+.auth-card .sub{font-size:.75rem;color:#64748b;margin-bottom:2rem}
+.auth-card .field{text-align:left;margin-bottom:1rem}
+.auth-card .field label{font-size:.75rem;font-weight:600;color:#475569;display:block;margin-bottom:.35rem}
+.auth-card .field input{width:100%;padding:.65rem .85rem;border:1.5px solid #e2e8f0;border-radius:.6rem;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.auth-card .field input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.auth-card .err{color:#dc2626;font-size:.8rem;margin-top:.75rem;min-height:1.2rem}
+.auth-card .auth-btn{width:100%;padding:.75rem;border:none;border-radius:.6rem;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .2s;margin-top:.5rem}
+.auth-card .auth-btn:hover{opacity:.9}
+.auth-card .auth-btn:disabled{opacity:.5;cursor:default}
+.auth-lock{display:flex;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#7c3aed);margin:0 auto 1rem;font-size:1.5rem}
+.auth-footer{font-size:.65rem;color:#94a3b8;margin-top:1.5rem}
 </style>
 </head>
 <body>
+<div id="authOverlay" class="auth-overlay">
+<div class="auth-card">
+<div class="auth-lock">🔐</div>
+<h1>はたらいく</h1>
+<p class="sub">知行合一 ─ AX革命プラットフォーム</p>
+<div class="field">
+<label>メールアドレス</label>
+<input type="email" id="authEmail" placeholder="your@email.com" autocomplete="email">
+</div>
+<p class="err" id="authErr"></p>
+<button class="auth-btn" id="authBtn" onclick="authLogin()">アクセス申請</button>
+<p class="auth-footer">承認済みメールアドレスのみアクセス可能です<br>© 2026 はたらいく | AX革命</p>
+</div>
+</div>
+
 <nav class="sidebar">
 <h1>はたらいく</h1>
 <div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">知行合一 ─ AX革命</div>
@@ -1231,8 +1262,40 @@ await new Promise(r=>setTimeout(r,2500));cfm();}
 fb.disabled=false;
 }
 
+// === 認証ゲート ===
+const AUTH_KEY='hataraiku_auth';
+const ALLOWED_EMAILS=['kanri09072111100@gmail.com'];
+function checkAuth(){
+const saved=sessionStorage.getItem(AUTH_KEY);
+if(saved&&ALLOWED_EMAILS.includes(saved)){
+document.getElementById('authOverlay').classList.add('hidden');
+document.querySelector('.sidebar').style.visibility='visible';
+document.querySelector('.main').style.visibility='visible';
+return true;}
+document.querySelector('.sidebar').style.visibility='hidden';
+document.querySelector('.main').style.visibility='hidden';
+return false;}
+function authLogin(){
+const email=document.getElementById('authEmail').value.trim().toLowerCase();
+const err=document.getElementById('authErr');
+const btn=document.getElementById('authBtn');
+if(!email){err.textContent='メールアドレスを入力してください';return;}
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='正しいメールアドレスを入力してください';return;}
+btn.disabled=true;btn.textContent='確認中...';err.textContent='';
+setTimeout(()=>{
+if(ALLOWED_EMAILS.includes(email)){
+sessionStorage.setItem(AUTH_KEY,email);
+document.getElementById('authOverlay').classList.add('hidden');
+document.querySelector('.sidebar').style.visibility='visible';
+document.querySelector('.main').style.visibility='visible';
+renderDashboard();renderChart();
+}else{
+err.textContent='このメールアドレスはアクセス許可されていません。管理者にお問い合わせください。';
+btn.disabled=false;btn.textContent='アクセス申請';}
+},800);}
+document.getElementById('authEmail').addEventListener('keydown',function(e){if(e.key==='Enter')authLogin()});
 // 初期化
-window.addEventListener('load',()=>{renderDashboard();renderChart()});
+window.addEventListener('load',()=>{if(checkAuth()){renderDashboard();renderChart()}});
 window.addEventListener('resize',()=>{const a=document.querySelector('.ni.on');if(a&&a.dataset.t==='dash')renderChart()});
 
 // データリセット機能
