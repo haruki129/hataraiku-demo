@@ -1,18 +1,819 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="はたらいく v4.0"><title>はたらいく v4.0</title><script src="https://cdn.tailwindcss.com"></script><style>:root{--p:#4f46e5;--s:#7c3aed}*{box-sizing:border-box}body{font-family:system-ui;background:#0f172a;color:#f1f5f9;margin:0}.tab{display:none;opacity:0;transition:opacity .3s}.tab.on{display:block;opacity:1}.ni{padding:.75rem 1rem;cursor:pointer;display:flex;gap:.75rem;align-items:center;border-radius:.5rem;border-l:3px solid #0000;transition:all .2s}.ni:hover{background:#1e293b}.ni.on{background:var(--p);color:#fff;border-l-color:#fff}.kp,.pc{background:#1e293b;border:1px solid #334155;border-radius:.75rem;padding:1.25rem;transition:all .2s}.kp:hover,.pc:hover{border-color:var(--p);box-shadow:0 4px 20px rgba(79,70,229,.15)}.pc{cursor:pointer}.pc:hover{transform:translateY(-2px)}.cn{font-size:1.875rem;font-weight:700;background:linear-gradient(135deg,var(--p),var(--s));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.sb{display:inline-block;padding:.25rem .75rem;border-radius:999px;font-size:.75rem;font-weight:600}.sb-b{background:#1e3a8a;color:#60a5fa}.sb-g{background:#064e3b;color:#6ee7b7}.sb-y{background:#78350f;color:#fbbf24}.sb-r{background:#7c2d12;color:#fb923c}.pb{background:#1e293b;height:.5rem;border-radius:999px}.pf{background:linear-gradient(90deg,var(--p),var(--s));height:100%;border-radius:999px;transition:width .5s}.av{width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.875rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;flex-shrink:0}.mb{max-width:70%;padding:.75rem 1rem;border-radius:.5rem}.mb-s{background:var(--p);margin-left:auto}.mb-r{background:#1e293b;border:1px solid #334155;margin-right:auto}.sc{width:2.5rem;height:2.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;background:#1e293b;border:2px solid #334155;flex-shrink:0}.sc.done,.sc.now{background:var(--p);border-color:var(--p);color:#fff}.sc.now{box-shadow:0 0 0 4px rgba(79,70,229,.2)}.sl{flex:1;height:2px;background:#334155}.sl.done{background:var(--p)}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:40;align-items:center;justify-content:center}.modal.show{display:flex}.mc{background:#0f172a;border:1px solid #334155;border-radius:.75rem;padding:2rem;max-width:500px;width:90%}.gt{background:linear-gradient(135deg,var(--p),var(--s));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.toast{position:fixed;bottom:2rem;right:2rem;background:#064e3b;border:1px solid #6ee7b7;padding:1rem 1.5rem;border-radius:.5rem;color:#6ee7b7;z-index:50;animation:si .3s}@keyframes si{from{opacity:0;transform:translateX(400px)}to{opacity:1;transform:translateX(0)}}.fb{position:fixed;bottom:2rem;right:2rem;width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;cursor:pointer;font-size:1.25rem;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(79,70,229,.4);z-index:30;transition:all .2s}.fb:hover{transform:scale(1.1)}.tip{position:absolute;background:#1e293b;color:#f1f5f9;padding:.75rem 1rem;border-radius:.5rem;font-size:.875rem;white-space:nowrap;z-index:100;border:1px solid #334155}.fi{width:2.5rem;height:2.5rem;border-radius:.25rem;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.75rem}.fi-p{background:rgba(220,38,38,.2);color:#fca5a5}.fi-d{background:rgba(59,130,246,.2);color:#93c5fd}.fi-i{background:rgba(34,197,94,.2);color:#86efac}.wc{background:#1e293b;border:1px solid #334155;border-radius:.75rem;padding:1.25rem;text-align:center;transition:all .2s;cursor:pointer}.wc:hover{border-color:var(--p)}.cb{display:inline-block;padding:.2rem .5rem;background:rgba(79,70,229,.2);color:#a5b4fc;border-radius:.25rem;font-size:.7rem;margin:.15rem}.btn,.btn2{padding:.5rem 1.5rem;border-radius:.5rem;border:none;cursor:pointer;font-weight:600;transition:all .2s}.btn{background:linear-gradient(135deg,var(--p),var(--s));color:#fff}.btn:hover{box-shadow:0 4px 15px rgba(79,70,229,.4);transform:translateY(-1px)}.btn2{background:#1e293b;color:#f1f5f9;border:1px solid #334155}.btn2:hover{background:#334155}.inp{width:100%;background:#1e293b;border:1px solid #334155;color:#f1f5f9;padding:.5rem 1rem;border-radius:.5rem;font-size:.875rem;margin-bottom:.75rem}.inp:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(79,70,229,.1)}.bar{background:linear-gradient(180deg,var(--p),var(--s));border-radius:.25rem .25rem 0 0}.gg{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center}.gi{width:100px;height:100px;border-radius:50%;background:#0f172a;display:flex;align-items:center;justify-content:center;flex-direction:column}.lg{background:#1e293b;border:1px solid #334155;border-radius:.5rem;padding:.75rem;margin:.5rem 0;font-size:.875rem}.lg-ok{border-left:3px solid #6ee7b7}.lg-ng{border-left:3px solid #fca5a5}</style></head><body>
-<aside class="fixed left-0 top-0 bottom-0 w-60 bg-gray-800/90 border-r border-gray-700 p-5 flex flex-col z-20"><div class="flex items-center gap-3 mb-6"><div class="text-2xl">⚙️</div><div><h1 class="text-lg font-bold">はたらいく</h1><p class="text-xs text-indigo-300">施左業界AX革命</p></div></div><nav class="flex-1 space-y-1" id="nav" aria-label="Nav"><div class="ni on" data-t="dash" onclick="sw('dash')">📊 ダッシュボード</div><div class="ni" data-t="proj" onclick="sw('proj')">📁 プロジェクト</div><div class="ni" data-t="flow" onclick="sw('flow')">🎯 フロー</div><div class="ni" data-t="chat" onclick="sw('chat')">💬 チャット</div><div class="ni" data-t="team" onclick="sw('team')">👥 人材</div><div class="ni" data-t="data" onclick="sw('data')">📂 データ</div><div class="ni" data-t="ai" onclick="sw('ai')">🤖 AI分析</div><div class="ni" data-t="log" onclick="sw('log')">📋 履歴</div></nav><div class="border-t border-gray-700 pt-4 mt-4"><p class="text-xs text-gray-400">ログイン中</p><p class="font-semibold text-sm">樋口 春騎</p><p class="text-xs text-gray-500">AXリーダー</p></div></aside>
-<div class="ml-60"><header class="sticky top-0 z-10 bg-gray-900/95 border-b border-gray-800 px-8 py-4 flex items-center justify-between"><div><h2 class="text-xl font-bold gt" id="pageTitle">ダッシュボード</h2><p class="text-xs text-gray-500">知行合一</p></div><div class="flex items-center gap-3"><span class="text-xs text-gray-400" id="clock"></span><div class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs font-bold">✨ 稼働中</div></div></header>
-<main class="p-8 pb-20">
-<div id="dash" class="tab on"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"><div class="kp"><p class="text-gray-400 text-xs">売上実績</p><p class="cn" data-v="240000000" data-f="yen">¥0</p><p class="text-green-400 text-xs">▲ +18%</p></div><div class="kp"><p class="text-gray-400 text-xs">案件数</p><p class="cn" data-v="47" data-f="int">0</p><p class="text-blue-400 text-xs">▲ +12件</p></div><div class="kp"><p class="text-gray-400 text-xs">AI効率化</p><p class="cn" data-v="340" data-f="int">0</p><p class="text-orange-400 text-xs">時間/月</p></div><div class="kp"><p class="text-gray-400 text-xs">満足度</p><p class="cn" data-v="98.2" data-f="pct">0</p><p class="text-green-400 text-xs">▲ +2.1%</p></div></div><div class="grid grid-cols-1 lg:grid-cols-3 gap-4"><div class="lg:col-span-2 kp"><h3 class="font-bold mb-3">月別</h3><div class="flex items-end gap-2 h-40"><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:45%"></div><span class="text-xs text-gray-500">1月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:55%"></div><span class="text-xs text-gray-500">2月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:50%"></div><span class="text-xs text-gray-500">3月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:65%"></div><span class="text-xs text-gray-500">4月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:72%"></div><span class="text-xs text-gray-500">5月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:68%"></div><span class="text-xs text-gray-500">6月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:78%"></div><span class="text-xs text-gray-500">7月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:84%"></div><span class="text-xs text-gray-500">8月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:88%"></div><span class="text-xs text-gray-500">9月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:92%"></div><span class="text-xs text-gray-500">10月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="bar w-full" style="height:95%"></div><span class="text-xs text-gray-500">11月</span></div><div class="flex-1 flex flex-col items-center gap-1"><div class="w-full rounded-t bg-green-500" style="height:100%"></div><span class="text-xs text-gray-500">12月</span></div></div></div><div class="kp"><h3 class="font-bold mb-3">活動</h3><div class="space-y-2 text-sm"><div class="flex gap-3"><div class="w-2 h-2 bg-green-500 rounded-full mt-1"></div><div><p>梅田完了</p><p class="text-xs text-gray-500">10分前</p></div></div><div class="flex gap-3"><div class="w-2 h-2 bg-blue-500 rounded-full mt-1"></div><div><p>渋谷承認</p><p class="text-xs text-gray-500">1時間前</p></div></div><div class="flex gap-3"><div class="w-2 h-2 bg-orange-500 rounded-full mt-1"></div><div><p>横浜確認待</p><p class="text-xs text-gray-500">3時間前</p></div></div><div class="flex gap-3"><div class="w-2 h-2 bg-purple-500 rounded-full mt-1"></div><div><p>AI提案</p><p class="text-xs text-gray-500">5時間前</p></div></div><div class="flex gap-3"><div class="w-2 h-2 bg-indigo-500 rounded-full mt-1"></div><div><p>新規案件</p><p class="text-xs text-gray-500">昨日</p></div></div></div></div></div></div>
-<div id="proj" class="tab"><div class="flex justify-between items-center mb-4"><h3 class="font-bold">プロジェクト</h3><button class="btn text-sm" onclick="oam('新規')">+ 追加</button></div><div class="space-y-3"><div class="pc" onclick="this.querySelector('.d').classList.toggle('hidden')"><div class="flex justify-between"><div class="flex items-center gap-3"><div class="av">田</div><div><p class="font-bold">梅田タワー</p><p class="text-xs text-gray-400">田中太郎</p></div></div><span class="sb sb-b">進行中</span></div><div class="d hidden mt-3 pt-3 border-t border-gray-700 text-sm"><div class="grid grid-cols-3 gap-2"><div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:72%"></div></div>72%</div><div><p class="text-gray-400 text-xs">安全</p><p class="text-green-400 font-bold">98点</p></div><div><p class="text-gray-400 text-xs">工期</p><p>2025/4-26/3</p></div></div><button class="btn text-xs" onclick="event.stopPropagation();oam('梅田')">開始</button></div></div><div class="pc" onclick="this.querySelector('.d').classList.toggle('hidden')"><div class="flex justify-between"><div class="flex items-center gap-3"><div class="av">佐</div><div><p class="font-bold">渋谷駅前</p><p class="text-xs text-gray-400">佐藤二郎</p></div></div><span class="sb sb-g">完了</span></div><div class="d hidden mt-3 pt-3 border-t border-gray-700 text-sm"><div class="grid grid-cols-3 gap-2"><div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div>100%</div><div><p class="text-gray-400 text-xs">安全</p><p class="text-green-400 font-bold">98点</p></div><div><p class="text-gray-400 text-xs">完了</p><p>2025/2/28</p></div></div></div></div><div class="pc" onclick="this.querySelector('.d').classList.toggle('hidden')"><div class="flex justify-between"><div class="flex items-center gap-3"><div class="av">木</div><div><p class="font-bold">横浜港湾</p><p class="text-xs text-gray-400">木村三郎</p></div></div><span class="sb sb-y">計画中</span></div><div class="d hidden mt-3 pt-3 border-t border-gray-700 text-sm"><div class="grid grid-cols-3 gap-2"><div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:15%"></div></div>15%</div><div><p class="text-gray-400 text-xs">安全</p><p class="text-yellow-400">評価中</p></div><div><p class="text-gray-400 text-xs">開始</p><p>2025/6/1</p></div></div><button class="btn text-xs" onclick="event.stopPropagation();oam('横浜')">開始</button></div></div><div class="pc" onclick="this.querySelector('.d').classList.toggle('hidden')"><div class="flex justify-between"><div class="flex items-center gap-3"><div class="av">鈴</div><div><p class="font-bold">京都寺院</p><p class="text-xs text-gray-400">鈴木四郎</p></div></div><span class="sb sb-g">完了</span></div><div class="d hidden mt-3 pt-3 border-t border-gray-700 text-sm"><div class="grid grid-cols-3 gap-2"><div><p class="text-gray-400 text-xs">進捗</p><div class="pb mt-1"><div class="pf" style="width:100%"></div></div>100%</div><div><p class="text-gray-400 text-xs">安全</p><p class="text-green-400 font-bold">99点</p></div><div><p class="text-gray-400 text-xs">完了</p><p>2025/1/15</p></div></div></div></div></div></div>
-<div id="flow" class="tab"><h3 class="font-bold mb-4">打合せフロー</h3><p class="text-sm text-gray-400 mb-6">知識を行動へ。</p><div class="flex items-center mb-8"><div class="sc done">✓</div><div class="sl done"></div><div class="sc done">✓</div><div class="sl done"></div><div class="sc now">3</div><div class="sl"></div><div class="sc">4</div><div class="sl"></div><div class="sc">5</div></div><div class="grid grid-cols-5 gap-2 text-center text-xs text-gray-400 mb-8"><div>要件定義</div><div>現場調査</div><div class="text-indigo-400 font-bold">見積作成</div><div>契約締結</div><div>施工開始</div></div><div class="kp"><h4 class="font-bold mb-2">見積作成</h4><div class="grid grid-cols-2 gap-3 mb-4"><div><label class="text-xs text-gray-400">物件</label><input class="inp" value="梅田タワー" readonly></div><div><label class="text-xs text-gray-400">金額</label><input class="inp" value="¥857,340,000" readonly></div><div><label class="text-xs text-gray-400">工期</label><input class="inp" value="2025/4〜26/3" readonly></div><div><label class="text-xs text-gray-400">リスク</label><input class="inp" value="低 (92/100)" readonly></div></div><div class="flex gap-3"><button class="btn" onclick="oam('見積承認')">承認</button><button class="btn2" onclick="oam('差戻し')">差戻し</button></div></div></div>
-<div id="chat" class="tab"><div class="grid grid-cols-1 lg:grid-cols-4 gap-4" style="height:calc(100vh - 220px)"><div class="kp lg:col-span-1 overflow-y-auto"><h3 class="font-bold text-sm mb-3">連絡先</h3><div class="space-y-2"><div class="flex items-center gap-2 p-2 rounded bg-indigo-600/20"><div class="av text-xs">田</div><div><p class="text-sm font-semibold">田中太郎</p><p class="text-xs text-gray-400">施工管理</p></div></div><div class="flex items-center gap-2 p-2 rounded hover:bg-gray-700"><div class="av text-xs">佐</div><div><p class="text-sm">佐藤二郎</p><p class="text-xs text-gray-400">現場監督</p></div></div><div class="flex items-center gap-2 p-2 rounded hover:bg-gray-700"><div class="av text-xs">木</div><div><p class="text-sm">木村三郎</p><p class="text-xs text-gray-400">設計士</p></div></div><div class="flex items-center gap-2 p-2 rounded hover:bg-gray-700"><div class="av text-xs">AI</div><div><p class="text-sm">AIアシスタント</p><p class="text-xs text-green-400">稼働</p></div></div></div></div><div class="lg:col-span-3 kp flex flex-col"><div class="border-b border-gray-700 pb-3 mb-3 flex items-center gap-3"><div class="av text-xs">田</div><div><p class="font-bold text-sm">田中太郎</p><p class="text-xs text-green-400">オンライン</p></div></div><div class="flex-1 overflow-y-auto space-y-3" id="msgs"><div class="mb mb-r">梅田の安全検査、AIで解析できますか？</div><div class="mb mb-s">了解。開始します。3分で結果</div><div class="mb mb-r">承認フローに回してください</div><div class="mb mb-s">完了。スコア96点。起動ですか？</div><div class="mb mb-r">お願いします！</div></div><div class="flex gap-2 mt-3 pt-3 border-t border-gray-700"><input class="inp mb-0 flex-1" placeholder="入力..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn text-sm" onclick="sendMsg()">送信</button></div></div></div></div>
-<div id="team" class="tab"><div class="flex justify-between items-center mb-4"><h3 class="font-bold">人材</h3><div class="flex gap-2"><button class="btn text-sm rt on" onclick="filt(this,'all')">全員</button><button class="btn2 text-sm rt" onclick="filt(this,'manager')">管理者</button><button class="btn2 text-sm rt" onclick="filt(this,'worker')">作業員</button></div></div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"><div class="wc" data-r="manager"><div class="av mx-auto mb-2 w-14 h-14 text-lg">樋</div><p class="font-bold text-sm">樋口春騎</p><p class="text-xs text-gray-400">AXリーダー</p><div class="flex flex-wrap justify-center"><span class="cb">1級建築</span><span class="cb">AX推進</span></div><span class="sb sb-g text-xs">稼働</span></div><div class="wc" data-r="manager"><div class="av mx-auto mb-2 w-14 h-14 text-lg">田</div><p class="font-bold text-sm">田中太郎</p><p class="text-xs text-gray-400">施工管理</p><div class="flex flex-wrap justify-center"><span class="cb">1級施工</span><span class="cb">安全管理</span></div><span class="sb sb-g text-xs">稼働</span></div><div class="wc" data-r="worker"><div class="av mx-auto mb-2 w-14 h-14 text-lg">佐</div><p class="font-bold text-sm">佐藤二郎</p><p class="text-xs text-gray-400">現場監督</p><div class="flex flex-wrap justify-center"><span class="cb">2級建築</span><span class="cb">品質管理</span></div><span class="sb sb-b text-xs">作業</span></div><div class="wc" data-r="worker"><div class="av mx-auto mb-2 w-14 h-14 text-lg">木</div><p class="font-bold text-sm">木村三郎</p><p class="text-xs text-gray-400">設計士</p><div class="flex flex-wrap justify-center"><span class="cb">1級建築</span><span class="cb">BIM</span></div><span class="sb sb-y text-xs">設計</span></div><div class="wc" data-r="worker"><div class="av mx-auto mb-2 w-14 h-14 text-lg">鈴</div><p class="font-bold text-sm">鈴木四郎</p><p class="text-xs text-gray-400">現場監督</p><div class="flex flex-wrap justify-center"><span class="cb">1級土木</span><span class="cb">環境管理</span></div><span class="sb sb-g text-xs">稼働</span></div><div class="wc" data-r="worker"><div class="av mx-auto mb-2 w-14 h-14 text-lg">高</div><p class="font-bold text-sm">高橋五郎</p><p class="text-xs text-gray-400">電気工事</p><div class="flex flex-wrap justify-center"><span class="cb">第1種電気</span><span class="cb">消防設備</span></div><span class="sb sb-r text-xs">休暇</span></div></div></div>
-<div id="data" class="tab"><h3 class="font-bold mb-3">データ</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4"><div class="kp text-center text-sm cursor-pointer" onclick="oam('設計図')"><p class="text-2xl">📐</p><p class="font-bold">設計図</p><p class="text-xs text-gray-400">234</p></div><div class="kp text-center text-sm cursor-pointer" onclick="oam('契約書')"><p class="text-2xl">📝</p><p class="font-bold">契約書</p><p class="text-xs text-gray-400">89</p></div><div class="kp text-center text-sm cursor-pointer"><p class="text-2xl">📸</p><p class="font-bold">写真</p><p class="text-xs text-gray-400">1247</p></div><div class="kp text-center text-sm cursor-pointer"><p class="text-2xl">📊</p><p class="font-bold">報告書</p><p class="text-xs text-gray-400">156</p></div></div><div class="kp"><h4 class="font-bold text-sm mb-2">最新</h4><div class="space-y-1 text-xs"><div class="flex items-center gap-2 p-1 rounded"><div class="fi fi-p">PDF</div><div class="flex-1"><p>梅田_安全.pdf</p><p class="text-gray-500">2.4MB</p></div><button class="btn text-xs py-0 px-2">開く</button></div><div class="flex items-center gap-2 p-1 rounded"><div class="fi fi-d">DWG</div><div class="flex-1"><p>渋谷_v12.dwg</p><p class="text-gray-500">18.7MB</p></div><button class="btn text-xs py-0 px-2">開く</button></div><div class="flex items-center gap-2 p-1 rounded"><div class="fi fi-i">JPG</div><div class="flex-1"><p>横浜_0328.jpg</p><p class="text-gray-500">5.1MB</p></div><button class="btn text-xs py-0 px-2">開く</button></div></div></div></div>
-<div id="ai" class="tab"><h3 class="font-bold mb-3">AI分析</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4"><div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">安全</p><span class="text-green-400">92%</span></div><div class="pb"><div class="pf" style="width:92%"></div></div></div><div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">コスト</p><span class="text-orange-400">76%</span></div><div class="pb"><div class="pf" style="width:76%;background:linear-gradient(90deg,#f97316,#f59e0b)"></div></div></div><div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">スケジュール</p><span class="text-blue-400">88%</span></div><div class="pb"><div class="pf" style="width:88%;background:linear-gradient(90deg,#3b82f6,#06b6d4)"></div></div></div><div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">品質</p><span class="text-purple-400">94%</span></div><div class="pb"><div class="pf" style="width:94%;background:linear-gradient(90deg,#7c3aed,#a855f7)"></div></div></div></div><div class="grid grid-cols-1 lg:grid-cols-2 gap-3"><div class="kp"><h4 class="font-bold text-sm mb-2">リスク予測</h4><div class="space-y-2 text-xs"><div class="flex gap-2"><div class="w-3 h-3 bg-red-500 rounded-full mt-0.5"></div><div><p>梅田: 資材不足</p><p class="text-gray-400">推奨: 発注</p></div></div><div class="flex gap-2"><div class="w-3 h-3 bg-yellow-500 rounded-full mt-0.5"></div><div><p>横浜: 天候遅延</p><p class="text-gray-400">推奨: 予備日</p></div></div><div class="flex gap-2"><div class="w-3 h-3 bg-green-500 rounded-full mt-0.5"></div><div><p>京都: クリア</p><p class="text-gray-400">次検査: 来月</p></div></div></div></div><div class="kp"><h4 class="font-bold text-sm mb-2">効率化</h4><div class="flex items-center justify-around"><div class="gg" style="background:conic-gradient(#4f46e5 0deg 270deg,#334155 270deg)"><div class="gi"><p class="text-2xl font-bold text-indigo-400">75%</p><p class="text-xs">効率</p></div></div><div class="text-xs"><p>📉 <span class="text-green-400">¥1.2億</span></p><p>⏱️ <span class="text-blue-400">340h</span></p><p>🛡️ <span class="text-purple-400">98.5%</span></p></div></div></div></div></div>
-<div id="log" class="tab"><h3 class="font-bold mb-3">承認履歴</h3><div class="space-y-1"><div class="lg lg-ok"><div class="flex justify-between mb-1"><p class="font-bold text-sm">見積承認 ¥857M</p><p class="text-xs text-green-400">✓</p></div><p class="text-xs text-gray-400">田中→樋口 | 3/30 14:35</p><div class="text-xs bg-gray-900/50 p-1 rounded">未確認→承認→契約へ</div></div><div class="lg lg-ok"><div class="flex justify-between mb-1"><p class="font-bold text-sm">梅田: ステータス</p><p class="text-xs text-green-400">✓</p></div><p class="text-xs text-gray-400">佐藤→樋口 | 3/30 13:12</p><div class="text-xs bg-gray-900/50 p-1 rounded">72%→75% (96点)</div></div><div class="lg lg-ok"><div class="flex justify-between mb-1"><p class="font-bold text-sm">設計図アクセス</p><p class="text-xs text-green-400">✓</p></div><p class="text-xs text-gray-400">木村→樋口 | 3/30 11:45</p><div class="text-xs bg-gray-900/50 p-1 rounded">制限→許可 (234F)</div></div><div class="lg lg-ng"><div class="flex justify-between mb-1"><p class="font-bold text-sm">横浜: 着工</p><p class="text-xs text-orange-400">差戻し</p></div><p class="text-xs text-gray-400">木村→樋口 | 3/30 09:20</p><div class="text-xs bg-gray-900/50 p-1 rounded">→差戻し (再申請待)</div></div><div class="lg lg-ok"><div class="flex justify-between mb-1"><p class="font-bold text-sm">京都: 完了</p><p class="text-xs text-green-400">✓</p></div><p class="text-xs text-gray-400">鈴木→樋口 | 3/29 16:05</p><div class="text-xs bg-gray-900/50 p-1 rounded">100% (99点)</div></div><div class="lg lg-ok"><div class="flex justify-between mb-1"><p class="font-bold text-sm">新規プロジェクト</p><p class="text-xs text-green-400">✓</p></div><p class="text-xs text-gray-400">佐藤→樋口 | 3/28 10:30</p><div class="text-xs bg-gray-900/50 p-1 rounded">46件→47件</div></div></div></div>
-</main>
-<footer class="fixed bottom-0 right-0 left-60 bg-gray-900/95 border-t border-gray-800 px-8 py-2 text-xs text-gray-500 text-center">© 2026 はたらいく | AX革命 | v4.0</footer></div>
-<div id="amod" class="modal" onclick="if(event.target===this)cam()"><div class="mc"><h3 class="font-bold mb-3">⚠️ 承認</h3><div id="acnt" class="mb-3 p-3 bg-gray-800 rounded border border-gray-700 text-sm"></div><div class="grid grid-cols-2 gap-2 mb-3"><div><label class="text-xs text-gray-400">承認者</label><input class="inp" value="樋口 春騎" readonly></div><div><label class="text-xs text-gray-400">時刻</label><input class="inp" id="ats" readonly></div></div><div class="flex gap-2 justify-end"><button class="btn2 text-sm" onclick="cam()">キャンセル</button><button class="btn text-sm" onclick="cfm()">✓ 承認</button></div></div></div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>はたらいく v5.0</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{--p:#6366f1;--s:#8b5cf6;--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b;--hover:#f1f5f9}
+*{box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);margin:0;min-height:100vh}
+.gt{background:linear-gradient(135deg,var(--p),var(--s));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar{position:fixed;top:0;left:0;width:240px;height:100vh;background:linear-gradient(180deg,#4f46e5 0%,#7c3aed 100%);color:#fff;padding:0;z-index:50;display:flex;flex-direction:column}
+.sidebar h1{font-size:1.25rem;font-weight:800;padding:1.25rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.15);letter-spacing:.02em}
+.ni{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;cursor:pointer;font-size:.875rem;transition:all .15s;border-left:3px solid transparent}
+.ni:hover{background:rgba(255,255,255,.1)}
+.ni.on{background:rgba(255,255,255,.15);border-left-color:#fff;font-weight:600}
+.ni svg{width:18px;height:18px;flex-shrink:0}
+.main{margin-left:240px;padding:1.5rem 2rem 5rem}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.topbar h2{font-size:1.5rem;font-weight:700}
+.kp{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .2s}
+.kp:hover{box-shadow:0 4px 12px rgba(99,102,241,.1)}
+.cn{font-size:1.75rem;font-weight:800;color:var(--p)}
+.tab{display:none}
+.tab.on{display:block}
+.btn{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;padding:.5rem 1rem;border-radius:.5rem;cursor:pointer;font-size:.875rem;font-weight:600;transition:opacity .15s}
+.btn:hover{opacity:.9}
+.btn:disabled{opacity:.5;cursor:default}
+.btn2{background:transparent;color:var(--p);border:1px solid var(--border);padding:.5rem 1rem;border-radius:.5rem;cursor:pointer;font-size:.875rem;transition:all .15s}
+.btn2:hover{background:var(--hover);border-color:var(--p)}
+.inp{width:100%;padding:.5rem .75rem;border:1px solid var(--border);border-radius:.5rem;font-size:.875rem;background:var(--card);color:var(--text);outline:none;transition:border-color .15s}
+.inp:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.pb{height:.5rem;border-radius:999px;background:#e2e8f0;overflow:hidden}
+.pf{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--p),var(--s));transition:width .5s}
+.sb{display:inline-block;padding:.15rem .5rem;border-radius:999px;font-size:.7rem;font-weight:600}
+.sb-g{background:#dcfce7;color:#16a34a}
+.sb-b{background:#dbeafe;color:#2563eb}
+.sb-r{background:#fee2e2;color:#dc2626}
+.sb-y{background:#fef9c3;color:#ca8a04}
+.sb-p{background:#ede9fe;color:#7c3aed}
+.av{width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem;flex-shrink:0}
+.mb{padding:.75rem 1rem;border-radius:.75rem;max-width:80%;font-size:.875rem;line-height:1.5}
+.mb-s{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;margin-left:auto;border-bottom-right-radius:.25rem}
+.mb-r{background:var(--card);border:1px solid var(--border);border-bottom-left-radius:.25rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal.show{display:flex}
+.mc{background:var(--card);border-radius:1rem;padding:2rem;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.lg{padding:.75rem 1rem;border-radius:.75rem;border:1px solid var(--border);background:var(--card)}
+.lg-ok{border-left:3px solid #16a34a}
+.lg-ng{border-left:3px solid #dc2626}
+.lg-pd{border-left:3px solid #ca8a04}
+.toast{position:fixed;bottom:2rem;right:2rem;background:#16a34a;color:#fff;padding:.75rem 1.5rem;border-radius:.75rem;font-size:.875rem;font-weight:600;z-index:200;animation:slideUp .3s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.tip{position:fixed;background:var(--p);color:#fff;padding:.5rem 1rem;border-radius:.5rem;font-size:.875rem;font-weight:600;z-index:150;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fb{position:fixed;bottom:2rem;right:2rem;width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;font-size:1.25rem;cursor:pointer;box-shadow:0 4px 15px rgba(99,102,241,.4);z-index:60;transition:transform .2s}
+.fb:hover{transform:scale(1.1)}
+.fi{width:2rem;height:2rem;border-radius:.375rem;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0}
+.fi-p{background:#fee2e2;color:#dc2626}
+.fi-d{background:#dbeafe;color:#2563eb}
+.fi-i{background:#fef9c3;color:#ca8a04}
+.cb{display:inline-block;padding:.15rem .4rem;border-radius:.25rem;font-size:.65rem;background:rgba(99,102,241,.1);color:var(--p);margin:.15rem}
+.wc{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.25rem;text-align:center;transition:all .2s}
+.wc:hover{box-shadow:0 4px 12px rgba(99,102,241,.1);transform:translateY(-2px)}
+.gg{width:5rem;height:5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto}
+.gi{width:4rem;height:4rem;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1rem;cursor:pointer;transition:all .2s}
+.pc:hover{border-color:var(--p);box-shadow:0 2px 8px rgba(99,102,241,.1)}
+footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-top:1px solid var(--border);padding:.5rem 2rem;font-size:.75rem;color:var(--sub);text-align:center}
+@media(max-width:768px){.sidebar{width:60px}.sidebar h1,.ni span{display:none}.ni{padding:.75rem;justify-content:center}.main{margin-left:60px}footer{left:60px}}
+</style>
+</head>
+<body>
+<nav class="sidebar">
+<h1>はたらいく</h1>
+<div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">知行合一 ─ AX革命</div>
+<div style="flex:1;padding:.5rem 0">
+<div class="ni on" data-t="dash" onclick="sw('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>ダッシュボード</span></div>
+<div class="ni" data-t="proj" onclick="sw('proj')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>プロジェクト</span></div>
+<div class="ni" data-t="flow" onclick="sw('flow')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>フロー</span></div>
+<div class="ni" data-t="chat" onclick="sw('chat')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>チャット</span></div>
+<div class="ni" data-t="team" onclick="sw('team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span>人材</span></div>
+<div class="ni" data-t="data" onclick="sw('data')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span>データ</span></div>
+<div class="ni" data-t="ai" onclick="sw('ai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h2a2 2 0 012 2v2a4 4 0 01-4 4h-1v1a4 4 0 01-4 4 4 4 0 01-4-4v-1H6a4 4 0 01-4-4V9a2 2 0 012-2h2V6a4 4 0 014-4z"/></svg><span>AI分析</span></div>
+<div class="ni" data-t="log" onclick="sw('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>承認履歴</span></div>
+</div>
+<div style="padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.15);font-size:.75rem">
+<div style="display:flex;align-items:center;gap:.5rem"><div class="av" style="width:2rem;height:2rem;font-size:.7rem">樋</div><div><p style="font-weight:600">樋口春騎</p><p style="opacity:.7">AXリーダー</p></div></div>
+</div>
+</nav>
+
+<div class="main">
+<div class="topbar">
+<div><h2 id="pageTitle">ダッシュボード</h2><p class="text-sm" style="color:var(--sub)" id="pageSub">リアルタイム経営指標</p></div>
+<div style="display:flex;align-items:center;gap:1rem">
+<span class="text-sm" style="color:var(--sub)" id="clock"></span>
+<button class="btn text-sm" onclick="openAddModal()">＋ 新規追加</button>
+</div>
+</div>
+
+<!-- ダッシュボード -->
+<div id="dash" class="tab on">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+<div class="kp"><p class="text-sm" style="color:var(--sub)">受注総額</p><p class="cn" id="kpi_revenue">-</p><p class="text-xs" style="color:#16a34a">▲ リアルタイム集計</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">進行PJ</p><p class="cn" id="kpi_projects">-</p><p class="text-xs" style="color:#16a34a">▲ 実データ連動</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">稼働時間</p><p class="cn" id="kpi_hours">-</p><p class="text-xs" style="color:var(--sub)">今月累計</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">品質スコア</p><p class="cn" id="kpi_quality">-</p><p class="text-xs" style="color:#16a34a">▲ 承認データ算出</p></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+<div class="kp">
+<h4 class="font-bold text-sm mb-3">月次推移</h4>
+<canvas id="chartCanvas" height="200"></canvas>
+</div>
+<div class="kp">
+<h4 class="font-bold text-sm mb-3">直近の活動</h4>
+<div id="recentActivity" class="space-y-2 text-sm" style="max-height:200px;overflow-y:auto"></div>
+</div>
+</div>
+<div class="kp">
+<h4 class="font-bold text-sm mb-3">プロジェクト進捗一覧</h4>
+<div id="dashProjects" class="space-y-3"></div>
+</div>
+</div>
+
+<!-- プロジェクト -->
+<div id="proj" class="tab">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold">プロジェクト管理</h3>
+<div class="flex gap-2">
+<input class="inp" style="width:200px" placeholder="検索..." id="projSearch" oninput="renderProjects()">
+<button class="btn text-sm" onclick="openProjModal()">＋ 新規PJ</button>
+</div>
+</div>
+<div id="projList" class="space-y-3"></div>
+</div>
+
+<!-- フロー -->
+<div id="flow" class="tab">
+<h3 class="font-bold mb-4">承認フロー</h3>
+<div class="flex gap-2 mb-4">
+<button class="btn text-sm" onclick="filterFlow('all')">全て</button>
+<button class="btn2 text-sm" onclick="filterFlow('pending')">申請中</button>
+<button class="btn2 text-sm" onclick="filterFlow('approved')">承認済</button>
+<button class="btn2 text-sm" onclick="filterFlow('rejected')">差戻し</button>
+</div>
+<div id="flowList" class="space-y-3"></div>
+</div>
+
+<!-- チャット -->
+<div id="chat" class="tab" style="display:none">
+<div style="display:flex;gap:1rem;height:calc(100vh - 200px)">
+<div style="width:200px;flex-shrink:0" class="kp">
+<h4 class="font-bold text-sm mb-3">チャンネル</h4>
+<div id="channels" class="space-y-1"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column" class="kp">
+<div class="flex items-center gap-3 pb-3 mb-3" style="border-bottom:1px solid var(--border)">
+<div class="av" style="font-size:.7rem" id="chatAvatar">全</div>
+<div><p class="font-bold text-sm" id="chatTitle">全体チャット</p><p class="text-xs" style="color:var(--sub)" id="chatMembers">6名参加</p></div>
+</div>
+<div class="flex-1 overflow-y-auto space-y-3" id="msgs"></div>
+<div class="flex gap-2 mt-3 pt-3" style="border-top:1px solid var(--border)">
+<input class="inp mb-0 flex-1" placeholder="メッセージを入力..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
+<button class="btn text-sm" onclick="sendMsg()">送信</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 人材 -->
+<div id="team" class="tab">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-bold">人材</h3>
+<div class="flex gap-2">
+<button class="btn text-sm rt on" onclick="filt(this,'all')">全員</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'manager')">管理者</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'worker')">作業員</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="teamGrid"></div>
+</div>
+
+<!-- データ -->
+<div id="data" class="tab">
+<h3 class="font-bold mb-4">データ管理</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="dataStats"></div>
+<div class="kp">
+<div class="flex justify-between items-center mb-3">
+<h4 class="font-bold text-sm">ファイル一覧</h4>
+<button class="btn text-sm" onclick="openFileUpload()">＋ アップロード</button>
+</div>
+<div id="fileList" class="space-y-2"></div>
+</div>
+</div>
+
+<!-- AI分析 -->
+<div id="ai" class="tab">
+<h3 class="font-bold mb-4">AI分析</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4" id="aiMetrics"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+<div class="kp">
+<h4 class="font-bold text-sm mb-2">リスク予測</h4>
+<div id="aiRisks" class="space-y-2"></div>
+</div>
+<div class="kp">
+<h4 class="font-bold text-sm mb-2">効率化提案</h4>
+<div id="aiSuggestions" class="space-y-2"></div>
+</div>
+</div>
+</div>
+
+<!-- 承認履歴 -->
+<div id="log" class="tab">
+<h3 class="font-bold mb-4">承認履歴</h3>
+<div class="flex gap-2 mb-4">
+<button class="btn text-sm" onclick="filterLog('all')">全て</button>
+<button class="btn2 text-sm" onclick="filterLog('approved')">承認</button>
+<button class="btn2 text-sm" onclick="filterLog('rejected')">差戻し</button>
+</div>
+<div id="logList" class="space-y-2"></div>
+</div>
+
+</div>
+
+<footer>© 2026 はたらいく | AX革命 | v5.0 | 知行合一 ─ 知識と行動の一致</footer>
+
+<!-- 承認モーダル -->
+<div id="amod" class="modal" onclick="if(event.target===this)cam()">
+<div class="mc">
+<h3 class="font-bold mb-3" style="font-size:1.1rem">⚠️ 承認確認</h3>
+<div id="acnt" class="mb-3 p-3 rounded-lg" style="background:var(--hover);border:1px solid var(--border);font-size:.875rem"></div>
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div><label class="text-xs" style="color:var(--sub)">承認者</label><input class="inp" value="樋口春騎" readonly></div>
+<div><label class="text-xs" style="color:var(--sub)">時刻</label><input class="inp" id="ats" readonly></div>
+</div>
+<div class="mb-3"><label class="text-xs" style="color:var(--sub)">コメント</label><textarea class="inp" id="approvalComment" rows="2" placeholder="承認コメントを入力..."></textarea></div>
+<div class="flex gap-2 justify-end">
+<button class="btn2 text-sm" onclick="rejectFlow()">差戻し</button>
+<button class="btn text-sm" onclick="cfm()">✓ 承認</button>
+</div>
+</div>
+</div>
+
+<!-- プロジェクト追加モーダル -->
+<div id="projMod" class="modal" onclick="if(event.target===this)closeProjModal()">
+<div class="mc">
+<h3 class="font-bold mb-3">新規プロジェクト</h3>
+<div class="space-y-3">
+<div><label class="text-xs" style="color:var(--sub)">プロジェクト名</label><input class="inp" id="pjName" placeholder="例: 渋谷タワー新築工事"></div>
+<div class="grid grid-cols-2 gap-3">
+<div><label class="text-xs" style="color:var(--sub)">受注金額 (万円)</label><input class="inp" id="pjAmount" type="number" placeholder="例: 50000"></div>
+<div><label class="text-xs" style="color:var(--sub)">担当者</label><input class="inp" id="pjManager" placeholder="例: 田中太郎"></div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div><label class="text-xs" style="color:var(--sub)">開始日</label><input class="inp" id="pjStart" type="date"></div>
+<div><label class="text-xs" style="color:var(--sub)">完了予定日</label><input class="inp" id="pjEnd" type="date"></div>
+</div>
+<div><label class="text-xs" style="color:var(--sub)">ステータス</label><select class="inp" id="pjStatus"><option value="planning">計画中</option><option value="active">進行中</option><option value="review">検査中</option><option value="complete">完了</option></select></div>
+</div>
+<div class="flex gap-2 justify-end mt-4">
+<button class="btn2 text-sm" onclick="closeProjModal()">キャンセル</button>
+<button class="btn text-sm" onclick="saveProject()">保存</button>
+</div>
+</div>
+</div>
+
+<!-- 汎用追加モーダル -->
+<div id="addMod" class="modal" onclick="if(event.target===this)closeAddModal()">
+<div class="mc">
+<h3 class="font-bold mb-3" id="addModTitle">新規追加</h3>
+<div id="addModContent"></div>
+</div>
+</div>
+
 <button class="fb" onclick="demo()" aria-label="Demo">▶</button>
-<script>function sw(t){document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));document.getElementById(t).classList.add('on');document.querySelector('[data-t="'+t+'"]').classList.add('on');const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'フロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};document.getElementById('pageTitle').textContent=titles[t];}function ac(){document.querySelectorAll('.cn').forEach(el=>{const v=parseFloat(el.dataset.v);if(!v)return;const f=el.dataset.f||'auto';const d=1200,inc=v/(d/16);let c=0;const t=setInterval(()=>{c+=inc;if(c>=v){c=v;clearInterval(t)}if(f==='yen')el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP');else if(f==='int')el.textContent=Math.floor(c).toLocaleString('ja-JP');else if(f==='pct')el.textContent=c.toFixed(1)+'%';else el.textContent=c.toFixed(1);},16);});}function oam(c){document.getElementById('acnt').innerHTML='<p>'+c+'</p>';document.getElementById('ats').value=new Date().toLocaleString('ja-JP');document.getElementById('amod').classList.add('show');}function cam(){document.getElementById('amod').classList.remove('show')}function cfm(){const t=document.createElement('div');t.className='toast';t.innerHTML='✓ 完了';document.body.appendChild(t);setTimeout(()=>{t.remove();cam()},3000);}function sendMsg(){const i=document.getElementById('chatIn');if(!i.value.trim())return;const m=document.createElement('div');m.className='mb mb-s';m.textContent=i.value;document.getElementById('msgs').appendChild(m);i.value='';setTimeout(()=>{const r=document.createElement('div');r.className='mb mb-r';r.textContent='AI: 了解。確認いたします。';document.getElementById('msgs').appendChild(r);document.getElementById('msgs').scrollTop=9999;},1000);}function filt(btn,role){document.querySelectorAll('.rt').forEach(b=>b.className='btn2 text-sm rt');btn.className='btn text-sm rt on';document.querySelectorAll('.wc').forEach(c=>c.style.display=(role==='all'||c.dataset.r===role)?'':'none');}function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}setInterval(uc,1000);uc();async function demo(){const tabs=['dash','proj','flow','chat','team','data','ai','log'];const fb=document.querySelector('.fb');fb.disabled=true;for(const t of tabs){await new Promise(r=>setTimeout(r,1800));sw(t);const n=document.querySelector('[data-t="'+t+'"]');const tip=document.createElement('div');tip.className='tip';tip.style.cssText='left:260px;top:'+(n.offsetTop+80)+'px';tip.textContent='← 確認';document.body.appendChild(tip);await new Promise(r=>setTimeout(r,1500));tip.remove();}sw('flow');await new Promise(r=>setTimeout(r,1000));oam('デモ体験');await new Promise(r=>setTimeout(r,2500));cfm();fb.disabled=false;}window.addEventListener('load',ac);</script>
-</body></html>
+
+<script>
+// ==========================================
+// 知行合一: データストア — 全UIはここから生成
+// 言葉(表示)と行動(データ)の一致を保証する
+// ==========================================
+const STORE_KEY='hataraiku_v5';
+function loadStore(){
+try{const d=localStorage.getItem(STORE_KEY);if(d)return JSON.parse(d)}catch(e){}
+return getDefaultData();
+}
+function saveStore(){localStorage.setItem(STORE_KEY,JSON.stringify(S))}
+function getDefaultData(){return{
+projects:[
+{id:1,name:'梅田再開発ビル',amount:240000000,progress:75,status:'active',manager:'田中太郎',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'基礎工事',done:true},{name:'鉄骨組立',done:true},{name:'外装工事',done:false},{name:'内装工事',done:false}]},
+{id:2,name:'横浜マンション新築',amount:180000000,progress:45,status:'active',manager:'佐藤二郎',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'地盤改良',done:true},{name:'基礎工事',done:false},{name:'躯体工事',done:false}]},
+{id:3,name:'京都町屋リノベーション',amount:52000000,progress:100,status:'complete',manager:'鈴木四郎',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'解体',done:true},{name:'構造補強',done:true},{name:'仕上げ',done:true}]},
+{id:4,name:'福岡オフィスビル',amount:320000000,progress:15,status:'planning',manager:'木村三郎',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'設計完了',done:false},{name:'許可申請',done:false}]},
+{id:5,name:'札幌商業施設',amount:65000000,progress:60,status:'active',manager:'高橋五郎',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'基礎',done:true},{name:'鉄骨',done:true},{name:'外装',done:false}]}
+],
+flows:[
+{id:1,type:'見積承認',target:'梅田再開発ビル',from:'田中太郎',to:'樋口春騎',status:'pending',amount:857000000,date:'2026-03-30',before:'¥820M',after:'¥857M',comment:''},
+{id:2,type:'進捗変更',target:'梅田再開発ビル',from:'佐藤二郎',to:'樋口春騎',status:'pending',before:'72%',after:'75%',date:'2026-03-30',comment:''},
+{id:3,type:'着工申請',target:'横浜マンション新築',from:'木村三郎',to:'樋口春騎',status:'pending',date:'2026-03-29',comment:''},
+{id:4,type:'完了報告',target:'京都町屋リノベーション',from:'鈴木四郎',to:'樋口春騎',status:'approved',date:'2026-03-28',before:'98%',after:'100%',comment:'検査合格'},
+{id:5,type:'新規PJ登録',target:'福岡オフィスビル',from:'佐藤二郎',to:'樋口春騎',status:'approved',date:'2026-03-27',comment:'承認済'}
+],
+logs:[],
+messages:[
+{ch:'general',from:'system',text:'梅田再開発ビルの安全検査、AIで解析できますか？',time:'09:15'},
+{ch:'general',from:'田中太郎',text:'了解。開始します。3分で結果',time:'09:16'},
+{ch:'general',from:'system',text:'承認フローに回してください',time:'09:20'},
+{ch:'general',from:'佐藤二郎',text:'完了。スコア96点。起動ですか？',time:'09:23'}
+],
+team:[
+{name:'樋口春騎',role:'manager',title:'AXリーダー',certs:['1級建築','AX推進'],status:'active',initial:'樋'},
+{name:'田中太郎',role:'manager',title:'施工管理',certs:['1級施工','安全管理'],status:'active',initial:'田'},
+{name:'佐藤二郎',role:'worker',title:'現場監督',certs:['2級建築','品質管理'],status:'active',initial:'佐'},
+{name:'木村三郎',role:'worker',title:'設計士',certs:['1級建築','BIM'],status:'active',initial:'木'},
+{name:'鈴木四郎',role:'worker',title:'現場監督',certs:['1級土木','環境管理'],status:'active',initial:'鈴'},
+{name:'高橋五郎',role:'worker',title:'電気工事',certs:['第2種電気','消防設備'],status:'休暇',initial:'高'}
+],
+files:[
+{name:'梅田_安全.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
+{name:'渋谷_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
+{name:'横浜_0328.jpg',size:'5.1MB',type:'jpg',date:'2026-03-28'},
+{name:'京都_完了報告.pdf',size:'3.2MB',type:'pdf',date:'2026-03-27'},
+{name:'福岡_設計図.dwg',size:'22.1MB',type:'dwg',date:'2026-03-26'}
+],
+channels:[
+{id:'general',name:'全体チャット',members:6},
+{id:'umeda',name:'梅田PJ',members:3},
+{id:'yokohama',name:'横浜PJ',members:4}
+],
+currentChannel:'general',
+nextId:100
+}}
+let S=loadStore();
+let currentFlowId=null;
+
+// ==========================================
+// 知行合一: KPI計算 — 表示値は必ずデータから算出
+// ==========================================
+function calcKPIs(){
+const active=S.projects.filter(p=>p.status==='active'||p.status==='planning');
+const total=S.projects.reduce((s,p)=>s+p.amount,0);
+const hours=S.projects.reduce((s,p)=>s+Math.round(p.progress*3.4),0);
+const quals=S.projects.filter(p=>p.quality>0);
+const avgQ=quals.length?quals.reduce((s,p)=>s+p.quality,0)/quals.length:0;
+return{revenue:total,projects:S.projects.length,hours:hours,quality:avgQ};
+}
+
+function renderKPIs(){
+const k=calcKPIs();
+animateValue('kpi_revenue','¥'+Math.floor(k.revenue/10000).toLocaleString('ja-JP')+'万',k.revenue/10000,1200,'yen');
+animateValue('kpi_projects',k.projects+'件',k.projects,800,'int');
+animateValue('kpi_hours',k.hours+'h',k.hours,1000,'int');
+animateValue('kpi_quality',k.quality.toFixed(1)+'%',k.quality,1000,'pct');
+}
+
+function animateValue(elId,finalText,targetVal,dur,fmt){
+const el=document.getElementById(elId);if(!el)return;
+let c=0;const inc=targetVal/(dur/16);
+const t=setInterval(()=>{
+c+=inc;if(c>=targetVal){c=targetVal;clearInterval(t)}
+if(fmt==='yen')el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP')+'万';
+else if(fmt==='int')el.textContent=Math.floor(c)+(finalText.includes('件')?'件':finalText.includes('h')?'h':'');
+else if(fmt==='pct')el.textContent=c.toFixed(1)+'%';
+else el.textContent=Math.floor(c);
+},16);
+}
+
+// ==========================================
+// ダッシュボード: 活動ログ & プロジェクト進捗
+// ==========================================
+function renderDashboard(){
+renderKPIs();
+// 直近の活動
+const act=document.getElementById('recentActivity');
+const activities=[];
+S.flows.forEach(f=>{
+const st=f.status==='approved'?'<span class="sb sb-g">承認</span>':f.status==='rejected'?'<span class="sb sb-r">差戻し</span>':'<span class="sb sb-y">申請中</span>';
+activities.push({html:'<div class="flex justify-between items-center p-2 rounded" style="background:var(--hover)">'+st+' <span class="flex-1 ml-2">'+f.type+': '+f.target+'</span><span class="text-xs" style="color:var(--sub)">'+f.date+'</span></div>',date:f.date});
+});
+activities.sort((a,b)=>b.date.localeCompare(a.date));
+act.innerHTML=activities.map(a=>a.html).join('');
+// プロジェクト進捗
+const dp=document.getElementById('dashProjects');
+dp.innerHTML=S.projects.map(p=>{
+const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
+const sl=p.status==='complete'?'完了':p.status==='active'?'進行中':p.status==='review'?'検査中':'計画中';
+return '<div class="flex items-center gap-4 p-3 rounded-lg" style="background:var(--hover)"><div class="flex-1"><div class="flex justify-between mb-1"><span class="font-bold text-sm">'+p.name+'</span><span class="sb '+sc+'">'+sl+'</span></div><div class="pb"><div class="pf" style="width:'+p.progress+'%"></div></div><div class="flex justify-between mt-1"><span class="text-xs" style="color:var(--sub)">'+p.manager+'</span><span class="text-xs font-bold" style="color:var(--p)">'+p.progress+'%</span></div></div></div>';
+}).join('');
+renderChart();
+}
+
+// ==========================================
+// チャート: Canvas描画（実データ連動）
+// ==========================================
+function renderChart(){
+const canvas=document.getElementById('chartCanvas');if(!canvas)return;
+const ctx=canvas.getContext('2d');
+const w=canvas.width=canvas.parentElement.clientWidth-40;
+const h=canvas.height=180;
+ctx.clearRect(0,0,w,h);
+// 月次データ: プロジェクトの進捗から生成
+const months=['10月','11月','12月','1月','2月','3月'];
+const values=months.map((_,i)=>{
+return S.projects.reduce((s,p)=>s+Math.min(100,Math.max(0,p.progress-((5-i)*15))),0)/S.projects.length;
+});
+const maxV=100;
+const padL=40,padB=30,padT=10;
+const chartW=w-padL-20,chartH=h-padB-padT;
+// Grid
+ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+for(let i=0;i<=4;i++){
+const y=padT+chartH*(1-i/4);
+ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(w-20,y);ctx.stroke();
+ctx.fillStyle='#94a3b8';ctx.font='11px system-ui';ctx.textAlign='right';
+ctx.fillText(Math.round(maxV*i/4)+'%',padL-8,y+4);
+}
+// Line
+ctx.beginPath();
+const grad=ctx.createLinearGradient(padL,0,w-20,0);
+grad.addColorStop(0,'#6366f1');grad.addColorStop(1,'#8b5cf6');
+ctx.strokeStyle=grad;ctx.lineWidth=3;ctx.lineJoin='round';
+values.forEach((v,i)=>{
+const x=padL+i*(chartW/(values.length-1));
+const y=padT+chartH*(1-v/maxV);
+if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+});ctx.stroke();
+// Fill area
+ctx.lineTo(padL+(values.length-1)*(chartW/(values.length-1)),padT+chartH);
+ctx.lineTo(padL,padT+chartH);ctx.closePath();
+const fillGrad=ctx.createLinearGradient(0,padT,0,padT+chartH);
+fillGrad.addColorStop(0,'rgba(99,102,241,.15)');fillGrad.addColorStop(1,'rgba(99,102,241,0)');
+ctx.fillStyle=fillGrad;ctx.fill();
+// Points & labels
+values.forEach((v,i)=>{
+const x=padL+i*(chartW/(values.length-1));
+const y=padT+chartH*(1-v/maxV);
+ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fillStyle='#6366f1';ctx.fill();
+ctx.fillStyle='#64748b';ctx.font='11px system-ui';ctx.textAlign='center';
+ctx.fillText(months[i],x,h-8);
+});
+}
+
+// ==========================================
+// プロジェクト: CRUD操作
+// ==========================================
+function renderProjects(){
+const q=(document.getElementById('projSearch')?.value||'').toLowerCase();
+const filtered=S.projects.filter(p=>!q||p.name.toLowerCase().includes(q)||p.manager.toLowerCase().includes(q));
+const pl=document.getElementById('projList');
+pl.innerHTML=filtered.map(p=>{
+const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
+const sl=p.status==='complete'?'完了':p.status==='active'?'進行中':p.status==='review'?'検査中':'計画中';
+const tasks=p.tasks?p.tasks.map(t=>'<label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" '+(t.done?'checked':'')+' onchange="toggleTask('+p.id+',\''+t.name+'\')"><span'+(t.done?' style="text-decoration:line-through;color:var(--sub)"':'')+'>'+t.name+'</span></label>').join(''):'';
+return '<div class="kp"><div class="flex justify-between items-start mb-2"><div><h4 class="font-bold">'+p.name+'</h4><p class="text-xs" style="color:var(--sub)">'+p.manager+' | '+p.start+' → '+p.end+'</p></div><div class="flex gap-2 items-center"><span class="sb '+sc+'">'+sl+'</span><button class="btn2 text-xs" onclick="editProject('+p.id+')">編集</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteProject('+p.id+')">削除</button></div></div><div class="flex items-center gap-3 mb-2"><div class="pb flex-1"><div class="pf" style="width:'+p.progress+'%"></div></div><span class="text-sm font-bold" style="color:var(--p)">'+p.progress+'%</span></div><div class="flex items-center gap-4"><span class="text-xs" style="color:var(--sub)">受注: ¥'+(p.amount/10000).toLocaleString('ja-JP')+'万</span><span class="text-xs" style="color:var(--sub)">品質: '+(p.quality||'-')+'点</span></div>'+(tasks?'<div class="mt-3 pt-3 space-y-1" style="border-top:1px solid var(--border)"><p class="text-xs font-bold mb-1" style="color:var(--sub)">タスク</p>'+tasks+'</div>':'')+'</div>';
+}).join('');
+}
+
+function toggleTask(pid,taskName){
+const p=S.projects.find(x=>x.id===pid);if(!p||!p.tasks)return;
+const t=p.tasks.find(x=>x.name===taskName);if(t){t.done=!t.done;
+// 知行合一: タスク完了率を進捗に自動反映
+const done=p.tasks.filter(x=>x.done).length;
+p.progress=Math.round((done/p.tasks.length)*100);
+addLog('タスク更新',p.name,taskName+(t.done?' 完了':' 未完了'));
+saveStore();renderAll();}
+}
+
+function deleteProject(pid){
+if(!confirm('このプロジェクトを削除しますか？'))return;
+const p=S.projects.find(x=>x.id===pid);
+S.projects=S.projects.filter(x=>x.id!==pid);
+addLog('PJ削除',p?p.name:'不明','削除実行');
+saveStore();renderAll();showToast('プロジェクトを削除しました');
+}
+
+function openProjModal(editId){
+document.getElementById('projMod').classList.add('show');
+if(editId){
+const p=S.projects.find(x=>x.id===editId);if(!p)return;
+document.getElementById('pjName').value=p.name;
+document.getElementById('pjAmount').value=p.amount/10000;
+document.getElementById('pjManager').value=p.manager;
+document.getElementById('pjStart').value=p.start;
+document.getElementById('pjEnd').value=p.end;
+document.getElementById('pjStatus').value=p.status;
+document.getElementById('projMod').dataset.editId=editId;
+}else{
+['pjName','pjAmount','pjManager','pjStart','pjEnd'].forEach(id=>document.getElementById(id).value='');
+document.getElementById('pjStatus').value='planning';
+delete document.getElementById('projMod').dataset.editId;
+}
+}
+function closeProjModal(){document.getElementById('projMod').classList.remove('show');delete document.getElementById('projMod').dataset.editId}
+function editProject(id){openProjModal(id)}
+
+function saveProject(){
+const name=document.getElementById('pjName').value.trim();
+const amount=parseInt(document.getElementById('pjAmount').value)*10000;
+const manager=document.getElementById('pjManager').value.trim();
+const start=document.getElementById('pjStart').value;
+const end=document.getElementById('pjEnd').value;
+const status=document.getElementById('pjStatus').value;
+if(!name){showToast('プロジェクト名を入力してください');return}
+const editId=document.getElementById('projMod').dataset.editId;
+if(editId){
+const p=S.projects.find(x=>x.id===parseInt(editId));
+if(p){
+const before=p.name+' ¥'+(p.amount/10000).toLocaleString()+'万';
+Object.assign(p,{name,amount:amount||p.amount,manager:manager||p.manager,start:start||p.start,end:end||p.end,status});
+const after=p.name+' ¥'+(p.amount/10000).toLocaleString()+'万';
+addLog('PJ編集',name,before+' → '+after);
+// 知行合一: 編集は承認フローを自動生成
+S.flows.push({id:++S.nextId,type:'PJ変更',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),before,after,comment:''});
+}
+}else{
+const newP={id:++S.nextId,name,amount:amount||0,progress:0,status,manager:manager||'未定',start:start||todayStr(),end:end||'',quality:0,tasks:[]};
+S.projects.push(newP);
+addLog('PJ追加',name,'新規登録');
+S.flows.push({id:++S.nextId,type:'新規PJ登録',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),comment:''});
+}
+saveStore();closeProjModal();renderAll();showToast('保存しました');
+}
+
+// ==========================================
+// 承認フロー: 実働する状態管理
+// ==========================================
+function renderFlows(filter){
+const fl=document.getElementById('flowList');
+const list=filter&&filter!=='all'?S.flows.filter(f=>f.status===filter):S.flows;
+fl.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(f=>{
+const st=f.status==='approved'?'lg-ok':f.status==='rejected'?'lg-ng':'lg-pd';
+const badge=f.status==='approved'?'<span class="sb sb-g">承認済</span>':f.status==='rejected'?'<span class="sb sb-r">差戻し</span>':'<span class="sb sb-y">申請中</span>';
+const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">承認/差戻し</button></div>':'';
+const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> → <span style="color:#16a34a">'+f.after+'</span></div>':'';
+const cmt=f.comment?'<p class="text-xs mt-1" style="color:var(--sub)">💬 '+f.comment+'</p>':'';
+return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' → '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">該当するフローはありません</p>';
+}
+function filterFlow(f){renderFlows(f)}
+
+function openApproval(fid){
+const f=S.flows.find(x=>x.id===fid);if(!f)return;
+currentFlowId=fid;
+const info='<p class="font-bold">'+f.type+'</p><p>対象: '+f.target+'</p><p>申請者: '+f.from+'</p>'+(f.before&&f.after?'<p class="mt-2" style="font-size:.8rem"><span style="color:#dc2626">変更前: '+f.before+'</span> → <span style="color:#16a34a">変更後: '+f.after+'</span></p>':'');
+document.getElementById('acnt').innerHTML=info;
+document.getElementById('ats').value=new Date().toLocaleString('ja-JP');
+document.getElementById('approvalComment').value='';
+document.getElementById('amod').classList.add('show');
+}
+function cam(){document.getElementById('amod').classList.remove('show');currentFlowId=null}
+
+function cfm(){
+if(!currentFlowId)return;
+const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
+const comment=document.getElementById('approvalComment').value.trim();
+f.status='approved';f.comment=comment||'承認済';
+// 知行合一: 承認結果をプロジェクトに即時反映
+applyFlowToProject(f);
+addLog('承認',f.type+': '+f.target,f.before&&f.after?f.before+' → '+f.after:'承認実行');
+saveStore();cam();renderAll();showToast('✓ 承認完了');
+}
+
+function rejectFlow(){
+if(!currentFlowId)return;
+const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
+const comment=document.getElementById('approvalComment').value.trim();
+f.status='rejected';f.comment=comment||'差戻し';
+addLog('差戻し',f.type+': '+f.target,'再申請待ち');
+saveStore();cam();renderAll();showToast('差戻ししました');
+}
+
+function applyFlowToProject(f){
+// 知行合一の核心: 承認したら実データが変わる
+const p=S.projects.find(x=>x.name===f.target);if(!p)return;
+if(f.type==='進捗変更'&&f.after){
+const val=parseInt(f.after);if(!isNaN(val))p.progress=val;
+}
+if(f.type==='完了報告'){p.status='complete';p.progress=100}
+if(f.type==='見積承認'&&f.amount){p.amount=f.amount}
+}
+
+// ==========================================
+// チャット: リアル送受信
+// ==========================================
+function renderChat(){
+const ch=S.currentChannel;
+const chList=document.getElementById('channels');
+chList.innerHTML=S.channels.map(c=>'<div class="p-2 rounded text-xs cursor-pointer'+(c.id===ch?' font-bold" style="background:rgba(99,102,241,.1);color:var(--p)"':'" style="color:var(--sub)"')+' onclick="switchChannel(\''+c.id+'\')">'+c.name+'</div>').join('');
+const msgs=S.messages.filter(m=>m.ch===ch);
+const msgEl=document.getElementById('msgs');
+msgEl.innerHTML=msgs.map(m=>{
+if(m.from==='system')return '<div class="mb mb-r">'+m.text+'<div class="text-xs mt-1" style="color:var(--sub)">'+m.time+'</div></div>';
+return '<div class="mb mb-s">'+m.text+'<div class="text-xs mt-1" style="opacity:.7">'+m.from+' '+m.time+'</div></div>';
+}).join('');
+msgEl.scrollTop=99999;
+const chData=S.channels.find(c=>c.id===ch);
+if(chData){document.getElementById('chatTitle').textContent=chData.name;document.getElementById('chatMembers').textContent=chData.members+'名参加'}
+}
+function switchChannel(ch){S.currentChannel=ch;saveStore();renderChat()}
+function sendMsg(){
+const inp=document.getElementById('chatIn');
+const txt=inp.value.trim();if(!txt)return;
+const now=new Date();const time=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+S.messages.push({ch:S.currentChannel,from:'樋口春騎',text:txt,time});
+inp.value='';saveStore();renderChat();
+// AI自動応答
+setTimeout(()=>{
+const replies=['了解。確認いたします。','データを更新しました。','承認フローに回します。','3分で結果をお伝えします。','完了しました。ダッシュボードを確認してください。'];
+S.messages.push({ch:S.currentChannel,from:'system',text:'AI: '+replies[Math.floor(Math.random()*replies.length)],time});
+saveStore();renderChat();
+},1500);
+}
+
+// ==========================================
+// 人材: フィルタリング
+// ==========================================
+function renderTeam(role){
+const grid=document.getElementById('teamGrid');
+const filtered=!role||role==='all'?S.team:S.team.filter(t=>t.role===role);
+grid.innerHTML=filtered.map(t=>{
+const stClass=t.status==='active'?'sb-g':t.status==='休暇'?'sb-r':'sb-y';
+return '<div class="wc"><div class="av mx-auto mb-2" style="width:3.5rem;height:3.5rem;font-size:1.25rem">'+t.initial+'</div><p class="font-bold text-sm">'+t.name+'</p><p class="text-xs" style="color:var(--sub)">'+t.title+'</p><div class="flex flex-wrap justify-center mt-2">'+t.certs.map(c=>'<span class="cb">'+c+'</span>').join('')+'</div><span class="sb '+stClass+' text-xs mt-2">'+(t.status==='active'?'稼働中':t.status)+'</span></div>';
+}).join('');
+}
+function filt(btn,role){
+document.querySelectorAll('.rt').forEach(b=>b.className='btn2 text-sm rt');
+btn.className='btn text-sm rt on';renderTeam(role);
+}
+
+// ==========================================
+// データ管理
+// ==========================================
+function renderData(){
+const stats=document.getElementById('dataStats');
+const typeCount={pdf:0,dwg:0,jpg:0,other:0};
+S.files.forEach(f=>{if(typeCount[f.type]!==undefined)typeCount[f.type]++;else typeCount.other++});
+stats.innerHTML=[
+{icon:'📄',label:'PDF',count:typeCount.pdf},
+{icon:'📐',label:'設計図(DWG)',count:typeCount.dwg},
+{icon:'📷',label:'写真',count:typeCount.jpg},
+{icon:'📁',label:'その他',count:typeCount.other}
+].map(s=>'<div class="kp text-center"><p class="text-2xl">'+s.icon+'</p><p class="font-bold text-sm">'+s.label+'</p><p class="text-xs" style="color:var(--sub)">'+s.count+'件</p></div>').join('');
+const fl=document.getElementById('fileList');
+fl.innerHTML=S.files.map(f=>{
+const tc=f.type==='pdf'?'fi-p':f.type==='dwg'?'fi-d':'fi-i';
+return '<div class="flex items-center gap-3 p-2 rounded" style="background:var(--hover)"><div class="fi '+tc+'">'+f.type.toUpperCase()+'</div><div class="flex-1"><p class="text-sm font-bold">'+f.name+'</p><p class="text-xs" style="color:var(--sub)">'+f.size+' | '+f.date+'</p></div><button class="btn text-xs py-1 px-3" onclick="showToast(\''+f.name+' を開きます\')">開く</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteFile(\''+f.name+'\')">削除</button></div>';
+}).join('');
+}
+
+function openFileUpload(){
+const name=prompt('ファイル名を入力:');if(!name)return;
+const size=prompt('ファイルサイズ (例: 3.2MB):','1.0MB');
+const type=name.split('.').pop().toLowerCase();
+S.files.unshift({name,size:size||'1.0MB',type,date:todayStr()});
+addLog('ファイル追加',name,'アップロード完了');
+saveStore();renderData();showToast(name+' をアップロードしました');
+}
+
+function deleteFile(name){
+if(!confirm(name+' を削除しますか？'))return;
+S.files=S.files.filter(f=>f.name!==name);
+addLog('ファイル削除',name,'削除実行');
+saveStore();renderData();showToast('削除しました');
+}
+
+// ==========================================
+// AI分析: データ駆動の分析表示
+// ==========================================
+function renderAI(){
+const k=calcKPIs();
+const metrics=document.getElementById('aiMetrics');
+const safetyScore=Math.round(k.quality*0.96);
+const costScore=Math.round(76+(S.projects.length*2));
+const schedScore=Math.round(88-(S.flows.filter(f=>f.status==='pending').length*3));
+const qualScore=Math.round(k.quality*0.98);
+metrics.innerHTML=[
+{label:'安全',score:safetyScore,color:'#16a34a'},
+{label:'コスト',score:Math.min(100,costScore),color:'#f97316'},
+{label:'スケジュール',score:Math.min(100,schedScore),color:'#3b82f6'},
+{label:'品質',score:Math.min(100,qualScore),color:'#7c3aed'}
+].map(m=>'<div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">'+m.label+'</p><span style="color:'+m.color+'">'+m.score+'%</span></div><div class="pb"><div class="pf" style="width:'+m.score+'%;background:'+m.color+'"></div></div></div>').join('');
+
+const risks=document.getElementById('aiRisks');
+const riskData=[];
+S.projects.forEach(p=>{
+if(p.progress<30&&p.status==='active')riskData.push({level:'red',text:p.name+': 進捗遅延リスク',action:'工程見直し推奨'});
+if(p.quality>0&&p.quality<90)riskData.push({level:'yellow',text:p.name+': 品質低下',action:'検査強化推奨'});
+});
+if(riskData.length===0)riskData.push({level:'green',text:'重大リスクなし',action:'継続監視'});
+risks.innerHTML=riskData.map(r=>{
+const c=r.level==='red'?'bg-red-500':r.level==='yellow'?'bg-yellow-500':'bg-green-500';
+return '<div class="flex gap-2 text-xs"><div class="w-3 h-3 '+c+' rounded-full mt-0.5 flex-shrink-0"></div><div><p>'+r.text+'</p><p style="color:var(--sub)">推奨: '+r.action+'</p></div></div>';
+}).join('');
+
+const suggs=document.getElementById('aiSuggestions');
+const pending=S.flows.filter(f=>f.status==='pending').length;
+const suggData=[
+{icon:'⚡',text:'未承認フロー: '+pending+'件',desc:pending>0?'承認処理を推奨します':'全て処理済みです'},
+{icon:'📊',text:'月次レポート自動生成',desc:'ダッシュボードデータから生成可能'},
+{icon:'🔄',text:'効率化率: '+Math.round(75+(S.projects.length*2))+'%',desc:'¥'+Math.round(calcKPIs().revenue/100000000*1.2)+'億の削減効果'}
+];
+suggs.innerHTML=suggData.map(s=>'<div class="flex gap-2 text-xs p-2 rounded" style="background:var(--hover)"><span>'+s.icon+'</span><div><p class="font-bold">'+s.text+'</p><p style="color:var(--sub)">'+s.desc+'</p></div></div>').join('');
+}
+
+// ==========================================
+// 承認履歴: 全操作の監査証跡
+// ==========================================
+function addLog(action,target,detail){
+S.logs.unshift({action,target,detail,user:'樋口春騎',time:new Date().toLocaleString('ja-JP'),date:todayStr()});
+if(S.logs.length>100)S.logs=S.logs.slice(0,100);
+}
+function renderLogs(filter){
+const ll=document.getElementById('logList');
+let logs=[...S.logs];
+// 承認フローからも履歴生成
+S.flows.forEach(f=>{
+if(f.status!=='pending'){
+logs.push({action:f.status==='approved'?'承認':'差戻し',target:f.type+': '+f.target,detail:f.comment||'',user:'樋口春騎',time:f.date,date:f.date,flowStatus:f.status});
+}
+});
+if(filter&&filter!=='all')logs=logs.filter(l=>(l.flowStatus||l.action)===(filter==='approved'?'承認':'差戻し')||(l.flowStatus===filter));
+logs.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+ll.innerHTML=logs.slice(0,30).map(l=>{
+const cls=l.action.includes('差戻し')||l.action.includes('削除')?'lg-ng':l.action.includes('承認')||l.action.includes('完了')?'lg-ok':'lg-pd';
+return '<div class="lg '+cls+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+l.action+': '+l.target+'</p><span class="text-xs" style="color:var(--sub)">'+l.time+'</span></div>'+(l.detail?'<p class="text-xs" style="color:var(--sub)">'+l.detail+'</p>':'')+'<p class="text-xs" style="color:var(--sub)">実行者: '+l.user+'</p></div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">履歴はありません</p>';
+}
+function filterLog(f){renderLogs(f)}
+
+// ==========================================
+// ユーティリティ
+// ==========================================
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0')}
+function showToast(msg){
+const t=document.createElement('div');t.className='toast';t.textContent=msg;
+document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
+}
+function openAddModal(){
+// 現在のタブに応じた追加モーダル
+const active=document.querySelector('.ni.on');
+const tab=active?active.dataset.t:'dash';
+if(tab==='proj'){openProjModal();return}
+if(tab==='data'){openFileUpload();return}
+if(tab==='flow'){
+const name=prompt('承認対象:');if(!name)return;
+const type=prompt('種別 (見積承認/進捗変更/着工申請):','見積承認');
+S.flows.push({id:++S.nextId,type:type||'その他',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),comment:''});
+addLog('フロー追加',name,type);saveStore();renderAll();showToast('申請を追加しました');return;
+}
+showToast('このタブでは「プロジェクト」「データ」「フロー」タブで追加できます');
+}
+function closeAddModal(){document.getElementById('addMod').classList.remove('show')}
+
+// ==========================================
+// タブ切替 & 全体レンダリング
+// ==========================================
+const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'フロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};
+const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'承認/差戻し実行',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
+function sw(t){
+document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
+document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
+document.getElementById(t).classList.add('on');
+document.querySelector('[data-t="'+t+'"]').classList.add('on');
+document.getElementById('pageTitle').textContent=titles[t]||t;
+document.getElementById('pageSub').textContent=subs[t]||'';
+renderTabContent(t);
+}
+
+function renderTabContent(t){
+if(t==='dash')renderDashboard();
+else if(t==='proj')renderProjects();
+else if(t==='flow')renderFlows();
+else if(t==='chat')renderChat();
+else if(t==='team')renderTeam('all');
+else if(t==='data')renderData();
+else if(t==='ai')renderAI();
+else if(t==='log')renderLogs();
+}
+
+function renderAll(){
+const active=document.querySelector('.ni.on');
+const t=active?active.dataset.t:'dash';
+renderTabContent(t);
+}
+
+// 時計
+function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
+setInterval(uc,1000);uc();
+
+// デモツアー
+async function demo(){
+const tabs=['dash','proj','flow','chat','team','data','ai','log'];
+const fb=document.querySelector('.fb');fb.disabled=true;
+for(const t of tabs){
+await new Promise(r=>setTimeout(r,1800));
+sw(t);
+const n=document.querySelector('[data-t="'+t+'"]');
+const tip=document.createElement('div');tip.className='tip';
+tip.style.cssText='left:260px;top:'+(n.offsetTop+80)+'px';
+tip.textContent='→ '+titles[t];
+document.body.appendChild(tip);
+await new Promise(r=>setTimeout(r,1500));tip.remove();
+}
+sw('flow');await new Promise(r=>setTimeout(r,1000));
+if(S.flows.find(f=>f.status==='pending')){openApproval(S.flows.find(f=>f.status==='pending').id);
+await new Promise(r=>setTimeout(r,2500));cfm();}
+fb.disabled=false;
+}
+
+// 初期化
+window.addEventListener('load',()=>{renderDashboard();renderChart()});
+window.addEventListener('resize',()=>{const a=document.querySelector('.ni.on');if(a&&a.dataset.t==='dash')renderChart()});
+
+// データリセット機能
+function resetData(){if(confirm('全データを初期状態に戻しますか？')){localStorage.removeItem(STORE_KEY);S=getDefaultData();saveStore();renderAll();showToast('データをリセットしました')}}
+</script>
+</body>
+</html>
