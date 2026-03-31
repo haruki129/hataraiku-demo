@@ -137,14 +137,28 @@ footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-
 
 <!-- フロー -->
 <div id="flow" class="tab">
-<h3 class="font-bold mb-4">承認フロー</h3>
-<div class="flex gap-2 mb-4">
-<button class="btn text-sm" onclick="filterFlow('all')">全て</button>
-<button class="btn2 text-sm" onclick="filterFlow('pending')">申請中</button>
-<button class="btn2 text-sm" onclick="filterFlow('approved')">承認済</button>
-<button class="btn2 text-sm" onclick="filterFlow('rejected')">差戻し</button>
+<!-- レイヤー切替トグル -->
+<div class="flex justify-between items-center mb-4">
+<div>
+<h3 class="font-bold text-lg">打合せフロー</h3>
+<p class="text-xs" style="color:var(--sub)">ステッパー形式 ― 知行合一で案件を前へ進める</p>
 </div>
-<div id="flowList" class="space-y-3"></div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold" id="layerLabel" style="color:var(--p)">依頼側</span>
+<button onclick="toggleLayer()" id="layerToggle" style="width:52px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:linear-gradient(135deg,var(--p),var(--s));transition:all .3s" title="依頼側/施工管理側を切替">
+<span id="layerDot" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>
+</button>
+<span class="text-xs" style="color:var(--sub)" id="layerLabelR">施工管理側</span>
+</div>
+</div>
+
+<!-- ステッパーバー -->
+<div class="kp mb-4" style="padding:.75rem 1.5rem">
+<div class="flex items-center justify-between" id="stepperBar"></div>
+</div>
+
+<!-- ステップ内容エリア -->
+<div id="flowStepContent" class="kp" style="min-height:400px"></div>
 </div>
 
 <!-- チャット -->
@@ -316,6 +330,34 @@ team:[
 {name:'鈴木四郎',role:'worker',title:'現場監督',certs:['1級土木','環境管理'],status:'active',initial:'鈴'},
 {name:'高橋五郎',role:'worker',title:'電気工事',certs:['第2種電気','消防設備'],status:'休暇',initial:'高'}
 ],
+meeting:{
+layer:'client',
+step:0,
+client:{
+period_from:'',period_to:'',
+area:'',building:'',building_other:'',size_m2:'',
+floor_plan_file:'',
+budget:'',sale_price:'',
+finish_quality:'',contractor_proposal:'',competing_quotes:'',
+finish_note:'',
+survey_date1:'',survey_time1_start:'',survey_time1_end:'',
+survey_date2:'',survey_time2_start:'',survey_time2_end:'',
+survey_date3:'',survey_time3_start:'',survey_time3_end:'',
+room_status:'',survey_note:'',
+survey_photos:[]
+},
+contractor:{
+quote_days:'',earliest_start:'',survey_duration:'',
+survey_date1:'',survey_time1_start:'',survey_time1_end:'',
+survey_date2:'',survey_time2_start:'',survey_time2_end:'',
+survey_date3:'',survey_time3_start:'',survey_time3_end:'',
+confirm_note:'',
+survey_photos:[]
+},
+estimate_ai_client:'',estimate_ai_contractor:'',
+order_note:'',order_confirmed:false,
+order_doc_draft:'',order_doc_confirmed:false
+},
 files:[
 {name:'梅田_安全.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
 {name:'渋谷_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
@@ -523,17 +565,398 @@ saveStore();closeProjModal();renderAll();showToast('保存しました');
 }
 
 // ==========================================
-// 承認フロー: 実働する状態管理
+// 打合せフロー: ステッパー形式 (レイヤー1依頼側 / レイヤー2施工管理側)
 // ==========================================
+const STEPS=[
+{id:'consult',label:'案件相談',icon:'📋'},
+{id:'survey',label:'現地調査',icon:'🔍'},
+{id:'estimate',label:'見積り',icon:'💰'},
+{id:'adjust',label:'発注調整',icon:'📝'},
+{id:'complete',label:'発注完了',icon:'✅'}
+];
+
+function toggleLayer(){
+const m=S.meeting;
+m.layer=m.layer==='client'?'contractor':'client';
+const dot=document.getElementById('layerDot');
+const lbl=document.getElementById('layerLabel');
+const lblR=document.getElementById('layerLabelR');
+const tog=document.getElementById('layerToggle');
+if(m.layer==='contractor'){
+dot.style.left='27px';tog.style.background='linear-gradient(135deg,#059669,#10b981)';
+lbl.style.color='var(--sub)';lbl.style.fontWeight='400';
+lblR.style.color='#059669';lblR.style.fontWeight='700';
+}else{
+dot.style.left='3px';tog.style.background='linear-gradient(135deg,var(--p),var(--s))';
+lbl.style.color='var(--p)';lbl.style.fontWeight='700';
+lblR.style.color='var(--sub)';lblR.style.fontWeight='400';
+}
+saveStore();renderMeetingFlow();
+}
+
+function goStep(n){
+S.meeting.step=n;saveStore();renderMeetingFlow();
+}
+
+function fmtNum(v){
+if(!v)return '';
+const n=String(v).replace(/,/g,'');
+return n.length>=4?Number(n).toLocaleString():n;
+}
+
+function mfVal(key,val){
+const m=S.meeting;const l=m.layer==='client'?m.client:m.contractor;
+if(key.includes('.')){const [a,b]=key.split('.');if(!l[a])l[a]={};l[a][b]=val;}
+else{l[key]=val;}
+saveStore();
+}
+function mfGet(key){
+const m=S.meeting;const l=m.layer==='client'?m.client:m.contractor;
+if(key.includes('.')){const [a,b]=key.split('.');return l[a]?l[a][b]||'':'';}
+return l[key]||'';
+}
+function mfGetAny(layer,key){
+const l=S.meeting[layer];
+return l[key]||'';
+}
+
+function phInput(id,key,placeholder,suffix){
+const v=mfGet(key);
+const display=v?'color:var(--text)':'color:#94a3b8';
+return '<input class="inp" id="mf_'+id+'" value="'+(v||'')+'" placeholder="'+placeholder+'" style="'+display+'" oninput="mfVal(\''+key+'\',this.value);this.style.color=this.value?\'var(--text)\':\'#94a3b8\'">'+(suffix?'<span class="text-xs ml-1" style="color:var(--sub)">'+suffix+'</span>':'');
+}
+
+function phSelect(id,key,options,placeholder){
+const v=mfGet(key);
+let html='<select class="inp" id="mf_'+id+'" onchange="mfVal(\''+key+'\',this.value);this.style.color=this.value?\'var(--text)\':\'#94a3b8\'" style="'+(v?'color:var(--text)':'color:#94a3b8')+'">';
+html+='<option value="" style="color:#94a3b8">'+placeholder+'</option>';
+options.forEach(o=>{html+='<option value="'+o+'"'+(v===o?' selected':'')+' style="color:var(--text)">'+o+'</option>';});
+return html+'</select>';
+}
+
+function phTabs(key,options){
+const v=mfGet(key);
+return '<div class="flex flex-wrap gap-2">'+options.map(o=>
+'<button class="'+(v===o?'btn':'btn2')+' text-xs" onclick="mfVal(\''+key+'\',\''+(v===o?'':o)+'\');renderMeetingFlow()">'+o+'</button>'
+).join('')+'</div>';
+}
+
+function phDate(id,key){
+const v=mfGet(key);
+return '<input type="date" class="inp" id="mf_'+id+'" value="'+(v||'')+'" onchange="mfVal(\''+key+'\',this.value)" style="'+(v?'color:var(--text)':'color:#94a3b8')+'">';
+}
+
+function phTime(id,key){
+const v=mfGet(key);
+const hours=[];for(let h=8;h<=18;h++){hours.push(h+':00');hours.push(h+':30');}
+return phSelect(id,key,hours,'--:--');
+}
+
+function otherLayerBadge(layer,key,label){
+const v=S.meeting[layer][key];
+if(!v)return '';
+return '<div class="text-xs mt-1 px-2 py-1 rounded" style="background:'+(layer==='client'?'#ede9fe':'#d1fae5')+';color:'+(layer==='client'?'#6366f1':'#059669')+'">'+
+(layer==='client'?'👤 依頼側':'🔧 施工管理側')+': '+label+' = <strong>'+v+'</strong></div>';
+}
+
+function renderMeetingFlow(){
+const m=S.meeting;
+const step=m.step;
+const layer=m.layer;
+// ステッパーバー
+const bar=document.getElementById('stepperBar');
+bar.innerHTML=STEPS.map((s,i)=>{
+const active=i===step;const done=i<step;
+const circleStyle=active?'background:linear-gradient(135deg,var(--p),var(--s));color:#fff;font-weight:700':done?'background:#dcfce7;color:#16a34a':'background:var(--hover);color:var(--sub)';
+const lineStyle=i<STEPS.length-1?(done?'background:var(--p)':'background:var(--border)'):'';
+return '<div class="flex items-center" style="flex:1;'+(i===STEPS.length-1?'flex:0':'')+'">'+
+'<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;min-width:70px" onclick="goStep('+i+')">'+
+'<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;'+circleStyle+';transition:all .3s">'+(done?'✓':s.icon)+'</div>'+
+'<span class="text-xs mt-1" style="color:'+(active?'var(--p)':'var(--sub)')+';font-weight:'+(active?'700':'400')+'">'+s.label+'</span>'+
+'</div>'+
+(i<STEPS.length-1?'<div style="flex:1;height:3px;border-radius:2px;margin:0 .25rem;'+lineStyle+';transition:background .3s;margin-bottom:18px"></div>':'')+
+'</div>';
+}).join('');
+
+// レイヤーUI同期
+const dot=document.getElementById('layerDot');
+const lbl=document.getElementById('layerLabel');
+const lblR=document.getElementById('layerLabelR');
+const tog=document.getElementById('layerToggle');
+if(layer==='contractor'){
+dot.style.left='27px';tog.style.background='linear-gradient(135deg,#059669,#10b981)';
+lbl.style.color='var(--sub)';lbl.style.fontWeight='400';
+lblR.style.color='#059669';lblR.style.fontWeight='700';
+}else{
+dot.style.left='3px';tog.style.background='linear-gradient(135deg,var(--p),var(--s))';
+lbl.style.color='var(--p)';lbl.style.fontWeight='700';
+lblR.style.color='var(--sub)';lblR.style.fontWeight='400';
+}
+
+const area=document.getElementById('flowStepContent');
+const otherLayer=layer==='client'?'contractor':'client';
+const layerColor=layer==='client'?'var(--p)':'#059669';
+const layerBadge=layer==='client'?'<span class="sb sb-p">依頼側</span>':'<span class="sb sb-g">施工管理側</span>';
+
+if(step===0)renderStep0(area,layer,otherLayer,layerBadge,layerColor);
+else if(step===1)renderStep1(area,layer,otherLayer,layerBadge,layerColor);
+else if(step===2)renderStep2(area,layer,otherLayer,layerBadge,layerColor);
+else if(step===3)renderStep3(area,layer,otherLayer,layerBadge,layerColor);
+else if(step===4)renderStep4(area,layer,otherLayer,layerBadge,layerColor);
+}
+
+// ===== Step0: 案件相談 =====
+function renderStep0(area,layer,otherLayer,badge,color){
+let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[0].icon+' '+STEPS[0].label+'</h4>'+badge+'</div>';
+if(layer==='client'){
+html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+// 施工時期
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">1. 施工時期</h5>';
+html+='<div class="grid grid-cols-2 gap-2"><div><label class="text-xs" style="color:var(--sub)">開始日</label>'+phDate('pf','period_from')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">終了日</label>'+phDate('pt','period_to')+'</div></div></div>';
+// 案件詳細
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">2. 案件詳細</h5>';
+html+='<div class="space-y-2">';
+html+='<div><label class="text-xs" style="color:var(--sub)">エリア</label>'+phInput('area','area','東京都 中央区')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">建物</label>'+phTabs('building',['区分マンション','戸建て'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">その他</label>'+phInput('bother','building_other','その他')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">広さ</label><div class="flex items-center gap-1">'+phInput('sizem','size_m2','70')+'<span class="text-sm" style="color:var(--sub)">㎡</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">間取り図</label><div class="flex items-center gap-2"><button class="btn2 text-xs" onclick="document.getElementById(\'fpUpload\').click()">📎 PDFアップロード</button><input type="file" id="fpUpload" accept=".pdf" style="display:none" onchange="mfVal(\'floor_plan_file\',this.files[0]?this.files[0].name:\'\');renderMeetingFlow()"><span class="text-xs" style="color:var(--sub)">'+(mfGet('floor_plan_file')||'未選択')+'</span></div></div>';
+html+='</div></div>';
+// 工事内容
+html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. 工事内容</h5>';
+html+='<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
+html+='<div><label class="text-xs" style="color:var(--sub)">工事予算</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">販売予定金額</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">相見積業者</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
+html+='</div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">計画仕上り</label>'+phTabs('finish_quality',['品質と仕様が大切','品質が大切','工期予算が大切'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">施工業者から提案</label>'+phTabs('contractor_proposal',['有','無'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">備考</label><textarea class="inp" rows="2" placeholder="詳細を入力..." oninput="mfVal(\'finish_note\',this.value)">'+mfGet('finish_note')+'</textarea></div>';
+html+='</div>';
+html+='</div>';
+// 相手側の入力状況表示
+const oArea=mfGetAny(otherLayer,'area');const oBudget=mfGetAny(otherLayer,'budget');
+if(otherLayer==='contractor'){
+const qd=mfGetAny('contractor','quote_days');
+const es=mfGetAny('contractor','earliest_start');
+const sd=mfGetAny('contractor','survey_duration');
+if(qd||es||sd){
+html+='<div class="kp mt-3" style="border-left:3px solid #059669"><h5 class="text-xs font-bold mb-2" style="color:#059669">🔧 施工管理側の回答</h5>';
+if(qd)html+='<p class="text-xs">見積り回答日: 現地調査日から <strong>'+qd+'日後</strong></p>';
+if(es)html+='<p class="text-xs">最短着工日: <strong>'+es+'</strong></p>';
+if(sd)html+='<p class="text-xs">調査所要時間: <strong>'+sd+'</strong></p>';
+html+='</div>';
+}
+}
+}else{
+// 施工管理側のStep0
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">施工管理側の回答入力</h5>';
+html+='<div class="space-y-3">';
+html+='<div><label class="text-xs" style="color:var(--sub)">見積り回答日（現地調査日から○日後）</label>'+phTabs('quote_days',['1','2','3','4','5','6','7','8','9','10'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">最短着工日</label>'+phDate('es','earliest_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">調査所要時間</label>'+phTabs('survey_duration',['15分','30分','45分','60分','75分','90分'])+'</div>';
+html+='</div></div>';
+// 依頼側の入力状況
+const cArea=mfGetAny('client','area');const cBld=mfGetAny('client','building');
+const cBudget=mfGetAny('client','budget');const cSale=mfGetAny('client','sale_price');
+const cSize=mfGetAny('client','size_m2');const cFinish=mfGetAny('client','finish_quality');
+if(cArea||cBudget){
+html+='<div class="kp mt-3" style="border-left:3px solid var(--p)"><h5 class="text-xs font-bold mb-2" style="color:var(--p)">👤 依頼側の入力内容</h5>';
+if(cArea)html+='<p class="text-xs">エリア: <strong>'+cArea+'</strong></p>';
+if(cBld)html+='<p class="text-xs">建物: <strong>'+cBld+'</strong></p>';
+if(cSize)html+='<p class="text-xs">広さ: <strong>'+cSize+'㎡</strong></p>';
+if(cBudget)html+='<p class="text-xs">予算: <strong>'+fmtNum(cBudget)+'万</strong></p>';
+if(cSale)html+='<p class="text-xs">販売予定: <strong>'+fmtNum(cSale)+'万</strong></p>';
+if(cFinish)html+='<p class="text-xs">計画仕上り: <strong>'+cFinish+'</strong></p>';
+html+='</div>';
+}
+}
+html+='<div class="flex justify-end mt-4"><button class="btn text-sm" onclick="goStep(1)">次へ → 現地調査</button></div>';
+area.innerHTML=html;
+}
+
+// ===== Step1: 現地調査 =====
+function renderStep1(area,layer,otherLayer,badge,color){
+let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[1].icon+' '+STEPS[1].label+'</h4>'+badge+'</div>';
+html+='<div class="kp mb-3"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">候補日時</h5>';
+html+='<div class="space-y-3">';
+for(let i=1;i<=3;i++){
+html+='<div class="p-2 rounded" style="background:var(--hover)"><p class="text-xs font-bold mb-1">候補'+i+'</p>';
+html+='<div class="grid grid-cols-3 gap-2">';
+html+='<div><label class="text-xs" style="color:var(--sub)">日付</label>'+phDate('sd'+i,'survey_date'+i)+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">開始</label>'+phTime('st'+i+'s','survey_time'+i+'_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">終了</label>'+phTime('st'+i+'e','survey_time'+i+'_end')+'</div>';
+html+='</div></div>';
+}
+html+='</div></div>';
+if(layer==='client'){
+html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">室内の使用状況</h5>'+phTabs('room_status',['住んでいます','住んでいません'])+'</div>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">調査時の共有事項</h5><textarea class="inp" rows="3" placeholder="共有事項を入力..." oninput="mfVal(\'survey_note\',this.value)">'+mfGet('survey_note')+'</textarea></div>';
+html+='</div>';
+}else{
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">確認事項コメント</h5><textarea class="inp" rows="3" placeholder="確認事項を入力..." oninput="mfVal(\'confirm_note\',this.value)">'+mfGet('confirm_note')+'</textarea></div>';
+// AI日程エラーチェック
+const cd1=mfGetAny('client','survey_date1');const cd2=mfGetAny('client','survey_date2');const cd3=mfGetAny('client','survey_date3');
+const md1=mfGet('survey_date1');
+if(cd1&&md1&&md1!==cd1&&md1!==mfGetAny('client','survey_date2')&&md1!==mfGetAny('client','survey_date3')){
+html+='<div class="kp mt-3" style="border-left:3px solid #dc2626;background:#fef2f2"><p class="text-xs font-bold" style="color:#dc2626">⚠️ AIスケジュール警告</p><p class="text-xs mt-1">施工管理側の候補日が依頼側の候補日と一致していません。</p><p class="text-xs mt-1">依頼側の候補: '+(cd1||'-')+', '+(cd2||'-')+', '+(cd3||'-')+'</p></div>';
+}
+}
+// 相手側の候補表示
+const oD1=mfGetAny(otherLayer,'survey_date1');
+if(oD1){
+const oName=otherLayer==='client'?'👤 依頼側':'🔧 施工管理側';
+const oColor=otherLayer==='client'?'var(--p)':'#059669';
+html+='<div class="kp mt-3" style="border-left:3px solid '+oColor+'"><h5 class="text-xs font-bold mb-1" style="color:'+oColor+'">'+oName+'の候補日時</h5>';
+for(let i=1;i<=3;i++){
+const d=mfGetAny(otherLayer,'survey_date'+i);const ts=mfGetAny(otherLayer,'survey_time'+i+'_start');const te=mfGetAny(otherLayer,'survey_time'+i+'_end');
+if(d)html+='<p class="text-xs">候補'+i+': '+d+' '+ts+'〜'+te+'</p>';
+}
+html+='</div>';
+}
+html+='<div class="kp mt-3"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">物件調査の写真記録</h5><button class="btn2 text-xs" onclick="alert(\'写真アップロード機能（実装予定）\')">📷 写真をアップロード</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(0)">← 案件相談</button><button class="btn text-sm" onclick="goStep(2)">次へ → 見積り</button></div>';
+area.innerHTML=html;
+}
+
+// ===== Step2: 見積り =====
+function renderStep2(area,layer,otherLayer,badge,color){
+let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[2].icon+' '+STEPS[2].label+'</h4>'+badge+'</div>';
+if(layer==='client'){
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AI問診 ― 判断材料</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">施工費用・各項目の費用内訳・仕様仕上げの費用対効果をAIが分析</p>';
+const budget=mfGetAny('client','budget');const sale=mfGetAny('client','sale_price');
+if(budget&&sale){
+const b=Number(String(budget).replace(/,/g,''));const s=Number(String(sale).replace(/,/g,''));
+const profit=s-b;const margin=s>0?Math.round((profit/s)*100):0;
+html+='<div class="grid grid-cols-3 gap-3 mb-3">';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">工事予算</p><p class="font-bold" style="color:var(--p)">'+fmtNum(budget)+'万</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">販売予定</p><p class="font-bold" style="color:var(--p)">'+fmtNum(sale)+'万</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:'+(margin>15?'#dcfce7':'#fef9c3')+'"><p class="text-xs" style="color:var(--sub)">粗利率</p><p class="font-bold" style="color:'+(margin>15?'#16a34a':'#ca8a04')+'">'+margin+'%</p></div>';
+html+='</div>';
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid var(--p)"><p class="text-xs font-bold mb-1">AI分析結果</p>';
+html+='<p class="text-xs">差額 <strong>'+fmtNum(profit)+'万</strong> ('+(margin>=20?'高収益案件です':'利益率の改善検討を推奨')+')</p>';
+html+='<p class="text-xs mt-1">仕様レベル: '+(mfGetAny('client','finish_quality')||'未設定')+'</p></div>';
+}else{
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">案件相談ステップで予算・販売金額を入力するとAI分析が表示されます</p></div>';
+}
+html+='</div>';
+}else{
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AI問診 ― 施工管理判断材料</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">仕様レベルの認識確認・工期の妥当性をAIが分析</p>';
+const finish=mfGetAny('client','finish_quality');const dur=mfGetAny('contractor','survey_duration');
+const from=mfGetAny('client','period_from');const to=mfGetAny('client','period_to');
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid '+color+'"><p class="text-xs font-bold mb-1">AI分析結果</p>';
+html+='<p class="text-xs">仕様レベル: <strong>'+(finish||'未設定')+'</strong></p>';
+html+='<p class="text-xs">調査時間: <strong>'+(dur||'未設定')+'</strong></p>';
+html+='<p class="text-xs">施工期間: <strong>'+(from||'?')+' ～ '+(to||'?')+'</strong></p>';
+if(finish==='品質と仕様が大切')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">⚠ 高仕様案件 ― 詳細仕様書の作成を推奨</p>';
+html+='</div></div>';
+}
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">← 現地調査</button><button class="btn text-sm" onclick="goStep(3)">次へ → 発注調整</button></div>';
+area.innerHTML=html;
+}
+
+// ===== Step3: 発注調整 =====
+function renderStep3(area,layer,otherLayer,badge,color){
+let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[3].icon+' '+STEPS[3].label+'</h4>'+badge+'</div>';
+if(layer==='client'){
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">依頼側 最終調整</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">仕様・仕上がり程度・予算の最終確認</p>';
+html+='<div class="space-y-2">';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">仕様:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'未設定')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">予算:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'万':'未設定')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">販売予定:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'万':'未設定')+'</strong></div>';
+html+='</div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">調整メモ</label><textarea class="inp" rows="2" placeholder="最終調整事項を入力..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
+html+='</div>';
+}else{
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">施工管理側 最終調整・確定</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">期限の明確化・確定資料の保存</p>';
+html+='<div class="space-y-2">';
+const es=mfGetAny('contractor','earliest_start');
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">最短着工日:</span> <strong class="text-sm">'+(es||'未設定')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">見積り回答日:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'調査日から'+mfGetAny('contractor','quote_days')+'日後':'未設定')+'</strong></div>';
+html+='</div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'✓ 確定済み':'確定して資料保存')+'</button></div>';
+html+='</div>';
+}
+// 双方の確認状況
+if(S.meeting.order_confirmed){
+html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">✓ 施工管理側が確定しました。依頼側はいつでもこの資料にアクセスできます。</p></div>';
+}
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">← 見積り</button><button class="btn text-sm" onclick="goStep(4)">次へ → 発注完了</button></div>';
+area.innerHTML=html;
+}
+
+// ===== Step4: 発注完了 =====
+function renderStep4(area,layer,otherLayer,badge,color){
+let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[4].icon+' '+STEPS[4].label+'</h4>'+badge+'</div>';
+if(layer==='contractor'){
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書作成</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">AI技術でドラフトを自動作成し、最終確認へ</p>';
+html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">🤖 AIドラフト作成</button>';
+const draft=S.meeting.order_doc_draft;
+if(draft){
+html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+draft+'</div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'発注\',\'発注書\',S.meeting.order_doc_confirmed?\'確定\':\'取消\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'✓ 発注書確定済':'発注書を確定する')+'</button></div>';
+}
+html+='</div>';
+}else{
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書確認</h5>';
+if(S.meeting.order_doc_confirmed){
+html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">✓ 発注書が確定されました</p></div>';
+if(S.meeting.order_doc_draft){
+html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
+}
+}else if(S.meeting.order_doc_draft){
+html+='<p class="text-xs" style="color:var(--sub)">施工管理側がドラフトを作成済み。確定をお待ちください。</p>';
+html+='<div class="p-3 rounded mt-2" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
+}else{
+html+='<p class="text-xs" style="color:var(--sub)">施工管理側が発注書を作成中です。完成後に確認できます。</p>';
+}
+html+='</div>';
+}
+html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">← 発注調整</button></div>';
+area.innerHTML=html;
+}
+
+function generateOrderDraft(){
+const c=S.meeting.client;const k=S.meeting.contractor;
+let draft='【発注書（ドラフト）】\n';
+draft+='━━━━━━━━━━━━━━━━━━━━\n';
+draft+='作成日: '+todayStr()+'\n\n';
+draft+='■ 物件情報\n';
+draft+='  エリア: '+(c.area||'未入力')+'\n';
+draft+='  建物: '+(c.building||'未入力')+(c.building_other?' ('+c.building_other+')':'')+'\n';
+draft+='  広さ: '+(c.size_m2?c.size_m2+'㎡':'未入力')+'\n\n';
+draft+='■ 工事内容\n';
+draft+='  予算: '+(c.budget?fmtNum(c.budget)+'万':'未入力')+'\n';
+draft+='  販売予定: '+(c.sale_price?fmtNum(c.sale_price)+'万':'未入力')+'\n';
+draft+='  仕上り方針: '+(c.finish_quality||'未入力')+'\n\n';
+draft+='■ 施工条件\n';
+draft+='  施工時期: '+(c.period_from||'?')+' ～ '+(c.period_to||'?')+'\n';
+draft+='  最短着工日: '+(k.earliest_start||'未定')+'\n';
+draft+='  見積り回答: 調査日から'+(k.quote_days||'?')+'日後\n';
+draft+='━━━━━━━━━━━━━━━━━━━━\n';
+draft+='※ AI自動生成ドラフト。内容をご確認の上、確定してください。';
+S.meeting.order_doc_draft=draft;
+addLog('AI生成','発注書ドラフト','自動作成');
+saveStore();renderMeetingFlow();
+}
+
+// 承認フロー: 実働する状態管理（他モジュールから参照）
 function renderFlows(filter){
-const fl=document.getElementById('flowList');
+const fl=document.getElementById('flowList');if(!fl)return;
 const list=filter&&filter!=='all'?S.flows.filter(f=>f.status===filter):S.flows;
 fl.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(f=>{
 const st=f.status==='approved'?'lg-ok':f.status==='rejected'?'lg-ng':'lg-pd';
 const badge=f.status==='approved'?'<span class="sb sb-g">承認済</span>':f.status==='rejected'?'<span class="sb sb-r">差戻し</span>':'<span class="sb sb-y">申請中</span>';
 const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">承認/差戻し</button></div>':'';
 const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> → <span style="color:#16a34a">'+f.after+'</span></div>':'';
-const cmt=f.comment?'<p class="text-xs mt-1" style="color:var(--sub)">💬 '+f.comment+'</p>':'';
+const cmt=f.comment?'<p class="text-xs mt-1" style="color:var(--sub)">'+f.comment+'</p>':'';
 return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' → '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
 }).join('')||'<p class="text-sm" style="color:var(--sub)">該当するフローはありません</p>';
 }
@@ -755,8 +1178,8 @@ function closeAddModal(){document.getElementById('addMod').classList.remove('sho
 // ==========================================
 // タブ切替 & 全体レンダリング
 // ==========================================
-const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'フロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};
-const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'承認/差戻し実行',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
+const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'打合せフロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};
+const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'ステッパー形式 ― 案件相談から発注完了まで',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
 function sw(t){
 document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
 document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
@@ -770,7 +1193,7 @@ renderTabContent(t);
 function renderTabContent(t){
 if(t==='dash')renderDashboard();
 else if(t==='proj')renderProjects();
-else if(t==='flow')renderFlows();
+else if(t==='flow')renderMeetingFlow();
 else if(t==='chat')renderChat();
 else if(t==='team')renderTeam('all');
 else if(t==='data')renderData();
