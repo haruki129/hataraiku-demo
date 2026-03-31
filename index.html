@@ -288,11 +288,11 @@ return getDefaultData();
 function saveStore(){localStorage.setItem(STORE_KEY,JSON.stringify(S))}
 function getDefaultData(){return{
 projects:[
-{id:1,name:'梅田再開発ビル',amount:240000000,progress:75,status:'active',manager:'田中太郎',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'基礎工事',done:true},{name:'鉄骨組立',done:true},{name:'外装工事',done:false},{name:'内装工事',done:false}]},
-{id:2,name:'横浜マンション新築',amount:180000000,progress:45,status:'active',manager:'佐藤二郎',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'地盤改良',done:true},{name:'基礎工事',done:false},{name:'躯体工事',done:false}]},
+{id:1,name:'梅田再開発ビル',amount:240000000,progress:50,status:'active',manager:'田中太郎',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'基礎工事',done:true},{name:'鉄骨組立',done:true},{name:'外装工事',done:false},{name:'内装工事',done:false}]},
+{id:2,name:'横浜マンション新築',amount:180000000,progress:33,status:'active',manager:'佐藤二郎',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'地盤改良',done:true},{name:'基礎工事',done:false},{name:'躯体工事',done:false}]},
 {id:3,name:'京都町屋リノベーション',amount:52000000,progress:100,status:'complete',manager:'鈴木四郎',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'解体',done:true},{name:'構造補強',done:true},{name:'仕上げ',done:true}]},
-{id:4,name:'福岡オフィスビル',amount:320000000,progress:15,status:'planning',manager:'木村三郎',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'設計完了',done:false},{name:'許可申請',done:false}]},
-{id:5,name:'札幌商業施設',amount:65000000,progress:60,status:'active',manager:'高橋五郎',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'基礎',done:true},{name:'鉄骨',done:true},{name:'外装',done:false}]}
+{id:4,name:'福岡オフィスビル',amount:320000000,progress:0,status:'planning',manager:'木村三郎',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'設計完了',done:false},{name:'許可申請',done:false}]},
+{id:5,name:'札幌商業施設',amount:65000000,progress:67,status:'active',manager:'高橋五郎',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'基礎',done:true},{name:'鉄骨',done:true},{name:'外装',done:false}]}
 ],
 flows:[
 {id:1,type:'見積承認',target:'梅田再開発ビル',from:'田中太郎',to:'樋口春騎',status:'pending',amount:857000000,date:'2026-03-30',before:'¥820M',after:'¥857M',comment:''},
@@ -338,12 +338,12 @@ let currentFlowId=null;
 // 知行合一: KPI計算 — 表示値は必ずデータから算出
 // ==========================================
 function calcKPIs(){
-const active=S.projects.filter(p=>p.status==='active'||p.status==='planning');
+const activeCount=S.projects.filter(p=>p.status==='active').length;
 const total=S.projects.reduce((s,p)=>s+p.amount,0);
 const hours=S.projects.reduce((s,p)=>s+Math.round(p.progress*3.4),0);
 const quals=S.projects.filter(p=>p.quality>0);
 const avgQ=quals.length?quals.reduce((s,p)=>s+p.quality,0)/quals.length:0;
-return{revenue:total,projects:S.projects.length,hours:hours,quality:avgQ};
+return{revenue:total,projects:activeCount,hours:hours,quality:avgQ};
 }
 
 function renderKPIs(){
