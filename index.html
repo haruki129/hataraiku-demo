@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>はたらいく v5.0</title>
+<title>ã¯ãããã v5.0</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{--p:#6366f1;--s:#8b5cf6;--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b;--hover:#f1f5f9}
@@ -90,240 +90,240 @@ footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-
 <body>
 <div id="authOverlay" class="auth-overlay">
 <div class="auth-card">
-<div class="auth-lock">🔐</div>
-<h1>はたらいく</h1>
-<p class="sub">知行合一 ─ AX革命プラットフォーム</p>
+<div class="auth-lock">ð</div>
+<h1>ã¯ãããã</h1>
+<p class="sub">ç¥è¡åä¸ â AXé©å½ãã©ãããã©ã¼ã </p>
 <div class="field">
-<label>メールアドレス</label>
+<label>ã¡ã¼ã«ã¢ãã¬ã¹</label>
 <input type="email" id="authEmail" placeholder="your@email.com" autocomplete="email">
 </div>
 <p class="err" id="authErr"></p>
-<button class="auth-btn" id="authBtn" onclick="authLogin()">アクセス申請</button>
-<p class="auth-footer">承認済みメールアドレスのみアクセス可能です<br>© 2026 はたらいく | AX革命</p>
+<button class="auth-btn" id="authBtn" onclick="authLogin()">ã¢ã¯ã»ã¹ç³è«</button>
+<p class="auth-footer">æ¿èªæ¸ã¿ã¡ã¼ã«ã¢ãã¬ã¹ã®ã¿ã¢ã¯ã»ã¹å¯è½ã§ã<br>Â© 2026 ã¯ãããã | AXé©å½</p>
 </div>
 </div>
 
 <nav class="sidebar">
-<h1>はたらいく</h1>
-<div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">知行合一 ─ AX革命</div>
+<h1>ã¯ãããã</h1>
+<div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">ç¥è¡åä¸ â AXé©å½</div>
 <div style="flex:1;padding:.5rem 0">
-<div class="ni on" data-t="dash" onclick="sw('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>ダッシュボード</span></div>
-<div class="ni" data-t="proj" onclick="sw('proj')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>プロジェクト</span></div>
-<div class="ni" data-t="flow" onclick="sw('flow')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>フロー</span></div>
-<div class="ni" data-t="chat" onclick="sw('chat')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>チャット</span></div>
-<div class="ni" data-t="team" onclick="sw('team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span>人材</span></div>
-<div class="ni" data-t="data" onclick="sw('data')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span>データ</span></div>
-<div class="ni" data-t="ai" onclick="sw('ai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h2a2 2 0 012 2v2a4 4 0 01-4 4h-1v1a4 4 0 01-4 4 4 4 0 01-4-4v-1H6a4 4 0 01-4-4V9a2 2 0 012-2h2V6a4 4 0 014-4z"/></svg><span>AI分析</span></div>
-<div class="ni" data-t="log" onclick="sw('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>承認履歴</span></div>
+<div class="ni on" data-t="dash" onclick="sw('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>ããã·ã¥ãã¼ã</span></div>
+<div class="ni" data-t="proj" onclick="sw('proj')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>ãã­ã¸ã§ã¯ã</span></div>
+<div class="ni" data-t="flow" onclick="sw('flow')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>ãã­ã¼</span></div>
+<div class="ni" data-t="chat" onclick="sw('chat')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>ãã£ãã</span></div>
+<div class="ni" data-t="team" onclick="sw('team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span>äººæ</span></div>
+<div class="ni" data-t="data" onclick="sw('data')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span>ãã¼ã¿</span></div>
+<div class="ni" data-t="ai" onclick="sw('ai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h2a2 2 0 012 2v2a4 4 0 01-4 4h-1v1a4 4 0 01-4 4 4 4 0 01-4-4v-1H6a4 4 0 01-4-4V9a2 2 0 012-2h2V6a4 4 0 014-4z"/></svg><span>AIåæ</span></div>
+<div class="ni" data-t="log" onclick="sw('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>æ¿èªå±¥æ­´</span></div>
 </div>
 <div style="padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.15);font-size:.75rem">
-<div style="display:flex;align-items:center;gap:.5rem"><div class="av" style="width:2rem;height:2rem;font-size:.7rem">樋</div><div><p style="font-weight:600">樋口春騎</p><p style="opacity:.7">AXリーダー</p></div></div>
+<div style="display:flex;align-items:center;gap:.5rem"><div class="av" style="width:2rem;height:2rem;font-size:.7rem">æ¨</div><div><p style="font-weight:600">æ¨å£æ¥é¨</p><p style="opacity:.7">AXãªã¼ãã¼</p></div></div>
 </div>
 </nav>
 
 <div class="main">
 <div class="topbar">
-<div><h2 id="pageTitle">ダッシュボード</h2><p class="text-sm" style="color:var(--sub)" id="pageSub">リアルタイム経営指標</p></div>
+<div><h2 id="pageTitle">ããã·ã¥ãã¼ã</h2><p class="text-sm" style="color:var(--sub)" id="pageSub">ãªã¢ã«ã¿ã¤ã çµå¶ææ¨</p></div>
 <div style="display:flex;align-items:center;gap:1rem">
 <span class="text-sm" style="color:var(--sub)" id="clock"></span>
-<button class="btn text-sm" onclick="openAddModal()">＋ 新規追加</button>
+<button class="btn text-sm" onclick="openAddModal()">ï¼ æ°è¦è¿½å </button>
 </div>
 </div>
 
-<!-- ダッシュボード -->
+<!-- ããã·ã¥ãã¼ã -->
 <div id="dash" class="tab on">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-<div class="kp"><p class="text-sm" style="color:var(--sub)">受注総額</p><p class="cn" id="kpi_revenue">-</p><p class="text-xs" style="color:#16a34a">▲ リアルタイム集計</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">進行PJ</p><p class="cn" id="kpi_projects">-</p><p class="text-xs" style="color:#16a34a">▲ 実データ連動</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">稼働時間</p><p class="cn" id="kpi_hours">-</p><p class="text-xs" style="color:var(--sub)">今月累計</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">品質スコア</p><p class="cn" id="kpi_quality">-</p><p class="text-xs" style="color:#16a34a">▲ 承認データ算出</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">åæ³¨ç·é¡</p><p class="cn" id="kpi_revenue">-</p><p class="text-xs" style="color:#16a34a">â² ãªã¢ã«ã¿ã¤ã éè¨</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">é²è¡PJ</p><p class="cn" id="kpi_projects">-</p><p class="text-xs" style="color:#16a34a">â² å®ãã¼ã¿é£å</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">ç¨¼åæé</p><p class="cn" id="kpi_hours">-</p><p class="text-xs" style="color:var(--sub)">ä»æç´¯è¨</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">åè³ªã¹ã³ã¢</p><p class="cn" id="kpi_quality">-</p><p class="text-xs" style="color:#16a34a">â² æ¿èªãã¼ã¿ç®åº</p></div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">月次推移</h4>
+<h4 class="font-bold text-sm mb-3">ææ¬¡æ¨ç§»</h4>
 <canvas id="chartCanvas" height="200"></canvas>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">直近の活動</h4>
+<h4 class="font-bold text-sm mb-3">ç´è¿ã®æ´»å</h4>
 <div id="recentActivity" class="space-y-2 text-sm" style="max-height:200px;overflow-y:auto"></div>
 </div>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">プロジェクト進捗一覧</h4>
+<h4 class="font-bold text-sm mb-3">ãã­ã¸ã§ã¯ãé²æä¸è¦§</h4>
 <div id="dashProjects" class="space-y-3"></div>
 </div>
 </div>
 
-<!-- プロジェクト -->
+<!-- ãã­ã¸ã§ã¯ã -->
 <div id="proj" class="tab">
 <div class="flex justify-between items-center mb-4">
-<h3 class="font-bold">プロジェクト管理</h3>
+<h3 class="font-bold">ãã­ã¸ã§ã¯ãç®¡ç</h3>
 <div class="flex gap-2">
-<input class="inp" style="width:200px" placeholder="検索..." id="projSearch" oninput="renderProjects()">
-<button class="btn text-sm" onclick="openProjModal()">＋ 新規PJ</button>
+<input class="inp" style="width:200px" placeholder="æ¤ç´¢..." id="projSearch" oninput="renderProjects()">
+<button class="btn text-sm" onclick="openProjModal()">ï¼ æ°è¦PJ</button>
 </div>
 </div>
 <div id="projList" class="space-y-3"></div>
 </div>
 
-<!-- フロー -->
+<!-- ãã­ã¼ -->
 <div id="flow" class="tab">
-<!-- レイヤー切替トグル -->
+<!-- ã¬ã¤ã¤ã¼åæ¿ãã°ã« -->
 <div class="flex justify-between items-center mb-4">
 <div>
-<h3 class="font-bold text-lg">打合せフロー</h3>
-<p class="text-xs" style="color:var(--sub)">ステッパー形式 ― 知行合一で案件を前へ進める</p>
+<h3 class="font-bold text-lg">æåããã­ã¼</h3>
+<p class="text-xs" style="color:var(--sub)">ã¹ãããã¼å½¢å¼ â ç¥è¡åä¸ã§æ¡ä»¶ãåã¸é²ãã</p>
 </div>
 <div class="flex items-center gap-2">
-<span class="text-xs font-bold" id="layerLabel" style="color:var(--p)">依頼側</span>
-<button onclick="toggleLayer()" id="layerToggle" style="width:52px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:linear-gradient(135deg,var(--p),var(--s));transition:all .3s" title="依頼側/施工管理側を切替">
+<span class="text-xs font-bold" id="layerLabel" style="color:var(--p)">ä¾é ¼å´</span>
+<button onclick="toggleLayer()" id="layerToggle" style="width:52px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:linear-gradient(135deg,var(--p),var(--s));transition:all .3s" title="ä¾é ¼å´/æ½å·¥ç®¡çå´ãåæ¿">
 <span id="layerDot" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>
 </button>
-<span class="text-xs" style="color:var(--sub)" id="layerLabelR">施工管理側</span>
+<span class="text-xs" style="color:var(--sub)" id="layerLabelR">æ½å·¥ç®¡çå´</span>
 </div>
 </div>
 
-<!-- ステッパーバー -->
+<!-- ã¹ãããã¼ãã¼ -->
 <div class="kp mb-4" style="padding:.75rem 1.5rem">
 <div class="flex items-center justify-between" id="stepperBar"></div>
 </div>
 
-<!-- ステップ内容エリア -->
+<!-- ã¹ãããåå®¹ã¨ãªã¢ -->
 <div id="flowStepContent" class="kp" style="min-height:400px"></div>
 </div>
 
-<!-- チャット -->
+<!-- ãã£ãã -->
 <div id="chat" class="tab">
 <div style="display:flex;gap:1rem;height:calc(100vh - 200px)">
 <div style="width:200px;flex-shrink:0" class="kp">
-<h4 class="font-bold text-sm mb-3">チャンネル</h4>
+<h4 class="font-bold text-sm mb-3">ãã£ã³ãã«</h4>
 <div id="channels" class="space-y-1"></div>
 </div>
 <div style="flex:1;display:flex;flex-direction:column" class="kp">
 <div class="flex items-center gap-3 pb-3 mb-3" style="border-bottom:1px solid var(--border)">
-<div class="av" style="font-size:.7rem" id="chatAvatar">全</div>
-<div><p class="font-bold text-sm" id="chatTitle">全体チャット</p><p class="text-xs" style="color:var(--sub)" id="chatMembers">6名参加</p></div>
+<div class="av" style="font-size:.7rem" id="chatAvatar">å¨</div>
+<div><p class="font-bold text-sm" id="chatTitle">å¨ä½ãã£ãã</p><p class="text-xs" style="color:var(--sub)" id="chatMembers">6ååå </p></div>
 </div>
 <div class="flex-1 overflow-y-auto space-y-3" id="msgs"></div>
 <div class="flex gap-2 mt-3 pt-3" style="border-top:1px solid var(--border)">
-<input class="inp mb-0 flex-1" placeholder="メッセージを入力..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
-<button class="btn text-sm" onclick="sendMsg()">送信</button>
+<input class="inp mb-0 flex-1" placeholder="ã¡ãã»ã¼ã¸ãå¥å..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
+<button class="btn text-sm" onclick="sendMsg()">éä¿¡</button>
 </div>
 </div>
 </div>
 </div>
 
-<!-- 人材 -->
+<!-- äººæ -->
 <div id="team" class="tab">
 <div class="flex justify-between items-center mb-4">
-<h3 class="font-bold">人材</h3>
+<h3 class="font-bold">äººæ</h3>
 <div class="flex gap-2">
-<button class="btn text-sm rt on" onclick="filt(this,'all')">全員</button>
-<button class="btn2 text-sm rt" onclick="filt(this,'manager')">管理者</button>
-<button class="btn2 text-sm rt" onclick="filt(this,'worker')">作業員</button>
+<button class="btn text-sm rt on" onclick="filt(this,'all')">å¨å¡</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'manager')">ç®¡çè</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'worker')">ä½æ¥­å¡</button>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="teamGrid"></div>
 </div>
 
-<!-- データ -->
+<!-- ãã¼ã¿ -->
 <div id="data" class="tab">
-<h3 class="font-bold mb-4">データ管理</h3>
+<h3 class="font-bold mb-4">ãã¼ã¿ç®¡ç</h3>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="dataStats"></div>
 <div class="kp">
 <div class="flex justify-between items-center mb-3">
-<h4 class="font-bold text-sm">ファイル一覧</h4>
-<button class="btn text-sm" onclick="openFileUpload()">＋ アップロード</button>
+<h4 class="font-bold text-sm">ãã¡ã¤ã«ä¸è¦§</h4>
+<button class="btn text-sm" onclick="openFileUpload()">ï¼ ã¢ããã­ã¼ã</button>
 </div>
 <div id="fileList" class="space-y-2"></div>
 </div>
 </div>
 
-<!-- AI分析 -->
+<!-- AIåæ -->
 <div id="ai" class="tab">
-<h3 class="font-bold mb-4">AI分析</h3>
+<h3 class="font-bold mb-4">AIåæ</h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4" id="aiMetrics"></div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
 <div class="kp">
-<h4 class="font-bold text-sm mb-2">リスク予測</h4>
+<h4 class="font-bold text-sm mb-2">ãªã¹ã¯äºæ¸¬</h4>
 <div id="aiRisks" class="space-y-2"></div>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-2">効率化提案</h4>
+<h4 class="font-bold text-sm mb-2">å¹çåææ¡</h4>
 <div id="aiSuggestions" class="space-y-2"></div>
 </div>
 </div>
 </div>
 
-<!-- 承認履歴 -->
+<!-- æ¿èªå±¥æ­´ -->
 <div id="log" class="tab">
-<h3 class="font-bold mb-4">承認履歴</h3>
+<h3 class="font-bold mb-4">æ¿èªå±¥æ­´</h3>
 <div class="flex gap-2 mb-4">
-<button class="btn text-sm" onclick="filterLog('all')">全て</button>
-<button class="btn2 text-sm" onclick="filterLog('approved')">承認</button>
-<button class="btn2 text-sm" onclick="filterLog('rejected')">差戻し</button>
+<button class="btn text-sm" onclick="filterLog('all')">å¨ã¦</button>
+<button class="btn2 text-sm" onclick="filterLog('approved')">æ¿èª</button>
+<button class="btn2 text-sm" onclick="filterLog('rejected')">å·®æ»ã</button>
 </div>
 <div id="logList" class="space-y-2"></div>
 </div>
 
 </div>
 
-<footer>© 2026 はたらいく | AX革命 | v5.0 | 知行合一 ─ 知識と行動の一致</footer>
+<footer>Â© 2026 ã¯ãããã | AXé©å½ | v5.0 | ç¥è¡åä¸ â ç¥è­ã¨è¡åã®ä¸è´</footer>
 
-<!-- 承認モーダル -->
+<!-- æ¿èªã¢ã¼ãã« -->
 <div id="amod" class="modal" onclick="if(event.target===this)cam()">
 <div class="mc">
-<h3 class="font-bold mb-3" style="font-size:1.1rem">⚠️ 承認確認</h3>
+<h3 class="font-bold mb-3" style="font-size:1.1rem">â ï¸ æ¿èªç¢ºèª</h3>
 <div id="acnt" class="mb-3 p-3 rounded-lg" style="background:var(--hover);border:1px solid var(--border);font-size:.875rem"></div>
 <div class="grid grid-cols-2 gap-3 mb-4">
-<div><label class="text-xs" style="color:var(--sub)">承認者</label><input class="inp" value="樋口春騎" readonly></div>
-<div><label class="text-xs" style="color:var(--sub)">時刻</label><input class="inp" id="ats" readonly></div>
+<div><label class="text-xs" style="color:var(--sub)">æ¿èªè</label><input class="inp" value="æ¨å£æ¥é¨" readonly></div>
+<div><label class="text-xs" style="color:var(--sub)">æå»</label><input class="inp" id="ats" readonly></div>
 </div>
-<div class="mb-3"><label class="text-xs" style="color:var(--sub)">コメント</label><textarea class="inp" id="approvalComment" rows="2" placeholder="承認コメントを入力..."></textarea></div>
+<div class="mb-3"><label class="text-xs" style="color:var(--sub)">ã³ã¡ã³ã</label><textarea class="inp" id="approvalComment" rows="2" placeholder="æ¿èªã³ã¡ã³ããå¥å..."></textarea></div>
 <div class="flex gap-2 justify-end">
-<button class="btn2 text-sm" onclick="rejectFlow()">差戻し</button>
-<button class="btn text-sm" onclick="cfm()">✓ 承認</button>
+<button class="btn2 text-sm" onclick="rejectFlow()">å·®æ»ã</button>
+<button class="btn text-sm" onclick="cfm()">â æ¿èª</button>
 </div>
 </div>
 </div>
 
-<!-- プロジェクト追加モーダル -->
+<!-- ãã­ã¸ã§ã¯ãè¿½å ã¢ã¼ãã« -->
 <div id="projMod" class="modal" onclick="if(event.target===this)closeProjModal()">
 <div class="mc">
-<h3 class="font-bold mb-3">新規プロジェクト</h3>
+<h3 class="font-bold mb-3">æ°è¦ãã­ã¸ã§ã¯ã</h3>
 <div class="space-y-3">
-<div><label class="text-xs" style="color:var(--sub)">プロジェクト名</label><input class="inp" id="pjName" placeholder="例: 渋谷タワー新築工事"></div>
+<div><label class="text-xs" style="color:var(--sub)">ãã­ã¸ã§ã¯ãå</label><input class="inp" id="pjName" placeholder="ä¾: æ¸è°·ã¿ã¯ã¼æ°ç¯å·¥äº"></div>
 <div class="grid grid-cols-2 gap-3">
-<div><label class="text-xs" style="color:var(--sub)">受注金額 (万円)</label><input class="inp" id="pjAmount" type="number" placeholder="例: 50000"></div>
-<div><label class="text-xs" style="color:var(--sub)">担当者</label><input class="inp" id="pjManager" placeholder="例: 田中太郎"></div>
+<div><label class="text-xs" style="color:var(--sub)">åæ³¨éé¡ (ä¸å)</label><input class="inp" id="pjAmount" type="number" placeholder="ä¾: 50000"></div>
+<div><label class="text-xs" style="color:var(--sub)">æå½è</label><input class="inp" id="pjManager" placeholder="ä¾: ç°ä¸­å¤ªé"></div>
 </div>
 <div class="grid grid-cols-2 gap-3">
-<div><label class="text-xs" style="color:var(--sub)">開始日</label><input class="inp" id="pjStart" type="date"></div>
-<div><label class="text-xs" style="color:var(--sub)">完了予定日</label><input class="inp" id="pjEnd" type="date"></div>
+<div><label class="text-xs" style="color:var(--sub)">éå§æ¥</label><input class="inp" id="pjStart" type="date"></div>
+<div><label class="text-xs" style="color:var(--sub)">å®äºäºå®æ¥</label><input class="inp" id="pjEnd" type="date"></div>
 </div>
-<div><label class="text-xs" style="color:var(--sub)">ステータス</label><select class="inp" id="pjStatus"><option value="planning">計画中</option><option value="active">進行中</option><option value="review">検査中</option><option value="complete">完了</option></select></div>
+<div><label class="text-xs" style="color:var(--sub)">ã¹ãã¼ã¿ã¹</label><select class="inp" id="pjStatus"><option value="planning">è¨ç»ä¸­</option><option value="active">é²è¡ä¸­</option><option value="review">æ¤æ»ä¸­</option><option value="complete">å®äº</option></select></div>
 </div>
 <div class="flex gap-2 justify-end mt-4">
-<button class="btn2 text-sm" onclick="closeProjModal()">キャンセル</button>
-<button class="btn text-sm" onclick="saveProject()">保存</button>
+<button class="btn2 text-sm" onclick="closeProjModal()">ã­ã£ã³ã»ã«</button>
+<button class="btn text-sm" onclick="saveProject()">ä¿å­</button>
 </div>
 </div>
 </div>
 
-<!-- 汎用追加モーダル -->
+<!-- æ±ç¨è¿½å ã¢ã¼ãã« -->
 <div id="addMod" class="modal" onclick="if(event.target===this)closeAddModal()">
 <div class="mc">
-<h3 class="font-bold mb-3" id="addModTitle">新規追加</h3>
+<h3 class="font-bold mb-3" id="addModTitle">æ°è¦è¿½å </h3>
 <div id="addModContent"></div>
 </div>
 </div>
 
-<button class="fb" onclick="demo()" aria-label="Demo">▶</button>
+<button class="fb" onclick="demo()" aria-label="Demo">â¶</button>
 
 <script>
 // ==========================================
-// 知行合一: データストア — 全UIはここから生成
-// 言葉(表示)と行動(データ)の一致を保証する
+// ç¥è¡åä¸: ãã¼ã¿ã¹ãã¢ â å¨UIã¯ããããçæ
+// è¨è(è¡¨ç¤º)ã¨è¡å(ãã¼ã¿)ã®ä¸è´ãä¿è¨¼ãã
 // ==========================================
 const STORE_KEY='hataraiku_v5';
 function loadStore(){
@@ -333,33 +333,33 @@ return getDefaultData();
 function saveStore(){localStorage.setItem(STORE_KEY,JSON.stringify(S))}
 function getDefaultData(){return{
 projects:[
-{id:1,name:'梅田再開発ビル',amount:240000000,progress:50,status:'active',manager:'田中太郎',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'基礎工事',done:true},{name:'鉄骨組立',done:true},{name:'外装工事',done:false},{name:'内装工事',done:false}]},
-{id:2,name:'横浜マンション新築',amount:180000000,progress:33,status:'active',manager:'佐藤二郎',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'地盤改良',done:true},{name:'基礎工事',done:false},{name:'躯体工事',done:false}]},
-{id:3,name:'京都町屋リノベーション',amount:52000000,progress:100,status:'complete',manager:'鈴木四郎',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'解体',done:true},{name:'構造補強',done:true},{name:'仕上げ',done:true}]},
-{id:4,name:'福岡オフィスビル',amount:320000000,progress:0,status:'planning',manager:'木村三郎',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'設計完了',done:false},{name:'許可申請',done:false}]},
-{id:5,name:'札幌商業施設',amount:65000000,progress:67,status:'active',manager:'高橋五郎',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'基礎',done:true},{name:'鉄骨',done:true},{name:'外装',done:false}]}
+{id:1,name:'æ¢ç°åéçºãã«',amount:240000000,progress:50,status:'active',manager:'ç°ä¸­å¤ªé',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'åºç¤å·¥äº',done:true},{name:'ééª¨çµç«',done:true},{name:'å¤è£å·¥äº',done:false},{name:'åè£å·¥äº',done:false}]},
+{id:2,name:'æ¨ªæµãã³ã·ã§ã³æ°ç¯',amount:180000000,progress:33,status:'active',manager:'ä½è¤äºé',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'å°ç¤æ¹è¯',done:true},{name:'åºç¤å·¥äº',done:false},{name:'èº¯ä½å·¥äº',done:false}]},
+{id:3,name:'äº¬é½çºå±ãªããã¼ã·ã§ã³',amount:52000000,progress:100,status:'complete',manager:'é´æ¨åé',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'è§£ä½',done:true},{name:'æ§é è£å¼·',done:true},{name:'ä»ä¸ã',done:true}]},
+{id:4,name:'ç¦å²¡ãªãã£ã¹ãã«',amount:320000000,progress:0,status:'planning',manager:'æ¨æä¸é',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'è¨­è¨å®äº',done:false},{name:'è¨±å¯ç³è«',done:false}]},
+{id:5,name:'æ­å¹åæ¥­æ½è¨­',amount:65000000,progress:67,status:'active',manager:'é«æ©äºé',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'åºç¤',done:true},{name:'ééª¨',done:true},{name:'å¤è£',done:false}]}
 ],
 flows:[
-{id:1,type:'見積承認',target:'梅田再開発ビル',from:'田中太郎',to:'樋口春騎',status:'pending',amount:857000000,date:'2026-03-30',before:'¥820M',after:'¥857M',comment:''},
-{id:2,type:'進捗変更',target:'梅田再開発ビル',from:'佐藤二郎',to:'樋口春騎',status:'pending',before:'72%',after:'75%',date:'2026-03-30',comment:''},
-{id:3,type:'着工申請',target:'横浜マンション新築',from:'木村三郎',to:'樋口春騎',status:'pending',date:'2026-03-29',comment:''},
-{id:4,type:'完了報告',target:'京都町屋リノベーション',from:'鈴木四郎',to:'樋口春騎',status:'approved',date:'2026-03-28',before:'98%',after:'100%',comment:'検査合格'},
-{id:5,type:'新規PJ登録',target:'福岡オフィスビル',from:'佐藤二郎',to:'樋口春騎',status:'approved',date:'2026-03-27',comment:'承認済'}
+{id:1,type:'è¦ç©æ¿èª',target:'æ¢ç°åéçºãã«',from:'ç°ä¸­å¤ªé',to:'æ¨å£æ¥é¨',status:'pending',amount:857000000,date:'2026-03-30',before:'Â¥820M',after:'Â¥857M',comment:''},
+{id:2,type:'é²æå¤æ´',target:'æ¢ç°åéçºãã«',from:'ä½è¤äºé',to:'æ¨å£æ¥é¨',status:'pending',before:'72%',after:'75%',date:'2026-03-30',comment:''},
+{id:3,type:'çå·¥ç³è«',target:'æ¨ªæµãã³ã·ã§ã³æ°ç¯',from:'æ¨æä¸é',to:'æ¨å£æ¥é¨',status:'pending',date:'2026-03-29',comment:''},
+{id:4,type:'å®äºå ±å',target:'äº¬é½çºå±ãªããã¼ã·ã§ã³',from:'é´æ¨åé',to:'æ¨å£æ¥é¨',status:'approved',date:'2026-03-28',before:'98%',after:'100%',comment:'æ¤æ»åæ ¼'},
+{id:5,type:'æ°è¦PJç»é²',target:'ç¦å²¡ãªãã£ã¹ãã«',from:'ä½è¤äºé',to:'æ¨å£æ¥é¨',status:'approved',date:'2026-03-27',comment:'æ¿èªæ¸'}
 ],
 logs:[],
 messages:[
-{ch:'general',from:'system',text:'梅田再開発ビルの安全検査、AIで解析できますか？',time:'09:15'},
-{ch:'general',from:'田中太郎',text:'了解。開始します。3分で結果',time:'09:16'},
-{ch:'general',from:'system',text:'承認フローに回してください',time:'09:20'},
-{ch:'general',from:'佐藤二郎',text:'完了。スコア96点。起動ですか？',time:'09:23'}
+{ch:'general',from:'system',text:'æ¢ç°åéçºãã«ã®å®å¨æ¤æ»ãAIã§è§£æã§ãã¾ããï¼',time:'09:15'},
+{ch:'general',from:'ç°ä¸­å¤ªé',text:'äºè§£ãéå§ãã¾ãã3åã§çµæ',time:'09:16'},
+{ch:'general',from:'system',text:'æ¿èªãã­ã¼ã«åãã¦ãã ãã',time:'09:20'},
+{ch:'general',from:'ä½è¤äºé',text:'å®äºãã¹ã³ã¢96ç¹ãèµ·åã§ããï¼',time:'09:23'}
 ],
 team:[
-{name:'樋口春騎',role:'manager',title:'AXリーダー',certs:['1級建築','AX推進'],status:'active',initial:'樋'},
-{name:'田中太郎',role:'manager',title:'施工管理',certs:['1級施工','安全管理'],status:'active',initial:'田'},
-{name:'佐藤二郎',role:'worker',title:'現場監督',certs:['2級建築','品質管理'],status:'active',initial:'佐'},
-{name:'木村三郎',role:'worker',title:'設計士',certs:['1級建築','BIM'],status:'active',initial:'木'},
-{name:'鈴木四郎',role:'worker',title:'現場監督',certs:['1級土木','環境管理'],status:'active',initial:'鈴'},
-{name:'高橋五郎',role:'worker',title:'電気工事',certs:['第2種電気','消防設備'],status:'休暇',initial:'高'}
+{name:'æ¨å£æ¥é¨',role:'manager',title:'AXãªã¼ãã¼',certs:['1ç´å»ºç¯','AXæ¨é²'],status:'active',initial:'æ¨'},
+{name:'ç°ä¸­å¤ªé',role:'manager',title:'æ½å·¥ç®¡ç',certs:['1ç´æ½å·¥','å®å¨ç®¡ç'],status:'active',initial:'ç°'},
+{name:'ä½è¤äºé',role:'worker',title:'ç¾å ´ç£ç£',certs:['2ç´å»ºç¯','åè³ªç®¡ç'],status:'active',initial:'ä½'},
+{name:'æ¨æä¸é',role:'worker',title:'è¨­è¨å£«',certs:['1ç´å»ºç¯','BIM'],status:'active',initial:'æ¨'},
+{name:'é´æ¨åé',role:'worker',title:'ç¾å ´ç£ç£',certs:['1ç´åæ¨','ç°å¢ç®¡ç'],status:'active',initial:'é´'},
+{name:'é«æ©äºé',role:'worker',title:'é»æ°å·¥äº',certs:['ç¬¬2ç¨®é»æ°','æ¶é²è¨­å'],status:'ä¼æ',initial:'é«'}
 ],
 meeting:{
 layer:'client',
@@ -390,16 +390,16 @@ order_note:'',order_confirmed:false,
 order_doc_draft:'',order_doc_confirmed:false
 },
 files:[
-{name:'梅田_安全.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
-{name:'渋谷_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
-{name:'横浜_0328.jpg',size:'5.1MB',type:'jpg',date:'2026-03-28'},
-{name:'京都_完了報告.pdf',size:'3.2MB',type:'pdf',date:'2026-03-27'},
-{name:'福岡_設計図.dwg',size:'22.1MB',type:'dwg',date:'2026-03-26'}
+{name:'æ¢ç°_å®å¨.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
+{name:'æ¸è°·_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
+{name:'æ¨ªæµ_0328.jpg',size:'5.1MB',type:'jpg',date:'2026-03-28'},
+{name:'äº¬é½_å®äºå ±å.pdf',size:'3.2MB',type:'pdf',date:'2026-03-27'},
+{name:'ç¦å²¡_è¨­è¨å³.dwg',size:'22.1MB',type:'dwg',date:'2026-03-26'}
 ],
 channels:[
-{id:'general',name:'全体チャット',members:6},
-{id:'umeda',name:'梅田PJ',members:3},
-{id:'yokohama',name:'横浜PJ',members:4}
+{id:'general',name:'å¨ä½ãã£ãã',members:6},
+{id:'umeda',name:'æ¢ç°PJ',members:3},
+{id:'yokohama',name:'æ¨ªæµPJ',members:4}
 ],
 currentChannel:'general',
 nextId:100
@@ -408,7 +408,7 @@ let S=loadStore();
 let currentFlowId=null;
 
 // ==========================================
-// 知行合一: KPI計算 — 表示値は必ずデータから算出
+// ç¥è¡åä¸: KPIè¨ç® â è¡¨ç¤ºå¤ã¯å¿ããã¼ã¿ããç®åº
 // ==========================================
 function calcKPIs(){
 const activeCount=S.projects.filter(p=>p.status==='active').length;
@@ -421,8 +421,8 @@ return{revenue:total,projects:activeCount,hours:hours,quality:avgQ};
 
 function renderKPIs(){
 const k=calcKPIs();
-animateValue('kpi_revenue','¥'+Math.floor(k.revenue/10000).toLocaleString('ja-JP')+'万',k.revenue/10000,1200,'yen');
-animateValue('kpi_projects',k.projects+'件',k.projects,800,'int');
+animateValue('kpi_revenue','Â¥'+Math.floor(k.revenue/10000).toLocaleString('ja-JP')+'ä¸',k.revenue/10000,1200,'yen');
+animateValue('kpi_projects',k.projects+'ä»¶',k.projects,800,'int');
 animateValue('kpi_hours',k.hours+'h',k.hours,1000,'int');
 animateValue('kpi_quality',k.quality.toFixed(1)+'%',k.quality,1000,'pct');
 }
@@ -432,39 +432,39 @@ const el=document.getElementById(elId);if(!el)return;
 let c=0;const inc=targetVal/(dur/16);
 const t=setInterval(()=>{
 c+=inc;if(c>=targetVal){c=targetVal;clearInterval(t)}
-if(fmt==='yen')el.textContent='¥'+Math.floor(c).toLocaleString('ja-JP')+'万';
-else if(fmt==='int')el.textContent=Math.floor(c)+(finalText.includes('件')?'件':finalText.includes('h')?'h':'');
+if(fmt==='yen')el.textContent='Â¥'+Math.floor(c).toLocaleString('ja-JP')+'ä¸';
+else if(fmt==='int')el.textContent=Math.floor(c)+(finalText.includes('ä»¶')?'ä»¶':finalText.includes('h')?'h':'');
 else if(fmt==='pct')el.textContent=c.toFixed(1)+'%';
 else el.textContent=Math.floor(c);
 },16);
 }
 
 // ==========================================
-// ダッシュボード: 活動ログ & プロジェクト進捗
+// ããã·ã¥ãã¼ã: æ´»åã­ã° & ãã­ã¸ã§ã¯ãé²æ
 // ==========================================
 function renderDashboard(){
 renderKPIs();
-// 直近の活動
+// ç´è¿ã®æ´»å
 const act=document.getElementById('recentActivity');
 const activities=[];
 S.flows.forEach(f=>{
-const st=f.status==='approved'?'<span class="sb sb-g">承認</span>':f.status==='rejected'?'<span class="sb sb-r">差戻し</span>':'<span class="sb sb-y">申請中</span>';
+const st=f.status==='approved'?'<span class="sb sb-g">æ¿èª</span>':f.status==='rejected'?'<span class="sb sb-r">å·®æ»ã</span>':'<span class="sb sb-y">ç³è«ä¸­</span>';
 activities.push({html:'<div class="flex justify-between items-center p-2 rounded" style="background:var(--hover)">'+st+' <span class="flex-1 ml-2">'+f.type+': '+f.target+'</span><span class="text-xs" style="color:var(--sub)">'+f.date+'</span></div>',date:f.date});
 });
 activities.sort((a,b)=>b.date.localeCompare(a.date));
 act.innerHTML=activities.map(a=>a.html).join('');
-// プロジェクト進捗
+// ãã­ã¸ã§ã¯ãé²æ
 const dp=document.getElementById('dashProjects');
 dp.innerHTML=S.projects.map(p=>{
 const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
-const sl=p.status==='complete'?'完了':p.status==='active'?'進行中':p.status==='review'?'検査中':'計画中';
+const sl=p.status==='complete'?'å®äº':p.status==='active'?'é²è¡ä¸­':p.status==='review'?'æ¤æ»ä¸­':'è¨ç»ä¸­';
 return '<div class="flex items-center gap-4 p-3 rounded-lg" style="background:var(--hover)"><div class="flex-1"><div class="flex justify-between mb-1"><span class="font-bold text-sm">'+p.name+'</span><span class="sb '+sc+'">'+sl+'</span></div><div class="pb"><div class="pf" style="width:'+p.progress+'%"></div></div><div class="flex justify-between mt-1"><span class="text-xs" style="color:var(--sub)">'+p.manager+'</span><span class="text-xs font-bold" style="color:var(--p)">'+p.progress+'%</span></div></div></div>';
 }).join('');
 renderChart();
 }
 
 // ==========================================
-// チャート: Canvas描画（実データ連動）
+// ãã£ã¼ã: Canvasæç»ï¼å®ãã¼ã¿é£åï¼
 // ==========================================
 function renderChart(){
 const canvas=document.getElementById('chartCanvas');if(!canvas)return;
@@ -472,8 +472,8 @@ const ctx=canvas.getContext('2d');
 const w=canvas.width=canvas.parentElement.clientWidth-40;
 const h=canvas.height=180;
 ctx.clearRect(0,0,w,h);
-// 月次データ: プロジェクトの進捗から生成
-const months=['10月','11月','12月','1月','2月','3月'];
+// ææ¬¡ãã¼ã¿: ãã­ã¸ã§ã¯ãã®é²æããçæ
+const months=['10æ','11æ','12æ','1æ','2æ','3æ'];
 const values=months.map((_,i)=>{
 return S.projects.reduce((s,p)=>s+Math.min(100,Math.max(0,p.progress-((5-i)*15))),0)/S.projects.length;
 });
@@ -515,7 +515,7 @@ ctx.fillText(months[i],x,h-8);
 }
 
 // ==========================================
-// プロジェクト: CRUD操作
+// ãã­ã¸ã§ã¯ã: CRUDæä½
 // ==========================================
 function renderProjects(){
 const q=(document.getElementById('projSearch')?.value||'').toLowerCase();
@@ -523,28 +523,28 @@ const filtered=S.projects.filter(p=>!q||p.name.toLowerCase().includes(q)||p.mana
 const pl=document.getElementById('projList');
 pl.innerHTML=filtered.map(p=>{
 const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
-const sl=p.status==='complete'?'完了':p.status==='active'?'進行中':p.status==='review'?'検査中':'計画中';
+const sl=p.status==='complete'?'å®äº':p.status==='active'?'é²è¡ä¸­':p.status==='review'?'æ¤æ»ä¸­':'è¨ç»ä¸­';
 const tasks=p.tasks?p.tasks.map(t=>'<label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" '+(t.done?'checked':'')+' onchange="toggleTask('+p.id+',\''+t.name+'\')"><span'+(t.done?' style="text-decoration:line-through;color:var(--sub)"':'')+'>'+t.name+'</span></label>').join(''):'';
-return '<div class="kp"><div class="flex justify-between items-start mb-2"><div><h4 class="font-bold">'+p.name+'</h4><p class="text-xs" style="color:var(--sub)">'+p.manager+' | '+p.start+' → '+p.end+'</p></div><div class="flex gap-2 items-center"><span class="sb '+sc+'">'+sl+'</span><button class="btn2 text-xs" onclick="editProject('+p.id+')">編集</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteProject('+p.id+')">削除</button></div></div><div class="flex items-center gap-3 mb-2"><div class="pb flex-1"><div class="pf" style="width:'+p.progress+'%"></div></div><span class="text-sm font-bold" style="color:var(--p)">'+p.progress+'%</span></div><div class="flex items-center gap-4"><span class="text-xs" style="color:var(--sub)">受注: ¥'+(p.amount/10000).toLocaleString('ja-JP')+'万</span><span class="text-xs" style="color:var(--sub)">品質: '+(p.quality||'-')+'点</span></div>'+(tasks?'<div class="mt-3 pt-3 space-y-1" style="border-top:1px solid var(--border)"><p class="text-xs font-bold mb-1" style="color:var(--sub)">タスク</p>'+tasks+'</div>':'')+'</div>';
+return '<div class="kp"><div class="flex justify-between items-start mb-2"><div><h4 class="font-bold">'+p.name+'</h4><p class="text-xs" style="color:var(--sub)">'+p.manager+' | '+p.start+' â '+p.end+'</p></div><div class="flex gap-2 items-center"><span class="sb '+sc+'">'+sl+'</span><button class="btn2 text-xs" onclick="editProject('+p.id+')">ç·¨é</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteProject('+p.id+')">åé¤</button></div></div><div class="flex items-center gap-3 mb-2"><div class="pb flex-1"><div class="pf" style="width:'+p.progress+'%"></div></div><span class="text-sm font-bold" style="color:var(--p)">'+p.progress+'%</span></div><div class="flex items-center gap-4"><span class="text-xs" style="color:var(--sub)">åæ³¨: Â¥'+(p.amount/10000).toLocaleString('ja-JP')+'ä¸</span><span class="text-xs" style="color:var(--sub)">åè³ª: '+(p.quality||'-')+'ç¹</span></div>'+(tasks?'<div class="mt-3 pt-3 space-y-1" style="border-top:1px solid var(--border)"><p class="text-xs font-bold mb-1" style="color:var(--sub)">ã¿ã¹ã¯</p>'+tasks+'</div>':'')+'</div>';
 }).join('');
 }
 
 function toggleTask(pid,taskName){
 const p=S.projects.find(x=>x.id===pid);if(!p||!p.tasks)return;
 const t=p.tasks.find(x=>x.name===taskName);if(t){t.done=!t.done;
-// 知行合一: タスク完了率を進捗に自動反映
+// ç¥è¡åä¸: ã¿ã¹ã¯å®äºçãé²æã«èªååæ 
 const done=p.tasks.filter(x=>x.done).length;
 p.progress=Math.round((done/p.tasks.length)*100);
-addLog('タスク更新',p.name,taskName+(t.done?' 完了':' 未完了'));
+addLog('ã¿ã¹ã¯æ´æ°',p.name,taskName+(t.done?' å®äº':' æªå®äº'));
 saveStore();renderAll();}
 }
 
 function deleteProject(pid){
-if(!confirm('このプロジェクトを削除しますか？'))return;
+if(!confirm('ãã®ãã­ã¸ã§ã¯ããåé¤ãã¾ããï¼'))return;
 const p=S.projects.find(x=>x.id===pid);
 S.projects=S.projects.filter(x=>x.id!==pid);
-addLog('PJ削除',p?p.name:'不明','削除実行');
-saveStore();renderAll();showToast('プロジェクトを削除しました');
+addLog('PJåé¤',p?p.name:'ä¸æ','åé¤å®è¡');
+saveStore();renderAll();showToast('ãã­ã¸ã§ã¯ããåé¤ãã¾ãã');
 }
 
 function openProjModal(editId){
@@ -574,36 +574,36 @@ const manager=document.getElementById('pjManager').value.trim();
 const start=document.getElementById('pjStart').value;
 const end=document.getElementById('pjEnd').value;
 const status=document.getElementById('pjStatus').value;
-if(!name){showToast('プロジェクト名を入力してください');return}
+if(!name){showToast('ãã­ã¸ã§ã¯ãåãå¥åãã¦ãã ãã');return}
 const editId=document.getElementById('projMod').dataset.editId;
 if(editId){
 const p=S.projects.find(x=>x.id===parseInt(editId));
 if(p){
-const before=p.name+' ¥'+(p.amount/10000).toLocaleString()+'万';
+const before=p.name+' Â¥'+(p.amount/10000).toLocaleString()+'ä¸';
 Object.assign(p,{name,amount:amount||p.amount,manager:manager||p.manager,start:start||p.start,end:end||p.end,status});
-const after=p.name+' ¥'+(p.amount/10000).toLocaleString()+'万';
-addLog('PJ編集',name,before+' → '+after);
-// 知行合一: 編集は承認フローを自動生成
-S.flows.push({id:++S.nextId,type:'PJ変更',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),before,after,comment:''});
+const after=p.name+' Â¥'+(p.amount/10000).toLocaleString()+'ä¸';
+addLog('PJç·¨é',name,before+' â '+after);
+// ç¥è¡åä¸: ç·¨éã¯æ¿èªãã­ã¼ãèªåçæ
+S.flows.push({id:++S.nextId,type:'PJå¤æ´',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),before,after,comment:''});
 }
 }else{
-const newP={id:++S.nextId,name,amount:amount||0,progress:0,status,manager:manager||'未定',start:start||todayStr(),end:end||'',quality:0,tasks:[]};
+const newP={id:++S.nextId,name,amount:amount||0,progress:0,status,manager:manager||'æªå®',start:start||todayStr(),end:end||'',quality:0,tasks:[]};
 S.projects.push(newP);
-addLog('PJ追加',name,'新規登録');
-S.flows.push({id:++S.nextId,type:'新規PJ登録',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),comment:''});
+addLog('PJè¿½å ',name,'æ°è¦ç»é²');
+S.flows.push({id:++S.nextId,type:'æ°è¦PJç»é²',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),comment:''});
 }
-saveStore();closeProjModal();renderAll();showToast('保存しました');
+saveStore();closeProjModal();renderAll();showToast('ä¿å­ãã¾ãã');
 }
 
 // ==========================================
-// 打合せフロー: ステッパー形式 (レイヤー1依頼側 / レイヤー2施工管理側)
+// æåããã­ã¼: ã¹ãããã¼å½¢å¼ (ã¬ã¤ã¤ã¼1ä¾é ¼å´ / ã¬ã¤ã¤ã¼2æ½å·¥ç®¡çå´)
 // ==========================================
 const STEPS=[
-{id:'consult',label:'案件相談',icon:'📋'},
-{id:'survey',label:'現地調査',icon:'🔍'},
-{id:'estimate',label:'見積り',icon:'💰'},
-{id:'adjust',label:'発注調整',icon:'📝'},
-{id:'complete',label:'発注完了',icon:'✅'}
+{id:'consult',label:'æ¡ä»¶ç¸è«',icon:'ð'},
+{id:'survey',label:'ç¾å°èª¿æ»',icon:'ð'},
+{id:'estimate',label:'è¦ç©ã',icon:'ð°'},
+{id:'adjust',label:'çºæ³¨èª¿æ´',icon:'ð'},
+{id:'complete',label:'çºæ³¨å®äº',icon:'â'}
 ];
 
 function toggleLayer(){
@@ -687,14 +687,14 @@ function otherLayerBadge(layer,key,label){
 const v=S.meeting[layer][key];
 if(!v)return '';
 return '<div class="text-xs mt-1 px-2 py-1 rounded" style="background:'+(layer==='client'?'#ede9fe':'#d1fae5')+';color:'+(layer==='client'?'#6366f1':'#059669')+'">'+
-(layer==='client'?'👤 依頼側':'🔧 施工管理側')+': '+label+' = <strong>'+v+'</strong></div>';
+(layer==='client'?'ð¤ ä¾é ¼å´':'ð§ æ½å·¥ç®¡çå´')+': '+label+' = <strong>'+v+'</strong></div>';
 }
 
 function renderMeetingFlow(){
 const m=S.meeting;
 const step=m.step;
 const layer=m.layer;
-// ステッパーバー
+// ã¹ãããã¼ãã¼
 const bar=document.getElementById('stepperBar');
 bar.innerHTML=STEPS.map((s,i)=>{
 const active=i===step;const done=i<step;
@@ -702,14 +702,14 @@ const circleStyle=active?'background:linear-gradient(135deg,var(--p),var(--s));c
 const lineStyle=i<STEPS.length-1?(done?'background:var(--p)':'background:var(--border)'):'';
 return '<div class="flex items-center" style="flex:1;'+(i===STEPS.length-1?'flex:0':'')+'">'+
 '<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;min-width:70px" onclick="goStep('+i+')">'+
-'<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;'+circleStyle+';transition:all .3s">'+(done?'✓':s.icon)+'</div>'+
+'<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;'+circleStyle+';transition:all .3s">'+(done?'â':s.icon)+'</div>'+
 '<span class="text-xs mt-1" style="color:'+(active?'var(--p)':'var(--sub)')+';font-weight:'+(active?'700':'400')+'">'+s.label+'</span>'+
 '</div>'+
 (i<STEPS.length-1?'<div style="flex:1;height:3px;border-radius:2px;margin:0 .25rem;'+lineStyle+';transition:background .3s;margin-bottom:18px"></div>':'')+
 '</div>';
 }).join('');
 
-// レイヤーUI同期
+// ã¬ã¤ã¤ã¼UIåæ
 const dot=document.getElementById('layerDot');
 const lbl=document.getElementById('layerLabel');
 const lblR=document.getElementById('layerLabelR');
@@ -727,7 +727,7 @@ lblR.style.color='var(--sub)';lblR.style.fontWeight='400';
 const area=document.getElementById('flowStepContent');
 const otherLayer=layer==='client'?'contractor':'client';
 const layerColor=layer==='client'?'var(--p)':'#059669';
-const layerBadge=layer==='client'?'<span class="sb sb-p">依頼側</span>':'<span class="sb sb-g">施工管理側</span>';
+const layerBadge=layer==='client'?'<span class="sb sb-p">ä¾é ¼å´</span>':'<span class="sb sb-g">æ½å·¥ç®¡çå´</span>';
 
 if(step===0)renderStep0(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===1)renderStep1(area,layer,otherLayer,layerBadge,layerColor);
@@ -736,267 +736,267 @@ else if(step===3)renderStep3(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===4)renderStep4(area,layer,otherLayer,layerBadge,layerColor);
 }
 
-// ===== Step0: 案件相談 =====
+// ===== Step0: æ¡ä»¶ç¸è« =====
 function renderStep0(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[0].icon+' '+STEPS[0].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
 html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
-// 施工時期
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">1. 施工時期</h5>';
-html+='<div class="grid grid-cols-2 gap-2"><div><label class="text-xs" style="color:var(--sub)">開始日</label>'+phDate('pf','period_from')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">終了日</label>'+phDate('pt','period_to')+'</div></div></div>';
-// 案件詳細
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">2. 案件詳細</h5>';
+// æ½å·¥ææ
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">1. æ½å·¥ææ</h5>';
+html+='<div class="grid grid-cols-2 gap-2"><div><label class="text-xs" style="color:var(--sub)">éå§æ¥</label>'+phDate('pf','period_from')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">çµäºæ¥</label>'+phDate('pt','period_to')+'</div></div></div>';
+// æ¡ä»¶è©³ç´°
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">2. æ¡ä»¶è©³ç´°</h5>';
 html+='<div class="space-y-2">';
-html+='<div><label class="text-xs" style="color:var(--sub)">エリア</label>'+phInput('area','area','東京都 中央区')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">建物</label>'+phTabs('building',['区分マンション','戸建て'])+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">その他</label>'+phInput('bother','building_other','その他')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">広さ</label><div class="flex items-center gap-1">'+phInput('sizem','size_m2','70')+'<span class="text-sm" style="color:var(--sub)">㎡</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">間取り図</label><div class="flex items-center gap-2"><button class="btn2 text-xs" onclick="document.getElementById(\'fpUpload\').click()">📎 PDFアップロード</button><input type="file" id="fpUpload" accept=".pdf" style="display:none" onchange="mfVal(\'floor_plan_file\',this.files[0]?this.files[0].name:\'\');renderMeetingFlow()"><span class="text-xs" style="color:var(--sub)">'+(mfGet('floor_plan_file')||'未選択')+'</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">ã¨ãªã¢</label>'+phInput('area','area','æ±äº¬é½ ä¸­å¤®åº')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">å»ºç©</label>'+phTabs('building',['åºåãã³ã·ã§ã³','æ¸å»ºã¦'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">ãã®ä»</label>'+phInput('bother','building_other','ãã®ä»')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">åºã</label><div class="flex items-center gap-1">'+phInput('sizem','size_m2','70')+'<span class="text-sm" style="color:var(--sub)">ã¡</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">éåãå³</label><div class="flex items-center gap-2"><button class="btn2 text-xs" onclick="document.getElementById(\'fpUpload\').click()">ð PDFã¢ããã­ã¼ã</button><input type="file" id="fpUpload" accept=".pdf" style="display:none" onchange="mfVal(\'floor_plan_file\',this.files[0]?this.files[0].name:\'\');renderMeetingFlow()"><span class="text-xs" style="color:var(--sub)">'+(mfGet('floor_plan_file')||'æªé¸æ')+'</span></div></div>';
 html+='</div></div>';
-// 工事内容
-html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. 工事内容</h5>';
+// å·¥äºåå®¹
+html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. å·¥äºåå®¹</h5>';
 html+='<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
-html+='<div><label class="text-xs" style="color:var(--sub)">工事予算</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">販売予定金額</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">相見積業者</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">å·¥äºäºç®</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">ä¸</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">è²©å£²äºå®éé¡</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">ä¸</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">ç¸è¦ç©æ¥­è</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
 html+='</div>';
-html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">計画仕上り</label>'+phTabs('finish_quality',['品質と仕様が大切','品質が大切','工期予算が大切'])+'</div>';
-html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">施工業者から提案</label>'+phTabs('contractor_proposal',['有','無'])+'</div>';
-html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">備考</label><textarea class="inp" rows="2" placeholder="詳細を入力..." oninput="mfVal(\'finish_note\',this.value)">'+mfGet('finish_note')+'</textarea></div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">è¨ç»ä»ä¸ã</label>'+phTabs('finish_quality',['åè³ªã¨ä»æ§ãå¤§å','åè³ªãå¤§å','å·¥æäºç®ãå¤§å'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">æ½å·¥æ¥­èããææ¡</label>'+phTabs('contractor_proposal',['æ','ç¡'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">åè</label><textarea class="inp" rows="2" placeholder="è©³ç´°ãå¥å..." oninput="mfVal(\'finish_note\',this.value)">'+mfGet('finish_note')+'</textarea></div>';
 html+='</div>';
 html+='</div>';
-// 相手側の入力状況表示
+// ç¸æå´ã®å¥åç¶æ³è¡¨ç¤º
 const oArea=mfGetAny(otherLayer,'area');const oBudget=mfGetAny(otherLayer,'budget');
 if(otherLayer==='contractor'){
 const qd=mfGetAny('contractor','quote_days');
 const es=mfGetAny('contractor','earliest_start');
 const sd=mfGetAny('contractor','survey_duration');
 if(qd||es||sd){
-html+='<div class="kp mt-3" style="border-left:3px solid #059669"><h5 class="text-xs font-bold mb-2" style="color:#059669">🔧 施工管理側の回答</h5>';
-if(qd)html+='<p class="text-xs">見積り回答日: 現地調査日から <strong>'+qd+'日後</strong></p>';
-if(es)html+='<p class="text-xs">最短着工日: <strong>'+es+'</strong></p>';
-if(sd)html+='<p class="text-xs">調査所要時間: <strong>'+sd+'</strong></p>';
+html+='<div class="kp mt-3" style="border-left:3px solid #059669"><h5 class="text-xs font-bold mb-2" style="color:#059669">ð§ æ½å·¥ç®¡çå´ã®åç­</h5>';
+if(qd)html+='<p class="text-xs">è¦ç©ãåç­æ¥: ç¾å°èª¿æ»æ¥ãã <strong>'+qd+'æ¥å¾</strong></p>';
+if(es)html+='<p class="text-xs">æç­çå·¥æ¥: <strong>'+es+'</strong></p>';
+if(sd)html+='<p class="text-xs">èª¿æ»æè¦æé: <strong>'+sd+'</strong></p>';
 html+='</div>';
 }
 }
 }else{
-// 施工管理側のStep0
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">施工管理側の回答入力</h5>';
+// æ½å·¥ç®¡çå´ã®Step0
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">æ½å·¥ç®¡çå´ã®åç­å¥å</h5>';
 html+='<div class="space-y-3">';
-html+='<div><label class="text-xs" style="color:var(--sub)">見積り回答日（現地調査日から○日後）</label>'+phTabs('quote_days',['1','2','3','4','5','6','7','8','9','10'])+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">最短着工日</label>'+phDate('es','earliest_start')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">調査所要時間</label>'+phTabs('survey_duration',['15分','30分','45分','60分','75分','90分'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">è¦ç©ãåç­æ¥ï¼ç¾å°èª¿æ»æ¥ããâæ¥å¾ï¼</label>'+phTabs('quote_days',['1','2','3','4','5','6','7','8','9','10'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">æç­çå·¥æ¥</label>'+phDate('es','earliest_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">èª¿æ»æè¦æé</label>'+phTabs('survey_duration',['15å','30å','45å','60å','75å','90å'])+'</div>';
 html+='</div></div>';
-// 依頼側の入力状況
+// ä¾é ¼å´ã®å¥åç¶æ³
 const cArea=mfGetAny('client','area');const cBld=mfGetAny('client','building');
 const cBudget=mfGetAny('client','budget');const cSale=mfGetAny('client','sale_price');
 const cSize=mfGetAny('client','size_m2');const cFinish=mfGetAny('client','finish_quality');
 if(cArea||cBudget){
-html+='<div class="kp mt-3" style="border-left:3px solid var(--p)"><h5 class="text-xs font-bold mb-2" style="color:var(--p)">👤 依頼側の入力内容</h5>';
-if(cArea)html+='<p class="text-xs">エリア: <strong>'+cArea+'</strong></p>';
-if(cBld)html+='<p class="text-xs">建物: <strong>'+cBld+'</strong></p>';
-if(cSize)html+='<p class="text-xs">広さ: <strong>'+cSize+'㎡</strong></p>';
-if(cBudget)html+='<p class="text-xs">予算: <strong>'+fmtNum(cBudget)+'万</strong></p>';
-if(cSale)html+='<p class="text-xs">販売予定: <strong>'+fmtNum(cSale)+'万</strong></p>';
-if(cFinish)html+='<p class="text-xs">計画仕上り: <strong>'+cFinish+'</strong></p>';
+html+='<div class="kp mt-3" style="border-left:3px solid var(--p)"><h5 class="text-xs font-bold mb-2" style="color:var(--p)">ð¤ ä¾é ¼å´ã®å¥ååå®¹</h5>';
+if(cArea)html+='<p class="text-xs">ã¨ãªã¢: <strong>'+cArea+'</strong></p>';
+if(cBld)html+='<p class="text-xs">å»ºç©: <strong>'+cBld+'</strong></p>';
+if(cSize)html+='<p class="text-xs">åºã: <strong>'+cSize+'ã¡</strong></p>';
+if(cBudget)html+='<p class="text-xs">äºç®: <strong>'+fmtNum(cBudget)+'ä¸</strong></p>';
+if(cSale)html+='<p class="text-xs">è²©å£²äºå®: <strong>'+fmtNum(cSale)+'ä¸</strong></p>';
+if(cFinish)html+='<p class="text-xs">è¨ç»ä»ä¸ã: <strong>'+cFinish+'</strong></p>';
 html+='</div>';
 }
 }
-html+='<div class="flex justify-end mt-4"><button class="btn text-sm" onclick="goStep(1)">次へ → 現地調査</button></div>';
+html+='<div class="flex justify-end mt-4"><button class="btn text-sm" onclick="goStep(1)">æ¬¡ã¸ â ç¾å°èª¿æ»</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step1: 現地調査 =====
+// ===== Step1: ç¾å°èª¿æ» =====
 function renderStep1(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[1].icon+' '+STEPS[1].label+'</h4>'+badge+'</div>';
-html+='<div class="kp mb-3"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">候補日時</h5>';
+html+='<div class="kp mb-3"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">åè£æ¥æ</h5>';
 html+='<div class="space-y-3">';
 for(let i=1;i<=3;i++){
-html+='<div class="p-2 rounded" style="background:var(--hover)"><p class="text-xs font-bold mb-1">候補'+i+'</p>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><p class="text-xs font-bold mb-1">åè£'+i+'</p>';
 html+='<div class="grid grid-cols-3 gap-2">';
-html+='<div><label class="text-xs" style="color:var(--sub)">日付</label>'+phDate('sd'+i,'survey_date'+i)+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">開始</label>'+phTime('st'+i+'s','survey_time'+i+'_start')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">終了</label>'+phTime('st'+i+'e','survey_time'+i+'_end')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">æ¥ä»</label>'+phDate('sd'+i,'survey_date'+i)+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">éå§</label>'+phTime('st'+i+'s','survey_time'+i+'_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">çµäº</label>'+phTime('st'+i+'e','survey_time'+i+'_end')+'</div>';
 html+='</div></div>';
 }
 html+='</div></div>';
 if(layer==='client'){
 html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">室内の使用状況</h5>'+phTabs('room_status',['住んでいます','住んでいません'])+'</div>';
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">調査時の共有事項</h5><textarea class="inp" rows="3" placeholder="共有事項を入力..." oninput="mfVal(\'survey_note\',this.value)">'+mfGet('survey_note')+'</textarea></div>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">å®¤åã®ä½¿ç¨ç¶æ³</h5>'+phTabs('room_status',['ä½ãã§ãã¾ã','ä½ãã§ãã¾ãã'])+'</div>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">èª¿æ»æã®å±æäºé </h5><textarea class="inp" rows="3" placeholder="å±æäºé ãå¥å..." oninput="mfVal(\'survey_note\',this.value)">'+mfGet('survey_note')+'</textarea></div>';
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">確認事項コメント</h5><textarea class="inp" rows="3" placeholder="確認事項を入力..." oninput="mfVal(\'confirm_note\',this.value)">'+mfGet('confirm_note')+'</textarea></div>';
-// AI日程エラーチェック
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">ç¢ºèªäºé ã³ã¡ã³ã</h5><textarea class="inp" rows="3" placeholder="ç¢ºèªäºé ãå¥å..." oninput="mfVal(\'confirm_note\',this.value)">'+mfGet('confirm_note')+'</textarea></div>';
+// AIæ¥ç¨ã¨ã©ã¼ãã§ãã¯
 const cd1=mfGetAny('client','survey_date1');const cd2=mfGetAny('client','survey_date2');const cd3=mfGetAny('client','survey_date3');
 const md1=mfGet('survey_date1');
 if(cd1&&md1&&md1!==cd1&&md1!==mfGetAny('client','survey_date2')&&md1!==mfGetAny('client','survey_date3')){
-html+='<div class="kp mt-3" style="border-left:3px solid #dc2626;background:#fef2f2"><p class="text-xs font-bold" style="color:#dc2626">⚠️ AIスケジュール警告</p><p class="text-xs mt-1">施工管理側の候補日が依頼側の候補日と一致していません。</p><p class="text-xs mt-1">依頼側の候補: '+(cd1||'-')+', '+(cd2||'-')+', '+(cd3||'-')+'</p></div>';
+html+='<div class="kp mt-3" style="border-left:3px solid #dc2626;background:#fef2f2"><p class="text-xs font-bold" style="color:#dc2626">â ï¸ AIã¹ã±ã¸ã¥ã¼ã«è­¦å</p><p class="text-xs mt-1">æ½å·¥ç®¡çå´ã®åè£æ¥ãä¾é ¼å´ã®åè£æ¥ã¨ä¸è´ãã¦ãã¾ããã</p><p class="text-xs mt-1">ä¾é ¼å´ã®åè£: '+(cd1||'-')+', '+(cd2||'-')+', '+(cd3||'-')+'</p></div>';
 }
 }
-// 相手側の候補表示
+// ç¸æå´ã®åè£è¡¨ç¤º
 const oD1=mfGetAny(otherLayer,'survey_date1');
 if(oD1){
-const oName=otherLayer==='client'?'👤 依頼側':'🔧 施工管理側';
+const oName=otherLayer==='client'?'ð¤ ä¾é ¼å´':'ð§ æ½å·¥ç®¡çå´';
 const oColor=otherLayer==='client'?'var(--p)':'#059669';
-html+='<div class="kp mt-3" style="border-left:3px solid '+oColor+'"><h5 class="text-xs font-bold mb-1" style="color:'+oColor+'">'+oName+'の候補日時</h5>';
+html+='<div class="kp mt-3" style="border-left:3px solid '+oColor+'"><h5 class="text-xs font-bold mb-1" style="color:'+oColor+'">'+oName+'ã®åè£æ¥æ</h5>';
 for(let i=1;i<=3;i++){
 const d=mfGetAny(otherLayer,'survey_date'+i);const ts=mfGetAny(otherLayer,'survey_time'+i+'_start');const te=mfGetAny(otherLayer,'survey_time'+i+'_end');
-if(d)html+='<p class="text-xs">候補'+i+': '+d+' '+ts+'〜'+te+'</p>';
+if(d)html+='<p class="text-xs">åè£'+i+': '+d+' '+ts+'ã'+te+'</p>';
 }
 html+='</div>';
 }
-html+='<div class="kp mt-3"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">物件調査の写真記録</h5><button class="btn2 text-xs" onclick="alert(\'写真アップロード機能（実装予定）\')">📷 写真をアップロード</button></div>';
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(0)">← 案件相談</button><button class="btn text-sm" onclick="goStep(2)">次へ → 見積り</button></div>';
+html+='<div class="kp mt-3"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">ç©ä»¶èª¿æ»ã®åçè¨é²</h5><button class="btn2 text-xs" onclick="alert(\'åçã¢ããã­ã¼ãæ©è½ï¼å®è£äºå®ï¼\')">ð· åçãã¢ããã­ã¼ã</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(0)">â æ¡ä»¶ç¸è«</button><button class="btn text-sm" onclick="goStep(2)">æ¬¡ã¸ â è¦ç©ã</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step2: 見積り =====
+// ===== Step2: è¦ç©ã =====
 function renderStep2(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[2].icon+' '+STEPS[2].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AI問診 ― 判断材料</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">施工費用・各項目の費用内訳・仕様仕上げの費用対効果をAIが分析</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIåè¨º â å¤æ­ææ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">æ½å·¥è²»ç¨ã»åé ç®ã®è²»ç¨åè¨³ã»ä»æ§ä»ä¸ãã®è²»ç¨å¯¾å¹æãAIãåæ</p>';
 const budget=mfGetAny('client','budget');const sale=mfGetAny('client','sale_price');
 if(budget&&sale){
 const b=Number(String(budget).replace(/,/g,''));const s=Number(String(sale).replace(/,/g,''));
 const profit=s-b;const margin=s>0?Math.round((profit/s)*100):0;
 html+='<div class="grid grid-cols-3 gap-3 mb-3">';
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">工事予算</p><p class="font-bold" style="color:var(--p)">'+fmtNum(budget)+'万</p></div>';
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">販売予定</p><p class="font-bold" style="color:var(--p)">'+fmtNum(sale)+'万</p></div>';
-html+='<div class="p-3 rounded text-center" style="background:'+(margin>15?'#dcfce7':'#fef9c3')+'"><p class="text-xs" style="color:var(--sub)">粗利率</p><p class="font-bold" style="color:'+(margin>15?'#16a34a':'#ca8a04')+'">'+margin+'%</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">å·¥äºäºç®</p><p class="font-bold" style="color:var(--p)">'+fmtNum(budget)+'ä¸</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">è²©å£²äºå®</p><p class="font-bold" style="color:var(--p)">'+fmtNum(sale)+'ä¸</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:'+(margin>15?'#dcfce7':'#fef9c3')+'"><p class="text-xs" style="color:var(--sub)">ç²å©ç</p><p class="font-bold" style="color:'+(margin>15?'#16a34a':'#ca8a04')+'">'+margin+'%</p></div>';
 html+='</div>';
-html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid var(--p)"><p class="text-xs font-bold mb-1">AI分析結果</p>';
-html+='<p class="text-xs">差額 <strong>'+fmtNum(profit)+'万</strong> ('+(margin>=20?'高収益案件です':'利益率の改善検討を推奨')+')</p>';
-html+='<p class="text-xs mt-1">仕様レベル: '+(mfGetAny('client','finish_quality')||'未設定')+'</p></div>';
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid var(--p)"><p class="text-xs font-bold mb-1">AIåæçµæ</p>';
+html+='<p class="text-xs">å·®é¡ <strong>'+fmtNum(profit)+'ä¸</strong> ('+(margin>=20?'é«åçæ¡ä»¶ã§ã':'å©ççã®æ¹åæ¤è¨ãæ¨å¥¨')+')</p>';
+html+='<p class="text-xs mt-1">ä»æ§ã¬ãã«: '+(mfGetAny('client','finish_quality')||'æªè¨­å®')+'</p></div>';
 }else{
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">案件相談ステップで予算・販売金額を入力するとAI分析が表示されます</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">æ¡ä»¶ç¸è«ã¹ãããã§äºç®ã»è²©å£²éé¡ãå¥åããã¨AIåæãè¡¨ç¤ºããã¾ã</p></div>';
 }
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AI問診 ― 施工管理判断材料</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">仕様レベルの認識確認・工期の妥当性をAIが分析</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIåè¨º â æ½å·¥ç®¡çå¤æ­ææ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">ä»æ§ã¬ãã«ã®èªè­ç¢ºèªã»å·¥æã®å¦¥å½æ§ãAIãåæ</p>';
 const finish=mfGetAny('client','finish_quality');const dur=mfGetAny('contractor','survey_duration');
 const from=mfGetAny('client','period_from');const to=mfGetAny('client','period_to');
-html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid '+color+'"><p class="text-xs font-bold mb-1">AI分析結果</p>';
-html+='<p class="text-xs">仕様レベル: <strong>'+(finish||'未設定')+'</strong></p>';
-html+='<p class="text-xs">調査時間: <strong>'+(dur||'未設定')+'</strong></p>';
-html+='<p class="text-xs">施工期間: <strong>'+(from||'?')+' ～ '+(to||'?')+'</strong></p>';
-if(finish==='品質と仕様が大切')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">⚠ 高仕様案件 ― 詳細仕様書の作成を推奨</p>';
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid '+color+'"><p class="text-xs font-bold mb-1">AIåæçµæ</p>';
+html+='<p class="text-xs">ä»æ§ã¬ãã«: <strong>'+(finish||'æªè¨­å®')+'</strong></p>';
+html+='<p class="text-xs">èª¿æ»æé: <strong>'+(dur||'æªè¨­å®')+'</strong></p>';
+html+='<p class="text-xs">æ½å·¥æé: <strong>'+(from||'?')+' ï½ '+(to||'?')+'</strong></p>';
+if(finish==='åè³ªã¨ä»æ§ãå¤§å')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">â  é«ä»æ§æ¡ä»¶ â è©³ç´°ä»æ§æ¸ã®ä½æãæ¨å¥¨</p>';
 html+='</div></div>';
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">← 現地調査</button><button class="btn text-sm" onclick="goStep(3)">次へ → 発注調整</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">â ç¾å°èª¿æ»</button><button class="btn text-sm" onclick="goStep(3)">æ¬¡ã¸ â çºæ³¨èª¿æ´</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step3: 発注調整 =====
+// ===== Step3: çºæ³¨èª¿æ´ =====
 function renderStep3(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[3].icon+' '+STEPS[3].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">依頼側 最終調整</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">仕様・仕上がり程度・予算の最終確認</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">ä¾é ¼å´ æçµèª¿æ´</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">ä»æ§ã»ä»ä¸ããç¨åº¦ã»äºç®ã®æçµç¢ºèª</p>';
 html+='<div class="space-y-2">';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">仕様:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">予算:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'万':'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">販売予定:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'万':'未設定')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">ä»æ§:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'æªè¨­å®')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">äºç®:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'ä¸':'æªè¨­å®')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">è²©å£²äºå®:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'ä¸':'æªè¨­å®')+'</strong></div>';
 html+='</div>';
-html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">調整メモ</label><textarea class="inp" rows="2" placeholder="最終調整事項を入力..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">èª¿æ´ã¡ã¢</label><textarea class="inp" rows="2" placeholder="æçµèª¿æ´äºé ãå¥å..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">施工管理側 最終調整・確定</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">期限の明確化・確定資料の保存</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">æ½å·¥ç®¡çå´ æçµèª¿æ´ã»ç¢ºå®</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">æéã®æç¢ºåã»ç¢ºå®è³æã®ä¿å­</p>';
 html+='<div class="space-y-2">';
 const es=mfGetAny('contractor','earliest_start');
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">最短着工日:</span> <strong class="text-sm">'+(es||'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">見積り回答日:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'調査日から'+mfGetAny('contractor','quote_days')+'日後':'未設定')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">æç­çå·¥æ¥:</span> <strong class="text-sm">'+(es||'æªè¨­å®')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">è¦ç©ãåç­æ¥:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'èª¿æ»æ¥ãã'+mfGetAny('contractor','quote_days')+'æ¥å¾':'æªè¨­å®')+'</strong></div>';
 html+='</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'✓ 確定済み':'確定して資料保存')+'</button></div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'â ç¢ºå®æ¸ã¿':'ç¢ºå®ãã¦è³æä¿å­')+'</button></div>';
 html+='</div>';
 }
-// 双方の確認状況
+// åæ¹ã®ç¢ºèªç¶æ³
 if(S.meeting.order_confirmed){
-html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">✓ 施工管理側が確定しました。依頼側はいつでもこの資料にアクセスできます。</p></div>';
+html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">â æ½å·¥ç®¡çå´ãç¢ºå®ãã¾ãããä¾é ¼å´ã¯ãã¤ã§ããã®è³æã«ã¢ã¯ã»ã¹ã§ãã¾ãã</p></div>';
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">← 見積り</button><button class="btn text-sm" onclick="goStep(4)">次へ → 発注完了</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">â è¦ç©ã</button><button class="btn text-sm" onclick="goStep(4)">æ¬¡ã¸ â çºæ³¨å®äº</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step4: 発注完了 =====
+// ===== Step4: çºæ³¨å®äº =====
 function renderStep4(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[4].icon+' '+STEPS[4].label+'</h4>'+badge+'</div>';
 if(layer==='contractor'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書作成</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">AI技術でドラフトを自動作成し、最終確認へ</p>';
-html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">🤖 AIドラフト作成</button>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">çºæ³¨æ¸ä½æ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">AIæè¡ã§ãã©ãããèªåä½æããæçµç¢ºèªã¸</p>';
+html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">ð¤ AIãã©ããä½æ</button>';
 const draft=S.meeting.order_doc_draft;
 if(draft){
 html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+draft+'</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'発注\',\'発注書\',S.meeting.order_doc_confirmed?\'確定\':\'取消\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'✓ 発注書確定済':'発注書を確定する')+'</button></div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'çºæ³¨\',\'çºæ³¨æ¸\',S.meeting.order_doc_confirmed?\'ç¢ºå®\':\'åæ¶\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'â çºæ³¨æ¸ç¢ºå®æ¸':'çºæ³¨æ¸ãç¢ºå®ãã')+'</button></div>';
 }
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書確認</h5>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">çºæ³¨æ¸ç¢ºèª</h5>';
 if(S.meeting.order_doc_confirmed){
-html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">✓ 発注書が確定されました</p></div>';
+html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">â çºæ³¨æ¸ãç¢ºå®ããã¾ãã</p></div>';
 if(S.meeting.order_doc_draft){
 html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
 }
 }else if(S.meeting.order_doc_draft){
-html+='<p class="text-xs" style="color:var(--sub)">施工管理側がドラフトを作成済み。確定をお待ちください。</p>';
+html+='<p class="text-xs" style="color:var(--sub)">æ½å·¥ç®¡çå´ããã©ãããä½ææ¸ã¿ãç¢ºå®ããå¾ã¡ãã ããã</p>';
 html+='<div class="p-3 rounded mt-2" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
 }else{
-html+='<p class="text-xs" style="color:var(--sub)">施工管理側が発注書を作成中です。完成後に確認できます。</p>';
+html+='<p class="text-xs" style="color:var(--sub)">æ½å·¥ç®¡çå´ãçºæ³¨æ¸ãä½æä¸­ã§ããå®æå¾ã«ç¢ºèªã§ãã¾ãã</p>';
 }
 html+='</div>';
 }
-html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">← 発注調整</button></div>';
+html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">â çºæ³¨èª¿æ´</button></div>';
 area.innerHTML=html;
 }
 
 function generateOrderDraft(){
 const c=S.meeting.client;const k=S.meeting.contractor;
-let draft='【発注書（ドラフト）】\n';
-draft+='━━━━━━━━━━━━━━━━━━━━\n';
-draft+='作成日: '+todayStr()+'\n\n';
-draft+='■ 物件情報\n';
-draft+='  エリア: '+(c.area||'未入力')+'\n';
-draft+='  建物: '+(c.building||'未入力')+(c.building_other?' ('+c.building_other+')':'')+'\n';
-draft+='  広さ: '+(c.size_m2?c.size_m2+'㎡':'未入力')+'\n\n';
-draft+='■ 工事内容\n';
-draft+='  予算: '+(c.budget?fmtNum(c.budget)+'万':'未入力')+'\n';
-draft+='  販売予定: '+(c.sale_price?fmtNum(c.sale_price)+'万':'未入力')+'\n';
-draft+='  仕上り方針: '+(c.finish_quality||'未入力')+'\n\n';
-draft+='■ 施工条件\n';
-draft+='  施工時期: '+(c.period_from||'?')+' ～ '+(c.period_to||'?')+'\n';
-draft+='  最短着工日: '+(k.earliest_start||'未定')+'\n';
-draft+='  見積り回答: 調査日から'+(k.quote_days||'?')+'日後\n';
-draft+='━━━━━━━━━━━━━━━━━━━━\n';
-draft+='※ AI自動生成ドラフト。内容をご確認の上、確定してください。';
+let draft='ãçºæ³¨æ¸ï¼ãã©ããï¼ã\n';
+draft+='ââââââââââââââââââââ\n';
+draft+='ä½ææ¥: '+todayStr()+'\n\n';
+draft+='â  ç©ä»¶æå ±\n';
+draft+='  ã¨ãªã¢: '+(c.area||'æªå¥å')+'\n';
+draft+='  å»ºç©: '+(c.building||'æªå¥å')+(c.building_other?' ('+c.building_other+')':'')+'\n';
+draft+='  åºã: '+(c.size_m2?c.size_m2+'ã¡':'æªå¥å')+'\n\n';
+draft+='â  å·¥äºåå®¹\n';
+draft+='  äºç®: '+(c.budget?fmtNum(c.budget)+'ä¸':'æªå¥å')+'\n';
+draft+='  è²©å£²äºå®: '+(c.sale_price?fmtNum(c.sale_price)+'ä¸':'æªå¥å')+'\n';
+draft+='  ä»ä¸ãæ¹é: '+(c.finish_quality||'æªå¥å')+'\n\n';
+draft+='â  æ½å·¥æ¡ä»¶\n';
+draft+='  æ½å·¥ææ: '+(c.period_from||'?')+' ï½ '+(c.period_to||'?')+'\n';
+draft+='  æç­çå·¥æ¥: '+(k.earliest_start||'æªå®')+'\n';
+draft+='  è¦ç©ãåç­: èª¿æ»æ¥ãã'+(k.quote_days||'?')+'æ¥å¾\n';
+draft+='ââââââââââââââââââââ\n';
+draft+='â» AIèªåçæãã©ãããåå®¹ããç¢ºèªã®ä¸ãç¢ºå®ãã¦ãã ããã';
 S.meeting.order_doc_draft=draft;
-addLog('AI生成','発注書ドラフト','自動作成');
+addLog('AIçæ','çºæ³¨æ¸ãã©ãã','èªåä½æ');
 saveStore();renderMeetingFlow();
 }
 
-// 承認フロー: 実働する状態管理（他モジュールから参照）
+// æ¿èªãã­ã¼: å®åããç¶æç®¡çï¼ä»ã¢ã¸ã¥ã¼ã«ããåç§ï¼
 function renderFlows(filter){
 const fl=document.getElementById('flowList');if(!fl)return;
 const list=filter&&filter!=='all'?S.flows.filter(f=>f.status===filter):S.flows;
 fl.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(f=>{
 const st=f.status==='approved'?'lg-ok':f.status==='rejected'?'lg-ng':'lg-pd';
-const badge=f.status==='approved'?'<span class="sb sb-g">承認済</span>':f.status==='rejected'?'<span class="sb sb-r">差戻し</span>':'<span class="sb sb-y">申請中</span>';
-const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">承認/差戻し</button></div>':'';
-const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> → <span style="color:#16a34a">'+f.after+'</span></div>':'';
+const badge=f.status==='approved'?'<span class="sb sb-g">æ¿èªæ¸</span>':f.status==='rejected'?'<span class="sb sb-r">å·®æ»ã</span>':'<span class="sb sb-y">ç³è«ä¸­</span>';
+const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">æ¿èª/å·®æ»ã</button></div>':'';
+const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> â <span style="color:#16a34a">'+f.after+'</span></div>':'';
 const cmt=f.comment?'<p class="text-xs mt-1" style="color:var(--sub)">'+f.comment+'</p>':'';
-return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' → '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
-}).join('')||'<p class="text-sm" style="color:var(--sub)">該当するフローはありません</p>';
+return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' â '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">è©²å½ãããã­ã¼ã¯ããã¾ãã</p>';
 }
 function filterFlow(f){renderFlows(f)}
 
 function openApproval(fid){
 const f=S.flows.find(x=>x.id===fid);if(!f)return;
 currentFlowId=fid;
-const info='<p class="font-bold">'+f.type+'</p><p>対象: '+f.target+'</p><p>申請者: '+f.from+'</p>'+(f.before&&f.after?'<p class="mt-2" style="font-size:.8rem"><span style="color:#dc2626">変更前: '+f.before+'</span> → <span style="color:#16a34a">変更後: '+f.after+'</span></p>':'');
+const info='<p class="font-bold">'+f.type+'</p><p>å¯¾è±¡: '+f.target+'</p><p>ç³è«è: '+f.from+'</p>'+(f.before&&f.after?'<p class="mt-2" style="font-size:.8rem"><span style="color:#dc2626">å¤æ´å: '+f.before+'</span> â <span style="color:#16a34a">å¤æ´å¾: '+f.after+'</span></p>':'');
 document.getElementById('acnt').innerHTML=info;
 document.getElementById('ats').value=new Date().toLocaleString('ja-JP');
 document.getElementById('approvalComment').value='';
@@ -1008,34 +1008,34 @@ function cfm(){
 if(!currentFlowId)return;
 const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
 const comment=document.getElementById('approvalComment').value.trim();
-f.status='approved';f.comment=comment||'承認済';
-// 知行合一: 承認結果をプロジェクトに即時反映
+f.status='approved';f.comment=comment||'æ¿èªæ¸';
+// ç¥è¡åä¸: æ¿èªçµæããã­ã¸ã§ã¯ãã«å³æåæ 
 applyFlowToProject(f);
-addLog('承認',f.type+': '+f.target,f.before&&f.after?f.before+' → '+f.after:'承認実行');
-saveStore();cam();renderAll();showToast('✓ 承認完了');
+addLog('æ¿èª',f.type+': '+f.target,f.before&&f.after?f.before+' â '+f.after:'æ¿èªå®è¡');
+saveStore();cam();renderAll();showToast('â æ¿èªå®äº');
 }
 
 function rejectFlow(){
 if(!currentFlowId)return;
 const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
 const comment=document.getElementById('approvalComment').value.trim();
-f.status='rejected';f.comment=comment||'差戻し';
-addLog('差戻し',f.type+': '+f.target,'再申請待ち');
-saveStore();cam();renderAll();showToast('差戻ししました');
+f.status='rejected';f.comment=comment||'å·®æ»ã';
+addLog('å·®æ»ã',f.type+': '+f.target,'åç³è«å¾ã¡');
+saveStore();cam();renderAll();showToast('å·®æ»ããã¾ãã');
 }
 
 function applyFlowToProject(f){
-// 知行合一の核心: 承認したら実データが変わる
+// ç¥è¡åä¸ã®æ ¸å¿: æ¿èªãããå®ãã¼ã¿ãå¤ãã
 const p=S.projects.find(x=>x.name===f.target);if(!p)return;
-if(f.type==='進捗変更'&&f.after){
+if(f.type==='é²æå¤æ´'&&f.after){
 const val=parseInt(f.after);if(!isNaN(val))p.progress=val;
 }
-if(f.type==='完了報告'){p.status='complete';p.progress=100}
-if(f.type==='見積承認'&&f.amount){p.amount=f.amount}
+if(f.type==='å®äºå ±å'){p.status='complete';p.progress=100}
+if(f.type==='è¦ç©æ¿èª'&&f.amount){p.amount=f.amount}
 }
 
 // ==========================================
-// チャット: リアル送受信
+// ãã£ãã: ãªã¢ã«éåä¿¡
 // ==========================================
 function renderChat(){
 const ch=S.currentChannel;
@@ -1049,32 +1049,32 @@ return '<div class="mb mb-s">'+m.text+'<div class="text-xs mt-1" style="opacity:
 }).join('');
 msgEl.scrollTop=99999;
 const chData=S.channels.find(c=>c.id===ch);
-if(chData){document.getElementById('chatTitle').textContent=chData.name;document.getElementById('chatMembers').textContent=chData.members+'名参加'}
+if(chData){document.getElementById('chatTitle').textContent=chData.name;document.getElementById('chatMembers').textContent=chData.members+'ååå '}
 }
 function switchChannel(ch){S.currentChannel=ch;saveStore();renderChat()}
 function sendMsg(){
 const inp=document.getElementById('chatIn');
 const txt=inp.value.trim();if(!txt)return;
 const now=new Date();const time=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-S.messages.push({ch:S.currentChannel,from:'樋口春騎',text:txt,time});
+S.messages.push({ch:S.currentChannel,from:'æ¨å£æ¥é¨',text:txt,time});
 inp.value='';saveStore();renderChat();
-// AI自動応答
+// AIèªåå¿ç­
 setTimeout(()=>{
-const replies=['了解。確認いたします。','データを更新しました。','承認フローに回します。','3分で結果をお伝えします。','完了しました。ダッシュボードを確認してください。'];
+const replies=['äºè§£ãç¢ºèªãããã¾ãã','ãã¼ã¿ãæ´æ°ãã¾ããã','æ¿èªãã­ã¼ã«åãã¾ãã','3åã§çµæããä¼ããã¾ãã','å®äºãã¾ãããããã·ã¥ãã¼ããç¢ºèªãã¦ãã ããã'];
 S.messages.push({ch:S.currentChannel,from:'system',text:'AI: '+replies[Math.floor(Math.random()*replies.length)],time});
 saveStore();renderChat();
 },1500);
 }
 
 // ==========================================
-// 人材: フィルタリング
+// äººæ: ãã£ã«ã¿ãªã³ã°
 // ==========================================
 function renderTeam(role){
 const grid=document.getElementById('teamGrid');
 const filtered=!role||role==='all'?S.team:S.team.filter(t=>t.role===role);
 grid.innerHTML=filtered.map(t=>{
-const stClass=t.status==='active'?'sb-g':t.status==='休暇'?'sb-r':'sb-y';
-return '<div class="wc"><div class="av mx-auto mb-2" style="width:3.5rem;height:3.5rem;font-size:1.25rem">'+t.initial+'</div><p class="font-bold text-sm">'+t.name+'</p><p class="text-xs" style="color:var(--sub)">'+t.title+'</p><div class="flex flex-wrap justify-center mt-2">'+t.certs.map(c=>'<span class="cb">'+c+'</span>').join('')+'</div><span class="sb '+stClass+' text-xs mt-2">'+(t.status==='active'?'稼働中':t.status)+'</span></div>';
+const stClass=t.status==='active'?'sb-g':t.status==='ä¼æ'?'sb-r':'sb-y';
+return '<div class="wc"><div class="av mx-auto mb-2" style="width:3.5rem;height:3.5rem;font-size:1.25rem">'+t.initial+'</div><p class="font-bold text-sm">'+t.name+'</p><p class="text-xs" style="color:var(--sub)">'+t.title+'</p><div class="flex flex-wrap justify-center mt-2">'+t.certs.map(c=>'<span class="cb">'+c+'</span>').join('')+'</div><span class="sb '+stClass+' text-xs mt-2">'+(t.status==='active'?'ç¨¼åä¸­':t.status)+'</span></div>';
 }).join('');
 }
 function filt(btn,role){
@@ -1083,43 +1083,43 @@ btn.className='btn text-sm rt on';renderTeam(role);
 }
 
 // ==========================================
-// データ管理
+// ãã¼ã¿ç®¡ç
 // ==========================================
 function renderData(){
 const stats=document.getElementById('dataStats');
 const typeCount={pdf:0,dwg:0,jpg:0,other:0};
 S.files.forEach(f=>{if(typeCount[f.type]!==undefined)typeCount[f.type]++;else typeCount.other++});
 stats.innerHTML=[
-{icon:'📄',label:'PDF',count:typeCount.pdf},
-{icon:'📐',label:'設計図(DWG)',count:typeCount.dwg},
-{icon:'📷',label:'写真',count:typeCount.jpg},
-{icon:'📁',label:'その他',count:typeCount.other}
-].map(s=>'<div class="kp text-center"><p class="text-2xl">'+s.icon+'</p><p class="font-bold text-sm">'+s.label+'</p><p class="text-xs" style="color:var(--sub)">'+s.count+'件</p></div>').join('');
+{icon:'ð',label:'PDF',count:typeCount.pdf},
+{icon:'ð',label:'è¨­è¨å³(DWG)',count:typeCount.dwg},
+{icon:'ð·',label:'åç',count:typeCount.jpg},
+{icon:'ð',label:'ãã®ä»',count:typeCount.other}
+].map(s=>'<div class="kp text-center"><p class="text-2xl">'+s.icon+'</p><p class="font-bold text-sm">'+s.label+'</p><p class="text-xs" style="color:var(--sub)">'+s.count+'ä»¶</p></div>').join('');
 const fl=document.getElementById('fileList');
 fl.innerHTML=S.files.map(f=>{
 const tc=f.type==='pdf'?'fi-p':f.type==='dwg'?'fi-d':'fi-i';
-return '<div class="flex items-center gap-3 p-2 rounded" style="background:var(--hover)"><div class="fi '+tc+'">'+f.type.toUpperCase()+'</div><div class="flex-1"><p class="text-sm font-bold">'+f.name+'</p><p class="text-xs" style="color:var(--sub)">'+f.size+' | '+f.date+'</p></div><button class="btn text-xs py-1 px-3" onclick="showToast(\''+f.name+' を開きます\')">開く</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteFile(\''+f.name+'\')">削除</button></div>';
+return '<div class="flex items-center gap-3 p-2 rounded" style="background:var(--hover)"><div class="fi '+tc+'">'+f.type.toUpperCase()+'</div><div class="flex-1"><p class="text-sm font-bold">'+f.name+'</p><p class="text-xs" style="color:var(--sub)">'+f.size+' | '+f.date+'</p></div><button class="btn text-xs py-1 px-3" onclick="showToast(\''+f.name+' ãéãã¾ã\')">éã</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteFile(\''+f.name+'\')">åé¤</button></div>';
 }).join('');
 }
 
 function openFileUpload(){
-const name=prompt('ファイル名を入力:');if(!name)return;
-const size=prompt('ファイルサイズ (例: 3.2MB):','1.0MB');
+const name=prompt('ãã¡ã¤ã«åãå¥å:');if(!name)return;
+const size=prompt('ãã¡ã¤ã«ãµã¤ãº (ä¾: 3.2MB):','1.0MB');
 const type=name.split('.').pop().toLowerCase();
 S.files.unshift({name,size:size||'1.0MB',type,date:todayStr()});
-addLog('ファイル追加',name,'アップロード完了');
-saveStore();renderData();showToast(name+' をアップロードしました');
+addLog('ãã¡ã¤ã«è¿½å ',name,'ã¢ããã­ã¼ãå®äº');
+saveStore();renderData();showToast(name+' ãã¢ããã­ã¼ããã¾ãã');
 }
 
 function deleteFile(name){
-if(!confirm(name+' を削除しますか？'))return;
+if(!confirm(name+' ãåé¤ãã¾ããï¼'))return;
 S.files=S.files.filter(f=>f.name!==name);
-addLog('ファイル削除',name,'削除実行');
-saveStore();renderData();showToast('削除しました');
+addLog('ãã¡ã¤ã«åé¤',name,'åé¤å®è¡');
+saveStore();renderData();showToast('åé¤ãã¾ãã');
 }
 
 // ==========================================
-// AI分析: データ駆動の分析表示
+// AIåæ: ãã¼ã¿é§åã®åæè¡¨ç¤º
 // ==========================================
 function renderAI(){
 const k=calcKPIs();
@@ -1129,61 +1129,61 @@ const costScore=Math.round(76+(S.projects.length*2));
 const schedScore=Math.round(88-(S.flows.filter(f=>f.status==='pending').length*3));
 const qualScore=Math.round(k.quality*0.98);
 metrics.innerHTML=[
-{label:'安全',score:safetyScore,color:'#16a34a'},
-{label:'コスト',score:Math.min(100,costScore),color:'#f97316'},
-{label:'スケジュール',score:Math.min(100,schedScore),color:'#3b82f6'},
-{label:'品質',score:Math.min(100,qualScore),color:'#7c3aed'}
+{label:'å®å¨',score:safetyScore,color:'#16a34a'},
+{label:'ã³ã¹ã',score:Math.min(100,costScore),color:'#f97316'},
+{label:'ã¹ã±ã¸ã¥ã¼ã«',score:Math.min(100,schedScore),color:'#3b82f6'},
+{label:'åè³ª',score:Math.min(100,qualScore),color:'#7c3aed'}
 ].map(m=>'<div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">'+m.label+'</p><span style="color:'+m.color+'">'+m.score+'%</span></div><div class="pb"><div class="pf" style="width:'+m.score+'%;background:'+m.color+'"></div></div></div>').join('');
 
 const risks=document.getElementById('aiRisks');
 const riskData=[];
 S.projects.forEach(p=>{
-if(p.progress<30&&p.status==='active')riskData.push({level:'red',text:p.name+': 進捗遅延リスク',action:'工程見直し推奨'});
-if(p.quality>0&&p.quality<90)riskData.push({level:'yellow',text:p.name+': 品質低下',action:'検査強化推奨'});
+if(p.progress<30&&p.status==='active')riskData.push({level:'red',text:p.name+': é²æéå»¶ãªã¹ã¯',action:'å·¥ç¨è¦ç´ãæ¨å¥¨'});
+if(p.quality>0&&p.quality<90)riskData.push({level:'yellow',text:p.name+': åè³ªä½ä¸',action:'æ¤æ»å¼·åæ¨å¥¨'});
 });
-if(riskData.length===0)riskData.push({level:'green',text:'重大リスクなし',action:'継続監視'});
+if(riskData.length===0)riskData.push({level:'green',text:'éå¤§ãªã¹ã¯ãªã',action:'ç¶ç¶ç£è¦'});
 risks.innerHTML=riskData.map(r=>{
 const c=r.level==='red'?'bg-red-500':r.level==='yellow'?'bg-yellow-500':'bg-green-500';
-return '<div class="flex gap-2 text-xs"><div class="w-3 h-3 '+c+' rounded-full mt-0.5 flex-shrink-0"></div><div><p>'+r.text+'</p><p style="color:var(--sub)">推奨: '+r.action+'</p></div></div>';
+return '<div class="flex gap-2 text-xs"><div class="w-3 h-3 '+c+' rounded-full mt-0.5 flex-shrink-0"></div><div><p>'+r.text+'</p><p style="color:var(--sub)">æ¨å¥¨: '+r.action+'</p></div></div>';
 }).join('');
 
 const suggs=document.getElementById('aiSuggestions');
 const pending=S.flows.filter(f=>f.status==='pending').length;
 const suggData=[
-{icon:'⚡',text:'未承認フロー: '+pending+'件',desc:pending>0?'承認処理を推奨します':'全て処理済みです'},
-{icon:'📊',text:'月次レポート自動生成',desc:'ダッシュボードデータから生成可能'},
-{icon:'🔄',text:'効率化率: '+Math.round(75+(S.projects.length*2))+'%',desc:'¥'+Math.round(calcKPIs().revenue/100000000*1.2)+'億の削減効果'}
+{icon:'â¡',text:'æªæ¿èªãã­ã¼: '+pending+'ä»¶',desc:pending>0?'æ¿èªå¦çãæ¨å¥¨ãã¾ã':'å¨ã¦å¦çæ¸ã¿ã§ã'},
+{icon:'ð',text:'ææ¬¡ã¬ãã¼ãèªåçæ',desc:'ããã·ã¥ãã¼ããã¼ã¿ããçæå¯è½'},
+{icon:'ð',text:'å¹çåç: '+Math.round(75+(S.projects.length*2))+'%',desc:'Â¥'+Math.round(calcKPIs().revenue/100000000*1.2)+'åã®åæ¸å¹æ'}
 ];
 suggs.innerHTML=suggData.map(s=>'<div class="flex gap-2 text-xs p-2 rounded" style="background:var(--hover)"><span>'+s.icon+'</span><div><p class="font-bold">'+s.text+'</p><p style="color:var(--sub)">'+s.desc+'</p></div></div>').join('');
 }
 
 // ==========================================
-// 承認履歴: 全操作の監査証跡
+// æ¿èªå±¥æ­´: å¨æä½ã®ç£æ»è¨¼è·¡
 // ==========================================
 function addLog(action,target,detail){
-S.logs.unshift({action,target,detail,user:'樋口春騎',time:new Date().toLocaleString('ja-JP'),date:todayStr()});
+S.logs.unshift({action,target,detail,user:'æ¨å£æ¥é¨',time:new Date().toLocaleString('ja-JP'),date:todayStr()});
 if(S.logs.length>100)S.logs=S.logs.slice(0,100);
 }
 function renderLogs(filter){
 const ll=document.getElementById('logList');
 let logs=[...S.logs];
-// 承認フローからも履歴生成
+// æ¿èªãã­ã¼ãããå±¥æ­´çæ
 S.flows.forEach(f=>{
 if(f.status!=='pending'){
-logs.push({action:f.status==='approved'?'承認':'差戻し',target:f.type+': '+f.target,detail:f.comment||'',user:'樋口春騎',time:f.date,date:f.date,flowStatus:f.status});
+logs.push({action:f.status==='approved'?'æ¿èª':'å·®æ»ã',target:f.type+': '+f.target,detail:f.comment||'',user:'æ¨å£æ¥é¨',time:f.date,date:f.date,flowStatus:f.status});
 }
 });
-if(filter&&filter!=='all')logs=logs.filter(l=>(l.flowStatus||l.action)===(filter==='approved'?'承認':'差戻し')||(l.flowStatus===filter));
+if(filter&&filter!=='all')logs=logs.filter(l=>(l.flowStatus||l.action)===(filter==='approved'?'æ¿èª':'å·®æ»ã')||(l.flowStatus===filter));
 logs.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
 ll.innerHTML=logs.slice(0,30).map(l=>{
-const cls=l.action.includes('差戻し')||l.action.includes('削除')?'lg-ng':l.action.includes('承認')||l.action.includes('完了')?'lg-ok':'lg-pd';
-return '<div class="lg '+cls+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+l.action+': '+l.target+'</p><span class="text-xs" style="color:var(--sub)">'+l.time+'</span></div>'+(l.detail?'<p class="text-xs" style="color:var(--sub)">'+l.detail+'</p>':'')+'<p class="text-xs" style="color:var(--sub)">実行者: '+l.user+'</p></div>';
-}).join('')||'<p class="text-sm" style="color:var(--sub)">履歴はありません</p>';
+const cls=l.action.includes('å·®æ»ã')||l.action.includes('åé¤')?'lg-ng':l.action.includes('æ¿èª')||l.action.includes('å®äº')?'lg-ok':'lg-pd';
+return '<div class="lg '+cls+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+l.action+': '+l.target+'</p><span class="text-xs" style="color:var(--sub)">'+l.time+'</span></div>'+(l.detail?'<p class="text-xs" style="color:var(--sub)">'+l.detail+'</p>':'')+'<p class="text-xs" style="color:var(--sub)">å®è¡è: '+l.user+'</p></div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">å±¥æ­´ã¯ããã¾ãã</p>';
 }
 function filterLog(f){renderLogs(f)}
 
 // ==========================================
-// ユーティリティ
+// ã¦ã¼ãã£ãªãã£
 // ==========================================
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0')}
 function showToast(msg){
@@ -1191,26 +1191,26 @@ const t=document.createElement('div');t.className='toast';t.textContent=msg;
 document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
 }
 function openAddModal(){
-// 現在のタブに応じた追加モーダル
+// ç¾å¨ã®ã¿ãã«å¿ããè¿½å ã¢ã¼ãã«
 const active=document.querySelector('.ni.on');
 const tab=active?active.dataset.t:'dash';
 if(tab==='proj'){openProjModal();return}
 if(tab==='data'){openFileUpload();return}
 if(tab==='flow'){
-const name=prompt('承認対象:');if(!name)return;
-const type=prompt('種別 (見積承認/進捗変更/着工申請):','見積承認');
-S.flows.push({id:++S.nextId,type:type||'その他',target:name,from:'樋口春騎',to:'樋口春騎',status:'pending',date:todayStr(),comment:''});
-addLog('フロー追加',name,type);saveStore();renderAll();showToast('申請を追加しました');return;
+const name=prompt('æ¿èªå¯¾è±¡:');if(!name)return;
+const type=prompt('ç¨®å¥ (è¦ç©æ¿èª/é²æå¤æ´/çå·¥ç³è«):','è¦ç©æ¿èª');
+S.flows.push({id:++S.nextId,type:type||'ãã®ä»',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),comment:''});
+addLog('ãã­ã¼è¿½å ',name,type);saveStore();renderAll();showToast('ç³è«ãè¿½å ãã¾ãã');return;
 }
-showToast('このタブでは「プロジェクト」「データ」「フロー」タブで追加できます');
+showToast('ãã®ã¿ãã§ã¯ããã­ã¸ã§ã¯ããããã¼ã¿ãããã­ã¼ãã¿ãã§è¿½å ã§ãã¾ã');
 }
 function closeAddModal(){document.getElementById('addMod').classList.remove('show')}
 
 // ==========================================
-// タブ切替 & 全体レンダリング
+// ã¿ãåæ¿ & å¨ä½ã¬ã³ããªã³ã°
 // ==========================================
-const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'打合せフロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};
-const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'ステッパー形式 ― 案件相談から発注完了まで',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
+const titles={dash:'ããã·ã¥ãã¼ã',proj:'ãã­ã¸ã§ã¯ã',flow:'æåããã­ã¼',chat:'ãã£ãã',team:'äººæ',data:'ãã¼ã¿',ai:'AIåæ',log:'æ¿èªå±¥æ­´'};
+const subs={dash:'ãªã¢ã«ã¿ã¤ã çµå¶ææ¨',proj:'CRUDæä½å¯¾å¿',flow:'ã¹ãããã¼å½¢å¼ â æ¡ä»¶ç¸è«ããçºæ³¨å®äºã¾ã§',chat:'ãªã¢ã«ã¿ã¤ã éä¿¡',team:'ã¹ã­ã«ã»ç¨¼åç®¡ç',data:'ãã¡ã¤ã«ç®¡ç',ai:'ãã¼ã¿é§ååæ',log:'å¨æä½ã®ç£æ»è¨¼è·¡'};
 function sw(t){
 document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
 document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
@@ -1238,11 +1238,11 @@ const t=active?active.dataset.t:'dash';
 renderTabContent(t);
 }
 
-// 時計
+// æè¨
 function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
 setInterval(uc,1000);uc();
 
-// デモツアー
+// ãã¢ãã¢ã¼
 async function demo(){
 const tabs=['dash','proj','flow','chat','team','data','ai','log'];
 const fb=document.querySelector('.fb');fb.disabled=true;
@@ -1252,7 +1252,7 @@ sw(t);
 const n=document.querySelector('[data-t="'+t+'"]');
 const tip=document.createElement('div');tip.className='tip';
 tip.style.cssText='left:260px;top:'+(n.offsetTop+80)+'px';
-tip.textContent='→ '+titles[t];
+tip.textContent='â '+titles[t];
 document.body.appendChild(tip);
 await new Promise(r=>setTimeout(r,1500));tip.remove();
 }
@@ -1262,44 +1262,57 @@ await new Promise(r=>setTimeout(r,2500));cfm();}
 fb.disabled=false;
 }
 
-// === 認証ゲート ===
-const AUTH_KEY='hataraiku_auth';
-const ALLOWED_EMAILS=['kanri09072111100@gmail.com'];
-function checkAuth(){
-const saved=sessionStorage.getItem(AUTH_KEY);
-if(saved&&ALLOWED_EMAILS.includes(saved)){
-document.getElementById('authOverlay').classList.add('hidden');
-document.querySelector('.sidebar').style.visibility='visible';
-document.querySelector('.main').style.visibility='visible';
-return true;}
-document.querySelector('.sidebar').style.visibility='hidden';
-document.querySelector('.main').style.visibility='hidden';
-return false;}
-function authLogin(){
-const email=document.getElementById('authEmail').value.trim().toLowerCase();
-const err=document.getElementById('authErr');
-const btn=document.getElementById('authBtn');
-if(!email){err.textContent='メールアドレスを入力してください';return;}
-if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='正しいメールアドレスを入力してください';return;}
-btn.disabled=true;btn.textContent='確認中...';err.textContent='';
-setTimeout(()=>{
-if(ALLOWED_EMAILS.includes(email)){
-sessionStorage.setItem(AUTH_KEY,email);
-document.getElementById('authOverlay').classList.add('hidden');
-document.querySelector('.sidebar').style.visibility='visible';
-document.querySelector('.main').style.visibility='visible';
-renderDashboard();renderChart();
-}else{
-err.textContent='このメールアドレスはアクセス許可されていません。管理者にお問い合わせください。';
-btn.disabled=false;btn.textContent='アクセス申請';}
-},800);}
-document.getElementById('authEmail').addEventListener('keydown',function(e){if(e.key==='Enter')authLogin()});
-// 初期化
-window.addEventListener('load',()=>{if(checkAuth()){renderDashboard();renderChart()}});
-window.addEventListener('resize',()=>{const a=document.querySelector('.ni.on');if(a&&a.dataset.t==='dash')renderChart()});
-
-// データリセット機能
-function resetData(){if(confirm('全データを初期状態に戻しますか？')){localStorage.removeItem(STORE_KEY);S=getDefaultData();saveStore();renderAll();showToast('データをリセットしました')}}
+// === èªè¨¼ã²ã¼ã ===
+  // === AUTH GATE (API) ===
+  var GAS_URL='https://script.google.com/macros/s/AKfycbztDyt9yYBRoyauJCWSUDwT6qhDQPBWIZTjVsJa7jd4bA387f_CG8y0bAEFwxTkEQJq/exec';
+  var AUTH_KEY='hataraiku_auth';
+  function checkAuth(){
+    if(sessionStorage.getItem(AUTH_KEY)){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';return;}
+    var o=document.querySelector('.auth-overlay');if(o)o.style.display='flex';
+  }
+  function getEls(){
+    var o=document.querySelector('.auth-overlay'),c=o?o.querySelector('.auth-card'):null;
+    var i=c?c.querySelector('input'):null,b=c?c.querySelector('button'):null;
+    var s=document.getElementById('auth-st');
+    if(!s&&c){s=document.createElement('div');s.id='auth-st';
+      s.style.cssText='margin-top:12px;text-align:center;font-size:.9rem;white-space:pre-line;min-height:2.5em';
+      if(b&&b.parentNode)b.parentNode.insertBefore(s,b.nextSibling);}
+    return{o:o,i:i,b:b,s:s};
+  }
+  function handleLogin(){
+    var e=getEls(),em=e.i?e.i.value.trim().toLowerCase():'';
+    if(!em||em.indexOf('@')<0){if(e.s){e.s.textContent='\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044';e.s.style.color='#dc2626';}return;}
+    if(e.b){e.b.disabled=true;e.b.textContent='\u78ba\u8a8d\u4e2d...';}
+    fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({email:em})
+    }).then(function(){setTimeout(function(){poll(em,0);},2000);}
+    ).catch(function(){setTimeout(function(){poll(em,0);},2000);});
+  }
+  function poll(em,n){
+    var e=getEls();
+    fetch(GAS_URL+'?action=check&email='+encodeURIComponent(em))
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.status==='approved'){
+        sessionStorage.setItem(AUTH_KEY,em);
+        if(e.s){e.s.textContent='\u2705 \u627f\u8a8d\u3055\u308c\u307e\u3057\u305f\uff01';e.s.style.color='#16a34a';}
+        setTimeout(function(){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';},1200);
+      }else if(d.status==='denied'){
+        if(e.s){e.s.textContent='\u274c \u62d2\u5426\u3055\u308c\u307e\u3057\u305f';e.s.style.color='#dc2626';}
+        if(e.b){e.b.disabled=false;e.b.textContent='\u30ed\u30b0\u30a4\u30f3';}
+      }else{
+        if(e.s){e.s.textContent='\u23f3 \u627f\u8a8d\u30ea\u30af\u30a8\u30b9\u30c8\u9001\u4fe1\u6e08\u307f\n\u7ba1\u7406\u8005\u306e\u627f\u8a8d\u3092\u304a\u5f85\u3061\u304f\u3060\u3055\u3044...';e.s.style.color='#f59e0b';}
+        if(e.b){e.b.textContent='\u627f\u8a8d\u5f85\u3061...';}
+        if(n<60)setTimeout(function(){poll(em,n+1);},5000);
+      }
+    }).catch(function(){
+      if(n<3)setTimeout(function(){poll(em,n+1);},3000);
+      else{if(e.s){e.s.textContent='\u63a5\u7d9a\u30a8\u30e9\u30fc';e.s.style.color='#dc2626';}
+        if(e.b){e.b.disabled=false;e.b.textContent='\u30ed\u30b0\u30a4\u30f3';}}
+    });
+  }
+  document.addEventListener('DOMContentLoaded',checkAuth);
+  // === END AUTH GATE ===
 </script>
 </body>
 </html>
