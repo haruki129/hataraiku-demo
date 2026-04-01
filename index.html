@@ -1259,7 +1259,7 @@ function handleLogin(){
   if(!em||em.indexOf('@')<0){if(e.s){e.s.textContent='メールアドレスを入力してください';e.s.style.color='#dc2626';}return;}
   if(e.b){e.b.disabled=true;e.b.textContent='確認中...';}
   fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({email:em})
+    body:JSON.stringify({email:em,ip:'',ua:navigator.userAgent})
   }).then(function(){setTimeout(function(){poll(em,0);},2000);}
   ).catch(function(){setTimeout(function(){poll(em,0);},2000);});
 }
@@ -1275,6 +1275,9 @@ function poll(em,n){
     }else if(d.status==='denied'){
       if(e.s){e.s.textContent='❌ 拒否されました';e.s.style.color='#dc2626';}
       if(e.b){e.b.disabled=false;e.b.textContent='ログイン';}
+    }else if(d.status==='used'){
+      if(e.s){e.s.textContent='⚠️ 前回の承認は使用済みです\n再度アクセス申請してください';e.s.style.color='#f59e0b';}
+      if(e.b){e.b.disabled=false;e.b.textContent='アクセス申請';}
     }else{
       if(e.s){e.s.textContent='⏳ 承認リクエスト送信済み\n管理者の承認をお待ちください...';e.s.style.color='#f59e0b';}
       if(e.b){e.b.textContent='承認待ち...';}
