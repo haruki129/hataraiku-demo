@@ -1,4 +1,4 @@
-// ã¯ãããã v6.0 Upgrade Module
+// はたらいく v6.0 Upgrade Module
 // Chat + Meeting Flow + LINE API + AWS Integration
 (function(){
 'use strict';
@@ -1064,14 +1064,14 @@ document.head.appendChild(_style);
       <div class="chat-container">
         <div class="chat-sidebar">
           <div class="chat-header">
-            <h2>ãã£ãã</h2>
+            <h2>チャット</h2>
           </div>
           <div class="chat-room-list" id="chatRoomList">
             ${(S.channels || []).map((ch, idx) => {
               const unread = 0;
               const lastMsg = S.messages.filter(m => m.ch === ch.id).slice(-1)[0];
               const lastTime = lastMsg ? lastMsg.time : '';
-              const preview = lastMsg ? (lastMsg.text || 'æ·»ä»ãã¡ã¤ã«') : 'ã¡ãã»ã¼ã¸ãªã';
+              const preview = lastMsg ? (lastMsg.text || '添付ファイル') : 'メッセージなし';
 
               return `
                 <div class="chat-room-item ${S.currentChannel === ch.id ? 'active' : ''}" onclick="window.switchChannel('${ch.id}')">
@@ -1091,12 +1091,12 @@ document.head.appendChild(_style);
         <div class="chat-main">
           <div class="chat-top-bar">
             <div>
-              <div class="chat-top-bar-title" id="chatRoomName">ãã£ãã</div>
-              <span class="chat-top-bar-info" id="chatRoomMembers">2äºº</span>
+              <div class="chat-top-bar-title" id="chatRoomName">チャット</div>
+              <span class="chat-top-bar-info" id="chatRoomMembers">2人</span>
             </div>
             <div class="chat-top-bar-actions">
-              <button class="chat-top-bar-action" title="éç¥è¨­å®">ð</button>
-              <button class="chat-top-bar-action" title="è¨­å®">âï¸</button>
+              <button class="chat-top-bar-action" title="通知設定">🔔</button>
+              <button class="chat-top-bar-action" title="設定">⚙️</button>
             </div>
           </div>
 
@@ -1105,12 +1105,12 @@ document.head.appendChild(_style);
           </div>
 
           <div class="chat-input-area">
-            <button class="chat-input-file-btn" title="ãã¡ã¤ã«ãæ·»ä»">
-              ð
+            <button class="chat-input-file-btn" title="ファイルを添付">
+              📎
               <input type="file" id="chatFileInput" onchange="window.attachFile(event)">
             </button>
-            <input type="text" class="chat-input-text" id="chatInput" placeholder="ã¡ãã»ã¼ã¸ãå¥å...">
-            <button class="chat-input-send" id="chatSendBtn" onclick="window.sendMsg()">ð¤</button>
+            <input type="text" class="chat-input-text" id="chatInput" placeholder="メッセージを入力...">
+            <button class="chat-input-send" id="chatSendBtn" onclick="window.sendMsg()">📤</button>
           </div>
         </div>
       </div>
@@ -1164,7 +1164,7 @@ document.head.appendChild(_style);
     const msgs = (S.messages || []).filter(m => m.ch === currentCh);
 
     container.innerHTML = msgs.map((msg, idx) => {
-      const isSent = msg.from === 'æ¨å£æ¥é¨';
+      const isSent = msg.from === '樋口春騎';
       const time = msg.time || '';
 
       let bubbleContent = `<p class="chat-bubble-text">${msg.text || ''}</p>`;
@@ -1186,7 +1186,7 @@ document.head.appendChild(_style);
             </div>
             <div class="chat-message-meta">
               ${time}
-              ${isSent ? '<span class="chat-read-receipt">ââ</span>' : ''}
+              ${isSent ? '<span class="chat-read-receipt">✓✓</span>' : ''}
             </div>
           </div>
         </div>
@@ -1197,11 +1197,11 @@ document.head.appendChild(_style);
   }
 
   function getFileIcon(mimeType) {
-    if (mimeType.includes('image')) return 'ð¼ï¸';
-    if (mimeType.includes('pdf')) return 'ð';
-    if (mimeType.includes('word') || mimeType.includes('document')) return 'ð';
-    if (mimeType.includes('sheet') || mimeType.includes('excel')) return 'ð';
-    return 'ð';
+    if (mimeType.includes('image')) return '🖼️';
+    if (mimeType.includes('pdf')) return '📄';
+    if (mimeType.includes('word') || mimeType.includes('document')) return '📝';
+    if (mimeType.includes('sheet') || mimeType.includes('excel')) return '📊';
+    return '📎';
   }
 
   window.switchChannel = function(chId) {
@@ -1227,7 +1227,7 @@ document.head.appendChild(_style);
     const msg = {
       id: Date.now().toString(),
       ch: chId,
-      from: 'æ¨å£æ¥é¨',
+      from: '樋口春騎',
       text: text,
       time: new Date().toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'}),
       attachments: attachments.map(a => ({
@@ -1249,7 +1249,7 @@ document.head.appendChild(_style);
         id: (Date.now() + 1).toString(),
         ch: chId,
         from: 'system',
-        text: 'äºè§£ãã¾ãããç¢ºèªãããã¾ãã',
+        text: '了解しました。確認いたします。',
         time: new Date().toLocaleTimeString('ja-JP', {hour: '2-digit', minute: '2-digit'}),
         attachments: []
       };
@@ -1257,7 +1257,7 @@ document.head.appendChild(_style);
       renderChatMessages();
       saveStore();
 
-      LINE.sendNotification('U' + chId, `æ°ããã¡ãã»ã¼ã¸: ${text.substring(0, 50)}`);
+      LINE.sendNotification('U' + chId, `新しいメッセージ: ${text.substring(0, 50)}`);
     }, 800);
   };
 
@@ -1277,10 +1277,10 @@ document.head.appendChild(_style);
     const modalHtml = `
       <div class="file-preview-modal" onclick="this.remove()">
         <div class="file-preview-content" onclick="event.stopPropagation()">
-          <button class="file-preview-close" onclick="this.parentElement.parentElement.remove()">â</button>
+          <button class="file-preview-close" onclick="this.parentElement.parentElement.remove()">✕</button>
           ${att.type.includes('image')
             ? `<img src="${att.data}" class="file-preview-image">`
-            : `<div class="file-preview-document"><p>ð ${att.name}</p><p style="font-size: 12px; color: #999;">ãã¡ã¤ã«å½¢å¼: ${att.type}</p></div>`
+            : `<div class="file-preview-document"><p>📄 ${att.name}</p><p style="font-size: 12px; color: #999;">ファイル形式: ${att.type}</p></div>`
           }
         </div>
       </div>
@@ -1302,7 +1302,7 @@ document.head.appendChild(_style);
     };
 
     let oninputHandler = '';
-    if (options.type === 'number' && (options.suffix === 'ä¸' || options.suffix === 'ã¡')) {
+    if (options.type === 'number' && (options.suffix === '万' || options.suffix === '㎡')) {
       oninputHandler = 'oninput="this.value=this.value.replace(/[^0-9]/g,\'\').replace(/\\B(?=(\\d{3})+(?!\\d))/g,\',\')"';
     }
 
@@ -1327,7 +1327,7 @@ document.head.appendChild(_style);
     return `<div class="ph-input-wrapper">
       <label class="ph-label">${options.label}</label>
       <select id="${id}" class="ph-select" onchange="saveStore()">
-        <option value="" style="color: #bbb;">é¸æãã¦ãã ãã</option>
+        <option value="" style="color: #bbb;">選択してください</option>
         ${options.items.map(item => `
           <option value="${item.value || item}">${item.label || item}</option>
         `).join('')}
@@ -1400,14 +1400,14 @@ document.head.appendChild(_style);
   function renderStep0ClientSide() {
     return `
       <div class="step-section">
-        <div class="step-section-title">æ½å·¥äºå®</div>
+        <div class="step-section-title">施工予定</div>
         <div style="margin-bottom: 16px;">
-          <label class="ph-label">æ½å·¥ææ</label>
+          <label class="ph-label">施工時期</label>
           <div class="ph-date-range">
             <div class="ph-date-range-input">
               <input type="date" class="ph-date-input" id="step0_startDate" onchange="saveStore()">
             </div>
-            <div class="ph-date-range-arrow">â</div>
+            <div class="ph-date-range-arrow">→</div>
             <div class="ph-date-range-input">
               <input type="date" class="ph-date-input" id="step0_endDate" onchange="saveStore()">
             </div>
@@ -1416,75 +1416,75 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">ç©ä»¶æå ±</div>
-        ${window.phInput('step0_area', 'ã¨ãªã¢', {label: 'ã¨ãªã¢', placeholder: 'æ±äº¬é½ ä¸­å¤®åº'})}
-        ${window.phSelect('step0_building', 'å»ºç©', {label: 'å»ºç©', items: ['åºåãã³ã·ã§ã³', 'æ¸å»ºã¦', 'å¶ä»(æå¥å)']})}
-        ${window.phInput('step0_area_size', 'åºã', {label: 'åºã', type: 'number', placeholder: '70', suffix: 'ã¡'})}
+        <div class="step-section-title">物件情報</div>
+        ${window.phInput('step0_area', 'エリア', {label: 'エリア', placeholder: '東京都 中央区'})}
+        ${window.phSelect('step0_building', '建物', {label: '建物', items: ['区分マンション', '戸建て', '其他(手入力)']})}
+        ${window.phInput('step0_area_size', '広さ', {label: '広さ', type: 'number', placeholder: '70', suffix: '㎡'})}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">éåãå³</div>
+        <div class="step-section-title">間取り図</div>
         <div class="file-upload-zone" id="step0_floorPlanZone" onclick="document.getElementById('step0_floorPlanInput').click()">
-          <div class="file-upload-icon">ð</div>
-          <div class="file-upload-text">éåãå³ãã¢ããã­ã¼ã</div>
-          <div class="file-upload-subtext">ãã©ãã°&ãã­ããã¾ãã¯ã¯ãªãã¯</div>
+          <div class="file-upload-icon">📄</div>
+          <div class="file-upload-text">間取り図をアップロード</div>
+          <div class="file-upload-subtext">ドラッグ&ドロップまたはクリック</div>
           <input type="file" id="step0_floorPlanInput" accept=".pdf,.jpg,.png" onchange="window.handleFileUpload(event, 'step0_floorPlan')">
         </div>
         <div class="file-upload-preview" id="step0_floorPlan_preview"></div>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">äºç®</div>
-        ${window.phInput('step0_budget', 'å·¥äºäºç®', {label: 'å·¥äºäºç®', type: 'number', placeholder: '700', suffix: 'ä¸å'})}
-        ${window.phInput('step0_salePrice', 'è²©å£²äºå®éé¡', {label: 'è²©å£²äºå®éé¡', type: 'number', placeholder: '5000', suffix: 'ä¸å'})}
+        <div class="step-section-title">予算</div>
+        ${window.phInput('step0_budget', '工事予算', {label: '工事予算', type: 'number', placeholder: '700', suffix: '万円'})}
+        ${window.phInput('step0_salePrice', '販売予定金額', {label: '販売予定金額', type: 'number', placeholder: '5000', suffix: '万円'})}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">è¨ç»ä»ä¸ã</div>
-        ${window.phTabs('step0_finish', 'è¨ç»ä»ä¸ã', {
-          label: 'è¨ç»ä»ä¸ã',
-          items: ['åè³ªã¨ä»æ§ãå¤§å', 'åè³ªãå¤§å', 'å·¥æäºç®ãå¤§å']
+        <div class="step-section-title">計画仕上り</div>
+        ${window.phTabs('step0_finish', '計画仕上り', {
+          label: '計画仕上り',
+          items: ['品質と仕様が大切', '品質が大切', '工期予算が大切']
         })}
         <div class="ph-input-wrapper">
-          <label class="ph-label">åè</label>
-          <textarea class="ph-textarea" id="step0_finishNote" onchange="saveStore()" placeholder="ç¹ã«éè¦ããç¹ãªã©ããã°ãè¨å¥ãã ãã"></textarea>
+          <label class="ph-label">備考</label>
+          <textarea class="ph-textarea" id="step0_finishNote" onchange="saveStore()" placeholder="特に重視する点などあればご記入ください"></textarea>
         </div>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">ä½å±ç¶æ³</div>
-        ${window.phTabs('step0_living', 'å®¤åã®ä½¿ç¨ç¶æ³', {
-          label: 'å®¤åã®ä½¿ç¨ç¶æ³',
-          items: ['ä½ãã§ãã¾ã', 'ä½ãã§ãã¾ãã']
+        <div class="step-section-title">住居状況</div>
+        ${window.phTabs('step0_living', '室内の使用状況', {
+          label: '室内の使用状況',
+          items: ['住んでいます', '住んでいません']
         })}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">æ½å·¥æ¥­èã®ææ¡</div>
-        ${window.phTabs('step0_proposal', 'æ½å·¥æ¥­èããææ¡', {
-          label: 'æ½å·¥æ¥­èããææ¡',
-          items: ['æ', 'ç¡']
+        <div class="step-section-title">施工業者の提案</div>
+        ${window.phTabs('step0_proposal', '施工業者から提案', {
+          label: '施工業者から提案',
+          items: ['有', '無']
         })}
-        ${window.phTabs('step0_quotes', 'ç¸è¦ç©æ¥­è', {
-          label: 'ç¸è¦ç©æ¥­è',
-          items: [{label: '1ç¤¾', value: '1'}, {label: '2ç¤¾', value: '2'}, {label: '3ç¤¾ä»¥ä¸', value: '3+'}]
+        ${window.phTabs('step0_quotes', '相見積業者', {
+          label: '相見積業者',
+          items: [{label: '1社', value: '1'}, {label: '2社', value: '2'}, {label: '3社以上', value: '3+'}]
         })}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">å®¤ååç</div>
+        <div class="step-section-title">室内写真</div>
         <div class="file-upload-zone" id="step0_photosZone" onclick="document.getElementById('step0_photosInput').click()">
-          <div class="file-upload-icon">ð¸</div>
-          <div class="file-upload-text">å®¤ååçãã¢ããã­ã¼ã</div>
-          <div class="file-upload-subtext">è¤æ°ã®åçãã¢ããã­ã¼ãã§ãã¾ã</div>
+          <div class="file-upload-icon">📸</div>
+          <div class="file-upload-text">室内写真をアップロード</div>
+          <div class="file-upload-subtext">複数の写真をアップロードできます</div>
           <input type="file" id="step0_photosInput" accept="image/*" multiple onchange="window.handleFileUpload(event, 'step0_photos')">
         </div>
         <div class="photo-gallery" id="step0_photos_preview"></div>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">å®¤åç¶æ³ã³ã¡ã³ã</div>
-        <textarea class="ph-textarea" id="step0_photoComment" onchange="saveStore()" placeholder="åçã«é¢ããã³ã¡ã³ãããè¨å¥ãã ãã"></textarea>
+        <div class="step-section-title">室内状況コメント</div>
+        <textarea class="ph-textarea" id="step0_photoComment" onchange="saveStore()" placeholder="写真に関するコメントをご記入ください"></textarea>
       </div>
     `;
   }
@@ -1492,23 +1492,23 @@ document.head.appendChild(_style);
   function renderStep0ContractorSide() {
     return `
       <div class="step-section">
-        <div class="step-section-title">è¦ç©ãåç­</div>
-        ${window.phTabs('step0_quoteDate', 'è¦ç©ãåç­æ¥', {
-          label: 'è¦ç©ãåç­æ¥',
-          items: Array.from({length: 10}, (_, i) => ({label: `${i+1}æ¥å¾`, value: String(i+1)}))
+        <div class="step-section-title">見積り回答</div>
+        ${window.phTabs('step0_quoteDate', '見積り回答日', {
+          label: '見積り回答日',
+          items: Array.from({length: 10}, (_, i) => ({label: `${i+1}日後`, value: String(i+1)}))
         })}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">çå·¥äºå®</div>
-        ${window.phDate('step0_constructDate', 'æç­çå·¥æ¥', {label: 'æç­çå·¥æ¥'})}
+        <div class="step-section-title">着工予定</div>
+        ${window.phDate('step0_constructDate', '最短着工日', {label: '最短着工日'})}
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">èª¿æ»äºå®</div>
-        ${window.phTabs('step0_surveyTime', 'èª¿æ»æè¦æé', {
-          label: 'èª¿æ»æè¦æé',
-          items: ['15å', '30å', '45å', '60å', '75å', '90å']
+        <div class="step-section-title">調査予定</div>
+        ${window.phTabs('step0_surveyTime', '調査所要時間', {
+          label: '調査所要時間',
+          items: ['15分', '30分', '45分', '60分', '75分', '90分']
         })}
       </div>
     `;
@@ -1523,18 +1523,18 @@ document.head.appendChild(_style);
 
     return `
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ1</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時1</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_date1" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_time1_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_time1_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1542,18 +1542,18 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ2</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時2</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_date2" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_time2_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_time2_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1561,18 +1561,18 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ3</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時3</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_date3" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_time3_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_time3_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1580,16 +1580,16 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">èª¿æ»æã®å±æäºé </div>
-        <textarea class="ph-textarea" id="step1_note" onchange="saveStore()" placeholder="ç¹ã«ç¢ºèªãã¦ã»ããç¹ãªã©ããã°ãè¨å¥ãã ãã"></textarea>
+        <div class="step-section-title">調査時の共有事項</div>
+        <textarea class="ph-textarea" id="step1_note" onchange="saveStore()" placeholder="特に確認してほしい点などあればご記入ください"></textarea>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">ç¾å°èª¿æ»åç</div>
+        <div class="step-section-title">現地調査写真</div>
         <div class="file-upload-zone" id="step1_photosZone" onclick="document.getElementById('step1_photosInput').click()">
-          <div class="file-upload-icon">ð¸</div>
-          <div class="file-upload-text">èª¿æ»æã®åçãã¢ããã­ã¼ã</div>
-          <div class="file-upload-subtext">è¤æ°ã®åçãã¢ããã­ã¼ãã§ãã¾ã</div>
+          <div class="file-upload-icon">📸</div>
+          <div class="file-upload-text">調査時の写真をアップロード</div>
+          <div class="file-upload-subtext">複数の写真をアップロードできます</div>
           <input type="file" id="step1_photosInput" accept="image/*" multiple onchange="window.handleFileUpload(event, 'step1_photos')">
         </div>
         <div class="photo-gallery" id="step1_photos_preview"></div>
@@ -1606,29 +1606,29 @@ document.head.appendChild(_style);
 
     return `
       <div class="ai-warning">
-        <span class="ai-warning-icon">â ï¸</span>
+        <span class="ai-warning-icon">⚠️</span>
         <div>
-          <div class="ai-warning-title">ã¹ã±ã¸ã¥ã¼ã«ç«¶å</div>
+          <div class="ai-warning-title">スケジュール競合</div>
           <div class="ai-warning-text">
-            é¸æäºå®æ¥æãä¾é ¼å´ã®ææ¡å¤ã§ãã
-            <br>ä¾é ¼å´ã®ææ¡: 2024-03-15ã2024-03-17 09:00-17:00
+            選択予定日時が依頼側の提案外です。
+            <br>依頼側の提案: 2024-03-15〜2024-03-17 09:00-17:00
           </div>
         </div>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ1</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時1</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_c_date1" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_c_time1_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_c_time1_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1636,18 +1636,18 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ2</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時2</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_c_date2" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_c_time2_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_c_time2_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1655,18 +1655,18 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">åè£æ¥æ3</div>
-        <label class="ph-label">æ¥æ</label>
+        <div class="step-section-title">候補日時3</div>
+        <label class="ph-label">日時</label>
         <div class="ph-date-range">
           <input type="date" class="ph-date-input" id="step1_c_date3" onchange="saveStore()">
           <div style="display: flex; gap: 8px; align-items: center;">
             <select class="ph-select" id="step1_c_time3_start" onchange="saveStore()" style="flex: 1;">
-              <option value="">éå§æå»</option>
+              <option value="">開始時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
-            <span style="color: var(--sub, #999);">ï½</span>
+            <span style="color: var(--sub, #999);">～</span>
             <select class="ph-select" id="step1_c_time3_end" onchange="saveStore()" style="flex: 1;">
-              <option value="">çµäºæå»</option>
+              <option value="">終了時刻</option>
               ${timeSlots.map(t => `<option value="${t}">${t}</option>`).join('')}
             </select>
           </div>
@@ -1674,16 +1674,16 @@ document.head.appendChild(_style);
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">ç¢ºèªäºé ã³ã¡ã³ã</div>
-        <textarea class="ph-textarea" id="step1_c_note" onchange="saveStore()" placeholder="ç¢ºèªäºé ãããã°ãè¨å¥ãã ãã"></textarea>
+        <div class="step-section-title">確認事項コメント</div>
+        <textarea class="ph-textarea" id="step1_c_note" onchange="saveStore()" placeholder="確認事項があればご記入ください"></textarea>
       </div>
 
       <div class="step-section">
-        <div class="step-section-title">ç¾å°èª¿æ»åç</div>
+        <div class="step-section-title">現地調査写真</div>
         <div class="file-upload-zone" id="step1_c_photosZone" onclick="document.getElementById('step1_c_photosInput').click()">
-          <div class="file-upload-icon">ð¸</div>
-          <div class="file-upload-text">èª¿æ»æã®åçãã¢ããã­ã¼ã</div>
-          <div class="file-upload-subtext">è¤æ°ã®åçãã¢ããã­ã¼ãã§ãã¾ã</div>
+          <div class="file-upload-icon">📸</div>
+          <div class="file-upload-text">調査時の写真をアップロード</div>
+          <div class="file-upload-subtext">複数の写真をアップロードできます</div>
           <input type="file" id="step1_c_photosInput" accept="image/*" multiple onchange="window.handleFileUpload(event, 'step1_c_photos')">
         </div>
         <div class="photo-gallery" id="step1_c_photos_preview"></div>
@@ -1698,22 +1698,22 @@ document.head.appendChild(_style);
 
     area.innerHTML = `
       <div class="dev-toggle-wrapper">
-        <span class="dev-toggle-label">ã­ã¼ã«:</span>
+        <span class="dev-toggle-label">ロール:</span>
         <div class="toggle-switch ${S.meeting && S.meeting.layer === 2 ? 'active' : ''}" id="roleToggle" onclick="window.toggleLayer()">
           <div class="toggle-switch-thumb"></div>
         </div>
-        <span class="dev-toggle-label">${S.meeting && S.meeting.layer === 2 ? 'æ½å·¥ç®¡çå´' : 'ä¾é ¼å´'}</span>
+        <span class="dev-toggle-label">${S.meeting && S.meeting.layer === 2 ? '施工管理側' : '依頼側'}</span>
       </div>
 
       <div class="meet-columns">
         <div>
-          <div class="meet-column-header">ð ä¾é ¼å´</div>
+          <div class="meet-column-header">📝 依頼側</div>
           <div class="meet-column-content">
             ${renderStep0ClientSide()}
           </div>
         </div>
         <div>
-          <div class="meet-column-header" style="background:linear-gradient(135deg,#059669,#10b981)">ð§ æ½å·¥ç®¡çå´</div>
+          <div class="meet-column-header" style="background:linear-gradient(135deg,#059669,#10b981)">🔧 施工管理側</div>
           <div class="meet-column-content">
             ${renderStep0ContractorSide()}
           </div>
@@ -1728,22 +1728,22 @@ document.head.appendChild(_style);
 
     area.innerHTML = `
       <div class="dev-toggle-wrapper">
-        <span class="dev-toggle-label">ã­ã¼ã«:</span>
+        <span class="dev-toggle-label">ロール:</span>
         <div class="toggle-switch ${S.meeting && S.meeting.layer === 2 ? 'active' : ''}" id="roleToggle" onclick="window.toggleLayer()">
           <div class="toggle-switch-thumb"></div>
         </div>
-        <span class="dev-toggle-label">${S.meeting && S.meeting.layer === 2 ? 'æ½å·¥ç®¡çå´' : 'ä¾é ¼å´'}</span>
+        <span class="dev-toggle-label">${S.meeting && S.meeting.layer === 2 ? '施工管理側' : '依頼側'}</span>
       </div>
 
       <div class="meet-columns">
         <div>
-          <div class="meet-column-header">ð ä¾é ¼å´</div>
+          <div class="meet-column-header">📝 依頼側</div>
           <div class="meet-column-content">
             ${renderStep1ClientSide()}
           </div>
         </div>
         <div>
-          <div class="meet-column-header" style="background:linear-gradient(135deg,#059669,#10b981)">ð§ æ½å·¥ç®¡çå´</div>
+          <div class="meet-column-header" style="background:linear-gradient(135deg,#059669,#10b981)">🔧 施工管理側</div>
           <div class="meet-column-content">
             ${renderStep1ContractorSide()}
           </div>
@@ -1789,7 +1789,7 @@ document.head.appendChild(_style);
           item.className = 'photo-gallery-item';
           item.innerHTML = `
             <img src="${e.target.result}">
-            <button class="photo-gallery-item-remove" onclick="this.parentElement.remove()">â</button>
+            <button class="photo-gallery-item-remove" onclick="this.parentElement.remove()">✕</button>
           `;
           container.appendChild(item);
         } else {
@@ -1798,7 +1798,7 @@ document.head.appendChild(_style);
           item.innerHTML = `
             <span class="file-upload-item-icon">${getFileIcon(file.type)}</span>
             <span class="file-upload-item-name">${file.name}</span>
-            <button class="file-upload-item-remove" onclick="this.parentElement.remove()">â</button>
+            <button class="file-upload-item-remove" onclick="this.parentElement.remove()">✕</button>
           `;
           container.appendChild(item);
         }
@@ -1846,4 +1846,24 @@ document.head.appendChild(_style);
   window.FileAttachment = FileAttachment;
 
 
+
+
+  // === NAVIGATION FIX: Clean up chat DOM when switching pages ===
+  (function() {
+    const origSw = window.sw;
+    if (typeof origSw === 'function') {
+      window.sw = function(page) {
+        // Remove chat container if it exists (from v6 renderChat)
+        const chatContainer = document.querySelector('.chat-container');
+        if (chatContainer) {
+          const mainEl = document.querySelector('.main');
+          if (mainEl) {
+            // Restore original main content structure
+            mainEl.innerHTML = '<div class="topbar"><h2 id="pageTitle"></h2><span id="clock"></span><button class="btn" onclick="openNewForm()" style="margin-left:auto">+ 新規追加</button></div><div id="content"></div>';
+          }
+        }
+        return origSw.apply(this, arguments);
+      };
+    }
+  })();
 })();
