@@ -1316,7 +1316,6 @@ document.addEventListener('DOMContentLoaded',checkAuth);
     if (pct > 0) _toRafId = requestAnimationFrame(updateBar);
   }
   function resetTimer() {
-        if (sessionStorage.getItem("hataraiku_admin") === "true") return;
     if (!sessionStorage.getItem("hataraiku_auth")) return;
     clearTimeout(_toTimer);
     if (_toRafId) cancelAnimationFrame(_toRafId);
@@ -1327,7 +1326,6 @@ document.addEventListener('DOMContentLoaded',checkAuth);
     _toTimer = setTimeout(doTimeout, TIMEOUT_MS);
   }
   function doTimeout() {
-        if (sessionStorage.getItem("hataraiku_admin") === "true") return;
     if (_toRafId) cancelAnimationFrame(_toRafId);
     sessionStorage.removeItem("hataraiku_auth");
     var ov = document.querySelector(".auth-overlay");
@@ -1371,5 +1369,78 @@ document.addEventListener('DOMContentLoaded',checkAuth);
 <p style="color:#999;font-size:.7rem;margin-top:1.2rem">管理者による承認後にアクセス可能になります<br>&copy; 2026 はたらいく | セキュリティ</p>
 </div>
 </div>
+
+<!-- ADMIN AUTH OVERRIDE -->
+<script>
+(function(){
+  var ADMIN_EM = "kanri09072111100@gm" + "ail.com";
+  var ADMIN_PW = "6129";
+
+  // Global admin password handler
+  window.handleAdminPass = function() {
+    var pw = document.getElementById("adminPassInput").value;
+    if (pw === ADMIN_PW) {
+      sessionStorage.setItem("hataraiku_auth", "admin");
+      sessionStorage.setItem("hataraiku_admin", "true");
+      document.querySelector(".auth-overlay").style.display = "none";
+      document.getElementById("adminPassSection").style.display = "none";
+      // Remove timeout bar for admin
+      var bar = document.getElementById("timeout-bar");
+      if (bar) bar.remove();
+    } else {
+      document.getElementById("adminPassError").style.display = "block";
+      document.getElementById("adminPassInput").value = "";
+    }
+  };
+
+  // Override handleLogin to detect admin email
+  var _origHL = window.handleLogin;
+  window.handleLogin = function() {
+    var emailEl = document.querySelector(".auth-overlay input[type=email]");
+    if (emailEl && emailEl.value.trim().toLowerCase() === ADMIN_EM) {
+      document.getElementById("adminPassSection").style.display = "flex";
+      return;
+    }
+    if (typeof _origHL === "function") _origHL();
+  };
+
+  // Override timeout for admin sessions
+  var _origSI = window.setInterval;
+  var _origST = window.setTimeout;
+
+  // Kill existing timeout if admin
+  if (sessionStorage.getItem("hataraiku_admin") === "true") {
+    var bar = document.getElementById("timeout-bar");
+    if (bar) bar.remove();
+  }
+
+  // Observe sessionStorage changes to kill timeout when admin logs in
+  var origSetItem = sessionStorage.setItem.bind(sessionStorage);
+  sessionStorage.setItem = function(k, v) {
+    origSetItem(k, v);
+    if (k === "hataraiku_admin" && v === "true") {
+      var bar = document.getElementById("timeout-bar");
+      if (bar) bar.remove();
+    }
+  };
+
+  // Enter key support for password field
+  document.addEventListener("DOMContentLoaded", function() {
+    var passInput = document.getElementById("adminPassInput");
+    if (passInput) {
+      passInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") window.handleAdminPass();
+      });
+    }
+  });
+  // Also try immediately for already-loaded DOM
+  var passInput = document.getElementById("adminPassInput");
+  if (passInput) {
+    passInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") window.handleAdminPass();
+    });
+  }
+})();
+</script>
 </body>
 </html>
