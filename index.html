@@ -1316,6 +1316,7 @@ document.addEventListener('DOMContentLoaded',checkAuth);
     if (pct > 0) _toRafId = requestAnimationFrame(updateBar);
   }
   function resetTimer() {
+        if (sessionStorage.getItem("hataraiku_admin") === "true") return;
     if (!sessionStorage.getItem("hataraiku_auth")) return;
     clearTimeout(_toTimer);
     if (_toRafId) cancelAnimationFrame(_toRafId);
@@ -1326,6 +1327,7 @@ document.addEventListener('DOMContentLoaded',checkAuth);
     _toTimer = setTimeout(doTimeout, TIMEOUT_MS);
   }
   function doTimeout() {
+        if (sessionStorage.getItem("hataraiku_admin") === "true") return;
     if (_toRafId) cancelAnimationFrame(_toRafId);
     sessionStorage.removeItem("hataraiku_auth");
     var ov = document.querySelector(".auth-overlay");
@@ -1347,6 +1349,17 @@ document.addEventListener('DOMContentLoaded',checkAuth);
 </script>
 
 <!-- AUTH OVERLAY -->
+    <div id="adminPassSection" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:10000;align-items:center;justify-content:center;">
+      <div style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
+        <div style="font-size:2rem;margin-bottom:.5rem">🔒</div>
+        <h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">管理者ログイン</h2>
+        <p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">パスワードを入力してください</p>
+        <input id="adminPassInput" type="password" placeholder="パスワード" style="display:block;width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;margin-bottom:1rem;outline:none;text-align:center;letter-spacing:.5rem">
+        <p id="adminPassError" style="display:none;color:#dc2626;font-size:.85rem;margin-bottom:.75rem">パスワードが違います</p>
+        <button onclick="handleAdminPass()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">ログイン</button>
+        <button onclick="document.getElementById('adminPassSection').style.display='none'" style="margin-top:.75rem;background:none;border:none;color:#999;cursor:pointer;font-size:.85rem">戻る</button>
+      </div>
+    </div>
 <div class="auth-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:9999;align-items:center;justify-content:center">
 <div class="auth-card" style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
 <div style="font-size:2rem;margin-bottom:.5rem">🔐💼🌏💡</div>
