@@ -1290,6 +1290,59 @@ function poll(em,n){
   });
 }
 document.addEventListener('DOMContentLoaded',checkAuth);
+
+// === INACTIVITY TIMEOUT (2 min) ===
+(function(){
+  var TIMEOUT_MS = 2 * 60 * 1000;
+  var _toTimer = null;
+  var _toBar = null;
+  var _toStartTime = 0;
+  var _toRafId = null;
+  function createTimeoutBar() {
+    if (_toBar) return;
+    _toBar = document.createElement("div");
+    _toBar.id = "timeout-bar";
+    _toBar.style.cssText = "position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#4f46e5,#dc2626);z-index:9999;transition:none;width:100%;";
+    document.body.appendChild(_toBar);
+  }
+  function updateBar() {
+    if (!_toBar) return;
+    var elapsed = Date.now() - _toStartTime;
+    var pct = Math.max(0, 100 - (elapsed / TIMEOUT_MS) * 100);
+    _toBar.style.width = pct + "%";
+    if (pct > 50) _toBar.style.background = "linear-gradient(90deg,#4f46e5,#6366f1)";
+    else if (pct > 20) _toBar.style.background = "linear-gradient(90deg,#f59e0b,#ef4444)";
+    else _toBar.style.background = "#dc2626";
+    if (pct > 0) _toRafId = requestAnimationFrame(updateBar);
+  }
+  function resetTimer() {
+    if (!sessionStorage.getItem("hataraiku_auth")) return;
+    clearTimeout(_toTimer);
+    if (_toRafId) cancelAnimationFrame(_toRafId);
+    _toStartTime = Date.now();
+    createTimeoutBar();
+    if (_toBar) _toBar.style.width = "100%";
+    _toRafId = requestAnimationFrame(updateBar);
+    _toTimer = setTimeout(doTimeout, TIMEOUT_MS);
+  }
+  function doTimeout() {
+    if (_toRafId) cancelAnimationFrame(_toRafId);
+    sessionStorage.removeItem("hataraiku_auth");
+    var ov = document.querySelector(".auth-overlay");
+    if (ov) ov.style.display = "flex";
+    if (_toBar) { _toBar.remove(); _toBar = null; }
+    alert("2\u5206\u9593\u64cd\u4f5c\u304c\u306a\u304b\u3063\u305f\u305f\u3081\u3001\u30bb\u30c3\u30b7\u30e7\u30f3\u304c\u30bf\u30a4\u30e0\u30a2\u30a6\u30c8\u3057\u307e\u3057\u305f\u3002\u518d\u5ea6\u30ed\u30b0\u30a4\u30f3\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
+  }
+  ["mousemove","mousedown","keydown","scroll","touchstart","click"].forEach(function(e){
+    document.addEventListener(e, resetTimer, {passive:true});
+  });
+  if (sessionStorage.getItem("hataraiku_auth")) resetTimer();
+  var _origSS = sessionStorage.setItem.bind(sessionStorage);
+  sessionStorage.setItem = function(k, v) {
+    _origSS(k, v);
+    if (k === "hataraiku_auth") resetTimer();
+  };
+})();
 // === END AUTH GATE ===
 </script>
 
