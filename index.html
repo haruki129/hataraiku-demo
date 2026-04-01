@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ã¯ãããã v5.0</title>
+<title>Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ v5.0</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
 :root{--p:#6366f1;--s:#8b5cf6;--bg:#f8fafc;--card:#ffffff;--border:#e2e8f0;--text:#1e293b;--sub:#64748b;--hover:#f1f5f9}
@@ -90,240 +90,240 @@ footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-
 <body>
 <div id="authOverlay" class="auth-overlay">
 <div class="auth-card">
-<div class="auth-lock">ð</div>
-<h1>ã¯ãããã</h1>
-<p class="sub">ç¥è¡åä¸ â AXé©å½ãã©ãããã©ã¼ã </p>
+<div class="auth-lock">Ã°ÂÂÂ</div>
+<h1>Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ</h1>
+<p class="sub">Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â Ã¢ÂÂ AXÃ©ÂÂ©Ã¥ÂÂ½Ã£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ©Ã£ÂÂ¼Ã£ÂÂ </p>
 <div class="field">
-<label>ã¡ã¼ã«ã¢ãã¬ã¹</label>
+<label>Ã£ÂÂ¡Ã£ÂÂ¼Ã£ÂÂ«Ã£ÂÂ¢Ã£ÂÂÃ£ÂÂ¬Ã£ÂÂ¹</label>
 <input type="email" id="authEmail" placeholder="your@email.com" autocomplete="email">
 </div>
 <p class="err" id="authErr"></p>
-<button class="auth-btn" id="authBtn" onclick="authLogin()">ã¢ã¯ã»ã¹ç³è«</button>
-<p class="auth-footer">æ¿èªæ¸ã¿ã¡ã¼ã«ã¢ãã¬ã¹ã®ã¿ã¢ã¯ã»ã¹å¯è½ã§ã<br>Â© 2026 ã¯ãããã | AXé©å½</p>
+<button class="auth-btn" id="authBtn" onclick="handleLogin()">Ã£ÂÂ¢Ã£ÂÂ¯Ã£ÂÂ»Ã£ÂÂ¹Ã§ÂÂ³Ã¨Â«Â</button>
+<p class="auth-footer">Ã¦ÂÂ¿Ã¨ÂªÂÃ¦Â¸ÂÃ£ÂÂ¿Ã£ÂÂ¡Ã£ÂÂ¼Ã£ÂÂ«Ã£ÂÂ¢Ã£ÂÂÃ£ÂÂ¬Ã£ÂÂ¹Ã£ÂÂ®Ã£ÂÂ¿Ã£ÂÂ¢Ã£ÂÂ¯Ã£ÂÂ»Ã£ÂÂ¹Ã¥ÂÂ¯Ã¨ÂÂ½Ã£ÂÂ§Ã£ÂÂ<br>ÃÂ© 2026 Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ | AXÃ©ÂÂ©Ã¥ÂÂ½</p>
 </div>
 </div>
 
 <nav class="sidebar">
-<h1>ã¯ãããã</h1>
-<div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">ç¥è¡åä¸ â AXé©å½</div>
+<h1>Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ</h1>
+<div style="padding:.75rem 1.5rem;font-size:.7rem;opacity:.7;border-bottom:1px solid rgba(255,255,255,.1)">Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â Ã¢ÂÂ AXÃ©ÂÂ©Ã¥ÂÂ½</div>
 <div style="flex:1;padding:.5rem 0">
-<div class="ni on" data-t="dash" onclick="sw('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>ããã·ã¥ãã¼ã</span></div>
-<div class="ni" data-t="proj" onclick="sw('proj')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>ãã­ã¸ã§ã¯ã</span></div>
-<div class="ni" data-t="flow" onclick="sw('flow')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>ãã­ã¼</span></div>
-<div class="ni" data-t="chat" onclick="sw('chat')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>ãã£ãã</span></div>
-<div class="ni" data-t="team" onclick="sw('team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span>äººæ</span></div>
-<div class="ni" data-t="data" onclick="sw('data')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span>ãã¼ã¿</span></div>
-<div class="ni" data-t="ai" onclick="sw('ai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h2a2 2 0 012 2v2a4 4 0 01-4 4h-1v1a4 4 0 01-4 4 4 4 0 01-4-4v-1H6a4 4 0 01-4-4V9a2 2 0 012-2h2V6a4 4 0 014-4z"/></svg><span>AIåæ</span></div>
-<div class="ni" data-t="log" onclick="sw('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>æ¿èªå±¥æ­´</span></div>
+<div class="ni on" data-t="dash" onclick="sw('dash')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ</span></div>
+<div class="ni" data-t="proj" onclick="sw('proj')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span>Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂ</span></div>
+<div class="ni" data-t="flow" onclick="sw('flow')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¼</span></div>
+<div class="ni" data-t="chat" onclick="sw('chat')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>Ã£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ</span></div>
+<div class="ni" data-t="team" onclick="sw('team')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><span>Ã¤ÂºÂºÃ¦ÂÂ</span></div>
+<div class="ni" data-t="data" onclick="sw('data')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg><span>Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿</span></div>
+<div class="ni" data-t="ai" onclick="sw('ai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4v1h2a2 2 0 012 2v2a4 4 0 01-4 4h-1v1a4 4 0 01-4 4 4 4 0 01-4-4v-1H6a4 4 0 01-4-4V9a2 2 0 012-2h2V6a4 4 0 014-4z"/></svg><span>AIÃ¥ÂÂÃ¦ÂÂ</span></div>
+<div class="ni" data-t="log" onclick="sw('log')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â±Â¥Ã¦Â­Â´</span></div>
 </div>
 <div style="padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.15);font-size:.75rem">
-<div style="display:flex;align-items:center;gap:.5rem"><div class="av" style="width:2rem;height:2rem;font-size:.7rem">æ¨</div><div><p style="font-weight:600">æ¨å£æ¥é¨</p><p style="opacity:.7">AXãªã¼ãã¼</p></div></div>
+<div style="display:flex;align-items:center;gap:.5rem"><div class="av" style="width:2rem;height:2rem;font-size:.7rem">Ã¦Â¨Â</div><div><p style="font-weight:600">Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â</p><p style="opacity:.7">AXÃ£ÂÂªÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ¼</p></div></div>
 </div>
 </nav>
 
 <div class="main">
 <div class="topbar">
-<div><h2 id="pageTitle">ããã·ã¥ãã¼ã</h2><p class="text-sm" style="color:var(--sub)" id="pageSub">ãªã¢ã«ã¿ã¤ã çµå¶ææ¨</p></div>
+<div><h2 id="pageTitle">Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ</h2><p class="text-sm" style="color:var(--sub)" id="pageSub">Ã£ÂÂªÃ£ÂÂ¢Ã£ÂÂ«Ã£ÂÂ¿Ã£ÂÂ¤Ã£ÂÂ Ã§ÂµÂÃ¥ÂÂ¶Ã¦ÂÂÃ¦Â¨Â</p></div>
 <div style="display:flex;align-items:center;gap:1rem">
 <span class="text-sm" style="color:var(--sub)" id="clock"></span>
-<button class="btn text-sm" onclick="openAddModal()">ï¼ æ°è¦è¿½å </button>
+<button class="btn text-sm" onclick="openAddModal()">Ã¯Â¼Â Ã¦ÂÂ°Ã¨Â¦ÂÃ¨Â¿Â½Ã¥ÂÂ </button>
 </div>
 </div>
 
-<!-- ããã·ã¥ãã¼ã -->
+<!-- Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ -->
 <div id="dash" class="tab on">
 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-<div class="kp"><p class="text-sm" style="color:var(--sub)">åæ³¨ç·é¡</p><p class="cn" id="kpi_revenue">-</p><p class="text-xs" style="color:#16a34a">â² ãªã¢ã«ã¿ã¤ã éè¨</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">é²è¡PJ</p><p class="cn" id="kpi_projects">-</p><p class="text-xs" style="color:#16a34a">â² å®ãã¼ã¿é£å</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">ç¨¼åæé</p><p class="cn" id="kpi_hours">-</p><p class="text-xs" style="color:var(--sub)">ä»æç´¯è¨</p></div>
-<div class="kp"><p class="text-sm" style="color:var(--sub)">åè³ªã¹ã³ã¢</p><p class="cn" id="kpi_quality">-</p><p class="text-xs" style="color:#16a34a">â² æ¿èªãã¼ã¿ç®åº</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">Ã¥ÂÂÃ¦Â³Â¨Ã§Â·ÂÃ©Â¡Â</p><p class="cn" id="kpi_revenue">-</p><p class="text-xs" style="color:#16a34a">Ã¢ÂÂ² Ã£ÂÂªÃ£ÂÂ¢Ã£ÂÂ«Ã£ÂÂ¿Ã£ÂÂ¤Ã£ÂÂ Ã©ÂÂÃ¨Â¨Â</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">Ã©ÂÂ²Ã¨Â¡ÂPJ</p><p class="cn" id="kpi_projects">-</p><p class="text-xs" style="color:#16a34a">Ã¢ÂÂ² Ã¥Â®ÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã©ÂÂ£Ã¥ÂÂ</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">Ã§Â¨Â¼Ã¥ÂÂÃ¦ÂÂÃ©ÂÂ</p><p class="cn" id="kpi_hours">-</p><p class="text-xs" style="color:var(--sub)">Ã¤Â»ÂÃ¦ÂÂÃ§Â´Â¯Ã¨Â¨Â</p></div>
+<div class="kp"><p class="text-sm" style="color:var(--sub)">Ã¥ÂÂÃ¨Â³ÂªÃ£ÂÂ¹Ã£ÂÂ³Ã£ÂÂ¢</p><p class="cn" id="kpi_quality">-</p><p class="text-xs" style="color:#16a34a">Ã¢ÂÂ² Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã§Â®ÂÃ¥ÂÂº</p></div>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">ææ¬¡æ¨ç§»</h4>
+<h4 class="font-bold text-sm mb-3">Ã¦ÂÂÃ¦Â¬Â¡Ã¦ÂÂ¨Ã§Â§Â»</h4>
 <canvas id="chartCanvas" height="200"></canvas>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">ç´è¿ã®æ´»å</h4>
+<h4 class="font-bold text-sm mb-3">Ã§ÂÂ´Ã¨Â¿ÂÃ£ÂÂ®Ã¦Â´Â»Ã¥ÂÂ</h4>
 <div id="recentActivity" class="space-y-2 text-sm" style="max-height:200px;overflow-y:auto"></div>
 </div>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-3">ãã­ã¸ã§ã¯ãé²æä¸è¦§</h4>
+<h4 class="font-bold text-sm mb-3">Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ©ÂÂ²Ã¦ÂÂÃ¤Â¸ÂÃ¨Â¦Â§</h4>
 <div id="dashProjects" class="space-y-3"></div>
 </div>
 </div>
 
-<!-- ãã­ã¸ã§ã¯ã -->
+<!-- Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂ -->
 <div id="proj" class="tab">
 <div class="flex justify-between items-center mb-4">
-<h3 class="font-bold">ãã­ã¸ã§ã¯ãç®¡ç</h3>
+<h3 class="font-bold">Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ§Â®Â¡Ã§ÂÂ</h3>
 <div class="flex gap-2">
-<input class="inp" style="width:200px" placeholder="æ¤ç´¢..." id="projSearch" oninput="renderProjects()">
-<button class="btn text-sm" onclick="openProjModal()">ï¼ æ°è¦PJ</button>
+<input class="inp" style="width:200px" placeholder="Ã¦Â¤ÂÃ§Â´Â¢..." id="projSearch" oninput="renderProjects()">
+<button class="btn text-sm" onclick="openProjModal()">Ã¯Â¼Â Ã¦ÂÂ°Ã¨Â¦ÂPJ</button>
 </div>
 </div>
 <div id="projList" class="space-y-3"></div>
 </div>
 
-<!-- ãã­ã¼ -->
+<!-- Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¼ -->
 <div id="flow" class="tab">
-<!-- ã¬ã¤ã¤ã¼åæ¿ãã°ã« -->
+<!-- Ã£ÂÂ¬Ã£ÂÂ¤Ã£ÂÂ¤Ã£ÂÂ¼Ã¥ÂÂÃ¦ÂÂ¿Ã£ÂÂÃ£ÂÂ°Ã£ÂÂ« -->
 <div class="flex justify-between items-center mb-4">
 <div>
-<h3 class="font-bold text-lg">æåããã­ã¼</h3>
-<p class="text-xs" style="color:var(--sub)">ã¹ãããã¼å½¢å¼ â ç¥è¡åä¸ã§æ¡ä»¶ãåã¸é²ãã</p>
+<h3 class="font-bold text-lg">Ã¦ÂÂÃ¥ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼</h3>
+<p class="text-xs" style="color:var(--sub)">Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã¥Â½Â¢Ã¥Â¼Â Ã¢ÂÂ Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸ÂÃ£ÂÂ§Ã¦Â¡ÂÃ¤Â»Â¶Ã£ÂÂÃ¥ÂÂÃ£ÂÂ¸Ã©ÂÂ²Ã£ÂÂÃ£ÂÂ</p>
 </div>
 <div class="flex items-center gap-2">
-<span class="text-xs font-bold" id="layerLabel" style="color:var(--p)">ä¾é ¼å´</span>
-<button onclick="toggleLayer()" id="layerToggle" style="width:52px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:linear-gradient(135deg,var(--p),var(--s));transition:all .3s" title="ä¾é ¼å´/æ½å·¥ç®¡çå´ãåæ¿">
+<span class="text-xs font-bold" id="layerLabel" style="color:var(--p)">Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´</span>
+<button onclick="toggleLayer()" id="layerToggle" style="width:52px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:linear-gradient(135deg,var(--p),var(--s));transition:all .3s" title="Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´/Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂÃ¥ÂÂÃ¦ÂÂ¿">
 <span id="layerDot" style="position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>
 </button>
-<span class="text-xs" style="color:var(--sub)" id="layerLabelR">æ½å·¥ç®¡çå´</span>
+<span class="text-xs" style="color:var(--sub)" id="layerLabelR">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´</span>
 </div>
 </div>
 
-<!-- ã¹ãããã¼ãã¼ -->
+<!-- Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ¼ -->
 <div class="kp mb-4" style="padding:.75rem 1.5rem">
 <div class="flex items-center justify-between" id="stepperBar"></div>
 </div>
 
-<!-- ã¹ãããåå®¹ã¨ãªã¢ -->
+<!-- Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¥ÂÂÃ¥Â®Â¹Ã£ÂÂ¨Ã£ÂÂªÃ£ÂÂ¢ -->
 <div id="flowStepContent" class="kp" style="min-height:400px"></div>
 </div>
 
-<!-- ãã£ãã -->
+<!-- Ã£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ -->
 <div id="chat" class="tab">
 <div style="display:flex;gap:1rem;height:calc(100vh - 200px)">
 <div style="width:200px;flex-shrink:0" class="kp">
-<h4 class="font-bold text-sm mb-3">ãã£ã³ãã«</h4>
+<h4 class="font-bold text-sm mb-3">Ã£ÂÂÃ£ÂÂ£Ã£ÂÂ³Ã£ÂÂÃ£ÂÂ«</h4>
 <div id="channels" class="space-y-1"></div>
 </div>
 <div style="flex:1;display:flex;flex-direction:column" class="kp">
 <div class="flex items-center gap-3 pb-3 mb-3" style="border-bottom:1px solid var(--border)">
-<div class="av" style="font-size:.7rem" id="chatAvatar">å¨</div>
-<div><p class="font-bold text-sm" id="chatTitle">å¨ä½ãã£ãã</p><p class="text-xs" style="color:var(--sub)" id="chatMembers">6ååå </p></div>
+<div class="av" style="font-size:.7rem" id="chatAvatar">Ã¥ÂÂ¨</div>
+<div><p class="font-bold text-sm" id="chatTitle">Ã¥ÂÂ¨Ã¤Â½ÂÃ£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ</p><p class="text-xs" style="color:var(--sub)" id="chatMembers">6Ã¥ÂÂÃ¥ÂÂÃ¥ÂÂ </p></div>
 </div>
 <div class="flex-1 overflow-y-auto space-y-3" id="msgs"></div>
 <div class="flex gap-2 mt-3 pt-3" style="border-top:1px solid var(--border)">
-<input class="inp mb-0 flex-1" placeholder="ã¡ãã»ã¼ã¸ãå¥å..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
-<button class="btn text-sm" onclick="sendMsg()">éä¿¡</button>
+<input class="inp mb-0 flex-1" placeholder="Ã£ÂÂ¡Ã£ÂÂÃ£ÂÂ»Ã£ÂÂ¼Ã£ÂÂ¸Ã£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..." id="chatIn" onkeydown="if(event.key==='Enter')sendMsg()">
+<button class="btn text-sm" onclick="sendMsg()">Ã©ÂÂÃ¤Â¿Â¡</button>
 </div>
 </div>
 </div>
 </div>
 
-<!-- äººæ -->
+<!-- Ã¤ÂºÂºÃ¦ÂÂ -->
 <div id="team" class="tab">
 <div class="flex justify-between items-center mb-4">
-<h3 class="font-bold">äººæ</h3>
+<h3 class="font-bold">Ã¤ÂºÂºÃ¦ÂÂ</h3>
 <div class="flex gap-2">
-<button class="btn text-sm rt on" onclick="filt(this,'all')">å¨å¡</button>
-<button class="btn2 text-sm rt" onclick="filt(this,'manager')">ç®¡çè</button>
-<button class="btn2 text-sm rt" onclick="filt(this,'worker')">ä½æ¥­å¡</button>
+<button class="btn text-sm rt on" onclick="filt(this,'all')">Ã¥ÂÂ¨Ã¥ÂÂ¡</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'manager')">Ã§Â®Â¡Ã§ÂÂÃ¨ÂÂ</button>
+<button class="btn2 text-sm rt" onclick="filt(this,'worker')">Ã¤Â½ÂÃ¦Â¥Â­Ã¥ÂÂ¡</button>
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="teamGrid"></div>
 </div>
 
-<!-- ãã¼ã¿ -->
+<!-- Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿ -->
 <div id="data" class="tab">
-<h3 class="font-bold mb-4">ãã¼ã¿ç®¡ç</h3>
+<h3 class="font-bold mb-4">Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã§Â®Â¡Ã§ÂÂ</h3>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="dataStats"></div>
 <div class="kp">
 <div class="flex justify-between items-center mb-3">
-<h4 class="font-bold text-sm">ãã¡ã¤ã«ä¸è¦§</h4>
-<button class="btn text-sm" onclick="openFileUpload()">ï¼ ã¢ããã­ã¼ã</button>
+<h4 class="font-bold text-sm">Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã¤Â¸ÂÃ¨Â¦Â§</h4>
+<button class="btn text-sm" onclick="openFileUpload()">Ã¯Â¼Â Ã£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ</button>
 </div>
 <div id="fileList" class="space-y-2"></div>
 </div>
 </div>
 
-<!-- AIåæ -->
+<!-- AIÃ¥ÂÂÃ¦ÂÂ -->
 <div id="ai" class="tab">
-<h3 class="font-bold mb-4">AIåæ</h3>
+<h3 class="font-bold mb-4">AIÃ¥ÂÂÃ¦ÂÂ</h3>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4" id="aiMetrics"></div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
 <div class="kp">
-<h4 class="font-bold text-sm mb-2">ãªã¹ã¯äºæ¸¬</h4>
+<h4 class="font-bold text-sm mb-2">Ã£ÂÂªÃ£ÂÂ¹Ã£ÂÂ¯Ã¤ÂºÂÃ¦Â¸Â¬</h4>
 <div id="aiRisks" class="space-y-2"></div>
 </div>
 <div class="kp">
-<h4 class="font-bold text-sm mb-2">å¹çåææ¡</h4>
+<h4 class="font-bold text-sm mb-2">Ã¥ÂÂ¹Ã§ÂÂÃ¥ÂÂÃ¦ÂÂÃ¦Â¡Â</h4>
 <div id="aiSuggestions" class="space-y-2"></div>
 </div>
 </div>
 </div>
 
-<!-- æ¿èªå±¥æ­´ -->
+<!-- Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â±Â¥Ã¦Â­Â´ -->
 <div id="log" class="tab">
-<h3 class="font-bold mb-4">æ¿èªå±¥æ­´</h3>
+<h3 class="font-bold mb-4">Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â±Â¥Ã¦Â­Â´</h3>
 <div class="flex gap-2 mb-4">
-<button class="btn text-sm" onclick="filterLog('all')">å¨ã¦</button>
-<button class="btn2 text-sm" onclick="filterLog('approved')">æ¿èª</button>
-<button class="btn2 text-sm" onclick="filterLog('rejected')">å·®æ»ã</button>
+<button class="btn text-sm" onclick="filterLog('all')">Ã¥ÂÂ¨Ã£ÂÂ¦</button>
+<button class="btn2 text-sm" onclick="filterLog('approved')">Ã¦ÂÂ¿Ã¨ÂªÂ</button>
+<button class="btn2 text-sm" onclick="filterLog('rejected')">Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ</button>
 </div>
 <div id="logList" class="space-y-2"></div>
 </div>
 
 </div>
 
-<footer>Â© 2026 ã¯ãããã | AXé©å½ | v5.0 | ç¥è¡åä¸ â ç¥è­ã¨è¡åã®ä¸è´</footer>
+<footer>ÃÂ© 2026 Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ | AXÃ©ÂÂ©Ã¥ÂÂ½ | v5.0 | Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â Ã¢ÂÂ Ã§ÂÂ¥Ã¨Â­ÂÃ£ÂÂ¨Ã¨Â¡ÂÃ¥ÂÂÃ£ÂÂ®Ã¤Â¸ÂÃ¨ÂÂ´</footer>
 
-<!-- æ¿èªã¢ã¼ãã« -->
+<!-- Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂ¢Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ« -->
 <div id="amod" class="modal" onclick="if(event.target===this)cam()">
 <div class="mc">
-<h3 class="font-bold mb-3" style="font-size:1.1rem">â ï¸ æ¿èªç¢ºèª</h3>
+<h3 class="font-bold mb-3" style="font-size:1.1rem">Ã¢ÂÂ Ã¯Â¸Â Ã¦ÂÂ¿Ã¨ÂªÂÃ§Â¢ÂºÃ¨ÂªÂ</h3>
 <div id="acnt" class="mb-3 p-3 rounded-lg" style="background:var(--hover);border:1px solid var(--border);font-size:.875rem"></div>
 <div class="grid grid-cols-2 gap-3 mb-4">
-<div><label class="text-xs" style="color:var(--sub)">æ¿èªè</label><input class="inp" value="æ¨å£æ¥é¨" readonly></div>
-<div><label class="text-xs" style="color:var(--sub)">æå»</label><input class="inp" id="ats" readonly></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂ¿Ã¨ÂªÂÃ¨ÂÂ</label><input class="inp" value="Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â" readonly></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂÃ¥ÂÂ»</label><input class="inp" id="ats" readonly></div>
 </div>
-<div class="mb-3"><label class="text-xs" style="color:var(--sub)">ã³ã¡ã³ã</label><textarea class="inp" id="approvalComment" rows="2" placeholder="æ¿èªã³ã¡ã³ããå¥å..."></textarea></div>
+<div class="mb-3"><label class="text-xs" style="color:var(--sub)">Ã£ÂÂ³Ã£ÂÂ¡Ã£ÂÂ³Ã£ÂÂ</label><textarea class="inp" id="approvalComment" rows="2" placeholder="Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂ³Ã£ÂÂ¡Ã£ÂÂ³Ã£ÂÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..."></textarea></div>
 <div class="flex gap-2 justify-end">
-<button class="btn2 text-sm" onclick="rejectFlow()">å·®æ»ã</button>
-<button class="btn text-sm" onclick="cfm()">â æ¿èª</button>
+<button class="btn2 text-sm" onclick="rejectFlow()">Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ</button>
+<button class="btn text-sm" onclick="cfm()">Ã¢ÂÂ Ã¦ÂÂ¿Ã¨ÂªÂ</button>
 </div>
 </div>
 </div>
 
-<!-- ãã­ã¸ã§ã¯ãè¿½å ã¢ã¼ãã« -->
+<!-- Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ¨Â¿Â½Ã¥ÂÂ Ã£ÂÂ¢Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ« -->
 <div id="projMod" class="modal" onclick="if(event.target===this)closeProjModal()">
 <div class="mc">
-<h3 class="font-bold mb-3">æ°è¦ãã­ã¸ã§ã¯ã</h3>
+<h3 class="font-bold mb-3">Ã¦ÂÂ°Ã¨Â¦ÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂ</h3>
 <div class="space-y-3">
-<div><label class="text-xs" style="color:var(--sub)">ãã­ã¸ã§ã¯ãå</label><input class="inp" id="pjName" placeholder="ä¾: æ¸è°·ã¿ã¯ã¼æ°ç¯å·¥äº"></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ¥ÂÂ</label><input class="inp" id="pjName" placeholder="Ã¤Â¾Â: Ã¦Â¸ÂÃ¨Â°Â·Ã£ÂÂ¿Ã£ÂÂ¯Ã£ÂÂ¼Ã¦ÂÂ°Ã§Â¯ÂÃ¥Â·Â¥Ã¤ÂºÂ"></div>
 <div class="grid grid-cols-2 gap-3">
-<div><label class="text-xs" style="color:var(--sub)">åæ³¨éé¡ (ä¸å)</label><input class="inp" id="pjAmount" type="number" placeholder="ä¾: 50000"></div>
-<div><label class="text-xs" style="color:var(--sub)">æå½è</label><input class="inp" id="pjManager" placeholder="ä¾: ç°ä¸­å¤ªé"></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã¥ÂÂÃ¦Â³Â¨Ã©ÂÂÃ©Â¡Â (Ã¤Â¸ÂÃ¥ÂÂ)</label><input class="inp" id="pjAmount" type="number" placeholder="Ã¤Â¾Â: 50000"></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂÃ¥Â½ÂÃ¨ÂÂ</label><input class="inp" id="pjManager" placeholder="Ã¤Â¾Â: Ã§ÂÂ°Ã¤Â¸Â­Ã¥Â¤ÂªÃ©ÂÂ"></div>
 </div>
 <div class="grid grid-cols-2 gap-3">
-<div><label class="text-xs" style="color:var(--sub)">éå§æ¥</label><input class="inp" id="pjStart" type="date"></div>
-<div><label class="text-xs" style="color:var(--sub)">å®äºäºå®æ¥</label><input class="inp" id="pjEnd" type="date"></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã©ÂÂÃ¥Â§ÂÃ¦ÂÂ¥</label><input class="inp" id="pjStart" type="date"></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã¥Â®ÂÃ¤ÂºÂÃ¤ÂºÂÃ¥Â®ÂÃ¦ÂÂ¥</label><input class="inp" id="pjEnd" type="date"></div>
 </div>
-<div><label class="text-xs" style="color:var(--sub)">ã¹ãã¼ã¿ã¹</label><select class="inp" id="pjStatus"><option value="planning">è¨ç»ä¸­</option><option value="active">é²è¡ä¸­</option><option value="review">æ¤æ»ä¸­</option><option value="complete">å®äº</option></select></div>
+<div><label class="text-xs" style="color:var(--sub)">Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂ¹</label><select class="inp" id="pjStatus"><option value="planning">Ã¨Â¨ÂÃ§ÂÂ»Ã¤Â¸Â­</option><option value="active">Ã©ÂÂ²Ã¨Â¡ÂÃ¤Â¸Â­</option><option value="review">Ã¦Â¤ÂÃ¦ÂÂ»Ã¤Â¸Â­</option><option value="complete">Ã¥Â®ÂÃ¤ÂºÂ</option></select></div>
 </div>
 <div class="flex gap-2 justify-end mt-4">
-<button class="btn2 text-sm" onclick="closeProjModal()">ã­ã£ã³ã»ã«</button>
-<button class="btn text-sm" onclick="saveProject()">ä¿å­</button>
+<button class="btn2 text-sm" onclick="closeProjModal()">Ã£ÂÂ­Ã£ÂÂ£Ã£ÂÂ³Ã£ÂÂ»Ã£ÂÂ«</button>
+<button class="btn text-sm" onclick="saveProject()">Ã¤Â¿ÂÃ¥Â­Â</button>
 </div>
 </div>
 </div>
 
-<!-- æ±ç¨è¿½å ã¢ã¼ãã« -->
+<!-- Ã¦Â±ÂÃ§ÂÂ¨Ã¨Â¿Â½Ã¥ÂÂ Ã£ÂÂ¢Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ« -->
 <div id="addMod" class="modal" onclick="if(event.target===this)closeAddModal()">
 <div class="mc">
-<h3 class="font-bold mb-3" id="addModTitle">æ°è¦è¿½å </h3>
+<h3 class="font-bold mb-3" id="addModTitle">Ã¦ÂÂ°Ã¨Â¦ÂÃ¨Â¿Â½Ã¥ÂÂ </h3>
 <div id="addModContent"></div>
 </div>
 </div>
 
-<button class="fb" onclick="demo()" aria-label="Demo">â¶</button>
+<button class="fb" onclick="demo()" aria-label="Demo">Ã¢ÂÂ¶</button>
 
 <script>
 // ==========================================
-// ç¥è¡åä¸: ãã¼ã¿ã¹ãã¢ â å¨UIã¯ããããçæ
-// è¨è(è¡¨ç¤º)ã¨è¡å(ãã¼ã¿)ã®ä¸è´ãä¿è¨¼ãã
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â: Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂ¢ Ã¢ÂÂ Ã¥ÂÂ¨UIÃ£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ§ÂÂÃ¦ÂÂ
+// Ã¨Â¨ÂÃ¨ÂÂ(Ã¨Â¡Â¨Ã§Â¤Âº)Ã£ÂÂ¨Ã¨Â¡ÂÃ¥ÂÂ(Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿)Ã£ÂÂ®Ã¤Â¸ÂÃ¨ÂÂ´Ã£ÂÂÃ¤Â¿ÂÃ¨Â¨Â¼Ã£ÂÂÃ£ÂÂ
 // ==========================================
 const STORE_KEY='hataraiku_v5';
 function loadStore(){
@@ -333,33 +333,33 @@ return getDefaultData();
 function saveStore(){localStorage.setItem(STORE_KEY,JSON.stringify(S))}
 function getDefaultData(){return{
 projects:[
-{id:1,name:'æ¢ç°åéçºãã«',amount:240000000,progress:50,status:'active',manager:'ç°ä¸­å¤ªé',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'åºç¤å·¥äº',done:true},{name:'ééª¨çµç«',done:true},{name:'å¤è£å·¥äº',done:false},{name:'åè£å·¥äº',done:false}]},
-{id:2,name:'æ¨ªæµãã³ã·ã§ã³æ°ç¯',amount:180000000,progress:33,status:'active',manager:'ä½è¤äºé',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'å°ç¤æ¹è¯',done:true},{name:'åºç¤å·¥äº',done:false},{name:'èº¯ä½å·¥äº',done:false}]},
-{id:3,name:'äº¬é½çºå±ãªããã¼ã·ã§ã³',amount:52000000,progress:100,status:'complete',manager:'é´æ¨åé',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'è§£ä½',done:true},{name:'æ§é è£å¼·',done:true},{name:'ä»ä¸ã',done:true}]},
-{id:4,name:'ç¦å²¡ãªãã£ã¹ãã«',amount:320000000,progress:0,status:'planning',manager:'æ¨æä¸é',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'è¨­è¨å®äº',done:false},{name:'è¨±å¯ç³è«',done:false}]},
-{id:5,name:'æ­å¹åæ¥­æ½è¨­',amount:65000000,progress:67,status:'active',manager:'é«æ©äºé',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'åºç¤',done:true},{name:'ééª¨',done:true},{name:'å¤è£',done:false}]}
+{id:1,name:'Ã¦Â¢ÂÃ§ÂÂ°Ã¥ÂÂÃ©ÂÂÃ§ÂÂºÃ£ÂÂÃ£ÂÂ«',amount:240000000,progress:50,status:'active',manager:'Ã§ÂÂ°Ã¤Â¸Â­Ã¥Â¤ÂªÃ©ÂÂ',start:'2025-10-01',end:'2026-08-31',quality:96,tasks:[{name:'Ã¥ÂÂºÃ§Â¤ÂÃ¥Â·Â¥Ã¤ÂºÂ',done:true},{name:'Ã©ÂÂÃ©ÂªÂ¨Ã§ÂµÂÃ§Â«Â',done:true},{name:'Ã¥Â¤ÂÃ¨Â£ÂÃ¥Â·Â¥Ã¤ÂºÂ',done:false},{name:'Ã¥ÂÂÃ¨Â£ÂÃ¥Â·Â¥Ã¤ÂºÂ',done:false}]},
+{id:2,name:'Ã¦Â¨ÂªÃ¦ÂµÂÃ£ÂÂÃ£ÂÂ³Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¦ÂÂ°Ã§Â¯Â',amount:180000000,progress:33,status:'active',manager:'Ã¤Â½ÂÃ¨ÂÂ¤Ã¤ÂºÂÃ©ÂÂ',start:'2026-01-15',end:'2026-12-20',quality:88,tasks:[{name:'Ã¥ÂÂ°Ã§ÂÂ¤Ã¦ÂÂ¹Ã¨ÂÂ¯',done:true},{name:'Ã¥ÂÂºÃ§Â¤ÂÃ¥Â·Â¥Ã¤ÂºÂ',done:false},{name:'Ã¨ÂºÂ¯Ã¤Â½ÂÃ¥Â·Â¥Ã¤ÂºÂ',done:false}]},
+{id:3,name:'Ã¤ÂºÂ¬Ã©ÂÂ½Ã§ÂÂºÃ¥Â±ÂÃ£ÂÂªÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³',amount:52000000,progress:100,status:'complete',manager:'Ã©ÂÂ´Ã¦ÂÂ¨Ã¥ÂÂÃ©ÂÂ',start:'2025-06-01',end:'2026-03-15',quality:99,tasks:[{name:'Ã¨Â§Â£Ã¤Â½Â',done:true},{name:'Ã¦Â§ÂÃ©ÂÂ Ã¨Â£ÂÃ¥Â¼Â·',done:true},{name:'Ã¤Â»ÂÃ¤Â¸ÂÃ£ÂÂ',done:true}]},
+{id:4,name:'Ã§Â¦ÂÃ¥Â²Â¡Ã£ÂÂªÃ£ÂÂÃ£ÂÂ£Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂ«',amount:320000000,progress:0,status:'planning',manager:'Ã¦ÂÂ¨Ã¦ÂÂÃ¤Â¸ÂÃ©ÂÂ',start:'2026-04-01',end:'2027-06-30',quality:0,tasks:[{name:'Ã¨Â¨Â­Ã¨Â¨ÂÃ¥Â®ÂÃ¤ÂºÂ',done:false},{name:'Ã¨Â¨Â±Ã¥ÂÂ¯Ã§ÂÂ³Ã¨Â«Â',done:false}]},
+{id:5,name:'Ã¦ÂÂ­Ã¥Â¹ÂÃ¥ÂÂÃ¦Â¥Â­Ã¦ÂÂ½Ã¨Â¨Â­',amount:65000000,progress:67,status:'active',manager:'Ã©Â«ÂÃ¦Â©ÂÃ¤ÂºÂÃ©ÂÂ',start:'2025-11-01',end:'2026-07-31',quality:92,tasks:[{name:'Ã¥ÂÂºÃ§Â¤Â',done:true},{name:'Ã©ÂÂÃ©ÂªÂ¨',done:true},{name:'Ã¥Â¤ÂÃ¨Â£Â',done:false}]}
 ],
 flows:[
-{id:1,type:'è¦ç©æ¿èª',target:'æ¢ç°åéçºãã«',from:'ç°ä¸­å¤ªé',to:'æ¨å£æ¥é¨',status:'pending',amount:857000000,date:'2026-03-30',before:'Â¥820M',after:'Â¥857M',comment:''},
-{id:2,type:'é²æå¤æ´',target:'æ¢ç°åéçºãã«',from:'ä½è¤äºé',to:'æ¨å£æ¥é¨',status:'pending',before:'72%',after:'75%',date:'2026-03-30',comment:''},
-{id:3,type:'çå·¥ç³è«',target:'æ¨ªæµãã³ã·ã§ã³æ°ç¯',from:'æ¨æä¸é',to:'æ¨å£æ¥é¨',status:'pending',date:'2026-03-29',comment:''},
-{id:4,type:'å®äºå ±å',target:'äº¬é½çºå±ãªããã¼ã·ã§ã³',from:'é´æ¨åé',to:'æ¨å£æ¥é¨',status:'approved',date:'2026-03-28',before:'98%',after:'100%',comment:'æ¤æ»åæ ¼'},
-{id:5,type:'æ°è¦PJç»é²',target:'ç¦å²¡ãªãã£ã¹ãã«',from:'ä½è¤äºé',to:'æ¨å£æ¥é¨',status:'approved',date:'2026-03-27',comment:'æ¿èªæ¸'}
+{id:1,type:'Ã¨Â¦ÂÃ§Â©ÂÃ¦ÂÂ¿Ã¨ÂªÂ',target:'Ã¦Â¢ÂÃ§ÂÂ°Ã¥ÂÂÃ©ÂÂÃ§ÂÂºÃ£ÂÂÃ£ÂÂ«',from:'Ã§ÂÂ°Ã¤Â¸Â­Ã¥Â¤ÂªÃ©ÂÂ',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',amount:857000000,date:'2026-03-30',before:'ÃÂ¥820M',after:'ÃÂ¥857M',comment:''},
+{id:2,type:'Ã©ÂÂ²Ã¦ÂÂÃ¥Â¤ÂÃ¦ÂÂ´',target:'Ã¦Â¢ÂÃ§ÂÂ°Ã¥ÂÂÃ©ÂÂÃ§ÂÂºÃ£ÂÂÃ£ÂÂ«',from:'Ã¤Â½ÂÃ¨ÂÂ¤Ã¤ÂºÂÃ©ÂÂ',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',before:'72%',after:'75%',date:'2026-03-30',comment:''},
+{id:3,type:'Ã§ÂÂÃ¥Â·Â¥Ã§ÂÂ³Ã¨Â«Â',target:'Ã¦Â¨ÂªÃ¦ÂµÂÃ£ÂÂÃ£ÂÂ³Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³Ã¦ÂÂ°Ã§Â¯Â',from:'Ã¦ÂÂ¨Ã¦ÂÂÃ¤Â¸ÂÃ©ÂÂ',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',date:'2026-03-29',comment:''},
+{id:4,type:'Ã¥Â®ÂÃ¤ÂºÂÃ¥Â Â±Ã¥ÂÂ',target:'Ã¤ÂºÂ¬Ã©ÂÂ½Ã§ÂÂºÃ¥Â±ÂÃ£ÂÂªÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³',from:'Ã©ÂÂ´Ã¦ÂÂ¨Ã¥ÂÂÃ©ÂÂ',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'approved',date:'2026-03-28',before:'98%',after:'100%',comment:'Ã¦Â¤ÂÃ¦ÂÂ»Ã¥ÂÂÃ¦Â Â¼'},
+{id:5,type:'Ã¦ÂÂ°Ã¨Â¦ÂPJÃ§ÂÂ»Ã©ÂÂ²',target:'Ã§Â¦ÂÃ¥Â²Â¡Ã£ÂÂªÃ£ÂÂÃ£ÂÂ£Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂ«',from:'Ã¤Â½ÂÃ¨ÂÂ¤Ã¤ÂºÂÃ©ÂÂ',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'approved',date:'2026-03-27',comment:'Ã¦ÂÂ¿Ã¨ÂªÂÃ¦Â¸Â'}
 ],
 logs:[],
 messages:[
-{ch:'general',from:'system',text:'æ¢ç°åéçºãã«ã®å®å¨æ¤æ»ãAIã§è§£æã§ãã¾ããï¼',time:'09:15'},
-{ch:'general',from:'ç°ä¸­å¤ªé',text:'äºè§£ãéå§ãã¾ãã3åã§çµæ',time:'09:16'},
-{ch:'general',from:'system',text:'æ¿èªãã­ã¼ã«åãã¦ãã ãã',time:'09:20'},
-{ch:'general',from:'ä½è¤äºé',text:'å®äºãã¹ã³ã¢96ç¹ãèµ·åã§ããï¼',time:'09:23'}
+{ch:'general',from:'system',text:'Ã¦Â¢ÂÃ§ÂÂ°Ã¥ÂÂÃ©ÂÂÃ§ÂÂºÃ£ÂÂÃ£ÂÂ«Ã£ÂÂ®Ã¥Â®ÂÃ¥ÂÂ¨Ã¦Â¤ÂÃ¦ÂÂ»Ã£ÂÂAIÃ£ÂÂ§Ã¨Â§Â£Ã¦ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ¯Â¼Â',time:'09:15'},
+{ch:'general',from:'Ã§ÂÂ°Ã¤Â¸Â­Ã¥Â¤ÂªÃ©ÂÂ',text:'Ã¤ÂºÂÃ¨Â§Â£Ã£ÂÂÃ©ÂÂÃ¥Â§ÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ3Ã¥ÂÂÃ£ÂÂ§Ã§ÂµÂÃ¦ÂÂ',time:'09:16'},
+{ch:'general',from:'system',text:'Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ«Ã¥ÂÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ Ã£ÂÂÃ£ÂÂ',time:'09:20'},
+{ch:'general',from:'Ã¤Â½ÂÃ¨ÂÂ¤Ã¤ÂºÂÃ©ÂÂ',text:'Ã¥Â®ÂÃ¤ÂºÂÃ£ÂÂÃ£ÂÂ¹Ã£ÂÂ³Ã£ÂÂ¢96Ã§ÂÂ¹Ã£ÂÂÃ¨ÂµÂ·Ã¥ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¯Â¼Â',time:'09:23'}
 ],
 team:[
-{name:'æ¨å£æ¥é¨',role:'manager',title:'AXãªã¼ãã¼',certs:['1ç´å»ºç¯','AXæ¨é²'],status:'active',initial:'æ¨'},
-{name:'ç°ä¸­å¤ªé',role:'manager',title:'æ½å·¥ç®¡ç',certs:['1ç´æ½å·¥','å®å¨ç®¡ç'],status:'active',initial:'ç°'},
-{name:'ä½è¤äºé',role:'worker',title:'ç¾å ´ç£ç£',certs:['2ç´å»ºç¯','åè³ªç®¡ç'],status:'active',initial:'ä½'},
-{name:'æ¨æä¸é',role:'worker',title:'è¨­è¨å£«',certs:['1ç´å»ºç¯','BIM'],status:'active',initial:'æ¨'},
-{name:'é´æ¨åé',role:'worker',title:'ç¾å ´ç£ç£',certs:['1ç´åæ¨','ç°å¢ç®¡ç'],status:'active',initial:'é´'},
-{name:'é«æ©äºé',role:'worker',title:'é»æ°å·¥äº',certs:['ç¬¬2ç¨®é»æ°','æ¶é²è¨­å'],status:'ä¼æ',initial:'é«'}
+{name:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',role:'manager',title:'AXÃ£ÂÂªÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ¼',certs:['1Ã§Â´ÂÃ¥Â»ÂºÃ§Â¯Â','AXÃ¦ÂÂ¨Ã©ÂÂ²'],status:'active',initial:'Ã¦Â¨Â'},
+{name:'Ã§ÂÂ°Ã¤Â¸Â­Ã¥Â¤ÂªÃ©ÂÂ',role:'manager',title:'Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂ',certs:['1Ã§Â´ÂÃ¦ÂÂ½Ã¥Â·Â¥','Ã¥Â®ÂÃ¥ÂÂ¨Ã§Â®Â¡Ã§ÂÂ'],status:'active',initial:'Ã§ÂÂ°'},
+{name:'Ã¤Â½ÂÃ¨ÂÂ¤Ã¤ÂºÂÃ©ÂÂ',role:'worker',title:'Ã§ÂÂ¾Ã¥Â Â´Ã§ÂÂ£Ã§ÂÂ£',certs:['2Ã§Â´ÂÃ¥Â»ÂºÃ§Â¯Â','Ã¥ÂÂÃ¨Â³ÂªÃ§Â®Â¡Ã§ÂÂ'],status:'active',initial:'Ã¤Â½Â'},
+{name:'Ã¦ÂÂ¨Ã¦ÂÂÃ¤Â¸ÂÃ©ÂÂ',role:'worker',title:'Ã¨Â¨Â­Ã¨Â¨ÂÃ¥Â£Â«',certs:['1Ã§Â´ÂÃ¥Â»ÂºÃ§Â¯Â','BIM'],status:'active',initial:'Ã¦ÂÂ¨'},
+{name:'Ã©ÂÂ´Ã¦ÂÂ¨Ã¥ÂÂÃ©ÂÂ',role:'worker',title:'Ã§ÂÂ¾Ã¥Â Â´Ã§ÂÂ£Ã§ÂÂ£',certs:['1Ã§Â´ÂÃ¥ÂÂÃ¦ÂÂ¨','Ã§ÂÂ°Ã¥Â¢ÂÃ§Â®Â¡Ã§ÂÂ'],status:'active',initial:'Ã©ÂÂ´'},
+{name:'Ã©Â«ÂÃ¦Â©ÂÃ¤ÂºÂÃ©ÂÂ',role:'worker',title:'Ã©ÂÂ»Ã¦Â°ÂÃ¥Â·Â¥Ã¤ÂºÂ',certs:['Ã§Â¬Â¬2Ã§Â¨Â®Ã©ÂÂ»Ã¦Â°Â','Ã¦Â¶ÂÃ©ÂÂ²Ã¨Â¨Â­Ã¥ÂÂ'],status:'Ã¤Â¼ÂÃ¦ÂÂ',initial:'Ã©Â«Â'}
 ],
 meeting:{
 layer:'client',
@@ -390,16 +390,16 @@ order_note:'',order_confirmed:false,
 order_doc_draft:'',order_doc_confirmed:false
 },
 files:[
-{name:'æ¢ç°_å®å¨.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
-{name:'æ¸è°·_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
-{name:'æ¨ªæµ_0328.jpg',size:'5.1MB',type:'jpg',date:'2026-03-28'},
-{name:'äº¬é½_å®äºå ±å.pdf',size:'3.2MB',type:'pdf',date:'2026-03-27'},
-{name:'ç¦å²¡_è¨­è¨å³.dwg',size:'22.1MB',type:'dwg',date:'2026-03-26'}
+{name:'Ã¦Â¢ÂÃ§ÂÂ°_Ã¥Â®ÂÃ¥ÂÂ¨.pdf',size:'2.4MB',type:'pdf',date:'2026-03-30'},
+{name:'Ã¦Â¸ÂÃ¨Â°Â·_v12.dwg',size:'18.7MB',type:'dwg',date:'2026-03-29'},
+{name:'Ã¦Â¨ÂªÃ¦ÂµÂ_0328.jpg',size:'5.1MB',type:'jpg',date:'2026-03-28'},
+{name:'Ã¤ÂºÂ¬Ã©ÂÂ½_Ã¥Â®ÂÃ¤ÂºÂÃ¥Â Â±Ã¥ÂÂ.pdf',size:'3.2MB',type:'pdf',date:'2026-03-27'},
+{name:'Ã§Â¦ÂÃ¥Â²Â¡_Ã¨Â¨Â­Ã¨Â¨ÂÃ¥ÂÂ³.dwg',size:'22.1MB',type:'dwg',date:'2026-03-26'}
 ],
 channels:[
-{id:'general',name:'å¨ä½ãã£ãã',members:6},
-{id:'umeda',name:'æ¢ç°PJ',members:3},
-{id:'yokohama',name:'æ¨ªæµPJ',members:4}
+{id:'general',name:'Ã¥ÂÂ¨Ã¤Â½ÂÃ£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ',members:6},
+{id:'umeda',name:'Ã¦Â¢ÂÃ§ÂÂ°PJ',members:3},
+{id:'yokohama',name:'Ã¦Â¨ÂªÃ¦ÂµÂPJ',members:4}
 ],
 currentChannel:'general',
 nextId:100
@@ -408,7 +408,7 @@ let S=loadStore();
 let currentFlowId=null;
 
 // ==========================================
-// ç¥è¡åä¸: KPIè¨ç® â è¡¨ç¤ºå¤ã¯å¿ããã¼ã¿ããç®åº
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â: KPIÃ¨Â¨ÂÃ§Â®Â Ã¢ÂÂ Ã¨Â¡Â¨Ã§Â¤ÂºÃ¥ÂÂ¤Ã£ÂÂ¯Ã¥Â¿ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂÃ£ÂÂÃ§Â®ÂÃ¥ÂÂº
 // ==========================================
 function calcKPIs(){
 const activeCount=S.projects.filter(p=>p.status==='active').length;
@@ -421,8 +421,8 @@ return{revenue:total,projects:activeCount,hours:hours,quality:avgQ};
 
 function renderKPIs(){
 const k=calcKPIs();
-animateValue('kpi_revenue','Â¥'+Math.floor(k.revenue/10000).toLocaleString('ja-JP')+'ä¸',k.revenue/10000,1200,'yen');
-animateValue('kpi_projects',k.projects+'ä»¶',k.projects,800,'int');
+animateValue('kpi_revenue','ÃÂ¥'+Math.floor(k.revenue/10000).toLocaleString('ja-JP')+'Ã¤Â¸Â',k.revenue/10000,1200,'yen');
+animateValue('kpi_projects',k.projects+'Ã¤Â»Â¶',k.projects,800,'int');
 animateValue('kpi_hours',k.hours+'h',k.hours,1000,'int');
 animateValue('kpi_quality',k.quality.toFixed(1)+'%',k.quality,1000,'pct');
 }
@@ -432,39 +432,39 @@ const el=document.getElementById(elId);if(!el)return;
 let c=0;const inc=targetVal/(dur/16);
 const t=setInterval(()=>{
 c+=inc;if(c>=targetVal){c=targetVal;clearInterval(t)}
-if(fmt==='yen')el.textContent='Â¥'+Math.floor(c).toLocaleString('ja-JP')+'ä¸';
-else if(fmt==='int')el.textContent=Math.floor(c)+(finalText.includes('ä»¶')?'ä»¶':finalText.includes('h')?'h':'');
+if(fmt==='yen')el.textContent='ÃÂ¥'+Math.floor(c).toLocaleString('ja-JP')+'Ã¤Â¸Â';
+else if(fmt==='int')el.textContent=Math.floor(c)+(finalText.includes('Ã¤Â»Â¶')?'Ã¤Â»Â¶':finalText.includes('h')?'h':'');
 else if(fmt==='pct')el.textContent=c.toFixed(1)+'%';
 else el.textContent=Math.floor(c);
 },16);
 }
 
 // ==========================================
-// ããã·ã¥ãã¼ã: æ´»åã­ã° & ãã­ã¸ã§ã¯ãé²æ
+// Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ: Ã¦Â´Â»Ã¥ÂÂÃ£ÂÂ­Ã£ÂÂ° & Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ©ÂÂ²Ã¦ÂÂ
 // ==========================================
 function renderDashboard(){
 renderKPIs();
-// ç´è¿ã®æ´»å
+// Ã§ÂÂ´Ã¨Â¿ÂÃ£ÂÂ®Ã¦Â´Â»Ã¥ÂÂ
 const act=document.getElementById('recentActivity');
 const activities=[];
 S.flows.forEach(f=>{
-const st=f.status==='approved'?'<span class="sb sb-g">æ¿èª</span>':f.status==='rejected'?'<span class="sb sb-r">å·®æ»ã</span>':'<span class="sb sb-y">ç³è«ä¸­</span>';
+const st=f.status==='approved'?'<span class="sb sb-g">Ã¦ÂÂ¿Ã¨ÂªÂ</span>':f.status==='rejected'?'<span class="sb sb-r">Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ</span>':'<span class="sb sb-y">Ã§ÂÂ³Ã¨Â«ÂÃ¤Â¸Â­</span>';
 activities.push({html:'<div class="flex justify-between items-center p-2 rounded" style="background:var(--hover)">'+st+' <span class="flex-1 ml-2">'+f.type+': '+f.target+'</span><span class="text-xs" style="color:var(--sub)">'+f.date+'</span></div>',date:f.date});
 });
 activities.sort((a,b)=>b.date.localeCompare(a.date));
 act.innerHTML=activities.map(a=>a.html).join('');
-// ãã­ã¸ã§ã¯ãé²æ
+// Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ©ÂÂ²Ã¦ÂÂ
 const dp=document.getElementById('dashProjects');
 dp.innerHTML=S.projects.map(p=>{
 const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
-const sl=p.status==='complete'?'å®äº':p.status==='active'?'é²è¡ä¸­':p.status==='review'?'æ¤æ»ä¸­':'è¨ç»ä¸­';
+const sl=p.status==='complete'?'Ã¥Â®ÂÃ¤ÂºÂ':p.status==='active'?'Ã©ÂÂ²Ã¨Â¡ÂÃ¤Â¸Â­':p.status==='review'?'Ã¦Â¤ÂÃ¦ÂÂ»Ã¤Â¸Â­':'Ã¨Â¨ÂÃ§ÂÂ»Ã¤Â¸Â­';
 return '<div class="flex items-center gap-4 p-3 rounded-lg" style="background:var(--hover)"><div class="flex-1"><div class="flex justify-between mb-1"><span class="font-bold text-sm">'+p.name+'</span><span class="sb '+sc+'">'+sl+'</span></div><div class="pb"><div class="pf" style="width:'+p.progress+'%"></div></div><div class="flex justify-between mt-1"><span class="text-xs" style="color:var(--sub)">'+p.manager+'</span><span class="text-xs font-bold" style="color:var(--p)">'+p.progress+'%</span></div></div></div>';
 }).join('');
 renderChart();
 }
 
 // ==========================================
-// ãã£ã¼ã: Canvasæç»ï¼å®ãã¼ã¿é£åï¼
+// Ã£ÂÂÃ£ÂÂ£Ã£ÂÂ¼Ã£ÂÂ: CanvasÃ¦ÂÂÃ§ÂÂ»Ã¯Â¼ÂÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã©ÂÂ£Ã¥ÂÂÃ¯Â¼Â
 // ==========================================
 function renderChart(){
 const canvas=document.getElementById('chartCanvas');if(!canvas)return;
@@ -472,8 +472,8 @@ const ctx=canvas.getContext('2d');
 const w=canvas.width=canvas.parentElement.clientWidth-40;
 const h=canvas.height=180;
 ctx.clearRect(0,0,w,h);
-// ææ¬¡ãã¼ã¿: ãã­ã¸ã§ã¯ãã®é²æããçæ
-const months=['10æ','11æ','12æ','1æ','2æ','3æ'];
+// Ã¦ÂÂÃ¦Â¬Â¡Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿: Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ®Ã©ÂÂ²Ã¦ÂÂÃ£ÂÂÃ£ÂÂÃ§ÂÂÃ¦ÂÂ
+const months=['10Ã¦ÂÂ','11Ã¦ÂÂ','12Ã¦ÂÂ','1Ã¦ÂÂ','2Ã¦ÂÂ','3Ã¦ÂÂ'];
 const values=months.map((_,i)=>{
 return S.projects.reduce((s,p)=>s+Math.min(100,Math.max(0,p.progress-((5-i)*15))),0)/S.projects.length;
 });
@@ -515,7 +515,7 @@ ctx.fillText(months[i],x,h-8);
 }
 
 // ==========================================
-// ãã­ã¸ã§ã¯ã: CRUDæä½
+// Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂ: CRUDÃ¦ÂÂÃ¤Â½Â
 // ==========================================
 function renderProjects(){
 const q=(document.getElementById('projSearch')?.value||'').toLowerCase();
@@ -523,28 +523,28 @@ const filtered=S.projects.filter(p=>!q||p.name.toLowerCase().includes(q)||p.mana
 const pl=document.getElementById('projList');
 pl.innerHTML=filtered.map(p=>{
 const sc=p.status==='complete'?'sb-g':p.status==='active'?'sb-b':p.status==='review'?'sb-y':'sb-p';
-const sl=p.status==='complete'?'å®äº':p.status==='active'?'é²è¡ä¸­':p.status==='review'?'æ¤æ»ä¸­':'è¨ç»ä¸­';
+const sl=p.status==='complete'?'Ã¥Â®ÂÃ¤ÂºÂ':p.status==='active'?'Ã©ÂÂ²Ã¨Â¡ÂÃ¤Â¸Â­':p.status==='review'?'Ã¦Â¤ÂÃ¦ÂÂ»Ã¤Â¸Â­':'Ã¨Â¨ÂÃ§ÂÂ»Ã¤Â¸Â­';
 const tasks=p.tasks?p.tasks.map(t=>'<label class="flex items-center gap-2 text-xs cursor-pointer"><input type="checkbox" '+(t.done?'checked':'')+' onchange="toggleTask('+p.id+',\''+t.name+'\')"><span'+(t.done?' style="text-decoration:line-through;color:var(--sub)"':'')+'>'+t.name+'</span></label>').join(''):'';
-return '<div class="kp"><div class="flex justify-between items-start mb-2"><div><h4 class="font-bold">'+p.name+'</h4><p class="text-xs" style="color:var(--sub)">'+p.manager+' | '+p.start+' â '+p.end+'</p></div><div class="flex gap-2 items-center"><span class="sb '+sc+'">'+sl+'</span><button class="btn2 text-xs" onclick="editProject('+p.id+')">ç·¨é</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteProject('+p.id+')">åé¤</button></div></div><div class="flex items-center gap-3 mb-2"><div class="pb flex-1"><div class="pf" style="width:'+p.progress+'%"></div></div><span class="text-sm font-bold" style="color:var(--p)">'+p.progress+'%</span></div><div class="flex items-center gap-4"><span class="text-xs" style="color:var(--sub)">åæ³¨: Â¥'+(p.amount/10000).toLocaleString('ja-JP')+'ä¸</span><span class="text-xs" style="color:var(--sub)">åè³ª: '+(p.quality||'-')+'ç¹</span></div>'+(tasks?'<div class="mt-3 pt-3 space-y-1" style="border-top:1px solid var(--border)"><p class="text-xs font-bold mb-1" style="color:var(--sub)">ã¿ã¹ã¯</p>'+tasks+'</div>':'')+'</div>';
+return '<div class="kp"><div class="flex justify-between items-start mb-2"><div><h4 class="font-bold">'+p.name+'</h4><p class="text-xs" style="color:var(--sub)">'+p.manager+' | '+p.start+' Ã¢ÂÂ '+p.end+'</p></div><div class="flex gap-2 items-center"><span class="sb '+sc+'">'+sl+'</span><button class="btn2 text-xs" onclick="editProject('+p.id+')">Ã§Â·Â¨Ã©ÂÂ</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteProject('+p.id+')">Ã¥ÂÂÃ©ÂÂ¤</button></div></div><div class="flex items-center gap-3 mb-2"><div class="pb flex-1"><div class="pf" style="width:'+p.progress+'%"></div></div><span class="text-sm font-bold" style="color:var(--p)">'+p.progress+'%</span></div><div class="flex items-center gap-4"><span class="text-xs" style="color:var(--sub)">Ã¥ÂÂÃ¦Â³Â¨: ÃÂ¥'+(p.amount/10000).toLocaleString('ja-JP')+'Ã¤Â¸Â</span><span class="text-xs" style="color:var(--sub)">Ã¥ÂÂÃ¨Â³Âª: '+(p.quality||'-')+'Ã§ÂÂ¹</span></div>'+(tasks?'<div class="mt-3 pt-3 space-y-1" style="border-top:1px solid var(--border)"><p class="text-xs font-bold mb-1" style="color:var(--sub)">Ã£ÂÂ¿Ã£ÂÂ¹Ã£ÂÂ¯</p>'+tasks+'</div>':'')+'</div>';
 }).join('');
 }
 
 function toggleTask(pid,taskName){
 const p=S.projects.find(x=>x.id===pid);if(!p||!p.tasks)return;
 const t=p.tasks.find(x=>x.name===taskName);if(t){t.done=!t.done;
-// ç¥è¡åä¸: ã¿ã¹ã¯å®äºçãé²æã«èªååæ 
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â: Ã£ÂÂ¿Ã£ÂÂ¹Ã£ÂÂ¯Ã¥Â®ÂÃ¤ÂºÂÃ§ÂÂÃ£ÂÂÃ©ÂÂ²Ã¦ÂÂÃ£ÂÂ«Ã¨ÂÂªÃ¥ÂÂÃ¥ÂÂÃ¦ÂÂ 
 const done=p.tasks.filter(x=>x.done).length;
 p.progress=Math.round((done/p.tasks.length)*100);
-addLog('ã¿ã¹ã¯æ´æ°',p.name,taskName+(t.done?' å®äº':' æªå®äº'));
+addLog('Ã£ÂÂ¿Ã£ÂÂ¹Ã£ÂÂ¯Ã¦ÂÂ´Ã¦ÂÂ°',p.name,taskName+(t.done?' Ã¥Â®ÂÃ¤ÂºÂ':' Ã¦ÂÂªÃ¥Â®ÂÃ¤ÂºÂ'));
 saveStore();renderAll();}
 }
 
 function deleteProject(pid){
-if(!confirm('ãã®ãã­ã¸ã§ã¯ããåé¤ãã¾ããï¼'))return;
+if(!confirm('Ã£ÂÂÃ£ÂÂ®Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ¥ÂÂÃ©ÂÂ¤Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ¯Â¼Â'))return;
 const p=S.projects.find(x=>x.id===pid);
 S.projects=S.projects.filter(x=>x.id!==pid);
-addLog('PJåé¤',p?p.name:'ä¸æ','åé¤å®è¡');
-saveStore();renderAll();showToast('ãã­ã¸ã§ã¯ããåé¤ãã¾ãã');
+addLog('PJÃ¥ÂÂÃ©ÂÂ¤',p?p.name:'Ã¤Â¸ÂÃ¦ÂÂ','Ã¥ÂÂÃ©ÂÂ¤Ã¥Â®ÂÃ¨Â¡Â');
+saveStore();renderAll();showToast('Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ¥ÂÂÃ©ÂÂ¤Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');
 }
 
 function openProjModal(editId){
@@ -574,36 +574,36 @@ const manager=document.getElementById('pjManager').value.trim();
 const start=document.getElementById('pjStart').value;
 const end=document.getElementById('pjEnd').value;
 const status=document.getElementById('pjStatus').value;
-if(!name){showToast('ãã­ã¸ã§ã¯ãåãå¥åãã¦ãã ãã');return}
+if(!name){showToast('Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ¥ÂÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ Ã£ÂÂÃ£ÂÂ');return}
 const editId=document.getElementById('projMod').dataset.editId;
 if(editId){
 const p=S.projects.find(x=>x.id===parseInt(editId));
 if(p){
-const before=p.name+' Â¥'+(p.amount/10000).toLocaleString()+'ä¸';
+const before=p.name+' ÃÂ¥'+(p.amount/10000).toLocaleString()+'Ã¤Â¸Â';
 Object.assign(p,{name,amount:amount||p.amount,manager:manager||p.manager,start:start||p.start,end:end||p.end,status});
-const after=p.name+' Â¥'+(p.amount/10000).toLocaleString()+'ä¸';
-addLog('PJç·¨é',name,before+' â '+after);
-// ç¥è¡åä¸: ç·¨éã¯æ¿èªãã­ã¼ãèªåçæ
-S.flows.push({id:++S.nextId,type:'PJå¤æ´',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),before,after,comment:''});
+const after=p.name+' ÃÂ¥'+(p.amount/10000).toLocaleString()+'Ã¤Â¸Â';
+addLog('PJÃ§Â·Â¨Ã©ÂÂ',name,before+' Ã¢ÂÂ '+after);
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â: Ã§Â·Â¨Ã©ÂÂÃ£ÂÂ¯Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ¨ÂÂªÃ¥ÂÂÃ§ÂÂÃ¦ÂÂ
+S.flows.push({id:++S.nextId,type:'PJÃ¥Â¤ÂÃ¦ÂÂ´',target:name,from:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',date:todayStr(),before,after,comment:''});
 }
 }else{
-const newP={id:++S.nextId,name,amount:amount||0,progress:0,status,manager:manager||'æªå®',start:start||todayStr(),end:end||'',quality:0,tasks:[]};
+const newP={id:++S.nextId,name,amount:amount||0,progress:0,status,manager:manager||'Ã¦ÂÂªÃ¥Â®Â',start:start||todayStr(),end:end||'',quality:0,tasks:[]};
 S.projects.push(newP);
-addLog('PJè¿½å ',name,'æ°è¦ç»é²');
-S.flows.push({id:++S.nextId,type:'æ°è¦PJç»é²',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),comment:''});
+addLog('PJÃ¨Â¿Â½Ã¥ÂÂ ',name,'Ã¦ÂÂ°Ã¨Â¦ÂÃ§ÂÂ»Ã©ÂÂ²');
+S.flows.push({id:++S.nextId,type:'Ã¦ÂÂ°Ã¨Â¦ÂPJÃ§ÂÂ»Ã©ÂÂ²',target:name,from:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',date:todayStr(),comment:''});
 }
-saveStore();closeProjModal();renderAll();showToast('ä¿å­ãã¾ãã');
+saveStore();closeProjModal();renderAll();showToast('Ã¤Â¿ÂÃ¥Â­ÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');
 }
 
 // ==========================================
-// æåããã­ã¼: ã¹ãããã¼å½¢å¼ (ã¬ã¤ã¤ã¼1ä¾é ¼å´ / ã¬ã¤ã¤ã¼2æ½å·¥ç®¡çå´)
+// Ã¦ÂÂÃ¥ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼: Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã¥Â½Â¢Ã¥Â¼Â (Ã£ÂÂ¬Ã£ÂÂ¤Ã£ÂÂ¤Ã£ÂÂ¼1Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´ / Ã£ÂÂ¬Ã£ÂÂ¤Ã£ÂÂ¤Ã£ÂÂ¼2Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´)
 // ==========================================
 const STEPS=[
-{id:'consult',label:'æ¡ä»¶ç¸è«',icon:'ð'},
-{id:'survey',label:'ç¾å°èª¿æ»',icon:'ð'},
-{id:'estimate',label:'è¦ç©ã',icon:'ð°'},
-{id:'adjust',label:'çºæ³¨èª¿æ´',icon:'ð'},
-{id:'complete',label:'çºæ³¨å®äº',icon:'â'}
+{id:'consult',label:'Ã¦Â¡ÂÃ¤Â»Â¶Ã§ÂÂ¸Ã¨Â«Â',icon:'Ã°ÂÂÂ'},
+{id:'survey',label:'Ã§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ»',icon:'Ã°ÂÂÂ'},
+{id:'estimate',label:'Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂ',icon:'Ã°ÂÂÂ°'},
+{id:'adjust',label:'Ã§ÂÂºÃ¦Â³Â¨Ã¨ÂªÂ¿Ã¦ÂÂ´',icon:'Ã°ÂÂÂ'},
+{id:'complete',label:'Ã§ÂÂºÃ¦Â³Â¨Ã¥Â®ÂÃ¤ÂºÂ',icon:'Ã¢ÂÂ'}
 ];
 
 function toggleLayer(){
@@ -687,14 +687,14 @@ function otherLayerBadge(layer,key,label){
 const v=S.meeting[layer][key];
 if(!v)return '';
 return '<div class="text-xs mt-1 px-2 py-1 rounded" style="background:'+(layer==='client'?'#ede9fe':'#d1fae5')+';color:'+(layer==='client'?'#6366f1':'#059669')+'">'+
-(layer==='client'?'ð¤ ä¾é ¼å´':'ð§ æ½å·¥ç®¡çå´')+': '+label+' = <strong>'+v+'</strong></div>';
+(layer==='client'?'Ã°ÂÂÂ¤ Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´':'Ã°ÂÂÂ§ Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´')+': '+label+' = <strong>'+v+'</strong></div>';
 }
 
 function renderMeetingFlow(){
 const m=S.meeting;
 const step=m.step;
 const layer=m.layer;
-// ã¹ãããã¼ãã¼
+// Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂ¼
 const bar=document.getElementById('stepperBar');
 bar.innerHTML=STEPS.map((s,i)=>{
 const active=i===step;const done=i<step;
@@ -702,14 +702,14 @@ const circleStyle=active?'background:linear-gradient(135deg,var(--p),var(--s));c
 const lineStyle=i<STEPS.length-1?(done?'background:var(--p)':'background:var(--border)'):'';
 return '<div class="flex items-center" style="flex:1;'+(i===STEPS.length-1?'flex:0':'')+'">'+
 '<div style="display:flex;flex-direction:column;align-items:center;cursor:pointer;min-width:70px" onclick="goStep('+i+')">'+
-'<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;'+circleStyle+';transition:all .3s">'+(done?'â':s.icon)+'</div>'+
+'<div style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;'+circleStyle+';transition:all .3s">'+(done?'Ã¢ÂÂ':s.icon)+'</div>'+
 '<span class="text-xs mt-1" style="color:'+(active?'var(--p)':'var(--sub)')+';font-weight:'+(active?'700':'400')+'">'+s.label+'</span>'+
 '</div>'+
 (i<STEPS.length-1?'<div style="flex:1;height:3px;border-radius:2px;margin:0 .25rem;'+lineStyle+';transition:background .3s;margin-bottom:18px"></div>':'')+
 '</div>';
 }).join('');
 
-// ã¬ã¤ã¤ã¼UIåæ
+// Ã£ÂÂ¬Ã£ÂÂ¤Ã£ÂÂ¤Ã£ÂÂ¼UIÃ¥ÂÂÃ¦ÂÂ
 const dot=document.getElementById('layerDot');
 const lbl=document.getElementById('layerLabel');
 const lblR=document.getElementById('layerLabelR');
@@ -727,7 +727,7 @@ lblR.style.color='var(--sub)';lblR.style.fontWeight='400';
 const area=document.getElementById('flowStepContent');
 const otherLayer=layer==='client'?'contractor':'client';
 const layerColor=layer==='client'?'var(--p)':'#059669';
-const layerBadge=layer==='client'?'<span class="sb sb-p">ä¾é ¼å´</span>':'<span class="sb sb-g">æ½å·¥ç®¡çå´</span>';
+const layerBadge=layer==='client'?'<span class="sb sb-p">Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´</span>':'<span class="sb sb-g">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´</span>';
 
 if(step===0)renderStep0(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===1)renderStep1(area,layer,otherLayer,layerBadge,layerColor);
@@ -736,267 +736,267 @@ else if(step===3)renderStep3(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===4)renderStep4(area,layer,otherLayer,layerBadge,layerColor);
 }
 
-// ===== Step0: æ¡ä»¶ç¸è« =====
+// ===== Step0: Ã¦Â¡ÂÃ¤Â»Â¶Ã§ÂÂ¸Ã¨Â«Â =====
 function renderStep0(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[0].icon+' '+STEPS[0].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
 html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
-// æ½å·¥ææ
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">1. æ½å·¥ææ</h5>';
-html+='<div class="grid grid-cols-2 gap-2"><div><label class="text-xs" style="color:var(--sub)">éå§æ¥</label>'+phDate('pf','period_from')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">çµäºæ¥</label>'+phDate('pt','period_to')+'</div></div></div>';
-// æ¡ä»¶è©³ç´°
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">2. æ¡ä»¶è©³ç´°</h5>';
+// Ã¦ÂÂ½Ã¥Â·Â¥Ã¦ÂÂÃ¦ÂÂ
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">1. Ã¦ÂÂ½Ã¥Â·Â¥Ã¦ÂÂÃ¦ÂÂ</h5>';
+html+='<div class="grid grid-cols-2 gap-2"><div><label class="text-xs" style="color:var(--sub)">Ã©ÂÂÃ¥Â§ÂÃ¦ÂÂ¥</label>'+phDate('pf','period_from')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã§ÂµÂÃ¤ÂºÂÃ¦ÂÂ¥</label>'+phDate('pt','period_to')+'</div></div></div>';
+// Ã¦Â¡ÂÃ¤Â»Â¶Ã¨Â©Â³Ã§Â´Â°
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">2. Ã¦Â¡ÂÃ¤Â»Â¶Ã¨Â©Â³Ã§Â´Â°</h5>';
 html+='<div class="space-y-2">';
-html+='<div><label class="text-xs" style="color:var(--sub)">ã¨ãªã¢</label>'+phInput('area','area','æ±äº¬é½ ä¸­å¤®åº')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">å»ºç©</label>'+phTabs('building',['åºåãã³ã·ã§ã³','æ¸å»ºã¦'])+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">ãã®ä»</label>'+phInput('bother','building_other','ãã®ä»')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">åºã</label><div class="flex items-center gap-1">'+phInput('sizem','size_m2','70')+'<span class="text-sm" style="color:var(--sub)">ã¡</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">éåãå³</label><div class="flex items-center gap-2"><button class="btn2 text-xs" onclick="document.getElementById(\'fpUpload\').click()">ð PDFã¢ããã­ã¼ã</button><input type="file" id="fpUpload" accept=".pdf" style="display:none" onchange="mfVal(\'floor_plan_file\',this.files[0]?this.files[0].name:\'\');renderMeetingFlow()"><span class="text-xs" style="color:var(--sub)">'+(mfGet('floor_plan_file')||'æªé¸æ')+'</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã£ÂÂ¨Ã£ÂÂªÃ£ÂÂ¢</label>'+phInput('area','area','Ã¦ÂÂ±Ã¤ÂºÂ¬Ã©ÂÂ½ Ã¤Â¸Â­Ã¥Â¤Â®Ã¥ÂÂº')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¥Â»ÂºÃ§ÂÂ©</label>'+phTabs('building',['Ã¥ÂÂºÃ¥ÂÂÃ£ÂÂÃ£ÂÂ³Ã£ÂÂ·Ã£ÂÂ§Ã£ÂÂ³','Ã¦ÂÂ¸Ã¥Â»ÂºÃ£ÂÂ¦'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã£ÂÂÃ£ÂÂ®Ã¤Â»Â</label>'+phInput('bother','building_other','Ã£ÂÂÃ£ÂÂ®Ã¤Â»Â')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¥ÂºÂÃ£ÂÂ</label><div class="flex items-center gap-1">'+phInput('sizem','size_m2','70')+'<span class="text-sm" style="color:var(--sub)">Ã£ÂÂ¡</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã©ÂÂÃ¥ÂÂÃ£ÂÂÃ¥ÂÂ³</label><div class="flex items-center gap-2"><button class="btn2 text-xs" onclick="document.getElementById(\'fpUpload\').click()">Ã°ÂÂÂ PDFÃ£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ</button><input type="file" id="fpUpload" accept=".pdf" style="display:none" onchange="mfVal(\'floor_plan_file\',this.files[0]?this.files[0].name:\'\');renderMeetingFlow()"><span class="text-xs" style="color:var(--sub)">'+(mfGet('floor_plan_file')||'Ã¦ÂÂªÃ©ÂÂ¸Ã¦ÂÂ')+'</span></div></div>';
 html+='</div></div>';
-// å·¥äºåå®¹
-html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. å·¥äºåå®¹</h5>';
+// Ã¥Â·Â¥Ã¤ÂºÂÃ¥ÂÂÃ¥Â®Â¹
+html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. Ã¥Â·Â¥Ã¤ÂºÂÃ¥ÂÂÃ¥Â®Â¹</h5>';
 html+='<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
-html+='<div><label class="text-xs" style="color:var(--sub)">å·¥äºäºç®</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">ä¸</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">è²©å£²äºå®éé¡</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">ä¸</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">ç¸è¦ç©æ¥­è</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¥Â·Â¥Ã¤ÂºÂÃ¤ÂºÂÃ§Â®Â</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">Ã¤Â¸Â</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¨Â²Â©Ã¥Â£Â²Ã¤ÂºÂÃ¥Â®ÂÃ©ÂÂÃ©Â¡Â</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">Ã¤Â¸Â</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã§ÂÂ¸Ã¨Â¦ÂÃ§Â©ÂÃ¦Â¥Â­Ã¨ÂÂ</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
 html+='</div>';
-html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">è¨ç»ä»ä¸ã</label>'+phTabs('finish_quality',['åè³ªã¨ä»æ§ãå¤§å','åè³ªãå¤§å','å·¥æäºç®ãå¤§å'])+'</div>';
-html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">æ½å·¥æ¥­èããææ¡</label>'+phTabs('contractor_proposal',['æ','ç¡'])+'</div>';
-html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">åè</label><textarea class="inp" rows="2" placeholder="è©³ç´°ãå¥å..." oninput="mfVal(\'finish_note\',this.value)">'+mfGet('finish_note')+'</textarea></div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">Ã¨Â¨ÂÃ§ÂÂ»Ã¤Â»ÂÃ¤Â¸ÂÃ£ÂÂ</label>'+phTabs('finish_quality',['Ã¥ÂÂÃ¨Â³ÂªÃ£ÂÂ¨Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂÃ¥Â¤Â§Ã¥ÂÂ','Ã¥ÂÂÃ¨Â³ÂªÃ£ÂÂÃ¥Â¤Â§Ã¥ÂÂ','Ã¥Â·Â¥Ã¦ÂÂÃ¤ÂºÂÃ§Â®ÂÃ£ÂÂÃ¥Â¤Â§Ã¥ÂÂ'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂ½Ã¥Â·Â¥Ã¦Â¥Â­Ã¨ÂÂÃ£ÂÂÃ£ÂÂÃ¦ÂÂÃ¦Â¡Â</label>'+phTabs('contractor_proposal',['Ã¦ÂÂ','Ã§ÂÂ¡'])+'</div>';
+html+='<div class="mt-2"><label class="text-xs" style="color:var(--sub)">Ã¥ÂÂÃ¨ÂÂ</label><textarea class="inp" rows="2" placeholder="Ã¨Â©Â³Ã§Â´Â°Ã£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..." oninput="mfVal(\'finish_note\',this.value)">'+mfGet('finish_note')+'</textarea></div>';
 html+='</div>';
 html+='</div>';
-// ç¸æå´ã®å¥åç¶æ³è¡¨ç¤º
+// Ã§ÂÂ¸Ã¦ÂÂÃ¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂ¥Ã¥ÂÂÃ§ÂÂ¶Ã¦Â³ÂÃ¨Â¡Â¨Ã§Â¤Âº
 const oArea=mfGetAny(otherLayer,'area');const oBudget=mfGetAny(otherLayer,'budget');
 if(otherLayer==='contractor'){
 const qd=mfGetAny('contractor','quote_days');
 const es=mfGetAny('contractor','earliest_start');
 const sd=mfGetAny('contractor','survey_duration');
 if(qd||es||sd){
-html+='<div class="kp mt-3" style="border-left:3px solid #059669"><h5 class="text-xs font-bold mb-2" style="color:#059669">ð§ æ½å·¥ç®¡çå´ã®åç­</h5>';
-if(qd)html+='<p class="text-xs">è¦ç©ãåç­æ¥: ç¾å°èª¿æ»æ¥ãã <strong>'+qd+'æ¥å¾</strong></p>';
-if(es)html+='<p class="text-xs">æç­çå·¥æ¥: <strong>'+es+'</strong></p>';
-if(sd)html+='<p class="text-xs">èª¿æ»æè¦æé: <strong>'+sd+'</strong></p>';
+html+='<div class="kp mt-3" style="border-left:3px solid #059669"><h5 class="text-xs font-bold mb-2" style="color:#059669">Ã°ÂÂÂ§ Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ§Â­Â</h5>';
+if(qd)html+='<p class="text-xs">Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂÃ¥ÂÂÃ§Â­ÂÃ¦ÂÂ¥: Ã§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂ¥Ã£ÂÂÃ£ÂÂ <strong>'+qd+'Ã¦ÂÂ¥Ã¥Â¾Â</strong></p>';
+if(es)html+='<p class="text-xs">Ã¦ÂÂÃ§ÂÂ­Ã§ÂÂÃ¥Â·Â¥Ã¦ÂÂ¥: <strong>'+es+'</strong></p>';
+if(sd)html+='<p class="text-xs">Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂÃ¨Â¦ÂÃ¦ÂÂÃ©ÂÂ: <strong>'+sd+'</strong></p>';
 html+='</div>';
 }
 }
 }else{
-// æ½å·¥ç®¡çå´ã®Step0
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">æ½å·¥ç®¡çå´ã®åç­å¥å</h5>';
+// Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂ®Step0
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ§Â­ÂÃ¥ÂÂ¥Ã¥ÂÂ</h5>';
 html+='<div class="space-y-3">';
-html+='<div><label class="text-xs" style="color:var(--sub)">è¦ç©ãåç­æ¥ï¼ç¾å°èª¿æ»æ¥ããâæ¥å¾ï¼</label>'+phTabs('quote_days',['1','2','3','4','5','6','7','8','9','10'])+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">æç­çå·¥æ¥</label>'+phDate('es','earliest_start')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">èª¿æ»æè¦æé</label>'+phTabs('survey_duration',['15å','30å','45å','60å','75å','90å'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂÃ¥ÂÂÃ§Â­ÂÃ¦ÂÂ¥Ã¯Â¼ÂÃ§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂ¥Ã£ÂÂÃ£ÂÂÃ¢ÂÂÃ¦ÂÂ¥Ã¥Â¾ÂÃ¯Â¼Â</label>'+phTabs('quote_days',['1','2','3','4','5','6','7','8','9','10'])+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂÃ§ÂÂ­Ã§ÂÂÃ¥Â·Â¥Ã¦ÂÂ¥</label>'+phDate('es','earliest_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂÃ¨Â¦ÂÃ¦ÂÂÃ©ÂÂ</label>'+phTabs('survey_duration',['15Ã¥ÂÂ','30Ã¥ÂÂ','45Ã¥ÂÂ','60Ã¥ÂÂ','75Ã¥ÂÂ','90Ã¥ÂÂ'])+'</div>';
 html+='</div></div>';
-// ä¾é ¼å´ã®å¥åç¶æ³
+// Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂ¥Ã¥ÂÂÃ§ÂÂ¶Ã¦Â³Â
 const cArea=mfGetAny('client','area');const cBld=mfGetAny('client','building');
 const cBudget=mfGetAny('client','budget');const cSale=mfGetAny('client','sale_price');
 const cSize=mfGetAny('client','size_m2');const cFinish=mfGetAny('client','finish_quality');
 if(cArea||cBudget){
-html+='<div class="kp mt-3" style="border-left:3px solid var(--p)"><h5 class="text-xs font-bold mb-2" style="color:var(--p)">ð¤ ä¾é ¼å´ã®å¥ååå®¹</h5>';
-if(cArea)html+='<p class="text-xs">ã¨ãªã¢: <strong>'+cArea+'</strong></p>';
-if(cBld)html+='<p class="text-xs">å»ºç©: <strong>'+cBld+'</strong></p>';
-if(cSize)html+='<p class="text-xs">åºã: <strong>'+cSize+'ã¡</strong></p>';
-if(cBudget)html+='<p class="text-xs">äºç®: <strong>'+fmtNum(cBudget)+'ä¸</strong></p>';
-if(cSale)html+='<p class="text-xs">è²©å£²äºå®: <strong>'+fmtNum(cSale)+'ä¸</strong></p>';
-if(cFinish)html+='<p class="text-xs">è¨ç»ä»ä¸ã: <strong>'+cFinish+'</strong></p>';
+html+='<div class="kp mt-3" style="border-left:3px solid var(--p)"><h5 class="text-xs font-bold mb-2" style="color:var(--p)">Ã°ÂÂÂ¤ Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂ¥Ã¥ÂÂÃ¥ÂÂÃ¥Â®Â¹</h5>';
+if(cArea)html+='<p class="text-xs">Ã£ÂÂ¨Ã£ÂÂªÃ£ÂÂ¢: <strong>'+cArea+'</strong></p>';
+if(cBld)html+='<p class="text-xs">Ã¥Â»ÂºÃ§ÂÂ©: <strong>'+cBld+'</strong></p>';
+if(cSize)html+='<p class="text-xs">Ã¥ÂºÂÃ£ÂÂ: <strong>'+cSize+'Ã£ÂÂ¡</strong></p>';
+if(cBudget)html+='<p class="text-xs">Ã¤ÂºÂÃ§Â®Â: <strong>'+fmtNum(cBudget)+'Ã¤Â¸Â</strong></p>';
+if(cSale)html+='<p class="text-xs">Ã¨Â²Â©Ã¥Â£Â²Ã¤ÂºÂÃ¥Â®Â: <strong>'+fmtNum(cSale)+'Ã¤Â¸Â</strong></p>';
+if(cFinish)html+='<p class="text-xs">Ã¨Â¨ÂÃ§ÂÂ»Ã¤Â»ÂÃ¤Â¸ÂÃ£ÂÂ: <strong>'+cFinish+'</strong></p>';
 html+='</div>';
 }
 }
-html+='<div class="flex justify-end mt-4"><button class="btn text-sm" onclick="goStep(1)">æ¬¡ã¸ â ç¾å°èª¿æ»</button></div>';
+html+='<div class="flex justify-end mt-4"><button class="btn text-sm" onclick="goStep(1)">Ã¦Â¬Â¡Ã£ÂÂ¸ Ã¢ÂÂ Ã§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ»</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step1: ç¾å°èª¿æ» =====
+// ===== Step1: Ã§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ» =====
 function renderStep1(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[1].icon+' '+STEPS[1].label+'</h4>'+badge+'</div>';
-html+='<div class="kp mb-3"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">åè£æ¥æ</h5>';
+html+='<div class="kp mb-3"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã¥ÂÂÃ¨Â£ÂÃ¦ÂÂ¥Ã¦ÂÂ</h5>';
 html+='<div class="space-y-3">';
 for(let i=1;i<=3;i++){
-html+='<div class="p-2 rounded" style="background:var(--hover)"><p class="text-xs font-bold mb-1">åè£'+i+'</p>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><p class="text-xs font-bold mb-1">Ã¥ÂÂÃ¨Â£Â'+i+'</p>';
 html+='<div class="grid grid-cols-3 gap-2">';
-html+='<div><label class="text-xs" style="color:var(--sub)">æ¥ä»</label>'+phDate('sd'+i,'survey_date'+i)+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">éå§</label>'+phTime('st'+i+'s','survey_time'+i+'_start')+'</div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">çµäº</label>'+phTime('st'+i+'e','survey_time'+i+'_end')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã¦ÂÂ¥Ã¤Â»Â</label>'+phDate('sd'+i,'survey_date'+i)+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã©ÂÂÃ¥Â§Â</label>'+phTime('st'+i+'s','survey_time'+i+'_start')+'</div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">Ã§ÂµÂÃ¤ÂºÂ</label>'+phTime('st'+i+'e','survey_time'+i+'_end')+'</div>';
 html+='</div></div>';
 }
 html+='</div></div>';
 if(layer==='client'){
 html+='<div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">å®¤åã®ä½¿ç¨ç¶æ³</h5>'+phTabs('room_status',['ä½ãã§ãã¾ã','ä½ãã§ãã¾ãã'])+'</div>';
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">èª¿æ»æã®å±æäºé </h5><textarea class="inp" rows="3" placeholder="å±æäºé ãå¥å..." oninput="mfVal(\'survey_note\',this.value)">'+mfGet('survey_note')+'</textarea></div>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">Ã¥Â®Â¤Ã¥ÂÂÃ£ÂÂ®Ã¤Â½Â¿Ã§ÂÂ¨Ã§ÂÂ¶Ã¦Â³Â</h5>'+phTabs('room_status',['Ã¤Â½ÂÃ£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂ','Ã¤Â½ÂÃ£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ'])+'</div>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂÃ£ÂÂ®Ã¥ÂÂ±Ã¦ÂÂÃ¤ÂºÂÃ©Â Â</h5><textarea class="inp" rows="3" placeholder="Ã¥ÂÂ±Ã¦ÂÂÃ¤ÂºÂÃ©Â ÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..." oninput="mfVal(\'survey_note\',this.value)">'+mfGet('survey_note')+'</textarea></div>';
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">ç¢ºèªäºé ã³ã¡ã³ã</h5><textarea class="inp" rows="3" placeholder="ç¢ºèªäºé ãå¥å..." oninput="mfVal(\'confirm_note\',this.value)">'+mfGet('confirm_note')+'</textarea></div>';
-// AIæ¥ç¨ã¨ã©ã¼ãã§ãã¯
+html+='<div class="kp"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">Ã§Â¢ÂºÃ¨ÂªÂÃ¤ÂºÂÃ©Â ÂÃ£ÂÂ³Ã£ÂÂ¡Ã£ÂÂ³Ã£ÂÂ</h5><textarea class="inp" rows="3" placeholder="Ã§Â¢ÂºÃ¨ÂªÂÃ¤ÂºÂÃ©Â ÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..." oninput="mfVal(\'confirm_note\',this.value)">'+mfGet('confirm_note')+'</textarea></div>';
+// AIÃ¦ÂÂ¥Ã§Â¨ÂÃ£ÂÂ¨Ã£ÂÂ©Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ¯
 const cd1=mfGetAny('client','survey_date1');const cd2=mfGetAny('client','survey_date2');const cd3=mfGetAny('client','survey_date3');
 const md1=mfGet('survey_date1');
 if(cd1&&md1&&md1!==cd1&&md1!==mfGetAny('client','survey_date2')&&md1!==mfGetAny('client','survey_date3')){
-html+='<div class="kp mt-3" style="border-left:3px solid #dc2626;background:#fef2f2"><p class="text-xs font-bold" style="color:#dc2626">â ï¸ AIã¹ã±ã¸ã¥ã¼ã«è­¦å</p><p class="text-xs mt-1">æ½å·¥ç®¡çå´ã®åè£æ¥ãä¾é ¼å´ã®åè£æ¥ã¨ä¸è´ãã¦ãã¾ããã</p><p class="text-xs mt-1">ä¾é ¼å´ã®åè£: '+(cd1||'-')+', '+(cd2||'-')+', '+(cd3||'-')+'</p></div>';
+html+='<div class="kp mt-3" style="border-left:3px solid #dc2626;background:#fef2f2"><p class="text-xs font-bold" style="color:#dc2626">Ã¢ÂÂ Ã¯Â¸Â AIÃ£ÂÂ¹Ã£ÂÂ±Ã£ÂÂ¸Ã£ÂÂ¥Ã£ÂÂ¼Ã£ÂÂ«Ã¨Â­Â¦Ã¥ÂÂ</p><p class="text-xs mt-1">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ¨Â£ÂÃ¦ÂÂ¥Ã£ÂÂÃ¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ¨Â£ÂÃ¦ÂÂ¥Ã£ÂÂ¨Ã¤Â¸ÂÃ¨ÂÂ´Ã£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ</p><p class="text-xs mt-1">Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ¨Â£Â: '+(cd1||'-')+', '+(cd2||'-')+', '+(cd3||'-')+'</p></div>';
 }
 }
-// ç¸æå´ã®åè£è¡¨ç¤º
+// Ã§ÂÂ¸Ã¦ÂÂÃ¥ÂÂ´Ã£ÂÂ®Ã¥ÂÂÃ¨Â£ÂÃ¨Â¡Â¨Ã§Â¤Âº
 const oD1=mfGetAny(otherLayer,'survey_date1');
 if(oD1){
-const oName=otherLayer==='client'?'ð¤ ä¾é ¼å´':'ð§ æ½å·¥ç®¡çå´';
+const oName=otherLayer==='client'?'Ã°ÂÂÂ¤ Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´':'Ã°ÂÂÂ§ Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´';
 const oColor=otherLayer==='client'?'var(--p)':'#059669';
-html+='<div class="kp mt-3" style="border-left:3px solid '+oColor+'"><h5 class="text-xs font-bold mb-1" style="color:'+oColor+'">'+oName+'ã®åè£æ¥æ</h5>';
+html+='<div class="kp mt-3" style="border-left:3px solid '+oColor+'"><h5 class="text-xs font-bold mb-1" style="color:'+oColor+'">'+oName+'Ã£ÂÂ®Ã¥ÂÂÃ¨Â£ÂÃ¦ÂÂ¥Ã¦ÂÂ</h5>';
 for(let i=1;i<=3;i++){
 const d=mfGetAny(otherLayer,'survey_date'+i);const ts=mfGetAny(otherLayer,'survey_time'+i+'_start');const te=mfGetAny(otherLayer,'survey_time'+i+'_end');
-if(d)html+='<p class="text-xs">åè£'+i+': '+d+' '+ts+'ã'+te+'</p>';
+if(d)html+='<p class="text-xs">Ã¥ÂÂÃ¨Â£Â'+i+': '+d+' '+ts+'Ã£ÂÂ'+te+'</p>';
 }
 html+='</div>';
 }
-html+='<div class="kp mt-3"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">ç©ä»¶èª¿æ»ã®åçè¨é²</h5><button class="btn2 text-xs" onclick="alert(\'åçã¢ããã­ã¼ãæ©è½ï¼å®è£äºå®ï¼\')">ð· åçãã¢ããã­ã¼ã</button></div>';
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(0)">â æ¡ä»¶ç¸è«</button><button class="btn text-sm" onclick="goStep(2)">æ¬¡ã¸ â è¦ç©ã</button></div>';
+html+='<div class="kp mt-3"><h5 class="font-bold text-sm mb-2" style="color:'+color+'">Ã§ÂÂ©Ã¤Â»Â¶Ã¨ÂªÂ¿Ã¦ÂÂ»Ã£ÂÂ®Ã¥ÂÂÃ§ÂÂÃ¨Â¨ÂÃ©ÂÂ²</h5><button class="btn2 text-xs" onclick="alert(\'Ã¥ÂÂÃ§ÂÂÃ£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ¦Â©ÂÃ¨ÂÂ½Ã¯Â¼ÂÃ¥Â®ÂÃ¨Â£ÂÃ¤ÂºÂÃ¥Â®ÂÃ¯Â¼Â\')">Ã°ÂÂÂ· Ã¥ÂÂÃ§ÂÂÃ£ÂÂÃ£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(0)">Ã¢ÂÂ Ã¦Â¡ÂÃ¤Â»Â¶Ã§ÂÂ¸Ã¨Â«Â</button><button class="btn text-sm" onclick="goStep(2)">Ã¦Â¬Â¡Ã£ÂÂ¸ Ã¢ÂÂ Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂ</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step2: è¦ç©ã =====
+// ===== Step2: Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂ =====
 function renderStep2(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[2].icon+' '+STEPS[2].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIåè¨º â å¤æ­ææ</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">æ½å·¥è²»ç¨ã»åé ç®ã®è²»ç¨åè¨³ã»ä»æ§ä»ä¸ãã®è²»ç¨å¯¾å¹æãAIãåæ</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIÃ¥ÂÂÃ¨Â¨Âº Ã¢ÂÂ Ã¥ÂÂ¤Ã¦ÂÂ­Ã¦ÂÂÃ¦ÂÂ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">Ã¦ÂÂ½Ã¥Â·Â¥Ã¨Â²Â»Ã§ÂÂ¨Ã£ÂÂ»Ã¥ÂÂÃ©Â ÂÃ§ÂÂ®Ã£ÂÂ®Ã¨Â²Â»Ã§ÂÂ¨Ã¥ÂÂÃ¨Â¨Â³Ã£ÂÂ»Ã¤Â»ÂÃ¦Â§ÂÃ¤Â»ÂÃ¤Â¸ÂÃ£ÂÂÃ£ÂÂ®Ã¨Â²Â»Ã§ÂÂ¨Ã¥Â¯Â¾Ã¥ÂÂ¹Ã¦ÂÂÃ£ÂÂAIÃ£ÂÂÃ¥ÂÂÃ¦ÂÂ</p>';
 const budget=mfGetAny('client','budget');const sale=mfGetAny('client','sale_price');
 if(budget&&sale){
 const b=Number(String(budget).replace(/,/g,''));const s=Number(String(sale).replace(/,/g,''));
 const profit=s-b;const margin=s>0?Math.round((profit/s)*100):0;
 html+='<div class="grid grid-cols-3 gap-3 mb-3">';
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">å·¥äºäºç®</p><p class="font-bold" style="color:var(--p)">'+fmtNum(budget)+'ä¸</p></div>';
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">è²©å£²äºå®</p><p class="font-bold" style="color:var(--p)">'+fmtNum(sale)+'ä¸</p></div>';
-html+='<div class="p-3 rounded text-center" style="background:'+(margin>15?'#dcfce7':'#fef9c3')+'"><p class="text-xs" style="color:var(--sub)">ç²å©ç</p><p class="font-bold" style="color:'+(margin>15?'#16a34a':'#ca8a04')+'">'+margin+'%</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">Ã¥Â·Â¥Ã¤ÂºÂÃ¤ÂºÂÃ§Â®Â</p><p class="font-bold" style="color:var(--p)">'+fmtNum(budget)+'Ã¤Â¸Â</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">Ã¨Â²Â©Ã¥Â£Â²Ã¤ÂºÂÃ¥Â®Â</p><p class="font-bold" style="color:var(--p)">'+fmtNum(sale)+'Ã¤Â¸Â</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:'+(margin>15?'#dcfce7':'#fef9c3')+'"><p class="text-xs" style="color:var(--sub)">Ã§Â²ÂÃ¥ÂÂ©Ã§ÂÂ</p><p class="font-bold" style="color:'+(margin>15?'#16a34a':'#ca8a04')+'">'+margin+'%</p></div>';
 html+='</div>';
-html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid var(--p)"><p class="text-xs font-bold mb-1">AIåæçµæ</p>';
-html+='<p class="text-xs">å·®é¡ <strong>'+fmtNum(profit)+'ä¸</strong> ('+(margin>=20?'é«åçæ¡ä»¶ã§ã':'å©ççã®æ¹åæ¤è¨ãæ¨å¥¨')+')</p>';
-html+='<p class="text-xs mt-1">ä»æ§ã¬ãã«: '+(mfGetAny('client','finish_quality')||'æªè¨­å®')+'</p></div>';
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid var(--p)"><p class="text-xs font-bold mb-1">AIÃ¥ÂÂÃ¦ÂÂÃ§ÂµÂÃ¦ÂÂ</p>';
+html+='<p class="text-xs">Ã¥Â·Â®Ã©Â¡Â <strong>'+fmtNum(profit)+'Ã¤Â¸Â</strong> ('+(margin>=20?'Ã©Â«ÂÃ¥ÂÂÃ§ÂÂÃ¦Â¡ÂÃ¤Â»Â¶Ã£ÂÂ§Ã£ÂÂ':'Ã¥ÂÂ©Ã§ÂÂÃ§ÂÂÃ£ÂÂ®Ã¦ÂÂ¹Ã¥ÂÂÃ¦Â¤ÂÃ¨Â¨ÂÃ£ÂÂÃ¦ÂÂ¨Ã¥Â¥Â¨')+')</p>';
+html+='<p class="text-xs mt-1">Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂ¬Ã£ÂÂÃ£ÂÂ«: '+(mfGetAny('client','finish_quality')||'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</p></div>';
 }else{
-html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">æ¡ä»¶ç¸è«ã¹ãããã§äºç®ã»è²©å£²éé¡ãå¥åããã¨AIåæãè¡¨ç¤ºããã¾ã</p></div>';
+html+='<div class="p-3 rounded text-center" style="background:var(--hover)"><p class="text-xs" style="color:var(--sub)">Ã¦Â¡ÂÃ¤Â»Â¶Ã§ÂÂ¸Ã¨Â«ÂÃ£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ§Ã¤ÂºÂÃ§Â®ÂÃ£ÂÂ»Ã¨Â²Â©Ã¥Â£Â²Ã©ÂÂÃ©Â¡ÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¨AIÃ¥ÂÂÃ¦ÂÂÃ£ÂÂÃ¨Â¡Â¨Ã§Â¤ÂºÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂ</p></div>';
 }
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIåè¨º â æ½å·¥ç®¡çå¤æ­ææ</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">ä»æ§ã¬ãã«ã®èªè­ç¢ºèªã»å·¥æã®å¦¥å½æ§ãAIãåæ</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">AIÃ¥ÂÂÃ¨Â¨Âº Ã¢ÂÂ Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ¤Ã¦ÂÂ­Ã¦ÂÂÃ¦ÂÂ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂ¬Ã£ÂÂÃ£ÂÂ«Ã£ÂÂ®Ã¨ÂªÂÃ¨Â­ÂÃ§Â¢ÂºÃ¨ÂªÂÃ£ÂÂ»Ã¥Â·Â¥Ã¦ÂÂÃ£ÂÂ®Ã¥Â¦Â¥Ã¥Â½ÂÃ¦ÂÂ§Ã£ÂÂAIÃ£ÂÂÃ¥ÂÂÃ¦ÂÂ</p>';
 const finish=mfGetAny('client','finish_quality');const dur=mfGetAny('contractor','survey_duration');
 const from=mfGetAny('client','period_from');const to=mfGetAny('client','period_to');
-html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid '+color+'"><p class="text-xs font-bold mb-1">AIåæçµæ</p>';
-html+='<p class="text-xs">ä»æ§ã¬ãã«: <strong>'+(finish||'æªè¨­å®')+'</strong></p>';
-html+='<p class="text-xs">èª¿æ»æé: <strong>'+(dur||'æªè¨­å®')+'</strong></p>';
-html+='<p class="text-xs">æ½å·¥æé: <strong>'+(from||'?')+' ï½ '+(to||'?')+'</strong></p>';
-if(finish==='åè³ªã¨ä»æ§ãå¤§å')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">â  é«ä»æ§æ¡ä»¶ â è©³ç´°ä»æ§æ¸ã®ä½æãæ¨å¥¨</p>';
+html+='<div class="p-3 rounded" style="background:var(--hover);border-left:3px solid '+color+'"><p class="text-xs font-bold mb-1">AIÃ¥ÂÂÃ¦ÂÂÃ§ÂµÂÃ¦ÂÂ</p>';
+html+='<p class="text-xs">Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂ¬Ã£ÂÂÃ£ÂÂ«: <strong>'+(finish||'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></p>';
+html+='<p class="text-xs">Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂÃ©ÂÂ: <strong>'+(dur||'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></p>';
+html+='<p class="text-xs">Ã¦ÂÂ½Ã¥Â·Â¥Ã¦ÂÂÃ©ÂÂ: <strong>'+(from||'?')+' Ã¯Â½Â '+(to||'?')+'</strong></p>';
+if(finish==='Ã¥ÂÂÃ¨Â³ÂªÃ£ÂÂ¨Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂÃ¥Â¤Â§Ã¥ÂÂ')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">Ã¢ÂÂ  Ã©Â«ÂÃ¤Â»ÂÃ¦Â§ÂÃ¦Â¡ÂÃ¤Â»Â¶ Ã¢ÂÂ Ã¨Â©Â³Ã§Â´Â°Ã¤Â»ÂÃ¦Â§ÂÃ¦ÂÂ¸Ã£ÂÂ®Ã¤Â½ÂÃ¦ÂÂÃ£ÂÂÃ¦ÂÂ¨Ã¥Â¥Â¨</p>';
 html+='</div></div>';
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">â ç¾å°èª¿æ»</button><button class="btn text-sm" onclick="goStep(3)">æ¬¡ã¸ â çºæ³¨èª¿æ´</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">Ã¢ÂÂ Ã§ÂÂ¾Ã¥ÂÂ°Ã¨ÂªÂ¿Ã¦ÂÂ»</button><button class="btn text-sm" onclick="goStep(3)">Ã¦Â¬Â¡Ã£ÂÂ¸ Ã¢ÂÂ Ã§ÂÂºÃ¦Â³Â¨Ã¨ÂªÂ¿Ã¦ÂÂ´</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step3: çºæ³¨èª¿æ´ =====
+// ===== Step3: Ã§ÂÂºÃ¦Â³Â¨Ã¨ÂªÂ¿Ã¦ÂÂ´ =====
 function renderStep3(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[3].icon+' '+STEPS[3].label+'</h4>'+badge+'</div>';
 if(layer==='client'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">ä¾é ¼å´ æçµèª¿æ´</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">ä»æ§ã»ä»ä¸ããç¨åº¦ã»äºç®ã®æçµç¢ºèª</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´ Ã¦ÂÂÃ§ÂµÂÃ¨ÂªÂ¿Ã¦ÂÂ´</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">Ã¤Â»ÂÃ¦Â§ÂÃ£ÂÂ»Ã¤Â»ÂÃ¤Â¸ÂÃ£ÂÂÃ£ÂÂÃ§Â¨ÂÃ¥ÂºÂ¦Ã£ÂÂ»Ã¤ÂºÂÃ§Â®ÂÃ£ÂÂ®Ã¦ÂÂÃ§ÂµÂÃ§Â¢ÂºÃ¨ÂªÂ</p>';
 html+='<div class="space-y-2">';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">ä»æ§:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'æªè¨­å®')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">äºç®:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'ä¸':'æªè¨­å®')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">è²©å£²äºå®:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'ä¸':'æªè¨­å®')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">Ã¤Â»ÂÃ¦Â§Â:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">Ã¤ÂºÂÃ§Â®Â:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'Ã¤Â¸Â':'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">Ã¨Â²Â©Ã¥Â£Â²Ã¤ÂºÂÃ¥Â®Â:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'Ã¤Â¸Â':'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></div>';
 html+='</div>';
-html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">èª¿æ´ã¡ã¢</label><textarea class="inp" rows="2" placeholder="æçµèª¿æ´äºé ãå¥å..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
+html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">Ã¨ÂªÂ¿Ã¦ÂÂ´Ã£ÂÂ¡Ã£ÂÂ¢</label><textarea class="inp" rows="2" placeholder="Ã¦ÂÂÃ§ÂµÂÃ¨ÂªÂ¿Ã¦ÂÂ´Ã¤ÂºÂÃ©Â ÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">æ½å·¥ç®¡çå´ æçµèª¿æ´ã»ç¢ºå®</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">æéã®æç¢ºåã»ç¢ºå®è³æã®ä¿å­</p>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´ Ã¦ÂÂÃ§ÂµÂÃ¨ÂªÂ¿Ã¦ÂÂ´Ã£ÂÂ»Ã§Â¢ÂºÃ¥Â®Â</h5>';
+html+='<p class="text-xs mb-2" style="color:var(--sub)">Ã¦ÂÂÃ©ÂÂÃ£ÂÂ®Ã¦ÂÂÃ§Â¢ÂºÃ¥ÂÂÃ£ÂÂ»Ã§Â¢ÂºÃ¥Â®ÂÃ¨Â³ÂÃ¦ÂÂÃ£ÂÂ®Ã¤Â¿ÂÃ¥Â­Â</p>';
 html+='<div class="space-y-2">';
 const es=mfGetAny('contractor','earliest_start');
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">æç­çå·¥æ¥:</span> <strong class="text-sm">'+(es||'æªè¨­å®')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">è¦ç©ãåç­æ¥:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'èª¿æ»æ¥ãã'+mfGetAny('contractor','quote_days')+'æ¥å¾':'æªè¨­å®')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">Ã¦ÂÂÃ§ÂÂ­Ã§ÂÂÃ¥Â·Â¥Ã¦ÂÂ¥:</span> <strong class="text-sm">'+(es||'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></div>';
+html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂÃ¥ÂÂÃ§Â­ÂÃ¦ÂÂ¥:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂ¥Ã£ÂÂÃ£ÂÂ'+mfGetAny('contractor','quote_days')+'Ã¦ÂÂ¥Ã¥Â¾Â':'Ã¦ÂÂªÃ¨Â¨Â­Ã¥Â®Â')+'</strong></div>';
 html+='</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'â ç¢ºå®æ¸ã¿':'ç¢ºå®ãã¦è³æä¿å­')+'</button></div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'Ã¢ÂÂ Ã§Â¢ÂºÃ¥Â®ÂÃ¦Â¸ÂÃ£ÂÂ¿':'Ã§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ¦Ã¨Â³ÂÃ¦ÂÂÃ¤Â¿ÂÃ¥Â­Â')+'</button></div>';
 html+='</div>';
 }
-// åæ¹ã®ç¢ºèªç¶æ³
+// Ã¥ÂÂÃ¦ÂÂ¹Ã£ÂÂ®Ã§Â¢ÂºÃ¨ÂªÂÃ§ÂÂ¶Ã¦Â³Â
 if(S.meeting.order_confirmed){
-html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">â æ½å·¥ç®¡çå´ãç¢ºå®ãã¾ãããä¾é ¼å´ã¯ãã¤ã§ããã®è³æã«ã¢ã¯ã»ã¹ã§ãã¾ãã</p></div>';
+html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">Ã¢ÂÂ Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂÃ§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¤Â¾ÂÃ©Â Â¼Ã¥ÂÂ´Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ¤Ã£ÂÂ§Ã£ÂÂÃ£ÂÂÃ£ÂÂ®Ã¨Â³ÂÃ¦ÂÂÃ£ÂÂ«Ã£ÂÂ¢Ã£ÂÂ¯Ã£ÂÂ»Ã£ÂÂ¹Ã£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ</p></div>';
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">â è¦ç©ã</button><button class="btn text-sm" onclick="goStep(4)">æ¬¡ã¸ â çºæ³¨å®äº</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">Ã¢ÂÂ Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂ</button><button class="btn text-sm" onclick="goStep(4)">Ã¦Â¬Â¡Ã£ÂÂ¸ Ã¢ÂÂ Ã§ÂÂºÃ¦Â³Â¨Ã¥Â®ÂÃ¤ÂºÂ</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step4: çºæ³¨å®äº =====
+// ===== Step4: Ã§ÂÂºÃ¦Â³Â¨Ã¥Â®ÂÃ¤ÂºÂ =====
 function renderStep4(area,layer,otherLayer,badge,color){
 let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[4].icon+' '+STEPS[4].label+'</h4>'+badge+'</div>';
 if(layer==='contractor'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">çºæ³¨æ¸ä½æ</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">AIæè¡ã§ãã©ãããèªåä½æããæçµç¢ºèªã¸</p>';
-html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">ð¤ AIãã©ããä½æ</button>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã¤Â½ÂÃ¦ÂÂ</h5>';
+html+='<p class="text-xs mb-3" style="color:var(--sub)">AIÃ¦ÂÂÃ¨Â¡ÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¨ÂÂªÃ¥ÂÂÃ¤Â½ÂÃ¦ÂÂÃ£ÂÂÃ£ÂÂÃ¦ÂÂÃ§ÂµÂÃ§Â¢ÂºÃ¨ÂªÂÃ£ÂÂ¸</p>';
+html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">Ã°ÂÂ¤Â AIÃ£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ¤Â½ÂÃ¦ÂÂ</button>';
 const draft=S.meeting.order_doc_draft;
 if(draft){
 html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+draft+'</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'çºæ³¨\',\'çºæ³¨æ¸\',S.meeting.order_doc_confirmed?\'ç¢ºå®\':\'åæ¶\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'â çºæ³¨æ¸ç¢ºå®æ¸':'çºæ³¨æ¸ãç¢ºå®ãã')+'</button></div>';
+html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'Ã§ÂÂºÃ¦Â³Â¨\',\'Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸\',S.meeting.order_doc_confirmed?\'Ã§Â¢ÂºÃ¥Â®Â\':\'Ã¥ÂÂÃ¦Â¶Â\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'Ã¢ÂÂ Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã§Â¢ÂºÃ¥Â®ÂÃ¦Â¸Â':'Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã£ÂÂÃ§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ')+'</button></div>';
 }
 html+='</div>';
 }else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">çºæ³¨æ¸ç¢ºèª</h5>';
+html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã§Â¢ÂºÃ¨ÂªÂ</h5>';
 if(S.meeting.order_doc_confirmed){
-html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">â çºæ³¨æ¸ãç¢ºå®ããã¾ãã</p></div>';
+html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">Ã¢ÂÂ Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã£ÂÂÃ§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ</p></div>';
 if(S.meeting.order_doc_draft){
 html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
 }
 }else if(S.meeting.order_doc_draft){
-html+='<p class="text-xs" style="color:var(--sub)">æ½å·¥ç®¡çå´ããã©ãããä½ææ¸ã¿ãç¢ºå®ããå¾ã¡ãã ããã</p>';
+html+='<p class="text-xs" style="color:var(--sub)">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂÃ£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¤Â½ÂÃ¦ÂÂÃ¦Â¸ÂÃ£ÂÂ¿Ã£ÂÂÃ§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂÃ¥Â¾ÂÃ£ÂÂ¡Ã£ÂÂÃ£ÂÂ Ã£ÂÂÃ£ÂÂÃ£ÂÂ</p>';
 html+='<div class="p-3 rounded mt-2" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
 }else{
-html+='<p class="text-xs" style="color:var(--sub)">æ½å·¥ç®¡çå´ãçºæ³¨æ¸ãä½æä¸­ã§ããå®æå¾ã«ç¢ºèªã§ãã¾ãã</p>';
+html+='<p class="text-xs" style="color:var(--sub)">Ã¦ÂÂ½Ã¥Â·Â¥Ã§Â®Â¡Ã§ÂÂÃ¥ÂÂ´Ã£ÂÂÃ§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã£ÂÂÃ¤Â½ÂÃ¦ÂÂÃ¤Â¸Â­Ã£ÂÂ§Ã£ÂÂÃ£ÂÂÃ¥Â®ÂÃ¦ÂÂÃ¥Â¾ÂÃ£ÂÂ«Ã§Â¢ÂºÃ¨ÂªÂÃ£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ</p>';
 }
 html+='</div>';
 }
-html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">â çºæ³¨èª¿æ´</button></div>';
+html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">Ã¢ÂÂ Ã§ÂÂºÃ¦Â³Â¨Ã¨ÂªÂ¿Ã¦ÂÂ´</button></div>';
 area.innerHTML=html;
 }
 
 function generateOrderDraft(){
 const c=S.meeting.client;const k=S.meeting.contractor;
-let draft='ãçºæ³¨æ¸ï¼ãã©ããï¼ã\n';
-draft+='ââââââââââââââââââââ\n';
-draft+='ä½ææ¥: '+todayStr()+'\n\n';
-draft+='â  ç©ä»¶æå ±\n';
-draft+='  ã¨ãªã¢: '+(c.area||'æªå¥å')+'\n';
-draft+='  å»ºç©: '+(c.building||'æªå¥å')+(c.building_other?' ('+c.building_other+')':'')+'\n';
-draft+='  åºã: '+(c.size_m2?c.size_m2+'ã¡':'æªå¥å')+'\n\n';
-draft+='â  å·¥äºåå®¹\n';
-draft+='  äºç®: '+(c.budget?fmtNum(c.budget)+'ä¸':'æªå¥å')+'\n';
-draft+='  è²©å£²äºå®: '+(c.sale_price?fmtNum(c.sale_price)+'ä¸':'æªå¥å')+'\n';
-draft+='  ä»ä¸ãæ¹é: '+(c.finish_quality||'æªå¥å')+'\n\n';
-draft+='â  æ½å·¥æ¡ä»¶\n';
-draft+='  æ½å·¥ææ: '+(c.period_from||'?')+' ï½ '+(c.period_to||'?')+'\n';
-draft+='  æç­çå·¥æ¥: '+(k.earliest_start||'æªå®')+'\n';
-draft+='  è¦ç©ãåç­: èª¿æ»æ¥ãã'+(k.quote_days||'?')+'æ¥å¾\n';
-draft+='ââââââââââââââââââââ\n';
-draft+='â» AIèªåçæãã©ãããåå®¹ããç¢ºèªã®ä¸ãç¢ºå®ãã¦ãã ããã';
+let draft='Ã£ÂÂÃ§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã¯Â¼ÂÃ£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ¯Â¼ÂÃ£ÂÂ\n';
+draft+='Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ\n';
+draft+='Ã¤Â½ÂÃ¦ÂÂÃ¦ÂÂ¥: '+todayStr()+'\n\n';
+draft+='Ã¢ÂÂ  Ã§ÂÂ©Ã¤Â»Â¶Ã¦ÂÂÃ¥Â Â±\n';
+draft+='  Ã£ÂÂ¨Ã£ÂÂªÃ£ÂÂ¢: '+(c.area||'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+'\n';
+draft+='  Ã¥Â»ÂºÃ§ÂÂ©: '+(c.building||'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+(c.building_other?' ('+c.building_other+')':'')+'\n';
+draft+='  Ã¥ÂºÂÃ£ÂÂ: '+(c.size_m2?c.size_m2+'Ã£ÂÂ¡':'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+'\n\n';
+draft+='Ã¢ÂÂ  Ã¥Â·Â¥Ã¤ÂºÂÃ¥ÂÂÃ¥Â®Â¹\n';
+draft+='  Ã¤ÂºÂÃ§Â®Â: '+(c.budget?fmtNum(c.budget)+'Ã¤Â¸Â':'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+'\n';
+draft+='  Ã¨Â²Â©Ã¥Â£Â²Ã¤ÂºÂÃ¥Â®Â: '+(c.sale_price?fmtNum(c.sale_price)+'Ã¤Â¸Â':'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+'\n';
+draft+='  Ã¤Â»ÂÃ¤Â¸ÂÃ£ÂÂÃ¦ÂÂ¹Ã©ÂÂ: '+(c.finish_quality||'Ã¦ÂÂªÃ¥ÂÂ¥Ã¥ÂÂ')+'\n\n';
+draft+='Ã¢ÂÂ  Ã¦ÂÂ½Ã¥Â·Â¥Ã¦ÂÂ¡Ã¤Â»Â¶\n';
+draft+='  Ã¦ÂÂ½Ã¥Â·Â¥Ã¦ÂÂÃ¦ÂÂ: '+(c.period_from||'?')+' Ã¯Â½Â '+(c.period_to||'?')+'\n';
+draft+='  Ã¦ÂÂÃ§ÂÂ­Ã§ÂÂÃ¥Â·Â¥Ã¦ÂÂ¥: '+(k.earliest_start||'Ã¦ÂÂªÃ¥Â®Â')+'\n';
+draft+='  Ã¨Â¦ÂÃ§Â©ÂÃ£ÂÂÃ¥ÂÂÃ§Â­Â: Ã¨ÂªÂ¿Ã¦ÂÂ»Ã¦ÂÂ¥Ã£ÂÂÃ£ÂÂ'+(k.quote_days||'?')+'Ã¦ÂÂ¥Ã¥Â¾Â\n';
+draft+='Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¢ÂÂ\n';
+draft+='Ã¢ÂÂ» AIÃ¨ÂÂªÃ¥ÂÂÃ§ÂÂÃ¦ÂÂÃ£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¥ÂÂÃ¥Â®Â¹Ã£ÂÂÃ£ÂÂÃ§Â¢ÂºÃ¨ÂªÂÃ£ÂÂ®Ã¤Â¸ÂÃ£ÂÂÃ§Â¢ÂºÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ Ã£ÂÂÃ£ÂÂÃ£ÂÂ';
 S.meeting.order_doc_draft=draft;
-addLog('AIçæ','çºæ³¨æ¸ãã©ãã','èªåä½æ');
+addLog('AIÃ§ÂÂÃ¦ÂÂ','Ã§ÂÂºÃ¦Â³Â¨Ã¦ÂÂ¸Ã£ÂÂÃ£ÂÂ©Ã£ÂÂÃ£ÂÂ','Ã¨ÂÂªÃ¥ÂÂÃ¤Â½ÂÃ¦ÂÂ');
 saveStore();renderMeetingFlow();
 }
 
-// æ¿èªãã­ã¼: å®åããç¶æç®¡çï¼ä»ã¢ã¸ã¥ã¼ã«ããåç§ï¼
+// Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼: Ã¥Â®ÂÃ¥ÂÂÃ£ÂÂÃ£ÂÂÃ§ÂÂ¶Ã¦ÂÂÃ§Â®Â¡Ã§ÂÂÃ¯Â¼ÂÃ¤Â»ÂÃ£ÂÂ¢Ã£ÂÂ¸Ã£ÂÂ¥Ã£ÂÂ¼Ã£ÂÂ«Ã£ÂÂÃ£ÂÂÃ¥ÂÂÃ§ÂÂ§Ã¯Â¼Â
 function renderFlows(filter){
 const fl=document.getElementById('flowList');if(!fl)return;
 const list=filter&&filter!=='all'?S.flows.filter(f=>f.status===filter):S.flows;
 fl.innerHTML=list.sort((a,b)=>b.date.localeCompare(a.date)).map(f=>{
 const st=f.status==='approved'?'lg-ok':f.status==='rejected'?'lg-ng':'lg-pd';
-const badge=f.status==='approved'?'<span class="sb sb-g">æ¿èªæ¸</span>':f.status==='rejected'?'<span class="sb sb-r">å·®æ»ã</span>':'<span class="sb sb-y">ç³è«ä¸­</span>';
-const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">æ¿èª/å·®æ»ã</button></div>':'';
-const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> â <span style="color:#16a34a">'+f.after+'</span></div>':'';
+const badge=f.status==='approved'?'<span class="sb sb-g">Ã¦ÂÂ¿Ã¨ÂªÂÃ¦Â¸Â</span>':f.status==='rejected'?'<span class="sb sb-r">Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ</span>':'<span class="sb sb-y">Ã§ÂÂ³Ã¨Â«ÂÃ¤Â¸Â­</span>';
+const actions=f.status==='pending'?'<div class="flex gap-2 mt-2"><button class="btn text-xs" onclick="openApproval('+f.id+')">Ã¦ÂÂ¿Ã¨ÂªÂ/Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ</button></div>':'';
+const ba=(f.before&&f.after)?'<div class="text-xs mt-1 p-2 rounded" style="background:var(--hover)"><span style="color:#dc2626">'+f.before+'</span> Ã¢ÂÂ <span style="color:#16a34a">'+f.after+'</span></div>':'';
 const cmt=f.comment?'<p class="text-xs mt-1" style="color:var(--sub)">'+f.comment+'</p>':'';
-return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' â '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
-}).join('')||'<p class="text-sm" style="color:var(--sub)">è©²å½ãããã­ã¼ã¯ããã¾ãã</p>';
+return '<div class="lg '+st+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+f.type+': '+f.target+'</p>'+badge+'</div><p class="text-xs" style="color:var(--sub)">'+f.from+' Ã¢ÂÂ '+f.to+' | '+f.date+'</p>'+ba+cmt+actions+'</div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">Ã¨Â©Â²Ã¥Â½ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ</p>';
 }
 function filterFlow(f){renderFlows(f)}
 
 function openApproval(fid){
 const f=S.flows.find(x=>x.id===fid);if(!f)return;
 currentFlowId=fid;
-const info='<p class="font-bold">'+f.type+'</p><p>å¯¾è±¡: '+f.target+'</p><p>ç³è«è: '+f.from+'</p>'+(f.before&&f.after?'<p class="mt-2" style="font-size:.8rem"><span style="color:#dc2626">å¤æ´å: '+f.before+'</span> â <span style="color:#16a34a">å¤æ´å¾: '+f.after+'</span></p>':'');
+const info='<p class="font-bold">'+f.type+'</p><p>Ã¥Â¯Â¾Ã¨Â±Â¡: '+f.target+'</p><p>Ã§ÂÂ³Ã¨Â«ÂÃ¨ÂÂ: '+f.from+'</p>'+(f.before&&f.after?'<p class="mt-2" style="font-size:.8rem"><span style="color:#dc2626">Ã¥Â¤ÂÃ¦ÂÂ´Ã¥ÂÂ: '+f.before+'</span> Ã¢ÂÂ <span style="color:#16a34a">Ã¥Â¤ÂÃ¦ÂÂ´Ã¥Â¾Â: '+f.after+'</span></p>':'');
 document.getElementById('acnt').innerHTML=info;
 document.getElementById('ats').value=new Date().toLocaleString('ja-JP');
 document.getElementById('approvalComment').value='';
@@ -1008,34 +1008,34 @@ function cfm(){
 if(!currentFlowId)return;
 const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
 const comment=document.getElementById('approvalComment').value.trim();
-f.status='approved';f.comment=comment||'æ¿èªæ¸';
-// ç¥è¡åä¸: æ¿èªçµæããã­ã¸ã§ã¯ãã«å³æåæ 
+f.status='approved';f.comment=comment||'Ã¦ÂÂ¿Ã¨ÂªÂÃ¦Â¸Â';
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸Â: Ã¦ÂÂ¿Ã¨ÂªÂÃ§ÂµÂÃ¦ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂ«Ã¥ÂÂ³Ã¦ÂÂÃ¥ÂÂÃ¦ÂÂ 
 applyFlowToProject(f);
-addLog('æ¿èª',f.type+': '+f.target,f.before&&f.after?f.before+' â '+f.after:'æ¿èªå®è¡');
-saveStore();cam();renderAll();showToast('â æ¿èªå®äº');
+addLog('Ã¦ÂÂ¿Ã¨ÂªÂ',f.type+': '+f.target,f.before&&f.after?f.before+' Ã¢ÂÂ '+f.after:'Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â®ÂÃ¨Â¡Â');
+saveStore();cam();renderAll();showToast('Ã¢ÂÂ Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â®ÂÃ¤ÂºÂ');
 }
 
 function rejectFlow(){
 if(!currentFlowId)return;
 const f=S.flows.find(x=>x.id===currentFlowId);if(!f)return;
 const comment=document.getElementById('approvalComment').value.trim();
-f.status='rejected';f.comment=comment||'å·®æ»ã';
-addLog('å·®æ»ã',f.type+': '+f.target,'åç³è«å¾ã¡');
-saveStore();cam();renderAll();showToast('å·®æ»ããã¾ãã');
+f.status='rejected';f.comment=comment||'Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ';
+addLog('Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ',f.type+': '+f.target,'Ã¥ÂÂÃ§ÂÂ³Ã¨Â«ÂÃ¥Â¾ÂÃ£ÂÂ¡');
+saveStore();cam();renderAll();showToast('Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');
 }
 
 function applyFlowToProject(f){
-// ç¥è¡åä¸ã®æ ¸å¿: æ¿èªãããå®ãã¼ã¿ãå¤ãã
+// Ã§ÂÂ¥Ã¨Â¡ÂÃ¥ÂÂÃ¤Â¸ÂÃ£ÂÂ®Ã¦Â Â¸Ã¥Â¿Â: Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ¥Â®ÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂÃ¥Â¤ÂÃ£ÂÂÃ£ÂÂ
 const p=S.projects.find(x=>x.name===f.target);if(!p)return;
-if(f.type==='é²æå¤æ´'&&f.after){
+if(f.type==='Ã©ÂÂ²Ã¦ÂÂÃ¥Â¤ÂÃ¦ÂÂ´'&&f.after){
 const val=parseInt(f.after);if(!isNaN(val))p.progress=val;
 }
-if(f.type==='å®äºå ±å'){p.status='complete';p.progress=100}
-if(f.type==='è¦ç©æ¿èª'&&f.amount){p.amount=f.amount}
+if(f.type==='Ã¥Â®ÂÃ¤ÂºÂÃ¥Â Â±Ã¥ÂÂ'){p.status='complete';p.progress=100}
+if(f.type==='Ã¨Â¦ÂÃ§Â©ÂÃ¦ÂÂ¿Ã¨ÂªÂ'&&f.amount){p.amount=f.amount}
 }
 
 // ==========================================
-// ãã£ãã: ãªã¢ã«éåä¿¡
+// Ã£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ: Ã£ÂÂªÃ£ÂÂ¢Ã£ÂÂ«Ã©ÂÂÃ¥ÂÂÃ¤Â¿Â¡
 // ==========================================
 function renderChat(){
 const ch=S.currentChannel;
@@ -1049,32 +1049,32 @@ return '<div class="mb mb-s">'+m.text+'<div class="text-xs mt-1" style="opacity:
 }).join('');
 msgEl.scrollTop=99999;
 const chData=S.channels.find(c=>c.id===ch);
-if(chData){document.getElementById('chatTitle').textContent=chData.name;document.getElementById('chatMembers').textContent=chData.members+'ååå '}
+if(chData){document.getElementById('chatTitle').textContent=chData.name;document.getElementById('chatMembers').textContent=chData.members+'Ã¥ÂÂÃ¥ÂÂÃ¥ÂÂ '}
 }
 function switchChannel(ch){S.currentChannel=ch;saveStore();renderChat()}
 function sendMsg(){
 const inp=document.getElementById('chatIn');
 const txt=inp.value.trim();if(!txt)return;
 const now=new Date();const time=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-S.messages.push({ch:S.currentChannel,from:'æ¨å£æ¥é¨',text:txt,time});
+S.messages.push({ch:S.currentChannel,from:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',text:txt,time});
 inp.value='';saveStore();renderChat();
-// AIèªåå¿ç­
+// AIÃ¨ÂÂªÃ¥ÂÂÃ¥Â¿ÂÃ§Â­Â
 setTimeout(()=>{
-const replies=['äºè§£ãç¢ºèªãããã¾ãã','ãã¼ã¿ãæ´æ°ãã¾ããã','æ¿èªãã­ã¼ã«åãã¾ãã','3åã§çµæããä¼ããã¾ãã','å®äºãã¾ãããããã·ã¥ãã¼ããç¢ºèªãã¦ãã ããã'];
+const replies=['Ã¤ÂºÂÃ¨Â§Â£Ã£ÂÂÃ§Â¢ÂºÃ¨ÂªÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ','Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂÃ¦ÂÂ´Ã¦ÂÂ°Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂ','Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂ«Ã¥ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ','3Ã¥ÂÂÃ£ÂÂ§Ã§ÂµÂÃ¦ÂÂÃ£ÂÂÃ£ÂÂÃ¤Â¼ÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ','Ã¥Â®ÂÃ¤ÂºÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂÃ§Â¢ÂºÃ¨ÂªÂÃ£ÂÂÃ£ÂÂ¦Ã£ÂÂÃ£ÂÂ Ã£ÂÂÃ£ÂÂÃ£ÂÂ'];
 S.messages.push({ch:S.currentChannel,from:'system',text:'AI: '+replies[Math.floor(Math.random()*replies.length)],time});
 saveStore();renderChat();
 },1500);
 }
 
 // ==========================================
-// äººæ: ãã£ã«ã¿ãªã³ã°
+// Ã¤ÂºÂºÃ¦ÂÂ: Ã£ÂÂÃ£ÂÂ£Ã£ÂÂ«Ã£ÂÂ¿Ã£ÂÂªÃ£ÂÂ³Ã£ÂÂ°
 // ==========================================
 function renderTeam(role){
 const grid=document.getElementById('teamGrid');
 const filtered=!role||role==='all'?S.team:S.team.filter(t=>t.role===role);
 grid.innerHTML=filtered.map(t=>{
-const stClass=t.status==='active'?'sb-g':t.status==='ä¼æ'?'sb-r':'sb-y';
-return '<div class="wc"><div class="av mx-auto mb-2" style="width:3.5rem;height:3.5rem;font-size:1.25rem">'+t.initial+'</div><p class="font-bold text-sm">'+t.name+'</p><p class="text-xs" style="color:var(--sub)">'+t.title+'</p><div class="flex flex-wrap justify-center mt-2">'+t.certs.map(c=>'<span class="cb">'+c+'</span>').join('')+'</div><span class="sb '+stClass+' text-xs mt-2">'+(t.status==='active'?'ç¨¼åä¸­':t.status)+'</span></div>';
+const stClass=t.status==='active'?'sb-g':t.status==='Ã¤Â¼ÂÃ¦ÂÂ'?'sb-r':'sb-y';
+return '<div class="wc"><div class="av mx-auto mb-2" style="width:3.5rem;height:3.5rem;font-size:1.25rem">'+t.initial+'</div><p class="font-bold text-sm">'+t.name+'</p><p class="text-xs" style="color:var(--sub)">'+t.title+'</p><div class="flex flex-wrap justify-center mt-2">'+t.certs.map(c=>'<span class="cb">'+c+'</span>').join('')+'</div><span class="sb '+stClass+' text-xs mt-2">'+(t.status==='active'?'Ã§Â¨Â¼Ã¥ÂÂÃ¤Â¸Â­':t.status)+'</span></div>';
 }).join('');
 }
 function filt(btn,role){
@@ -1083,43 +1083,43 @@ btn.className='btn text-sm rt on';renderTeam(role);
 }
 
 // ==========================================
-// ãã¼ã¿ç®¡ç
+// Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã§Â®Â¡Ã§ÂÂ
 // ==========================================
 function renderData(){
 const stats=document.getElementById('dataStats');
 const typeCount={pdf:0,dwg:0,jpg:0,other:0};
 S.files.forEach(f=>{if(typeCount[f.type]!==undefined)typeCount[f.type]++;else typeCount.other++});
 stats.innerHTML=[
-{icon:'ð',label:'PDF',count:typeCount.pdf},
-{icon:'ð',label:'è¨­è¨å³(DWG)',count:typeCount.dwg},
-{icon:'ð·',label:'åç',count:typeCount.jpg},
-{icon:'ð',label:'ãã®ä»',count:typeCount.other}
-].map(s=>'<div class="kp text-center"><p class="text-2xl">'+s.icon+'</p><p class="font-bold text-sm">'+s.label+'</p><p class="text-xs" style="color:var(--sub)">'+s.count+'ä»¶</p></div>').join('');
+{icon:'Ã°ÂÂÂ',label:'PDF',count:typeCount.pdf},
+{icon:'Ã°ÂÂÂ',label:'Ã¨Â¨Â­Ã¨Â¨ÂÃ¥ÂÂ³(DWG)',count:typeCount.dwg},
+{icon:'Ã°ÂÂÂ·',label:'Ã¥ÂÂÃ§ÂÂ',count:typeCount.jpg},
+{icon:'Ã°ÂÂÂ',label:'Ã£ÂÂÃ£ÂÂ®Ã¤Â»Â',count:typeCount.other}
+].map(s=>'<div class="kp text-center"><p class="text-2xl">'+s.icon+'</p><p class="font-bold text-sm">'+s.label+'</p><p class="text-xs" style="color:var(--sub)">'+s.count+'Ã¤Â»Â¶</p></div>').join('');
 const fl=document.getElementById('fileList');
 fl.innerHTML=S.files.map(f=>{
 const tc=f.type==='pdf'?'fi-p':f.type==='dwg'?'fi-d':'fi-i';
-return '<div class="flex items-center gap-3 p-2 rounded" style="background:var(--hover)"><div class="fi '+tc+'">'+f.type.toUpperCase()+'</div><div class="flex-1"><p class="text-sm font-bold">'+f.name+'</p><p class="text-xs" style="color:var(--sub)">'+f.size+' | '+f.date+'</p></div><button class="btn text-xs py-1 px-3" onclick="showToast(\''+f.name+' ãéãã¾ã\')">éã</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteFile(\''+f.name+'\')">åé¤</button></div>';
+return '<div class="flex items-center gap-3 p-2 rounded" style="background:var(--hover)"><div class="fi '+tc+'">'+f.type.toUpperCase()+'</div><div class="flex-1"><p class="text-sm font-bold">'+f.name+'</p><p class="text-xs" style="color:var(--sub)">'+f.size+' | '+f.date+'</p></div><button class="btn text-xs py-1 px-3" onclick="showToast(\''+f.name+' Ã£ÂÂÃ©ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂ\')">Ã©ÂÂÃ£ÂÂ</button><button class="text-xs" style="color:#dc2626;background:none;border:none;cursor:pointer" onclick="deleteFile(\''+f.name+'\')">Ã¥ÂÂÃ©ÂÂ¤</button></div>';
 }).join('');
 }
 
 function openFileUpload(){
-const name=prompt('ãã¡ã¤ã«åãå¥å:');if(!name)return;
-const size=prompt('ãã¡ã¤ã«ãµã¤ãº (ä¾: 3.2MB):','1.0MB');
+const name=prompt('Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã¥ÂÂÃ£ÂÂÃ¥ÂÂ¥Ã¥ÂÂ:');if(!name)return;
+const size=prompt('Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã£ÂÂµÃ£ÂÂ¤Ã£ÂÂº (Ã¤Â¾Â: 3.2MB):','1.0MB');
 const type=name.split('.').pop().toLowerCase();
 S.files.unshift({name,size:size||'1.0MB',type,date:todayStr()});
-addLog('ãã¡ã¤ã«è¿½å ',name,'ã¢ããã­ã¼ãå®äº');
-saveStore();renderData();showToast(name+' ãã¢ããã­ã¼ããã¾ãã');
+addLog('Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã¨Â¿Â½Ã¥ÂÂ ',name,'Ã£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ¥Â®ÂÃ¤ÂºÂ');
+saveStore();renderData();showToast(name+' Ã£ÂÂÃ£ÂÂ¢Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');
 }
 
 function deleteFile(name){
-if(!confirm(name+' ãåé¤ãã¾ããï¼'))return;
+if(!confirm(name+' Ã£ÂÂÃ¥ÂÂÃ©ÂÂ¤Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂÃ¯Â¼Â'))return;
 S.files=S.files.filter(f=>f.name!==name);
-addLog('ãã¡ã¤ã«åé¤',name,'åé¤å®è¡');
-saveStore();renderData();showToast('åé¤ãã¾ãã');
+addLog('Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã¥ÂÂÃ©ÂÂ¤',name,'Ã¥ÂÂÃ©ÂÂ¤Ã¥Â®ÂÃ¨Â¡Â');
+saveStore();renderData();showToast('Ã¥ÂÂÃ©ÂÂ¤Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');
 }
 
 // ==========================================
-// AIåæ: ãã¼ã¿é§åã®åæè¡¨ç¤º
+// AIÃ¥ÂÂÃ¦ÂÂ: Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã©Â§ÂÃ¥ÂÂÃ£ÂÂ®Ã¥ÂÂÃ¦ÂÂÃ¨Â¡Â¨Ã§Â¤Âº
 // ==========================================
 function renderAI(){
 const k=calcKPIs();
@@ -1129,61 +1129,61 @@ const costScore=Math.round(76+(S.projects.length*2));
 const schedScore=Math.round(88-(S.flows.filter(f=>f.status==='pending').length*3));
 const qualScore=Math.round(k.quality*0.98);
 metrics.innerHTML=[
-{label:'å®å¨',score:safetyScore,color:'#16a34a'},
-{label:'ã³ã¹ã',score:Math.min(100,costScore),color:'#f97316'},
-{label:'ã¹ã±ã¸ã¥ã¼ã«',score:Math.min(100,schedScore),color:'#3b82f6'},
-{label:'åè³ª',score:Math.min(100,qualScore),color:'#7c3aed'}
+{label:'Ã¥Â®ÂÃ¥ÂÂ¨',score:safetyScore,color:'#16a34a'},
+{label:'Ã£ÂÂ³Ã£ÂÂ¹Ã£ÂÂ',score:Math.min(100,costScore),color:'#f97316'},
+{label:'Ã£ÂÂ¹Ã£ÂÂ±Ã£ÂÂ¸Ã£ÂÂ¥Ã£ÂÂ¼Ã£ÂÂ«',score:Math.min(100,schedScore),color:'#3b82f6'},
+{label:'Ã¥ÂÂÃ¨Â³Âª',score:Math.min(100,qualScore),color:'#7c3aed'}
 ].map(m=>'<div class="kp"><div class="flex justify-between text-sm mb-1"><p class="font-semibold">'+m.label+'</p><span style="color:'+m.color+'">'+m.score+'%</span></div><div class="pb"><div class="pf" style="width:'+m.score+'%;background:'+m.color+'"></div></div></div>').join('');
 
 const risks=document.getElementById('aiRisks');
 const riskData=[];
 S.projects.forEach(p=>{
-if(p.progress<30&&p.status==='active')riskData.push({level:'red',text:p.name+': é²æéå»¶ãªã¹ã¯',action:'å·¥ç¨è¦ç´ãæ¨å¥¨'});
-if(p.quality>0&&p.quality<90)riskData.push({level:'yellow',text:p.name+': åè³ªä½ä¸',action:'æ¤æ»å¼·åæ¨å¥¨'});
+if(p.progress<30&&p.status==='active')riskData.push({level:'red',text:p.name+': Ã©ÂÂ²Ã¦ÂÂÃ©ÂÂÃ¥Â»Â¶Ã£ÂÂªÃ£ÂÂ¹Ã£ÂÂ¯',action:'Ã¥Â·Â¥Ã§Â¨ÂÃ¨Â¦ÂÃ§ÂÂ´Ã£ÂÂÃ¦ÂÂ¨Ã¥Â¥Â¨'});
+if(p.quality>0&&p.quality<90)riskData.push({level:'yellow',text:p.name+': Ã¥ÂÂÃ¨Â³ÂªÃ¤Â½ÂÃ¤Â¸Â',action:'Ã¦Â¤ÂÃ¦ÂÂ»Ã¥Â¼Â·Ã¥ÂÂÃ¦ÂÂ¨Ã¥Â¥Â¨'});
 });
-if(riskData.length===0)riskData.push({level:'green',text:'éå¤§ãªã¹ã¯ãªã',action:'ç¶ç¶ç£è¦'});
+if(riskData.length===0)riskData.push({level:'green',text:'Ã©ÂÂÃ¥Â¤Â§Ã£ÂÂªÃ£ÂÂ¹Ã£ÂÂ¯Ã£ÂÂªÃ£ÂÂ',action:'Ã§Â¶ÂÃ§Â¶ÂÃ§ÂÂ£Ã¨Â¦Â'});
 risks.innerHTML=riskData.map(r=>{
 const c=r.level==='red'?'bg-red-500':r.level==='yellow'?'bg-yellow-500':'bg-green-500';
-return '<div class="flex gap-2 text-xs"><div class="w-3 h-3 '+c+' rounded-full mt-0.5 flex-shrink-0"></div><div><p>'+r.text+'</p><p style="color:var(--sub)">æ¨å¥¨: '+r.action+'</p></div></div>';
+return '<div class="flex gap-2 text-xs"><div class="w-3 h-3 '+c+' rounded-full mt-0.5 flex-shrink-0"></div><div><p>'+r.text+'</p><p style="color:var(--sub)">Ã¦ÂÂ¨Ã¥Â¥Â¨: '+r.action+'</p></div></div>';
 }).join('');
 
 const suggs=document.getElementById('aiSuggestions');
 const pending=S.flows.filter(f=>f.status==='pending').length;
 const suggData=[
-{icon:'â¡',text:'æªæ¿èªãã­ã¼: '+pending+'ä»¶',desc:pending>0?'æ¿èªå¦çãæ¨å¥¨ãã¾ã':'å¨ã¦å¦çæ¸ã¿ã§ã'},
-{icon:'ð',text:'ææ¬¡ã¬ãã¼ãèªåçæ',desc:'ããã·ã¥ãã¼ããã¼ã¿ããçæå¯è½'},
-{icon:'ð',text:'å¹çåç: '+Math.round(75+(S.projects.length*2))+'%',desc:'Â¥'+Math.round(calcKPIs().revenue/100000000*1.2)+'åã®åæ¸å¹æ'}
+{icon:'Ã¢ÂÂ¡',text:'Ã¦ÂÂªÃ¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼: '+pending+'Ã¤Â»Â¶',desc:pending>0?'Ã¦ÂÂ¿Ã¨ÂªÂÃ¥ÂÂ¦Ã§ÂÂÃ£ÂÂÃ¦ÂÂ¨Ã¥Â¥Â¨Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂ':'Ã¥ÂÂ¨Ã£ÂÂ¦Ã¥ÂÂ¦Ã§ÂÂÃ¦Â¸ÂÃ£ÂÂ¿Ã£ÂÂ§Ã£ÂÂ'},
+{icon:'Ã°ÂÂÂ',text:'Ã¦ÂÂÃ¦Â¬Â¡Ã£ÂÂ¬Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ¨ÂÂªÃ¥ÂÂÃ§ÂÂÃ¦ÂÂ',desc:'Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂÃ£ÂÂÃ§ÂÂÃ¦ÂÂÃ¥ÂÂ¯Ã¨ÂÂ½'},
+{icon:'Ã°ÂÂÂ',text:'Ã¥ÂÂ¹Ã§ÂÂÃ¥ÂÂÃ§ÂÂ: '+Math.round(75+(S.projects.length*2))+'%',desc:'ÃÂ¥'+Math.round(calcKPIs().revenue/100000000*1.2)+'Ã¥ÂÂÃ£ÂÂ®Ã¥ÂÂÃ¦Â¸ÂÃ¥ÂÂ¹Ã¦ÂÂ'}
 ];
 suggs.innerHTML=suggData.map(s=>'<div class="flex gap-2 text-xs p-2 rounded" style="background:var(--hover)"><span>'+s.icon+'</span><div><p class="font-bold">'+s.text+'</p><p style="color:var(--sub)">'+s.desc+'</p></div></div>').join('');
 }
 
 // ==========================================
-// æ¿èªå±¥æ­´: å¨æä½ã®ç£æ»è¨¼è·¡
+// Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â±Â¥Ã¦Â­Â´: Ã¥ÂÂ¨Ã¦ÂÂÃ¤Â½ÂÃ£ÂÂ®Ã§ÂÂ£Ã¦ÂÂ»Ã¨Â¨Â¼Ã¨Â·Â¡
 // ==========================================
 function addLog(action,target,detail){
-S.logs.unshift({action,target,detail,user:'æ¨å£æ¥é¨',time:new Date().toLocaleString('ja-JP'),date:todayStr()});
+S.logs.unshift({action,target,detail,user:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',time:new Date().toLocaleString('ja-JP'),date:todayStr()});
 if(S.logs.length>100)S.logs=S.logs.slice(0,100);
 }
 function renderLogs(filter){
 const ll=document.getElementById('logList');
 let logs=[...S.logs];
-// æ¿èªãã­ã¼ãããå±¥æ­´çæ
+// Ã¦ÂÂ¿Ã¨ÂªÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ¥Â±Â¥Ã¦Â­Â´Ã§ÂÂÃ¦ÂÂ
 S.flows.forEach(f=>{
 if(f.status!=='pending'){
-logs.push({action:f.status==='approved'?'æ¿èª':'å·®æ»ã',target:f.type+': '+f.target,detail:f.comment||'',user:'æ¨å£æ¥é¨',time:f.date,date:f.date,flowStatus:f.status});
+logs.push({action:f.status==='approved'?'Ã¦ÂÂ¿Ã¨ÂªÂ':'Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ',target:f.type+': '+f.target,detail:f.comment||'',user:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',time:f.date,date:f.date,flowStatus:f.status});
 }
 });
-if(filter&&filter!=='all')logs=logs.filter(l=>(l.flowStatus||l.action)===(filter==='approved'?'æ¿èª':'å·®æ»ã')||(l.flowStatus===filter));
+if(filter&&filter!=='all')logs=logs.filter(l=>(l.flowStatus||l.action)===(filter==='approved'?'Ã¦ÂÂ¿Ã¨ÂªÂ':'Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ')||(l.flowStatus===filter));
 logs.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
 ll.innerHTML=logs.slice(0,30).map(l=>{
-const cls=l.action.includes('å·®æ»ã')||l.action.includes('åé¤')?'lg-ng':l.action.includes('æ¿èª')||l.action.includes('å®äº')?'lg-ok':'lg-pd';
-return '<div class="lg '+cls+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+l.action+': '+l.target+'</p><span class="text-xs" style="color:var(--sub)">'+l.time+'</span></div>'+(l.detail?'<p class="text-xs" style="color:var(--sub)">'+l.detail+'</p>':'')+'<p class="text-xs" style="color:var(--sub)">å®è¡è: '+l.user+'</p></div>';
-}).join('')||'<p class="text-sm" style="color:var(--sub)">å±¥æ­´ã¯ããã¾ãã</p>';
+const cls=l.action.includes('Ã¥Â·Â®Ã¦ÂÂ»Ã£ÂÂ')||l.action.includes('Ã¥ÂÂÃ©ÂÂ¤')?'lg-ng':l.action.includes('Ã¦ÂÂ¿Ã¨ÂªÂ')||l.action.includes('Ã¥Â®ÂÃ¤ÂºÂ')?'lg-ok':'lg-pd';
+return '<div class="lg '+cls+'"><div class="flex justify-between mb-1"><p class="font-bold text-sm">'+l.action+': '+l.target+'</p><span class="text-xs" style="color:var(--sub)">'+l.time+'</span></div>'+(l.detail?'<p class="text-xs" style="color:var(--sub)">'+l.detail+'</p>':'')+'<p class="text-xs" style="color:var(--sub)">Ã¥Â®ÂÃ¨Â¡ÂÃ¨ÂÂ: '+l.user+'</p></div>';
+}).join('')||'<p class="text-sm" style="color:var(--sub)">Ã¥Â±Â¥Ã¦Â­Â´Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ</p>';
 }
 function filterLog(f){renderLogs(f)}
 
 // ==========================================
-// ã¦ã¼ãã£ãªãã£
+// Ã£ÂÂ¦Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ£Ã£ÂÂªÃ£ÂÂÃ£ÂÂ£
 // ==========================================
 function todayStr(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0')}
 function showToast(msg){
@@ -1191,26 +1191,26 @@ const t=document.createElement('div');t.className='toast';t.textContent=msg;
 document.body.appendChild(t);setTimeout(()=>t.remove(),3000);
 }
 function openAddModal(){
-// ç¾å¨ã®ã¿ãã«å¿ããè¿½å ã¢ã¼ãã«
+// Ã§ÂÂ¾Ã¥ÂÂ¨Ã£ÂÂ®Ã£ÂÂ¿Ã£ÂÂÃ£ÂÂ«Ã¥Â¿ÂÃ£ÂÂÃ£ÂÂÃ¨Â¿Â½Ã¥ÂÂ Ã£ÂÂ¢Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ«
 const active=document.querySelector('.ni.on');
 const tab=active?active.dataset.t:'dash';
 if(tab==='proj'){openProjModal();return}
 if(tab==='data'){openFileUpload();return}
 if(tab==='flow'){
-const name=prompt('æ¿èªå¯¾è±¡:');if(!name)return;
-const type=prompt('ç¨®å¥ (è¦ç©æ¿èª/é²æå¤æ´/çå·¥ç³è«):','è¦ç©æ¿èª');
-S.flows.push({id:++S.nextId,type:type||'ãã®ä»',target:name,from:'æ¨å£æ¥é¨',to:'æ¨å£æ¥é¨',status:'pending',date:todayStr(),comment:''});
-addLog('ãã­ã¼è¿½å ',name,type);saveStore();renderAll();showToast('ç³è«ãè¿½å ãã¾ãã');return;
+const name=prompt('Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â¯Â¾Ã¨Â±Â¡:');if(!name)return;
+const type=prompt('Ã§Â¨Â®Ã¥ÂÂ¥ (Ã¨Â¦ÂÃ§Â©ÂÃ¦ÂÂ¿Ã¨ÂªÂ/Ã©ÂÂ²Ã¦ÂÂÃ¥Â¤ÂÃ¦ÂÂ´/Ã§ÂÂÃ¥Â·Â¥Ã§ÂÂ³Ã¨Â«Â):','Ã¨Â¦ÂÃ§Â©ÂÃ¦ÂÂ¿Ã¨ÂªÂ');
+S.flows.push({id:++S.nextId,type:type||'Ã£ÂÂÃ£ÂÂ®Ã¤Â»Â',target:name,from:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',to:'Ã¦Â¨ÂÃ¥ÂÂ£Ã¦ÂÂ¥Ã©Â¨Â',status:'pending',date:todayStr(),comment:''});
+addLog('Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã¨Â¿Â½Ã¥ÂÂ ',name,type);saveStore();renderAll();showToast('Ã§ÂÂ³Ã¨Â«ÂÃ£ÂÂÃ¨Â¿Â½Ã¥ÂÂ Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂÃ£ÂÂ');return;
 }
-showToast('ãã®ã¿ãã§ã¯ããã­ã¸ã§ã¯ããããã¼ã¿ãããã­ã¼ãã¿ãã§è¿½å ã§ãã¾ã');
+showToast('Ã£ÂÂÃ£ÂÂ®Ã£ÂÂ¿Ã£ÂÂÃ£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼Ã£ÂÂÃ£ÂÂ¿Ã£ÂÂÃ£ÂÂ§Ã¨Â¿Â½Ã¥ÂÂ Ã£ÂÂ§Ã£ÂÂÃ£ÂÂ¾Ã£ÂÂ');
 }
 function closeAddModal(){document.getElementById('addMod').classList.remove('show')}
 
 // ==========================================
-// ã¿ãåæ¿ & å¨ä½ã¬ã³ããªã³ã°
+// Ã£ÂÂ¿Ã£ÂÂÃ¥ÂÂÃ¦ÂÂ¿ & Ã¥ÂÂ¨Ã¤Â½ÂÃ£ÂÂ¬Ã£ÂÂ³Ã£ÂÂÃ£ÂÂªÃ£ÂÂ³Ã£ÂÂ°
 // ==========================================
-const titles={dash:'ããã·ã¥ãã¼ã',proj:'ãã­ã¸ã§ã¯ã',flow:'æåããã­ã¼',chat:'ãã£ãã',team:'äººæ',data:'ãã¼ã¿',ai:'AIåæ',log:'æ¿èªå±¥æ­´'};
-const subs={dash:'ãªã¢ã«ã¿ã¤ã çµå¶ææ¨',proj:'CRUDæä½å¯¾å¿',flow:'ã¹ãããã¼å½¢å¼ â æ¡ä»¶ç¸è«ããçºæ³¨å®äºã¾ã§',chat:'ãªã¢ã«ã¿ã¤ã éä¿¡',team:'ã¹ã­ã«ã»ç¨¼åç®¡ç',data:'ãã¡ã¤ã«ç®¡ç',ai:'ãã¼ã¿é§ååæ',log:'å¨æä½ã®ç£æ»è¨¼è·¡'};
+const titles={dash:'Ã£ÂÂÃ£ÂÂÃ£ÂÂ·Ã£ÂÂ¥Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ',proj:'Ã£ÂÂÃ£ÂÂ­Ã£ÂÂ¸Ã£ÂÂ§Ã£ÂÂ¯Ã£ÂÂ',flow:'Ã¦ÂÂÃ¥ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ­Ã£ÂÂ¼',chat:'Ã£ÂÂÃ£ÂÂ£Ã£ÂÂÃ£ÂÂ',team:'Ã¤ÂºÂºÃ¦ÂÂ',data:'Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿',ai:'AIÃ¥ÂÂÃ¦ÂÂ',log:'Ã¦ÂÂ¿Ã¨ÂªÂÃ¥Â±Â¥Ã¦Â­Â´'};
+const subs={dash:'Ã£ÂÂªÃ£ÂÂ¢Ã£ÂÂ«Ã£ÂÂ¿Ã£ÂÂ¤Ã£ÂÂ Ã§ÂµÂÃ¥ÂÂ¶Ã¦ÂÂÃ¦Â¨Â',proj:'CRUDÃ¦ÂÂÃ¤Â½ÂÃ¥Â¯Â¾Ã¥Â¿Â',flow:'Ã£ÂÂ¹Ã£ÂÂÃ£ÂÂÃ£ÂÂÃ£ÂÂ¼Ã¥Â½Â¢Ã¥Â¼Â Ã¢ÂÂ Ã¦Â¡ÂÃ¤Â»Â¶Ã§ÂÂ¸Ã¨Â«ÂÃ£ÂÂÃ£ÂÂÃ§ÂÂºÃ¦Â³Â¨Ã¥Â®ÂÃ¤ÂºÂÃ£ÂÂ¾Ã£ÂÂ§',chat:'Ã£ÂÂªÃ£ÂÂ¢Ã£ÂÂ«Ã£ÂÂ¿Ã£ÂÂ¤Ã£ÂÂ Ã©ÂÂÃ¤Â¿Â¡',team:'Ã£ÂÂ¹Ã£ÂÂ­Ã£ÂÂ«Ã£ÂÂ»Ã§Â¨Â¼Ã¥ÂÂÃ§Â®Â¡Ã§ÂÂ',data:'Ã£ÂÂÃ£ÂÂ¡Ã£ÂÂ¤Ã£ÂÂ«Ã§Â®Â¡Ã§ÂÂ',ai:'Ã£ÂÂÃ£ÂÂ¼Ã£ÂÂ¿Ã©Â§ÂÃ¥ÂÂÃ¥ÂÂÃ¦ÂÂ',log:'Ã¥ÂÂ¨Ã¦ÂÂÃ¤Â½ÂÃ£ÂÂ®Ã§ÂÂ£Ã¦ÂÂ»Ã¨Â¨Â¼Ã¨Â·Â¡'};
 function sw(t){
 document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
 document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
@@ -1238,11 +1238,11 @@ const t=active?active.dataset.t:'dash';
 renderTabContent(t);
 }
 
-// æè¨
+// Ã¦ÂÂÃ¨Â¨Â
 function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
 setInterval(uc,1000);uc();
 
-// ãã¢ãã¢ã¼
+// Ã£ÂÂÃ£ÂÂ¢Ã£ÂÂÃ£ÂÂ¢Ã£ÂÂ¼
 async function demo(){
 const tabs=['dash','proj','flow','chat','team','data','ai','log'];
 const fb=document.querySelector('.fb');fb.disabled=true;
@@ -1252,7 +1252,7 @@ sw(t);
 const n=document.querySelector('[data-t="'+t+'"]');
 const tip=document.createElement('div');tip.className='tip';
 tip.style.cssText='left:260px;top:'+(n.offsetTop+80)+'px';
-tip.textContent='â '+titles[t];
+tip.textContent='Ã¢ÂÂ '+titles[t];
 document.body.appendChild(tip);
 await new Promise(r=>setTimeout(r,1500));tip.remove();
 }
@@ -1262,7 +1262,7 @@ await new Promise(r=>setTimeout(r,2500));cfm();}
 fb.disabled=false;
 }
 
-// === èªè¨¼ã²ã¼ã ===
+// === Ã¨ÂªÂÃ¨Â¨Â¼Ã£ÂÂ²Ã£ÂÂ¼Ã£ÂÂ ===
   // === AUTH GATE (API) ===
   var GAS_URL='https://script.google.com/macros/s/AKfycbztDyt9yYBRoyauJCWSUDwT6qhDQPBWIZTjVsJa7jd4bA387f_CG8y0bAEFwxTkEQJq/exec';
   var AUTH_KEY='hataraiku_auth';
