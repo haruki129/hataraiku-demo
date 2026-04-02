@@ -179,6 +179,7 @@ function renderTab(tabId) {
 
 // ============ MODULE 1: DASHBOARD ============
 function renderDashboard(container) {
+  if(!container)return;
   var now = new Date();
   var dateStr = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate() + ' ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
   var user = '';
@@ -303,6 +304,7 @@ function _quickAction(icon, label, tab) {
 
 
 function renderChat(container) {
+  if(!container)return;
   var channels = [
     {name:'全体連絡',icon:'🏢',unread:3,last:'佐藤: 明日の会議資料を共有します',time:'14:30'},
     {name:'梅田PJチーム',icon:'🏗️',unread:1,last:'山田: 現場写真をアップしました',time:'13:15'},
@@ -367,6 +369,7 @@ function renderChat(container) {
 
 
 function renderFolder(container) {
+  if(!container)return;
   var folders = [
     {name:'梅田再開発ビル',icon:'📁',items:24,updated:'2026-04-02',size:'156MB'},
     {name:'横浜マンション新筑',icon:'📁',items:18,updated:'2026-04-01',size:'89MB'},
@@ -520,6 +523,7 @@ function toggleFlowMode(){STATE.flowMode=STATE.flowMode==='client'?'manager':'cl
 
 // ============ MODULE 5: APPROVAL ============
 function renderApproval(container) {
+  if(!container)return;
   var filter = STATE._approvalFilter || '全て';
   var approvals = [
     {id:'APR-001',title:'梅田PJ 追加工事費用申請',type:'経費申請',amount:'￥2,400,000',applicant:'佐藤一郎',date:'2026-04-02',status:'申請中',priority:'高',step:'2/3',approvers:['樋口専務','部長']},
@@ -572,6 +576,7 @@ function renderApproval(container) {
 
 
 function renderAttendance(container) {
+  if(!container)return;
   var today = new Date();
   var clockedIn = STATE._clockedIn || false;
   var clockInTime = STATE._clockInTime || '';
@@ -640,6 +645,7 @@ function renderAttendance(container) {
 
 
 function renderInvoice(container) {
+  if(!container)return;
   var invoiceFilter = STATE._invoiceFilter || '全て';
   var invoices = [
     {id:'INV-2026-001',title:'梅田PJ 第1期工事',client:'株式会社大阪不動産',amount:'￥4,800,000',tax:'￥480,000',total:'￥5,280,000',date:'2026-04-01',due:'2026-04-30',status:'発行済',type:'請求書'},
@@ -684,6 +690,7 @@ function renderInvoice(container) {
 
 
 function renderFinance(container) {
+  if(!container)return;
   var finFilter = STATE._finFilter || '全て';
   var transactions = [
     {date:'2026-04-02',desc:'梅田PJ 資材代金',cat:'資材費',amount:'-￥380,000',balance:'￥12,450,000',type:'出金',receipt:true},
@@ -732,6 +739,7 @@ function renderFinance(container) {
 
 
 function renderCard(container) {
+  if(!container)return;
   var cards = [
     {name:'田中太郎',company:'株式会社大阪不動産',dept:'開発事業部 部長',email:'tanaka@osaka-re.co.jp',tel:'06-1234-5678',met:'2026-03-28',memo:'梅田PJのキーパーソン。決裁権あり',tag:'重要'},
     {name:'山本花子',company:'横浜マンション株式会社',dept:'設計部 主任',email:'yamamoto@yokohama-ms.co.jp',tel:'045-2345-6789',met:'2026-04-01',memo:'横浜PJ設計担当。レスポンスが速い',tag:'通常'},
@@ -777,6 +785,7 @@ function renderCard(container) {
 
 
 function renderMatching(container) {
+  if(!container)return;
   var matchFilter = STATE._matchFilter || '全て';
   var workers = [
     {name:'山本建設',type:'法人',skills:['内装','クロス','建具'],area:'大阪府全域',rating:4.8,reviews:24,price:'￥18,000~/日',available:true,img:'🏢'},
