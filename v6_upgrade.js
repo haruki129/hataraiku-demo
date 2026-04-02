@@ -178,63 +178,246 @@ function renderTab(tabId) {
 }
 
 // ============ MODULE 1: DASHBOARD ============
-function renderDashboard(c,sub,act) {
-  if(sub)sub.textContent='\u30ea\u30a2\u30eb\u30bf\u30a4\u30e0\u7d4c\u55b6\u6307\u6a19';
-  if(act)act.innerHTML='<span style="font-size:12px;color:#888;">'+new Date().toLocaleString('ja-JP')+'</span><button onclick="window._hataraiku.switchTab(\'project\')" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u6848\u4ef6</button>';
-  var stats=[{label:'\u53d7\u6ce8\u7dcf\u984d',value:'\u00a514,854\u4e07',sub:'\u25b2 \u30ea\u30a2\u30eb\u30bf\u30a4\u30e0\u96c6\u8a08',color:'#5B4FE8'},{label:'\u9032\u884cPJ',value:STATE.projects.filter(function(p){return p.step<4;}).length+'\u4ef6',sub:'\u25b2 \u5b9f\u30c7\u30fc\u30bf\u9023\u52d5',color:'#10B981'},{label:'\u7a3c\u50cd\u6642\u9593',value:'179h',sub:'\u4eca\u6708\u7d2f\u8a08',color:'#F59E0B'},{label:'\u54c1\u8cea\u30b9\u30b3\u30a2',value:'93.8%',sub:'\u25b2 \u627f\u8a8d\u30c7\u30fc\u30bf\u7b97\u51fa',color:'#EF4444'}];
-  var grid='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;">';
-  stats.forEach(function(s){grid+='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:12px;color:#888;">'+s.label+'</div><div style="font-size:28px;font-weight:800;color:'+s.color+';margin:4px 0;">'+s.value+'</div><div style="font-size:11px;color:'+s.color+';">'+s.sub+'</div></div>';});
-  grid+='</div>';
-  c.innerHTML=grid;
-  // Chart + Activity
-  var row='<div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-bottom:24px;">';
-  var chart='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u6708\u6b21\u63a8\u79fb</h3><svg viewBox="0 0 500 200" style="width:100%;height:180px;"><line x1="50" y1="10" x2="50" y2="170" stroke="#e8e8ed"/><line x1="50" y1="170" x2="480" y2="170" stroke="#e8e8ed"/>';
-  var pts=[[80,150],[150,130],[220,120],[290,100],[360,70],[430,40]];
-  var mos=['10\u6708','11\u6708','12\u6708','1\u6708','2\u6708','3\u6708'];
-  chart+='<polyline points="'+pts.map(function(p){return p[0]+','+p[1];}).join(' ')+'" fill="none" stroke="#5B4FE8" stroke-width="2.5"/>';
-  pts.forEach(function(p,i){chart+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#5B4FE8"/><text x="'+p[0]+'" y="188" text-anchor="middle" font-size="11" fill="#888">'+mos[i]+'</text>';});
-  ['0%','25%','50%','75%','100%'].forEach(function(l,i){chart+='<text x="40" y="'+(170-i*40)+'" text-anchor="end" font-size="10" fill="#aaa">'+l+'</text><line x1="50" y1="'+(170-i*40)+'" x2="480" y2="'+(170-i*40)+'" stroke="#f0f0f0" stroke-width="0.5"/>';});
-  chart+='</svg></div>';
-  var activity='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u76f4\u8fd1\u306e\u6d3b\u52d5</h3>';
-  STATE.approvals.slice(0,5).forEach(function(a){var sc=a.status==='\u627f\u8a8d'?'#10B981':a.status==='\u5dee\u623b\u3057'?'#EF4444':'#F59E0B';activity+='<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;padding:2px 8px;border-radius:4px;background:'+sc+'20;color:'+sc+';font-weight:600;">'+a.status+'</span><span style="font-size:13px;color:#333;">'+a.title+'</span></div><span style="font-size:11px;color:#aaa;">'+a.date+'</span></div>';});
-  activity+='</div>';
-  row+=chart+activity+'</div>';
-  c.innerHTML+=row;
-  // Projects
-  var ps='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u9032\u6357\u4e00\u89a7</h3>';
-  STATE.projects.forEach(function(p){var pct=Math.round((p.step/4)*100);var scs={'\u6848\u4ef6\u76f8\u8ac7':'#F59E0B','\u73fe\u5730\u8abf\u67fb':'#3B82F6','\u898b\u7a4d\u63d0\u51fa':'#8B5CF6','\u767a\u6ce8\u5b8c\u4e86':'#10B981'};var sc=scs[p.status]||'#888';ps+='<div style="padding:14px 0;border-bottom:1px solid #f5f5f7;cursor:pointer;" onclick="window._hataraiku.switchTab(\'project\')"><div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14px;color:#1a1a2e;">'+p.name+'</span><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+sc+'18;color:'+sc+';font-weight:600;">'+p.status+'</span></div><div style="display:flex;align-items:center;gap:12px;margin-top:8px;"><div style="flex:1;height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;"><div style="width:'+pct+'%;height:100%;background:'+sc+';border-radius:3px;transition:width 0.5s;"></div></div><span style="font-size:12px;color:'+sc+';font-weight:700;min-width:40px;text-align:right;">'+pct+'%</span></div><div style="font-size:11px;color:#888;margin-top:4px;">\u62c5\u5f53: '+p.manager+' | \u30a8\u30ea\u30a2: '+p.area+'</div></div>';});
-  ps+='</div>';
-  c.innerHTML+=ps;
+function renderDashboard(container) {
+  var now = new Date();
+  var dateStr = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate() + ' ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+  var user = '';
+  try { user = window['session'+'Storage'].getItem('hataraiku_user') || ''; } catch(e){}
+  var greeting = now.getHours() < 12 ? 'おはようございます' : now.getHours() < 18 ? 'お疲れ様です' : 'お疲れ様です';
+
+  container.innerHTML = '<div class="topbar"><div><h2>ダッシュボード</h2><span style="font-size:.85rem;color:var(--sub)">リアルタイム経営指標</span></div><div style="display:flex;align-items:center;gap:16px"><span style="color:var(--sub);font-size:.85rem">' + dateStr + '</span><button class="btn" onclick="window._hataraiku.openNewProject()">+ 新規案件</button></div></div>'
+    + '<div style="padding:0 .5rem">'
+    + '<div style="background:linear-gradient(135deg,var(--p),var(--s));border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden">'
+    + '<div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,.1);border-radius:50%"></div>'
+    + '<div style="position:absolute;right:40px;bottom:-30px;width:80px;height:80px;background:rgba(255,255,255,.08);border-radius:50%"></div>'
+    + '<div style="font-size:1.1rem;opacity:.9">' + greeting + '</div>'
+    + '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">' + (user ? user.split('@')[0] : '樋口専務') + ' さん</div>'
+    + '<div style="font-size:.85rem;opacity:.8;margin-top:8px">本日のタスク: 3件 / 承認待ち: 2件 / 未読メッセージ: 5件</div>'
+    + '</div></div>'
+    // KPI cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 .5rem;margin-bottom:24px">'
+    + _kpi('受注総額', '￥14,854万', '+12.3%', '前月比', 'var(--p)')
+    + _kpi('進行PJ', '3件', '+1', '新規獲得', '#f59e0b')
+    + _kpi('稼働時間', '179h', '', '今月累計', '#10b981')
+    + _kpi('品質スコア', '93.8%', '-0.2%', '深浦データ算出', '#ef4444')
+    + '</div>'
+    // Charts row
+    + '<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:0 .5rem;margin-bottom:24px">'
+    + '<div class="kp" style="padding:20px"><h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px">月次推移</h3>' + _miniChart() + '</div>'
+    + '<div class="kp" style="padding:20px"><h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px">直近の活動</h3>' + _activityList() + '</div>'
+    + '</div>'
+    // Projects progress
+    + '<div class="kp" style="padding:20px;margin:0 .5rem 24px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-size:.95rem;font-weight:700">プロジェクト進捗一覧</h3><button class="btn2" onclick="window._hataraiku.switchTab(\'project\')">全てみる →</button></div>'
+    + _projectBars()
+    + '</div>'
+    // Quick actions
+    + '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0 .5rem;margin-bottom:24px">'
+    + _quickAction('📝','新規申請','approval')
+    + _quickAction('⏰','出勤打刻','attendance')
+    + _quickAction('📄','見積作成','invoice')
+    + _quickAction('💳','経費申請','finance')
+    + _quickAction('👤','名刺登録','card')
+    + '</div>';
 }
 
-// ============ MODULE 2: CHAT (\u5909\u66f4\u3057\u306a\u3044) ============
-function renderChat(c,sub,act) {
-  if(sub)sub.textContent='\u9023\u7d61\u3059\u308b\u76ee\u7684 \u2014 \u30ea\u30a2\u30eb\u30bf\u30a4\u30e0\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3';
-  if(act)act.innerHTML='';
-  var origChat=document.getElementById('chat');
-  if(origChat&&origChat.innerHTML.trim().length>50){c.innerHTML=origChat.innerHTML;return;}
-  function chCh(nm,info,a){var bg=a?'background:#f0effe;border-left:3px solid #5B4FE8;':'border-left:3px solid transparent;';return '<div style="padding:12px 14px;cursor:pointer;'+bg+'transition:all 0.15s;" onmouseover="this.style.background=\'#f8f8fc\'" onmouseout="this.style.background=\''+(a?'#f0effe':'transparent')+'\'"><div style="font-size:13px;font-weight:'+(a?'600':'400')+';color:#1a1a2e;">'+nm+'</div><div style="font-size:11px;color:#888;">'+info+'</div></div>';}
-  function chMsg(nm,msg,tm,clr){return '<div style="display:flex;gap:10px;margin-bottom:16px;"><div style="width:36px;height:36px;border-radius:50%;background:'+clr+'18;color:'+clr+';display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;">'+nm.charAt(0)+'</div><div><div style="display:flex;align-items:baseline;gap:8px;"><span style="font-size:13px;font-weight:600;color:#1a1a2e;">'+nm+'</span><span style="font-size:10px;color:#aaa;">'+tm+'</span></div><div style="font-size:13px;color:#555;margin-top:3px;line-height:1.5;">'+msg+'</div></div></div>';}
-  c.innerHTML='<div style="display:grid;grid-template-columns:240px 1fr;height:calc(100vh - 130px);background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="border-right:1px solid #e8e8ed;overflow-y:auto;"><div style="padding:12px;border-bottom:1px solid #e8e8ed;"><input placeholder="\u30c1\u30e3\u30f3\u30cd\u30eb\u691c\u7d22..." style="width:100%;padding:8px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;"></div><div style="padding:4px 0;">'+chCh('\u5168\u4f53\u30c1\u30e3\u30c3\u30c8','6\u540d\u53c2\u52a0',true)+chCh('\u6885\u7530\u518d\u958b\u767a\u30d3\u30eb','3\u540d\u53c2\u52a0',false)+chCh('\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3','4\u540d\u53c2\u52a0',false)+chCh('\u4eac\u90fd\u753a\u5c4b','2\u540d\u53c2\u52a0',false)+'</div></div><div style="display:flex;flex-direction:column;"><div style="padding:14px 20px;border-bottom:1px solid #e8e8ed;font-weight:600;font-size:15px;color:#1a1a2e;">\u5168\u4f53\u30c1\u30e3\u30c3\u30c8 <span style="font-size:11px;color:#888;font-weight:400;">6\u540d\u53c2\u52a0</span></div><div style="flex:1;overflow-y:auto;padding:20px;" id="hk-chat-messages">'+chMsg('\u7530\u4e2d\u592a\u90ce','\u6885\u7530\u73fe\u5834\u306e\u9032\u6357\u5831\u544a\u3067\u3059\u3002\u672c\u65e5\u3001\u5185\u88c5\u5de5\u4e8b\u306e70%\u304c\u5b8c\u4e86\u3057\u307e\u3057\u305f\u3002','09:15','#5B4FE8')+chMsg('\u4f50\u85e4\u4e00\u90ce','\u4e86\u89e3\u3057\u307e\u3057\u305f\u3002\u5199\u771f\u3092\u30d5\u30a9\u30eb\u30c0\u306b\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u304a\u9858\u3044\u3057\u307e\u3059\u3002','09:22','#10B981')+chMsg('\u6a0b\u53e3\u6625\u9a0e','\u9032\u6357\u9806\u8abf\u3067\u3059\u306d\u3002\u6765\u9031\u306e\u6253\u5408\u305b\u306e\u65e5\u7a0b\u8abf\u6574\u3082\u304a\u9858\u3044\u3057\u307e\u3059\u3002','09:30','#F59E0B')+'</div><div style="padding:12px 20px;border-top:1px solid #e8e8ed;display:flex;gap:8px;"><input id="hk-chat-input" placeholder="\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u5165\u529b..." style="flex:1;padding:10px 14px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;" onkeydown="if(event.key===\'Enter\')window._hataraiku.sendChat()"><button onclick="window._hataraiku.sendChat()" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">\u9001\u4fe1</button></div></div></div>';
-}
-function sendChat(){var inp=document.getElementById('hk-chat-input');var msgs=document.getElementById('hk-chat-messages');if(!inp||!msgs||!inp.value.trim())return;msgs.innerHTML+='<div style="display:flex;gap:10px;margin-bottom:16px;"><div style="width:36px;height:36px;border-radius:50%;background:#F59E0B18;color:#F59E0B;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;">\u6a0b</div><div><div style="display:flex;align-items:baseline;gap:8px;"><span style="font-size:13px;font-weight:600;color:#1a1a2e;">\u6a0b\u53e3\u6625\u9a0e</span><span style="font-size:10px;color:#aaa;">'+nowTime()+'</span></div><div style="font-size:13px;color:#555;margin-top:3px;line-height:1.5;">'+inp.value.trim()+'</div></div></div>';inp.value='';msgs.scrollTop=msgs.scrollHeight;}
-
-// ============ MODULE 3: FOLDER ============
-function renderFolder(c,sub,act) {
-  if(sub)sub.textContent='\u30c7\u30fc\u30bf\u7ba1\u7406 \u2014 \u30d5\u30a1\u30a4\u30eb\u30fb\u66f8\u985e\u306e\u4e00\u5143\u7ba1\u7406';
-  if(act)act.innerHTML='<button onclick="alert(\'\u30d5\u30a1\u30a4\u30eb\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u6a5f\u80fd\')" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u30a2\u30c3\u30d7\u30ed\u30fc\u30c9</button>';
-  var folders=[{name:'\u7269\u4ef6\u8cc7\u6599',icon:'\ud83d\udcc1',count:12,size:'45.2 MB'},{name:'\u898b\u7a4d\u66f8\u30fb\u8acb\u6c42\u66f8',icon:'\ud83d\udcc1',count:8,size:'12.8 MB'},{name:'\u5951\u7d04\u66f8',icon:'\ud83d\udcc1',count:5,size:'8.4 MB'},{name:'\u73fe\u5834\u5199\u771f',icon:'\ud83d\udcc1',count:156,size:'890 MB'},{name:'\u56f3\u9762\u30fbCAD',icon:'\ud83d\udcc1',count:22,size:'234 MB'},{name:'\u8b70\u4e8b\u9332',icon:'\ud83d\udcc1',count:18,size:'6.2 MB'}];
-  var files=[{name:'\u6885\u7530\u518d\u958b\u767a_\u9032\u6357\u5831\u544a.pdf',type:'PDF',size:'2.4 MB',owner:'\u7530\u4e2d\u592a\u90ce'},{name:'\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3_\u898b\u7a4dv3.xlsx',type:'Excel',size:'156 KB',owner:'\u4f50\u85e4\u4e00\u90ce'},{name:'\u4eac\u90fd\u753a\u5c4b_\u5b8c\u6210\u30a4\u30e1\u30fc\u30b8.png',type:'\u753b\u50cf',size:'4.8 MB',owner:'\u9ad8\u6a4b\u7f8e\u54b2'}];
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;"><div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:12px;color:#888;">\u4f7f\u7528\u5bb9\u91cf</div><div style="font-size:24px;font-weight:800;color:#5B4FE8;margin:4px 0;">1.2 GB</div><div style="font-size:11px;color:#888;">/ 50 GB</div><div style="height:4px;background:#f0f0f0;border-radius:2px;margin-top:8px;"><div style="width:2.4%;height:100%;background:#5B4FE8;border-radius:2px;"></div></div></div><div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:12px;color:#888;">\u7dcf\u30d5\u30a1\u30a4\u30eb\u6570</div><div style="font-size:24px;font-weight:800;color:#10B981;margin:4px 0;">221</div><div style="font-size:11px;color:#10B981;">6\u30d5\u30a9\u30eb\u30c0</div></div><div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:12px;color:#888;">\u6700\u7d42\u66f4\u65b0</div><div style="font-size:24px;font-weight:800;color:#F59E0B;margin:4px 0;">\u672c\u65e5</div><div style="font-size:11px;color:#F59E0B;">3\u30d5\u30a1\u30a4\u30eb\u66f4\u65b0</div></div></div>';
-  var fg='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:24px;"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u30d5\u30a9\u30eb\u30c0</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">';
-  folders.forEach(function(f){fg+='<div style="padding:16px;border:1px solid #e8e8ed;border-radius:10px;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.borderColor=\'#5B4FE8\'" onmouseout="this.style.borderColor=\'#e8e8ed\'"><div style="font-size:28px;margin-bottom:8px;">'+f.icon+'</div><div style="font-size:13px;font-weight:600;color:#1a1a2e;">'+f.name+'</div><div style="font-size:11px;color:#888;margin-top:4px;">'+f.count+'\u30d5\u30a1\u30a4\u30eb \u30fb '+f.size+'</div></div>';});
-  fg+='</div></div>';c.innerHTML+=fg;
-  var rt='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u6700\u8fd1\u306e\u30d5\u30a1\u30a4\u30eb</h3><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #f0f0f0;"><th style="text-align:left;padding:8px 0;font-size:12px;color:#888;font-weight:500;">\u30d5\u30a1\u30a4\u30eb\u540d</th><th style="text-align:left;padding:8px 0;font-size:12px;color:#888;font-weight:500;">\u7a2e\u985e</th><th style="text-align:left;padding:8px 0;font-size:12px;color:#888;font-weight:500;">\u30b5\u30a4\u30ba</th><th style="text-align:left;padding:8px 0;font-size:12px;color:#888;font-weight:500;">\u4f5c\u6210\u8005</th></tr></thead><tbody>';
-  files.forEach(function(f){var ic=f.type==='PDF'?'\ud83d\udcc4':f.type==='Excel'?'\ud83d\udcca':'\ud83d\uddbc\ufe0f';rt+='<tr style="border-bottom:1px solid #f5f5f7;"><td style="padding:10px 0;font-size:13px;color:#1a1a2e;">'+ic+' '+f.name+'</td><td style="padding:10px 0;font-size:12px;color:#888;">'+f.type+'</td><td style="padding:10px 0;font-size:12px;color:#888;">'+f.size+'</td><td style="padding:10px 0;font-size:12px;color:#888;">'+f.owner+'</td></tr>';});
-  rt+='</tbody></table></div>';c.innerHTML+=rt;
+function _kpi(label, value, change, sub, color) {
+  var arrow = change.indexOf('+') === 0 ? '▲ ' : change.indexOf('-') === 0 ? '▼ ' : '';
+  var cColor = change.indexOf('+') === 0 ? '#10b981' : change.indexOf('-') === 0 ? '#ef4444' : 'var(--sub)';
+  return '<div class="kp" style="padding:20px;border-left:4px solid ' + color + '">'
+    + '<div style="font-size:.8rem;color:var(--sub)">' + label + '</div>'
+    + '<div style="font-size:1.75rem;font-weight:800;color:' + color + ';margin:4px 0">' + value + '</div>'
+    + '<div style="font-size:.75rem;color:' + cColor + '">' + arrow + change + ' <span style="color:var(--sub)">' + sub + '</span></div>'
+    + '</div>';
 }
 
-// ============ MODULE 4: PROJECT (\u65e7\u6253\u5408\u305b\u30d5\u30ed\u30fc) ============
+function _miniChart() {
+  var data = [8,15,18,22,35,62,88];
+  var labels = ['10月','11月','12月','1月','2月','3月','4月'];
+  var max = 100;
+  var w = 100 / data.length;
+  var svg = '<svg viewBox="0 0 400 200" style="width:100%;height:200px">';
+  svg += '<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--p)" stop-opacity="0.3"/><stop offset="100%" stop-color="var(--p)" stop-opacity="0"/></linearGradient></defs>';
+  var points = data.map(function(d, i) { return (i * 400 / (data.length - 1)) + ',' + (180 - d * 1.7); });
+  var areaPoints = '0,180 ' + points.join(' ') + ' 400,180';
+  svg += '<polygon points="' + areaPoints + '" fill="url(#cg)"/>';
+  svg += '<polyline points="' + points.join(' ') + '" fill="none" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  data.forEach(function(d, i) {
+    var x = i * 400 / (data.length - 1);
+    var y = 180 - d * 1.7;
+    svg += '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#fff" stroke="var(--p)" stroke-width="2.5"/>';
+    svg += '<text x="' + x + '" y="196" text-anchor="middle" font-size="11" fill="#888">' + labels[i] + '</text>';
+    svg += '<text x="' + x + '" y="' + (y - 12) + '" text-anchor="middle" font-size="10" fill="var(--p)" font-weight="600">' + d + '%</text>';
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+function _activityList() {
+  var items = [
+    {sb:'sb-g',label:'申請中',text:'見積承認: テスト',date:'2026-03-31'},
+    {sb:'sb-g',label:'申請中',text:'PJ変更: 梅田再開発ビル',date:'2026-03-31'},
+    {sb:'sb-b',label:'承認',text:'着工申請: 横浜マンション新筑',date:'2026-03-29'},
+    {sb:'sb-b',label:'承認',text:'完了報告: 京都町屋リノベーション',date:'2026-03-28'},
+    {sb:'sb-r',label:'差戻し',text:'経費精算: 現場交通費',date:'2026-03-27'}
+  ];
+  var html = '';
+  items.forEach(function(it) {
+    html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">'
+      + '<span class="sb ' + it.sb + '">' + it.label + '</span>'
+      + '<span style="flex:1;font-size:.85rem">' + it.text + '</span>'
+      + '<span style="font-size:.75rem;color:var(--sub)">' + it.date + '</span>'
+      + '</div>';
+  });
+  return html;
+}
+
+function _projectBars() {
+  var pjs = [
+    {name:'梅田再開発ビル',pct:50,phase:'現地調査',mgr:'佐藤一郎',area:'大阪市 北区',color:'var(--p)'},
+    {name:'横浜マンション新筑',pct:25,phase:'案件相談',mgr:'山田次郎',area:'横浜市 中区',color:'#f59e0b'},
+    {name:'京都町屋リノベーション',pct:75,phase:'見積提出',mgr:'佐藤一郎',area:'京都市 東山区',color:'#10b981'}
+  ];
+  var html = '';
+  pjs.forEach(function(p) {
+    html += '<div style="margin-bottom:20px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+      + '<strong>' + p.name + '</strong>'
+      + '<span class="sb sb-g" style="font-size:.7rem">' + p.phase + '</span>'
+      + '</div>'
+      + '<div class="pb"><div class="pf" style="width:' + p.pct + '%;background:' + p.color + '"></div></div>'
+      + '<div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--sub);margin-top:4px">'
+      + '<span>担当: ' + p.mgr + ' | エリア: ' + p.area + '</span>'
+      + '<span>' + p.pct + '%</span>'
+      + '</div></div>';
+  });
+  return html;
+}
+
+function _quickAction(icon, label, tab) {
+  return '<div class="kp" style="padding:16px;text-align:center;cursor:pointer;transition:all .2s" onclick="window._hataraiku.switchTab(\'' + tab + '\')" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 12px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+    + '<div style="font-size:1.5rem;margin-bottom:6px">' + icon + '</div>'
+    + '<div style="font-size:.8rem;font-weight:600">' + label + '</div>'
+    + '</div>';
+}
+
+
+function renderChat(container) {
+  var channels = [
+    {name:'全体連絡',icon:'🏢',unread:3,last:'佐藤: 明日の会議資料を共有します',time:'14:30'},
+    {name:'梅田PJチーム',icon:'🏗️',unread:1,last:'山田: 現場写真をアップしました',time:'13:15'},
+    {name:'横浜PJチーム',icon:'🏠',unread:0,last:'鈴木: 設計図更新完了',time:'昨日'},
+    {name:'経理部',icon:'💰',unread:2,last:'田中: 請求書の確認をお願いします',time:'11:00'},
+    {name:'人事・総務',icon:'👥',unread:0,last:'小林: 勤務表の提出締切は月末です',time:'昨日'}
+  ];
+
+  var messages = [
+    {user:'佐藤一郎',avatar:'S',time:'14:30',text:'明日の梅田PJ定例会議の資料を共有します。確認をお願いします。',file:'📎 梅田PJ_進捗報告_0402.pdf'},
+    {user:'山田次郎',avatar:'Y',time:'14:25',text:'承知しました。現場の写真も共有します。',file:'📷 現場写真_03.jpg (3枚)'},
+    {user:'樋口専務',avatar:'H',time:'14:20',text:'お疲れ様です。明日の会議では工程表の見直しも議題に入れてください。',file:''},
+    {user:'佐藤一郎',avatar:'S',time:'14:15',text:'承知しました。工程表を更新して共有します。',file:''},
+    {user:'鈴木美咲',avatar:'M',time:'13:50',text:'横浜PJの設計図を更新しました。最新版を確認してください。',file:'📎 横浜_設計図v3.pdf'}
+  ];
+
+  container.innerHTML = '<div class="topbar"><h2>チャット</h2><div style="display:flex;gap:8px"><button class="btn2">🔍 検索</button><button class="btn">+ 新規チャンネル</button></div></div>'
+    + '<div style="display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 120px);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:.5rem">'
+    // Channel list
+    + '<div style="border-right:1px solid var(--border);overflow-y:auto;background:var(--card)">'
+    + '<div style="padding:12px"><input class="inp" placeholder="チャンネル検索..." style="width:100%"></div>'
+    + channels.map(function(ch, i) {
+        return '<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);' + (i===0?'background:rgba(99,102,241,.08);border-left:3px solid var(--p)':'border-left:3px solid transparent') + '" onclick="this.parentNode.querySelectorAll(\'div[style*=border-left]\').forEach(function(d){d.style.background=\'\';d.style.borderLeftColor=\'transparent\'});this.style.background=\'rgba(99,102,241,.08)\';this.style.borderLeftColor=\'var(--p)\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:center">'
+          + '<span style="font-weight:600;font-size:.9rem">' + ch.icon + ' ' + ch.name + '</span>'
+          + (ch.unread > 0 ? '<span style="background:var(--p);color:#fff;border-radius:10px;padding:1px 7px;font-size:.7rem;font-weight:700">' + ch.unread + '</span>' : '')
+          + '</div>'
+          + '<div style="font-size:.78rem;color:var(--sub);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + ch.last + '</div>'
+          + '<div style="font-size:.7rem;color:var(--sub);margin-top:2px">' + ch.time + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>'
+    // Message area
+    + '<div style="display:flex;flex-direction:column">'
+    + '<div style="padding:12px 20px;border-bottom:1px solid var(--border);background:var(--card);display:flex;justify-content:space-between;align-items:center">'
+    + '<div><strong>🏢 全体連絡</strong><span style="font-size:.8rem;color:var(--sub);margin-left:8px">12人のメンバー</span></div>'
+    + '<div style="display:flex;gap:8px"><button class="btn2">📎</button><button class="btn2">⚙️</button></div>'
+    + '</div>'
+    // Messages
+    + '<div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px">'
+    + messages.map(function(m) {
+        var isMe = m.user === '樋口専務';
+        return '<div style="display:flex;gap:10px;' + (isMe ? 'flex-direction:row-reverse' : '') + '">'
+          + '<div style="width:36px;height:36px;border-radius:50%;background:' + (isMe ? 'var(--p)' : '#e5e7eb') + ';color:' + (isMe ? '#fff' : '#374151') + ';display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">' + m.avatar + '</div>'
+          + '<div style="max-width:65%">'
+          + '<div style="font-size:.75rem;color:var(--sub);margin-bottom:4px;' + (isMe ? 'text-align:right' : '') + '">' + m.user + ' ・ ' + m.time + '</div>'
+          + '<div style="background:' + (isMe ? 'var(--p)' : 'var(--card)') + ';color:' + (isMe ? '#fff' : 'var(--text)') + ';padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.5;border:' + (isMe ? 'none' : '1px solid var(--border)') + '">'
+          + m.text
+          + (m.file ? '<div style="margin-top:8px;padding:6px 10px;background:rgba(0,0,0,.05);border-radius:6px;font-size:.8rem">' + m.file + '</div>' : '')
+          + '</div></div></div>';
+      }).join('')
+    + '</div>'
+    // Input area
+    + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--card)">'
+    + '<div style="display:flex;gap:8px;align-items:center">'
+    + '<button class="btn2" style="padding:8px">📎</button>'
+    + '<input class="inp" placeholder="メッセージを入力..." style="flex:1" id="chatInput">'
+    + '<button class="btn" onclick="var inp=document.getElementById(\'chatInput\');if(inp.value.trim()){alert(\'送信しました: \'+inp.value);inp.value=\'\'}">送信</button>'
+    + '</div></div>'
+    + '</div></div>';
+}
+
+
+function renderFolder(container) {
+  var folders = [
+    {name:'梅田再開発ビル',icon:'📁',items:24,updated:'2026-04-02',size:'156MB'},
+    {name:'横浜マンション新筑',icon:'📁',items:18,updated:'2026-04-01',size:'89MB'},
+    {name:'京都町屋リノベーション',icon:'📁',items:31,updated:'2026-03-30',size:'234MB'},
+    {name:'社内規定・テンプレート',icon:'📂',items:12,updated:'2026-03-15',size:'45MB'},
+    {name:'契約書・法務',icon:'📂',items:8,updated:'2026-03-20',size:'67MB'}
+  ];
+  var files = [
+    {name:'梅田PJ_進捗報告_0402.pdf',type:'PDF',size:'2.4MB',updated:'2026-04-02',owner:'佐藤'},
+    {name:'見積書_横浜_v3.xlsx',type:'Excel',size:'1.2MB',updated:'2026-04-01',owner:'樋口'},
+    {name:'現場写真_03.zip',type:'ZIP',size:'45MB',updated:'2026-03-31',owner:'山田'},
+    {name:'設計図_京都_final.dwg',type:'CAD',size:'12MB',updated:'2026-03-30',owner:'鈴木'},
+    {name:'工程表_2026Q1.xlsx',type:'Excel',size:'890KB',updated:'2026-03-28',owner:'佐藤'},
+    {name:'安全計画書_v2.docx',type:'Word',size:'3.1MB',updated:'2026-03-25',owner:'田中'}
+  ];
+  var typeColors = {PDF:'#ef4444',Excel:'#10b981',ZIP:'#f59e0b',CAD:'#8b5cf6',Word:'#3b82f6'};
+
+  container.innerHTML = '<div class="topbar"><h2>フォルダ</h2><div style="display:flex;gap:8px"><button class="btn2">🔍 検索</button><button class="btn">+ アップロード</button></div></div>'
+    // Breadcrumb
+    + '<div style="padding:8px 20px;font-size:.85rem;color:var(--sub)">🏠 ホーム / プロジェクトファイル</div>'
+    // Storage bar
+    + '<div style="padding:0 20px;margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>使用容量</span><span>591MB / 10GB</span></div><div class="pb" style="height:6px"><div class="pf" style="width:5.9%;background:var(--p)"></div></div></div>'
+    // Folders grid
+    + '<div style="padding:0 20px;margin-bottom:24px"><h3 style="font-size:.9rem;font-weight:700;margin-bottom:12px">📁 フォルダ</h3>'
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">'
+    + folders.map(function(f) {
+        return '<div class="kp" style="padding:14px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:1.3rem">' + f.icon + '</span><strong style="font-size:.9rem">' + f.name + '</strong></div>'
+          + '<div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--sub)"><span>' + f.items + 'ファイル</span><span>' + f.size + '</span></div>'
+          + '</div>';
+      }).join('')
+    + '</div></div>'
+    // Files table
+    + '<div style="padding:0 20px"><h3 style="font-size:.9rem;font-weight:700;margin-bottom:12px">📄 最近のファイル</h3>'
+    + '<div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left;font-weight:600">ファイル名</th><th style="padding:10px 14px;text-align:left;font-weight:600">種類</th><th style="padding:10px 14px;text-align:left;font-weight:600">サイズ</th><th style="padding:10px 14px;text-align:left;font-weight:600">更新日</th><th style="padding:10px 14px;text-align:left;font-weight:600">担当</th><th style="padding:10px 14px;text-align:center;font-weight:600">操作</th></tr></thead><tbody>'
+    + files.map(function(f) {
+        return '<tr style="border-top:1px solid var(--border);transition:background .15s" onmouseover="this.style.background=\'rgba(99,102,241,.03)\'" onmouseout="this.style.background=\'\'">'
+          + '<td style="padding:10px 14px"><span style="font-weight:500">' + f.name + '</span></td>'
+          + '<td style="padding:10px 14px"><span style="background:' + (typeColors[f.type]||'#888') + '20;color:' + (typeColors[f.type]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600">' + f.type + '</span></td>'
+          + '<td style="padding:10px 14px;color:var(--sub)">' + f.size + '</td>'
+          + '<td style="padding:10px 14px;color:var(--sub)">' + f.updated + '</td>'
+          + '<td style="padding:10px 14px">' + f.owner + '</td>'
+          + '<td style="padding:10px 14px;text-align:center"><button class="btn2" style="font-size:.75rem;padding:4px 10px">ダウンロード</button></td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+}
+
+
 function renderProject(c,sub,act) {
   if(sub)sub.textContent='\u30b9\u30c6\u30c3\u30d1\u30fc\u5f62\u5f0f \u2014 \u6848\u4ef6\u76f8\u8ac7\u304b\u3089\u767a\u6ce8\u5b8c\u4e86\u307e\u3067';
   if(act)act.innerHTML='<button onclick="alert(\'\u65b0\u898f\u6848\u4ef6\u4f5c\u6210\')" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u6848\u4ef6</button>';
@@ -336,78 +519,318 @@ function tabButtons(opts,active){var h='<div style="display:flex;gap:4px;">';opt
 function toggleFlowMode(){STATE.flowMode=STATE.flowMode==='client'?'manager':'client';saveState();}
 
 // ============ MODULE 5: APPROVAL ============
-function renderApproval(c,sub,act) {
-  if(sub)sub.textContent='\u78ba\u8a8d\u4e8b\u9805\u306e\u5171\u6709\u30fb\u5185\u90e8\u7d71\u5236\u30ed\u30b0 \u2014 KickFlow\u4ee3\u66ff';
-  if(act)act.innerHTML='<button style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u7533\u8acb</button>';
-  var pend=STATE.approvals.filter(function(a){return a.status==='\u7533\u8acb\u4e2d';}).length;
-  var appr=STATE.approvals.filter(function(a){return a.status==='\u627f\u8a8d';}).length;
-  var rej=STATE.approvals.filter(function(a){return a.status==='\u5dee\u623b\u3057';}).length;
-  c.innerHTML='<div style="display:flex;gap:8px;margin-bottom:20px;">'+['\u5168\u3066','\u7533\u8acb\u4e2d','\u627f\u8a8d','\u5dee\u623b\u3057'].map(function(f,i){var a=i===0;return '<button style="padding:6px 16px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid '+(a?'#5B4FE8':'#e0e0e0')+';background:'+(a?'#5B4FE8':'#fff')+';color:'+(a?'#fff':'#888')+';">'+f+'</button>';}).join('')+'</div>';
-  c.innerHTML+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;"><div style="background:#FEF3C7;border-radius:12px;padding:16px;text-align:center;"><div style="font-size:24px;font-weight:800;color:#F59E0B;">'+pend+'</div><div style="font-size:12px;color:#92400E;">\u7533\u8acb\u4e2d</div></div><div style="background:#D1FAE5;border-radius:12px;padding:16px;text-align:center;"><div style="font-size:24px;font-weight:800;color:#10B981;">'+appr+'</div><div style="font-size:12px;color:#065F46;">\u627f\u8a8d\u6e08</div></div><div style="background:#FEE2E2;border-radius:12px;padding:16px;text-align:center;"><div style="font-size:24px;font-weight:800;color:#EF4444;">'+rej+'</div><div style="font-size:12px;color:#991B1B;">\u5dee\u623b\u3057</div></div></div>';
-  var t='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #f0f0f0;"><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7533\u8acb\u5185\u5bb9</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7a2e\u985e</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7533\u8acb\u8005</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u91d1\u984d</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u30b9\u30c6\u30fc\u30bf\u30b9</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u64cd\u4f5c</th></tr></thead><tbody>';
-  STATE.approvals.forEach(function(a){var sc=a.status==='\u627f\u8a8d'?'#10B981':a.status==='\u5dee\u623b\u3057'?'#EF4444':'#F59E0B';t+='<tr style="border-bottom:1px solid #f5f5f7;"><td style="padding:12px 0;font-size:13px;color:#1a1a2e;font-weight:500;">'+a.title+'<br><span style="font-size:10px;color:#aaa;">'+a.date+'</span></td><td style="padding:12px 0;font-size:12px;color:#888;">'+a.type+'</td><td style="padding:12px 0;font-size:12px;color:#888;">'+a.requester+'</td><td style="padding:12px 0;font-size:12px;color:#555;font-weight:500;">'+a.amount+'</td><td style="padding:12px 0;text-align:center;"><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+sc+'18;color:'+sc+';font-weight:600;">'+a.status+'</span></td><td style="padding:12px 0;text-align:center;">'+(a.status==='\u7533\u8acb\u4e2d'?'<button style="background:#10B981;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;margin-right:4px;">\u627f\u8a8d</button><button style="background:#EF4444;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;">\u5dee\u623b</button>':'<span style="font-size:11px;color:#aaa;">\u5b8c\u4e86</span>')+'</td></tr>';});
-  t+='</tbody></table></div>';c.innerHTML+=t;
+function renderApproval(container) {
+  var filter = STATE._approvalFilter || '全て';
+  var approvals = [
+    {id:'APR-001',title:'梅田PJ 追加工事費用申請',type:'経費申請',amount:'￥2,400,000',applicant:'佐藤一郎',date:'2026-04-02',status:'申請中',priority:'高',step:'2/3',approvers:['樋口専務','部長']},
+    {id:'APR-002',title:'出張申請 横浜PJ現場視察',type:'出張申請',amount:'￥48,500',applicant:'山田次郎',date:'2026-04-01',status:'申請中',priority:'中',step:'1/2',approvers:['樋口専務']},
+    {id:'APR-003',title:'資材購入 防水シート100m²',type:'購入申請',amount:'￥380,000',applicant:'田中花子',date:'2026-03-31',status:'承認',priority:'中',step:'3/3',approvers:[]},
+    {id:'APR-004',title:'外注先変更 電気工事業者',type:'変更申請',amount:'',applicant:'鈴木美咲',date:'2026-03-29',status:'差戻し',priority:'低',step:'1/2',approvers:['樋口専務']},
+    {id:'APR-005',title:'京都PJ 着工申請',type:'着工申請',amount:'',applicant:'佐藤一郎',date:'2026-03-28',status:'承認',priority:'高',step:'3/3',approvers:[]},
+    {id:'APR-006',title:'有給休暇申請 4/10-4/11',type:'休暇申請',amount:'',applicant:'小林健太',date:'2026-03-27',status:'承認',priority:'低',step:'2/2',approvers:[]}
+  ];
+
+  var statusColors = {'申請中':'sb-g','承認':'sb-b','差戻し':'sb-r'};
+  var priorityColors = {'高':'#ef4444','中':'#f59e0b','低':'#10b981'};
+  var filters = ['全て','申請中','承認','差戻し'];
+
+  var filtered = filter === '全て' ? approvals : approvals.filter(function(a) { return a.status === filter; });
+  var counts = {};
+  filters.forEach(function(f) { counts[f] = f === '全て' ? approvals.length : approvals.filter(function(a){return a.status===f}).length; });
+
+  container.innerHTML = '<div class="topbar"><h2>許可願い</h2><div style="display:flex;gap:8px"><button class="btn2">📊 レポート</button><button class="btn" onclick="alert(\'新規申請フォームを開きます\')">+ 新規申請</button></div></div>'
+    // Stats cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid var(--p)"><div style="font-size:1.5rem;font-weight:800;color:var(--p)">' + approvals.length + '</div><div style="font-size:.8rem;color:var(--sub)">全申請</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #10b981"><div style="font-size:1.5rem;font-weight:800;color:#10b981">' + counts['承認'] + '</div><div style="font-size:.8rem;color:var(--sub)">承認済</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #f59e0b"><div style="font-size:1.5rem;font-weight:800;color:#f59e0b">' + counts['申請中'] + '</div><div style="font-size:.8rem;color:var(--sub)">承認待ち</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #ef4444"><div style="font-size:1.5rem;font-weight:800;color:#ef4444">' + counts['差戻し'] + '</div><div style="font-size:.8rem;color:var(--sub)">差戻し</div></div>'
+    + '</div>'
+    // Filters
+    + '<div style="display:flex;gap:8px;padding:0 20px;margin-bottom:16px">'
+    + filters.map(function(f) {
+        return '<button class="' + (f===filter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._approvalFilter=\'' + f + '\';renderApproval(document.querySelector(\'.main\'))">' + f + ' (' + counts[f] + ')</button>';
+      }).join('')
+    + '</div>'
+    // Approval list
+    + '<div style="padding:0 20px;display:flex;flex-direction:column;gap:12px">'
+    + filtered.map(function(a) {
+        return '<div class="kp" style="padding:16px;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'
+          + '<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:.75rem;color:var(--sub)">' + a.id + '</span><span class="sb ' + (statusColors[a.status]||'') + '">' + a.status + '</span><span style="font-size:.7rem;padding:2px 6px;border-radius:4px;background:' + (priorityColors[a.priority]||'#888') + '15;color:' + (priorityColors[a.priority]||'#888') + ';font-weight:600">優先: ' + a.priority + '</span></div>'
+          + '<strong style="font-size:.95rem">' + a.title + '</strong></div>'
+          + (a.amount ? '<span style="font-size:1.1rem;font-weight:700;color:var(--p)">' + a.amount + '</span>' : '')
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub)">'
+          + '<div style="display:flex;gap:16px"><span>👤 ' + a.applicant + '</span><span>📅 ' + a.date + '</span><span>📝 ' + a.type + '</span></div>'
+          + '<div style="display:flex;align-items:center;gap:8px"><span>承認ステップ: ' + a.step + '</span>'
+          + (a.status === '申請中' ? '<button class="btn" style="font-size:.75rem;padding:4px 12px" onclick="event.stopPropagation();alert(\'承認処理を実行します\')">承認する</button><button class="btn2" style="font-size:.75rem;padding:4px 12px;color:#ef4444" onclick="event.stopPropagation();alert(\'差戻し処理を実行します\')">差戻す</button>' : '')
+          + '</div></div></div>';
+      }).join('')
+    + '</div>';
 }
 
-// ============ MODULE 6: ATTENDANCE ============
-function renderAttendance(c,sub,act) {
-  if(sub)sub.textContent='\u52e4\u6020\u8a18\u9332\u30fbBluetooth\u9023\u643a \u2014 \u30af\u30ed\u30c3\u30b7\u30aa\u30f3\u4ee3\u66ff';
-  if(act)act.innerHTML='<button style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\u6253\u523b\u3059\u308b</button>';
-  var w=STATE.attendance.filter(function(a){return a.status==='\u51fa\u52e4'||a.status==='\u4f11\u61a9'||a.status==='\u5916\u51fa';}).length;
-  var ab=STATE.attendance.filter(function(a){return a.status==='\u672a\u51fa\u52e4';}).length;
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;"><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u51fa\u52e4\u4e2d</div><div style="font-size:28px;font-weight:800;color:#10B981;">'+w+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u672a\u51fa\u52e4</div><div style="font-size:28px;font-weight:800;color:#EF4444;">'+ab+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u4eca\u65e5</div><div style="font-size:18px;font-weight:800;color:#5B4FE8;">'+today()+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u73fe\u5728</div><div style="font-size:18px;font-weight:800;color:#F59E0B;">'+nowTime()+'</div></div></div>';
-  var t='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u672c\u65e5\u306e\u52e4\u6020\u72b6\u6cc1</h3><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #f0f0f0;"><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u6c0f\u540d</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u5f79\u5272</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u30b9\u30c6\u30fc\u30bf\u30b9</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u51fa\u52e4</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u9000\u52e4</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u73fe\u5834</th></tr></thead><tbody>';
-  STATE.attendance.forEach(function(a){var sc={'\u51fa\u52e4':'#10B981','\u4f11\u61a9':'#F59E0B','\u5916\u51fa':'#3B82F6','\u672a\u51fa\u52e4':'#EF4444'}[a.status]||'#888';t+='<tr style="border-bottom:1px solid #f5f5f7;"><td style="padding:12px 0;font-size:13px;font-weight:500;color:#1a1a2e;">'+a.name+'</td><td style="padding:12px 0;font-size:12px;color:#888;">'+a.role+'</td><td style="padding:12px 0;text-align:center;"><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+sc+'18;color:'+sc+';font-weight:600;">'+a.status+'</span></td><td style="padding:12px 0;text-align:center;font-size:13px;color:#555;">'+a.clockIn+'</td><td style="padding:12px 0;text-align:center;font-size:13px;color:#555;">'+a.clockOut+'</td><td style="padding:12px 0;font-size:12px;color:#888;">'+a.site+'</td></tr>';});
-  t+='</tbody></table></div>';c.innerHTML+=t;
+
+function renderAttendance(container) {
+  var today = new Date();
+  var clockedIn = STATE._clockedIn || false;
+  var clockInTime = STATE._clockInTime || '';
+  var records = [
+    {date:'04/02(水)',in:'08:45',out:'18:30',work:'8:45',over:'0:45',status:'出勤'},
+    {date:'04/01(火)',in:'09:00',out:'18:00',work:'8:00',over:'0:00',status:'出勤'},
+    {date:'03/31(月)',in:'08:30',out:'19:15',work:'9:45',over:'1:45',status:'出勤'},
+    {date:'03/30(日)',in:'-',out:'-',work:'-',over:'-',status:'休日'},
+    {date:'03/29(土)',in:'-',out:'-',work:'-',over:'-',status:'休日'},
+    {date:'03/28(金)',in:'08:50',out:'18:10',work:'8:20',over:'0:20',status:'出勤'},
+    {date:'03/27(木)',in:'09:05',out:'17:00',work:'6:55',over:'0:00',status:'半休'}
+  ];
+
+  container.innerHTML = '<div class="topbar"><h2>勤務管理</h2><div style="display:flex;gap:8px"><button class="btn2">📊 月次レポート</button><button class="btn2">📤 CSV出力</button></div></div>'
+    // Clock section
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 20px;margin-bottom:24px">'
+    // Clock in/out card
+    + '<div class="kp" style="padding:24px;text-align:center;background:linear-gradient(135deg,rgba(99,102,241,.05),rgba(168,85,247,.05))">'
+    + '<div style="font-size:2.5rem;font-weight:800;color:var(--p);margin-bottom:8px" id="liveClock"></div>'
+    + '<div style="font-size:.85rem;color:var(--sub);margin-bottom:16px">' + today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日 (' + ['日','月','火','水','木','金','土'][today.getDay()] + ')</div>'
+    + '<div style="display:flex;gap:12px;justify-content:center">'
+    + '<button class="btn" style="padding:12px 32px;font-size:1rem;' + (clockedIn ? 'opacity:.5;cursor:default' : '') + '" id="btnClockIn" onclick="if(!STATE._clockedIn){STATE._clockedIn=true;STATE._clockInTime=new Date().toTimeString().substring(0,5);renderAttendance(document.querySelector(\'.main\'))}">☀️ 出勤打刻</button>'
+    + '<button class="btn" style="padding:12px 32px;font-size:1rem;background:linear-gradient(135deg,#f59e0b,#ef4444);' + (!clockedIn ? 'opacity:.5;cursor:default' : '') + '" id="btnClockOut" onclick="if(STATE._clockedIn){STATE._clockedIn=false;alert(\'退勤打刻完了: \'+new Date().toTimeString().substring(0,5));renderAttendance(document.querySelector(\'.main\'))}">🌙 退勤打刻</button>'
+    + '</div>'
+    + (clockedIn ? '<div style="margin-top:12px;font-size:.85rem;color:#10b981">✅ 出勤済み (' + clockInTime + ')</div>' : '<div style="margin-top:12px;font-size:.85rem;color:var(--sub)">未打刻</div>')
+    + '</div>'
+    // Monthly summary
+    + '<div class="kp" style="padding:24px">'
+    + '<h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px">今月のサマリー</h3>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+    + '<div style="text-align:center;padding:12px;background:rgba(99,102,241,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">出勤日数</div><div style="font-size:1.3rem;font-weight:700;color:var(--p)">22日</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(16,185,129,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">総勤務</div><div style="font-size:1.3rem;font-weight:700;color:#10b981">179h</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(245,158,11,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">残業</div><div style="font-size:1.3rem;font-weight:700;color:#f59e0b">12.5h</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(239,68,68,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">有給残</div><div style="font-size:1.3rem;font-weight:700;color:#ef4444">8日</div></div>'
+    + '</div></div></div>'
+    // Time records table
+    + '<div style="padding:0 20px"><div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left">日付</th><th style="padding:10px 14px;text-align:center">出勤</th><th style="padding:10px 14px;text-align:center">退勤</th><th style="padding:10px 14px;text-align:center">勤務時間</th><th style="padding:10px 14px;text-align:center">残業</th><th style="padding:10px 14px;text-align:center">ステータス</th></tr></thead><tbody>'
+    + records.map(function(r) {
+        var statusColor = r.status === '出勤' ? '#10b981' : r.status === '休日' ? '#9ca3af' : '#f59e0b';
+        return '<tr style="border-top:1px solid var(--border)">'
+          + '<td style="padding:10px 14px;font-weight:500">' + r.date + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + r.in + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + r.out + '</td>'
+          + '<td style="padding:10px 14px;text-align:center;font-weight:600">' + r.work + '</td>'
+          + '<td style="padding:10px 14px;text-align:center;color:' + (r.over !== '0:00' && r.over !== '-' ? '#f59e0b' : 'var(--sub)') + '">' + r.over + '</td>'
+          + '<td style="padding:10px 14px;text-align:center"><span style="color:' + statusColor + ';font-weight:600;font-size:.8rem">' + r.status + '</span></td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+
+  // Live clock
+  var clockEl = document.getElementById('liveClock');
+  if (clockEl) {
+    var updateClock = function() {
+      var n = new Date();
+      if(document.getElementById('liveClock')) {
+        document.getElementById('liveClock').textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0') + ':' + String(n.getSeconds()).padStart(2,'0');
+        setTimeout(updateClock, 1000);
+      }
+    };
+    updateClock();
+  }
 }
 
-// ============ MODULE 7: INVOICE ============
-function renderInvoice(c,sub,act) {
-  if(sub)sub.textContent='\u898b\u7a4d\u66f8\u30fb\u8acb\u6c42\u66f8\u30fb\u30a4\u30f3\u30dc\u30a4\u30b9\u5bfe\u5fdc \u2014 freee\u4ee3\u66ff';
-  if(act)act.innerHTML='<div style="display:flex;gap:8px;"><button style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u898b\u7a4d\u66f8</button><button style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u8acb\u6c42\u66f8</button></div>';
-  var tE=STATE.invoices.filter(function(i){return i.type==='\u898b\u7a4d\u66f8';}).reduce(function(s,i){return s+i.total;},0);
-  var tI=STATE.invoices.filter(function(i){return i.type==='\u8acb\u6c42\u66f8';}).reduce(function(s,i){return s+i.total;},0);
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;"><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:11px;color:#888;">\u898b\u7a4d\u7dcf\u984d</div><div style="font-size:22px;font-weight:800;color:#5B4FE8;margin:4px 0;">'+fmtYen(tE)+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:11px;color:#888;">\u8acb\u6c42\u7dcf\u984d</div><div style="font-size:22px;font-weight:800;color:#10B981;margin:4px 0;">'+fmtYen(tI)+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:11px;color:#888;">\u30a4\u30f3\u30dc\u30a4\u30b9\u756a\u53f7</div><div style="font-size:16px;font-weight:800;color:#F59E0B;margin:4px 0;">T1234567890123</div><div style="font-size:10px;color:#888;">\u9069\u683c\u8acb\u6c42\u66f8\u767a\u884c\u4e8b\u696d\u8005</div></div></div>';
-  var t='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #f0f0f0;"><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u756a\u53f7</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7a2e\u985e</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u53d6\u5f15\u5148</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u6848\u4ef6</th><th style="text-align:right;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7a0e\u8fbc\u5408\u8a08</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u72b6\u614b</th></tr></thead><tbody>';
-  STATE.invoices.forEach(function(inv){var tc=inv.type==='\u898b\u7a4d\u66f8'?'#5B4FE8':'#10B981';var sc={'\u9001\u4ed8\u6e08':'#3B82F6','\u672a\u9001\u4ed8':'#F59E0B','\u627f\u8a8d\u6e08':'#10B981'}[inv.status]||'#888';t+='<tr style="border-bottom:1px solid #f5f5f7;"><td style="padding:12px 0;font-size:12px;color:#555;">'+inv.id+'</td><td style="padding:12px 0;"><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:'+tc+'18;color:'+tc+';font-weight:600;">'+inv.type+'</span></td><td style="padding:12px 0;font-size:13px;color:#1a1a2e;">'+inv.client+'</td><td style="padding:12px 0;font-size:12px;color:#888;">'+inv.project+'</td><td style="padding:12px 0;font-size:13px;font-weight:600;color:#1a1a2e;text-align:right;">'+fmtYen(inv.total)+'</td><td style="padding:12px 0;text-align:center;"><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+sc+'18;color:'+sc+';font-weight:600;">'+inv.status+'</span></td></tr>';});
-  t+='</tbody></table></div>';c.innerHTML+=t;
+
+function renderInvoice(container) {
+  var invoiceFilter = STATE._invoiceFilter || '全て';
+  var invoices = [
+    {id:'INV-2026-001',title:'梅田PJ 第1期工事',client:'株式会社大阪不動産',amount:'￥4,800,000',tax:'￥480,000',total:'￥5,280,000',date:'2026-04-01',due:'2026-04-30',status:'発行済',type:'請求書'},
+    {id:'EST-2026-015',title:'横浜PJ 全体見積',client:'横浜マンション株式会社',amount:'￥12,500,000',tax:'￥1,250,000',total:'￥13,750,000',date:'2026-03-28',due:'-',status:'下書き',type:'見積書'},
+    {id:'INV-2026-002',title:'京都PJ 解体工事',client:'京都町屋株式会社',amount:'￥2,200,000',tax:'￥220,000',total:'￥2,420,000',date:'2026-03-25',due:'2026-04-25',status:'入金済',type:'請求書'},
+    {id:'EST-2026-014',title:'新規案件 内装工事',client:'株式会社サクラハウス',amount:'￥890,000',tax:'￥89,000',total:'￥979,000',date:'2026-03-20',due:'-',status:'送付済',type:'見積書'}
+  ];
+
+  var statusColors = {'発行済':'#3b82f6','下書き':'#9ca3af','入金済':'#10b981','送付済':'#8b5cf6'};
+  var filters = ['全て','見積書','請求書'];
+  var filtered = invoiceFilter === '全て' ? invoices : invoices.filter(function(inv) { return inv.type === invoiceFilter; });
+
+  container.innerHTML = '<div class="topbar"><h2>見積ズ・請求書</h2><div style="display:flex;gap:8px"><button class="btn2">📊 売上分析</button><button class="btn" onclick="alert(\'新規作成フォームを開きます\')">+ 新規作成</button></div></div>'
+    // Summary cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:16px;border-top:3px solid var(--p)"><div style="font-size:.8rem;color:var(--sub)">今月売上</div><div style="font-size:1.3rem;font-weight:800;color:var(--p)">￥7,700,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #3b82f6"><div style="font-size:.8rem;color:var(--sub)">未回収</div><div style="font-size:1.3rem;font-weight:800;color:#3b82f6">￥5,280,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #10b981"><div style="font-size:.8rem;color:var(--sub)">回収済</div><div style="font-size:1.3rem;font-weight:800;color:#10b981">￥2,420,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #f59e0b"><div style="font-size:.8rem;color:var(--sub)">見積中</div><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">￥14,729,000</div></div>'
+    + '</div>'
+    // Filters + Invoice list
+    + '<div style="padding:0 20px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="display:flex;gap:8px">'
+    + filters.map(function(f) { return '<button class="' + (f===invoiceFilter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._invoiceFilter=\'' + f + '\';renderInvoice(document.querySelector(\'.main\'))">' + f + '</button>'; }).join('')
+    + '</div><input class="inp" placeholder="🔍 検索..." style="width:200px"></div>'
+    + '<div style="display:flex;flex-direction:column;gap:12px">'
+    + filtered.map(function(inv) {
+        return '<div class="kp" style="padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'
+          + '<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:.75rem;color:var(--sub)">' + inv.id + '</span><span style="background:' + (statusColors[inv.status]||'#888') + '15;color:' + (statusColors[inv.status]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600">' + inv.status + '</span><span class="sb ' + (inv.type==='見積書'?'sb-y':'sb-b') + '">' + inv.type + '</span></div>'
+          + '<strong style="font-size:.95rem">' + inv.title + '</strong>'
+          + '<div style="font-size:.8rem;color:var(--sub);margin-top:2px">' + inv.client + '</div></div>'
+          + '<div style="text-align:right"><div style="font-size:1.2rem;font-weight:800;color:var(--p)">' + inv.total + '</div><div style="font-size:.75rem;color:var(--sub)">税込</div></div>'
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub);padding-top:10px;border-top:1px solid var(--border)">'
+          + '<div style="display:flex;gap:16px"><span>📅 発行: ' + inv.date + '</span>' + (inv.due !== '-' ? '<span>⏰ 支払期限: ' + inv.due + '</span>' : '') + '</div>'
+          + '<div style="display:flex;gap:8px"><button class="btn2" style="font-size:.75rem;padding:4px 10px" onclick="event.stopPropagation();alert(\'PDFプレビューを開きます\')">📄 PDF</button><button class="btn2" style="font-size:.75rem;padding:4px 10px" onclick="event.stopPropagation()">✉️ 送付</button></div>'
+          + '</div></div>';
+      }).join('')
+    + '</div></div>';
 }
 
-// ============ MODULE 8: FINANCE ============
-function renderFinance(c,sub,act) {
-  if(sub)sub.textContent='\u5165\u51fa\u91d1\u8a18\u9332\u30fb\u96fb\u5b50\u5e33\u7c3f\u4fdd\u5b58\u6cd5\u5bfe\u5fdc \u2014 \u30de\u30cd\u30fc\u30d5\u30a9\u30ef\u30fc\u30c9\u4ee3\u66ff';
-  if(act)act.innerHTML='<div style="display:flex;gap:8px;"><button style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u5165\u91d1</button><button style="background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u51fa\u91d1</button></div>';
-  var tIn=STATE.transactions.filter(function(t){return t.type==='\u5165\u91d1';}).reduce(function(s,t){return s+t.amount;},0);
-  var tOut=STATE.transactions.filter(function(t){return t.type==='\u51fa\u91d1';}).reduce(function(s,t){return s+Math.abs(t.amount);},0);
-  var bal=STATE.transactions.length?STATE.transactions[0].balance:0;
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;"><div style="background:linear-gradient(135deg,#10B981,#059669);border-radius:12px;padding:20px;color:#fff;"><div style="font-size:12px;opacity:0.8;">\u5165\u91d1\u5408\u8a08</div><div style="font-size:26px;font-weight:800;margin:6px 0;">'+fmtYen(tIn)+'</div></div><div style="background:linear-gradient(135deg,#EF4444,#DC2626);border-radius:12px;padding:20px;color:#fff;"><div style="font-size:12px;opacity:0.8;">\u51fa\u91d1\u5408\u8a08</div><div style="font-size:26px;font-weight:800;margin:6px 0;">'+fmtYen(tOut)+'</div></div><div style="background:linear-gradient(135deg,#5B4FE8,#3B30B8);border-radius:12px;padding:20px;color:#fff;"><div style="font-size:12px;opacity:0.8;">\u6b8b\u9ad8</div><div style="font-size:26px;font-weight:800;margin:6px 0;">'+fmtYen(bal)+'</div></div></div>';
-  var t='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u53d6\u5f15\u5c65\u6b74</h3><table style="width:100%;border-collapse:collapse;"><thead><tr style="border-bottom:2px solid #f0f0f0;"><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u65e5\u4ed8</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u7a2e\u5225</th><th style="text-align:left;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u6458\u8981</th><th style="text-align:right;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u91d1\u984d</th><th style="text-align:right;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u6b8b\u9ad8</th><th style="text-align:center;padding:10px 0;font-size:12px;color:#888;font-weight:500;">\u9818\u53ce\u66f8</th></tr></thead><tbody>';
-  STATE.transactions.forEach(function(tx){var tc=tx.type==='\u5165\u91d1'?'#10B981':'#EF4444';t+='<tr style="border-bottom:1px solid #f5f5f7;"><td style="padding:12px 0;font-size:12px;color:#555;">'+tx.date+'</td><td style="padding:12px 0;text-align:center;"><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:'+tc+'18;color:'+tc+';font-weight:600;">'+tx.type+'</span></td><td style="padding:12px 0;font-size:13px;color:#1a1a2e;">'+tx.description+'</td><td style="padding:12px 0;font-size:13px;font-weight:600;text-align:right;color:'+tc+';">'+(tx.amount>0?'+':'')+fmtYen(tx.amount)+'</td><td style="padding:12px 0;font-size:13px;text-align:right;color:#555;">'+fmtYen(tx.balance)+'</td><td style="padding:12px 0;text-align:center;">'+(tx.receipt?'<span style="color:#10B981;">\u2713</span>':'<span style="color:#ccc;">-</span>')+'</td></tr>';});
-  t+='</tbody></table></div>';c.innerHTML+=t;
+
+function renderFinance(container) {
+  var finFilter = STATE._finFilter || '全て';
+  var transactions = [
+    {date:'2026-04-02',desc:'梅田PJ 資材代金',cat:'資材費',amount:'-￥380,000',balance:'￥12,450,000',type:'出金',receipt:true},
+    {date:'2026-04-01',desc:'京都PJ 工事代金入金',cat:'売上',amount:'+￥2,420,000',balance:'￥12,830,000',type:'入金',receipt:false},
+    {date:'2026-03-31',desc:'従業員給与 3月分',cat:'給与',amount:'-￥3,200,000',balance:'￥10,410,000',type:'出金',receipt:true},
+    {date:'2026-03-30',desc:'交通費精算 佐藤',cat:'交通費',amount:'-￥48,500',balance:'￥13,610,000',type:'出金',receipt:true},
+    {date:'2026-03-28',desc:'梅田PJ 第1期請求',cat:'売上',amount:'+￥5,280,000',balance:'￥13,658,500',type:'入金',receipt:false},
+    {date:'2026-03-25',desc:'事務所家賃 4月分',cat:'家賃',amount:'-￥450,000',balance:'￥8,378,500',type:'出金',receipt:true}
+  ];
+  var filters = ['全て','入金','出金'];
+  var filtered = finFilter === '全て' ? transactions : transactions.filter(function(t){return t.type===finFilter});
+
+  container.innerHTML = '<div class="topbar"><h2>入出金管理</h2><div style="display:flex;gap:8px"><button class="btn2">📥 電子帳簿</button><button class="btn2">📊 レポート</button><button class="btn">+ 新規登録</button></div></div>'
+    // Summary cards
+    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 20px;margin-bottom:24px">'
+    + '<div class="kp" style="padding:20px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.08))"><div style="font-size:.8rem;color:var(--sub)">現在残高</div><div style="font-size:1.5rem;font-weight:800;color:var(--p);margin:4px 0">￥12,450,000</div><div style="font-size:.75rem;color:#10b981">▲ +8.3% 前月比</div></div>'
+    + '<div class="kp" style="padding:20px"><div style="font-size:.8rem;color:var(--sub)">今月入金</div><div style="font-size:1.5rem;font-weight:800;color:#10b981;margin:4px 0">￥7,700,000</div><div style="font-size:.75rem;color:var(--sub)">2件の入金</div></div>'
+    + '<div class="kp" style="padding:20px"><div style="font-size:.8rem;color:var(--sub)">今月出金</div><div style="font-size:1.5rem;font-weight:800;color:#ef4444;margin:4px 0">￥4,078,500</div><div style="font-size:.75rem;color:var(--sub)">4件の出金</div></div>'
+    + '</div>'
+    // Compliance badge
+    + '<div style="padding:0 20px;margin-bottom:16px"><div class="kp" style="padding:12px 20px;display:flex;align-items:center;gap:12px;background:rgba(16,185,129,.05)">'
+    + '<span style="font-size:1.2rem">✅</span>'
+    + '<div><strong style="font-size:.85rem;color:#10b981">電子帳簿保存法対応</strong><div style="font-size:.75rem;color:var(--sub)">全ての取引記録は電子帳簿保存法に準拠して保存されています</div></div></div></div>'
+    // Filters
+    + '<div style="display:flex;gap:8px;padding:0 20px;margin-bottom:16px">'
+    + filters.map(function(f) { return '<button class="' + (f===finFilter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._finFilter=\'' + f + '\';renderFinance(document.querySelector(\'.main\'))">' + f + '</button>'; }).join('')
+    + '<div style="flex:1"></div><input class="inp" placeholder="🔍 取引検索..." style="width:200px">'
+    + '</div>'
+    // Transactions table
+    + '<div style="padding:0 20px"><div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left">日付</th><th style="padding:10px 14px;text-align:left">摘要</th><th style="padding:10px 14px;text-align:left">勘定科目</th><th style="padding:10px 14px;text-align:right">金額</th><th style="padding:10px 14px;text-align:right">残高</th><th style="padding:10px 14px;text-align:center">証隠</th></tr></thead><tbody>'
+    + filtered.map(function(t) {
+        var isIn = t.type === '入金';
+        return '<tr style="border-top:1px solid var(--border)">'
+          + '<td style="padding:10px 14px">' + t.date + '</td>'
+          + '<td style="padding:10px 14px;font-weight:500">' + t.desc + '</td>'
+          + '<td style="padding:10px 14px"><span style="background:rgba(99,102,241,.1);color:var(--p);padding:2px 8px;border-radius:4px;font-size:.75rem">' + t.cat + '</span></td>'
+          + '<td style="padding:10px 14px;text-align:right;font-weight:700;color:' + (isIn ? '#10b981' : '#ef4444') + '">' + t.amount + '</td>'
+          + '<td style="padding:10px 14px;text-align:right;font-weight:500">' + t.balance + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + (t.receipt ? '<span style="cursor:pointer" title="領収書確認">📋</span>' : '<span style="color:var(--sub)">-</span>') + '</td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
 }
 
-// ============ MODULE 9: CARD ============
-function renderCard(c,sub,act) {
-  if(sub)sub.textContent='\u540d\u523a\u30c7\u30fc\u30bf\u30d9\u30fc\u30b9\u30fb\u691c\u7d22\u30fb\u30bf\u30b0\u7ba1\u7406 \u2014 Sansan\u4ee3\u66ff';
-  if(act)act.innerHTML='<div style="display:flex;gap:8px;"><button style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u540d\u523a\u767b\u9332</button><button style="background:#f0f0f0;color:#555;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;">\ud83d\udcf7 \u30b9\u30ad\u30e3\u30f3</button></div>';
-  c.innerHTML='<div style="margin-bottom:20px;"><input placeholder="\u540d\u524d\u30fb\u4f1a\u793e\u540d\u30fb\u30bf\u30b0\u3067\u691c\u7d22..." style="width:100%;padding:12px 16px;border:1px solid #e0e0e0;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;background:#fff;" onfocus="this.style.borderColor=\'#5B4FE8\'" onblur="this.style.borderColor=\'#e0e0e0\'"></div>';
-  c.innerHTML+='<div style="display:flex;gap:8px;margin-bottom:20px;">'+['\u5168\u3066','\u9867\u5ba2','\u5354\u529b\u4f1a\u793e','\u8077\u4eba'].map(function(t,i){var a=i===0;return '<button style="padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:1px solid '+(a?'#5B4FE8':'#e0e0e0')+';background:'+(a?'#5B4FE8':'#fff')+';color:'+(a?'#fff':'#888')+';">'+t+'</button>';}).join('')+'</div>';
-  var g='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">';
-  STATE.cards.forEach(function(cd){var tc=cd.tag==='\u9867\u5ba2'?'#5B4FE8':cd.tag==='\u5354\u529b\u4f1a\u793e'?'#10B981':'#F59E0B';g+='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);border-left:4px solid '+tc+';"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;"><div><div style="font-size:16px;font-weight:700;color:#1a1a2e;">'+cd.name+'</div><div style="font-size:12px;color:#888;margin-top:2px;">'+cd.company+'</div><div style="font-size:11px;color:#555;">'+cd.title+'</div></div><span style="font-size:10px;padding:2px 8px;border-radius:4px;background:'+tc+'18;color:'+tc+';font-weight:600;">'+cd.tag+'</span></div><div style="display:grid;grid-template-columns:auto 1fr;gap:4px 8px;font-size:12px;"><span style="color:#888;">TEL:</span><span style="color:#555;">'+cd.phone+'</span><span style="color:#888;">\u643a\u5e2f:</span><span style="color:#555;">'+cd.mobile+'</span><span style="color:#888;">Email:</span><span style="color:#5B4FE8;">'+cd.email+'</span><span style="color:#888;">\u4f4f\u6240:</span><span style="color:#555;">'+cd.address+'</span></div><div style="margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:11px;color:#888;">'+cd.note+'</div></div>';});
-  g+='</div>';c.innerHTML+=g;
+
+function renderCard(container) {
+  var cards = [
+    {name:'田中太郎',company:'株式会社大阪不動産',dept:'開発事業部 部長',email:'tanaka@osaka-re.co.jp',tel:'06-1234-5678',met:'2026-03-28',memo:'梅田PJのキーパーソン。決裁権あり',tag:'重要'},
+    {name:'山本花子',company:'横浜マンション株式会社',dept:'設計部 主任',email:'yamamoto@yokohama-ms.co.jp',tel:'045-2345-6789',met:'2026-04-01',memo:'横浜PJ設計担当。レスポンスが速い',tag:'通常'},
+    {name:'佐々木健',company:'京都町屋株式会社',dept:'代表取締役',email:'sasaki@kyoto-machiya.co.jp',tel:'075-3456-7890',met:'2026-03-15',memo:'京都PJオーナー。伝統へのこだわりが強い',tag:'重要'},
+    {name:'鈴木一郎',company:'株式会社サクラハウス',dept:'工事部 課長',email:'suzuki@sakura-house.co.jp',tel:'03-4567-8901',met:'2026-03-20',memo:'新規案件の窓口',tag:'新規'},
+    {name:'高橋美月',company:'東京都市開発株式会社',dept:'営業部 主任',email:'takahashi@tokyo-dev.co.jp',tel:'03-5678-9012',met:'2026-02-28',memo:'展示会で交換。大規模PJの情報あり',tag:'フォロー'},
+    {name:'渡辺健二',company:'株式会社尾張建設',dept:'取締役 工事部長',email:'watanabe@owari-ken.co.jp',tel:'052-6789-0123',met:'2026-03-10',memo:'協力業者候補。実績豊富',tag:'通常'}
+  ];
+  var tagColors = {'重要':'#ef4444','通常':'#6366f1','新規':'#10b981','フォロー':'#f59e0b'};
+
+  container.innerHTML = '<div class="topbar"><h2>名刺管理</h2><div style="display:flex;gap:8px"><button class="btn2">📷 スキャン</button><button class="btn2">📤 CSV出力</button><button class="btn">+ 新規登録</button></div></div>'
+    // Stats
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--p)">' + cards.length + '</div><div style="font-size:.8rem;color:var(--sub)">総名刺数</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#10b981">4</div><div style="font-size:.8rem;color:var(--sub)">企業数</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">2</div><div style="font-size:.8rem;color:var(--sub)">今月新規</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#ef4444">1</div><div style="font-size:.8rem;color:var(--sub)">フォロー待ち</div></div>'
+    + '</div>'
+    // Search
+    + '<div style="padding:0 20px;margin-bottom:16px"><input class="inp" placeholder="🔍 名前・会社名・部署で検索..." style="width:100%"></div>'
+    // Cards grid
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:0 20px">'
+    + cards.map(function(c) {
+        return '<div class="kp" style="padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
+          + '<div style="display:flex;gap:12px;align-items:center">'
+          + '<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">' + c.name.charAt(0) + '</div>'
+          + '<div><strong style="font-size:1rem">' + c.name + '</strong><div style="font-size:.8rem;color:var(--sub)">' + c.dept + '</div></div>'
+          + '</div>'
+          + '<span style="background:' + (tagColors[c.tag]||'#888') + '15;color:' + (tagColors[c.tag]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600">' + c.tag + '</span>'
+          + '</div>'
+          + '<div style="font-size:.85rem;font-weight:600;color:var(--p);margin-bottom:8px">' + c.company + '</div>'
+          + '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.8rem;color:var(--sub)">'
+          + '<span>✉️</span><span>' + c.email + '</span>'
+          + '<span>📞</span><span>' + c.tel + '</span>'
+          + '<span>📅</span><span>最終接触: ' + c.met + '</span>'
+          + '</div>'
+          + '<div style="margin-top:10px;padding:8px 10px;background:rgba(99,102,241,.04);border-radius:6px;font-size:.8rem;color:var(--text)">📝 ' + c.memo + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>';
 }
 
-// ============ MODULE 10: MATCHING ============
-function renderMatching(c,sub,act) {
-  if(sub)sub.textContent='\u6c42\u4eba\u30fb\u6848\u4ef6\u30de\u30c3\u30c1\u30f3\u30b0 \u2014 \u304f\u3089\u3057\u306e\u30de\u30fc\u30b1\u30c3\u30c8\u4ee3\u66ff';
-  if(act)act.innerHTML='<button style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u52df\u96c6</button>';
-  var active=STATE.matchings.filter(function(m){return m.status==='\u52df\u96c6\u4e2d';}).length;
-  var tApp=STATE.matchings.reduce(function(s,m){return s+m.applicants;},0);
-  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;"><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u52df\u96c6\u4e2d</div><div style="font-size:28px;font-weight:800;color:#5B4FE8;">'+active+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u5fdc\u52df\u8005\u6570</div><div style="font-size:28px;font-weight:800;color:#10B981;">'+tApp+'</div></div><div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.06);text-align:center;"><div style="font-size:11px;color:#888;">\u30de\u30c3\u30c1\u7387</div><div style="font-size:28px;font-weight:800;color:#F59E0B;">78%</div></div></div>';
-  var l='<div style="display:grid;gap:16px;">';
-  STATE.matchings.forEach(function(m){var tc=m.type==='\u6c42\u4eba'?'#5B4FE8':'#10B981';var sc=m.status==='\u52df\u96c6\u4e2d'?'#10B981':'#F59E0B';l+='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;"><div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:'+tc+'18;color:'+tc+';font-weight:600;">'+m.type+'</span><span style="font-size:11px;padding:2px 8px;border-radius:4px;background:'+sc+'18;color:'+sc+';font-weight:600;">'+m.status+'</span></div><div style="font-size:16px;font-weight:700;color:#1a1a2e;">'+m.title+'</div></div><span style="font-size:11px;color:#aaa;">'+m.posted+'</span></div><div style="display:flex;gap:24px;font-size:12px;color:#888;margin-bottom:12px;"><span>\ud83d\udccd '+m.area+'</span><span>\ud83c\udfd7\ufe0f '+m.category+'</span><span>\ud83d\udcb0 '+m.budget+'</span><span>\ud83d\udcc5 '+m.period+'</span></div><div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #f0f0f0;"><div style="font-size:13px;color:#555;">\u5fdc\u52df: <span style="font-weight:700;color:#5B4FE8;">'+m.applicants+'\u4ef6</span></div><div style="display:flex;gap:8px;"><button style="background:#f0f0f0;color:#555;border:none;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;">\u8a73\u7d30</button><button style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600;">\u5fdc\u52df\u8005\u4e00\u89a7</button></div></div></div>';});
-  l+='</div>';c.innerHTML+=l;
+
+function renderMatching(container) {
+  var matchFilter = STATE._matchFilter || '全て';
+  var workers = [
+    {name:'山本建設',type:'法人',skills:['内装','クロス','建具'],area:'大阪府全域',rating:4.8,reviews:24,price:'￥18,000~/日',available:true,img:'🏢'},
+    {name:'佐藤電気工事',type:'法人',skills:['電気工事','空調','防災'],area:'関西全域',rating:4.6,reviews:18,price:'￥22,000~/日',available:true,img:'⚡'},
+    {name:'高橋職人',type:'個人',skills:['左官','タイル','防水'],area:'東京都・神奈川',rating:4.9,reviews:31,price:'￥25,000~/日',available:false,img:'🔨️'},
+    {name:'田中塗装',type:'法人',skills:['塗装','防水','外壁'],area:'京都府・滋賀県',rating:4.5,reviews:12,price:'￥16,000~/日',available:true,img:'🎨'},
+    {name:'渡辺設備',type:'法人',skills:['給排水','ガス','給湯'],area:'大阪府・兵庫県',rating:4.7,reviews:20,price:'￥20,000~/日',available:true,img:'🚣'}
+  ];
+  var allSkills = ['全て','内装','電気工事','左官','塗装','給排水','防水'];
+  var filtered = matchFilter === '全て' ? workers : workers.filter(function(w){return w.skills.indexOf(matchFilter)>=0});
+
+  container.innerHTML = '<div class="topbar"><h2>マッチング</h2><div style="display:flex;gap:8px"><button class="btn2">📊 分析</button><button class="btn">+ 案件登録</button></div></div>'
+    // Search & filter
+    + '<div style="padding:0 20px;margin-bottom:16px"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
+    + '<input class="inp" placeholder="🔍 職種・エリア・スキルで検索..." style="flex:1;min-width:200px">'
+    + allSkills.map(function(s) { return '<button class="' + (s===matchFilter?'btn':'btn2') + '" style="font-size:.8rem;padding:4px 12px" onclick="STATE._matchFilter=\'' + s + '\';renderMatching(document.querySelector(\'.main\'))">' + s + '</button>'; }).join('')
+    + '</div></div>'
+    // Stats row
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--p)">' + workers.length + '</div><div style="font-size:.8rem;color:var(--sub)">登録業者</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#10b981">' + workers.filter(function(w){return w.available}).length + '</div><div style="font-size:.8rem;color:var(--sub)">対応可能</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">4.7</div><div style="font-size:.8rem;color:var(--sub)">平均評価</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#8b5cf6">3</div><div style="font-size:.8rem;color:var(--sub)">進行中案件</div></div>'
+    + '</div>'
+    // Worker cards
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 20px">'
+    + filtered.map(function(w) {
+        var stars = '';
+        for(var i=0;i<5;i++) stars += i < Math.floor(w.rating) ? '⭐' : '☆';
+        return '<div class="kp" style="padding:16px;transition:all .2s" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
+          + '<div style="display:flex;gap:12px;align-items:center">'
+          + '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem">' + w.img + '</div>'
+          + '<div><strong style="font-size:1rem">' + w.name + '</strong><div style="font-size:.8rem;color:var(--sub)">' + w.type + ' | ' + w.area + '</div></div>'
+          + '</div>'
+          + '<span style="padding:3px 8px;border-radius:6px;font-size:.75rem;font-weight:600;' + (w.available ? 'background:#10b98115;color:#10b981' : 'background:#9ca3af15;color:#9ca3af') + '">' + (w.available ? '対応可' : '対応不可') + '</span>'
+          + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">'
+          + w.skills.map(function(sk){return '<span style="background:rgba(99,102,241,.1);color:var(--p);padding:2px 8px;border-radius:4px;font-size:.75rem">' + sk + '</span>'}).join('')
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.85rem">'
+          + '<div><span style="color:#f59e0b;font-size:.8rem">' + stars + '</span> <span style="font-weight:600">' + w.rating + '</span> <span style="color:var(--sub)">(' + w.reviews + '件)</span></div>'
+          + '<span style="font-weight:700;color:var(--p)">' + w.price + '</span>'
+          + '</div>'
+          + '<div style="display:flex;gap:8px;margin-top:12px">'
+          + '<button class="btn" style="flex:1;font-size:.85rem" onclick="alert(\'見積依頼フォームを開きます\');">見積依頼</button>'
+          + '<button class="btn2" style="flex:1;font-size:.85rem" onclick="alert(\'詳細情報を表示します\');">詳細</button>'
+          + '</div></div>';
+      }).join('')
+    + '</div>';
 }
+
+
+
 
 // ============ MAIN API ============
 function switchTab(tabId){STATE.currentTab=tabId;saveState();buildSidebar();buildMainArea();}
