@@ -834,7 +834,7 @@ function renderMatching(container) {
 
 // ============ MAIN API ============
 function switchTab(tabId){STATE.currentTab=tabId;saveState();buildSidebar();buildMainArea();}
-window._hataraiku={switchTab:switchTab,getState:function(){return STATE;},toggleFlowMode:toggleFlowMode,openProject:openProject,sendChat:sendChat};
+window._hataraiku={switchTab:switchTab,getState:function(){return STATE;},toggleFlowMode:toggleFlowMode,openProject:openProject,sendChat:function(){}};
 window.sw=function(page){var map={dash:'dash',proj:'project',flow:'project',chat:'chat',team:'matching',data:'folder',ai:'dash',log:'approval'};switchTab(map[page]||page);};
 
 function init(){
