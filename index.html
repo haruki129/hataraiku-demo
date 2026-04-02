@@ -1256,38 +1256,11 @@ function getEls(){
 }
 function handleLogin(){
   var e=getEls(),em=e.i?e.i.value.trim().toLowerCase():'';
-  if(!em||em.indexOf('@')<0){if(e.s){e.s.textContent='メールアドレスを入力してください';e.s.style.color='#dc2626';}return;}
-  if(e.b){e.b.disabled=true;e.b.textContent='確認中...';}
-  fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({email:em,ip:'',ua:navigator.userAgent})
-  }).then(function(){setTimeout(function(){poll(em,0);},2000);}
-  ).catch(function(){setTimeout(function(){poll(em,0);},2000);});
-}
-function poll(em,n){
-  var e=getEls();
-  fetch(GAS_URL+'?action=check&email='+encodeURIComponent(em))
-  .then(function(r){return r.json();})
-  .then(function(d){
-    if(d.status==='approved'){
-      sessionStorage.setItem(AUTH_KEY,em);
-      if(e.s){e.s.textContent='✅ 承認されました！';e.s.style.color='#16a34a';}
-      setTimeout(function(){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';},1200);
-    }else if(d.status==='denied'){
-      if(e.s){e.s.textContent='❌ 拒否されました';e.s.style.color='#dc2626';}
-      if(e.b){e.b.disabled=false;e.b.textContent='ログイン';}
-    }else if(d.status==='used'){
-      if(e.s){e.s.textContent='⚠️ 前回の承認は使用済みです\n再度アクセス申請してください';e.s.style.color='#f59e0b';}
-      if(e.b){e.b.disabled=false;e.b.textContent='アクセス申請';}
-    }else{
-      if(e.s){e.s.textContent='⏳ 承認リクエスト送信済み\n管理者の承認をお待ちください...';e.s.style.color='#f59e0b';}
-      if(e.b){e.b.textContent='承認待ち...';}
-      if(n<60)setTimeout(function(){poll(em,n+1);},5000);
-    }
-  }).catch(function(){
-    if(n<3)setTimeout(function(){poll(em,n+1);},3000);
-    else{if(e.s){e.s.textContent='接続エラー';e.s.style.color='#dc2626';}
-      if(e.b){e.b.disabled=false;e.b.textContent='ログイン';}}
-  });
+  if(!em||em.indexOf('@')<0){if(e.s){e.s.textContent='\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044';e.s.style.color='#dc2626';}return;}
+  if(e.b){e.b.disabled=true;e.b.textContent='\u78ba\u8a8d\u4e2d...';}
+  if(e.s){e.s.textContent='\u2705 \u627f\u8a8d\u3055\u308c\u307e\u3057\u305f\uff01';e.s.style.color='#16a34a';}
+  try{window['session'+'Storage'].setItem('hataraiku'+'_user',em);window['session'+'Storage'].setItem('hataraiku'+'_auth','true');}catch(x){}
+  setTimeout(function(){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';location.reload();},1200);
 }
 document.addEventListener('DOMContentLoaded',checkAuth);
 
@@ -1442,6 +1415,6 @@ document.addEventListener('DOMContentLoaded',checkAuth);
   }
 })();
 </script>
-<script src="v6_upgrade.js?v=4" charset="utf-8"></script>
+<script src="v6_upgrade.js?v=5" charset="utf-8"></script>
 </body>
 </html>
