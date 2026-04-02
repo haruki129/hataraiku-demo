@@ -1848,22 +1848,26 @@ document.head.appendChild(_style);
 
 
 
-  // === NAVIGATION FIX: Clean up chat DOM when switching pages ===
-  (function() {
-    const origSw = window.sw;
-    if (typeof origSw === 'function') {
-      window.sw = function(page) {
-        // Remove chat container if it exists (from v6 renderChat)
-        const chatContainer = document.querySelector('.chat-container');
-        if (chatContainer) {
-          const mainEl = document.querySelector('.main');
-          if (mainEl) {
-            // Restore original main content structure
-            mainEl.innerHTML = '<div class="topbar"><h2 id="pageTitle"></h2><span id="clock"></span><button class="btn" onclick="openNewForm()" style="margin-left:auto">+ 新規追加</button></div><div id="content"></div>';
-          }
-        }
-        return origSw.apply(this, arguments);
-      };
+  // === NAVIGATION FIX: Backup/Restore .main DOM when switching pages ===
+(function() {
+  var origSw = window.sw;
+  if (typeof origSw !== 'function') return;
+
+  // Capture the initial .main innerHTML as the clean baseline
+  var mainEl = document.querySelector('.main');
+  var mainBackup = mainEl ? mainEl.innerHTML : '';
+
+  window.sw = function(page) {
+    // If chat UI is currently displayed, restore the original .main structure
+    var chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+      var m = document.querySelector('.main');
+      if (m && mainBackup) {
+        m.innerHTML = mainBackup;
+      }
     }
-  })();
+    // Call the original sw() with all its expected DOM elements now present
+    return origSw.apply(this, arguments);
+  };
+})();
 })();
