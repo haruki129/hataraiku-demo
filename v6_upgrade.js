@@ -836,6 +836,7 @@ function renderMatching(container) {
 function switchTab(tabId){STATE.currentTab=tabId;saveState();buildSidebar();buildMainArea();}
 window._hataraiku={switchTab:switchTab,getState:function(){return STATE;},toggleFlowMode:toggleFlowMode,openProject:openProject,sendChat:function(){}};
 window.sw=function(page){var map={dash:'dash',proj:'project',flow:'project',chat:'chat',team:'matching',data:'folder',ai:'dash',log:'approval'};switchTab(map[page]||page);};
+  window.STATE=STATE;window.renderApproval=renderApproval;window.renderMatching=renderMatching;window.renderAttendance=renderAttendance;window.renderInvoice=renderInvoice;window.renderFinance=renderFinance;window.renderCard=renderCard;window.renderChat=renderChat;window.renderFolder=renderFolder;window.renderDashboard=renderDashboard;
 
 function init(){
   if(!document.querySelector('.sidebar')||!document.querySelector('.main')){setTimeout(init,100);return;}
