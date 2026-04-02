@@ -411,7 +411,7 @@ else el.textContent=Math.floor(c);
 // ==========================================
 // ダッシュボード: 活動ログ & プロジェクト進捗
 // ==========================================
-function renderDashboard(){
+function renderDashboard(){if(window._hataraiku)return;
 renderKPIs();
 // 直近の活動
 const act=document.getElementById('recentActivity');
@@ -1208,7 +1208,7 @@ renderTabContent(t);
 }
 
 // 時計
-function uc(){document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
+function uc(){if(window._hataraiku)return;document.getElementById('clock').textContent=new Date().toLocaleString('ja-JP')}
 setInterval(uc,1000);uc();
 
 // デモツアー
