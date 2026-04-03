@@ -1,1642 +1,863 @@
-;(function(){ 'use strict';
+// ============================================================
+// ã¯ãããã v6.0 â çµ±åãã©ãããã©ã¼ã 
+// ã©ã¯ã¹ã»freeeã»ããã¼ãã©ã¯ã¼ãã»Sansan ä¸æ¬ä»£æ¿
+// 10ã¢ã¸ã¥ã¼ã«æ§æ / ç¥è¡åä¸ â ç¥è­ã¨è¡åã®ä¸è´
+// ============================================================
+;(function(){
+'use strict';
 
-/* ========================================
-   STATE — Global application state
-   ======================================== */
+// === GLOBAL STATE ===
 var STATE = {
-  currentTab: 'dashboard',
-  user: { name: '樋口専務', email: 'higuchi@hataraiku.jp', role: 'AXリーダー' },
-  _approvalFilter: 'all',
-  _matchFilter: 'all',
-  _invoiceFilter: 'all',
-  _folderPath: ['ホーム'],
-  _cardSearch: '',
-  _chatChannel: 'general',
-  _financeFilter: 'all',
-  _attendanceView: 'table',
-  isWorking: false,
-  clockInTime: null,
+  currentTab: 'dash',
+  flowMode: 'client',
+  flowStep: 0,
+  projects: [],
+  approvals: [],
+  attendance: [],
+  invoices: [],
+  transactions: [],
+  cards: [],
+  matchings: [],
+  files: []
+};
 
-  kpiData: [
-    { label: '受注総額', value: '¥14,854万', change: '+12.3%', up: true, color: '#667eea',
-      points: '0,35 15,28 30,22 45,25 60,18 75,12 90,8 100,5' },
-    { label: '進行PJ', value: '3件', change: '+1 新規獲得', up: true, color: '#f093fb',
-      points: '0,30 20,25 40,20 60,22 80,15 100,10' },
-    { label: '稼働時間', value: '179h', change: '今月累計', up: true, color: '#4facfe',
-      points: '0,35 15,30 30,25 45,28 60,20 75,15 100,10' },
-    { label: '品質スコア', value: '93.8%', change: '-0.2% 深層データ算出', up: false, color: '#43e97b',
-      points: '0,20 20,18 40,15 60,12 80,10 100,8' }
-  ],
+// === ICON MAP ===
+var ICONS = {
+  dash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>',
+  project: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+  approval: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+  attendance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  invoice: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="13" y2="12"/><line x1="7" y1="16" x2="10" y2="16"/></svg>',
+  finance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="12" x2="12" y2="12"/><line x1="6" y1="15" x2="10" y2="15"/><circle cx="17" cy="10" r="2"/></svg>',
+  matching: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+};
 
-  monthlyChart: [
-    { month: '10月', value: 8 }, { month: '11月', value: 15 },
-    { month: '12月', value: 18 }, { month: '1月', value: 22 },
-    { month: '2月', value: 35 }, { month: '3月', value: 62 },
-    { month: '4月', value: 88 }
-  ],
+var TABS = [
+  { id: 'dash',       label: '\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9', icon: 'dash' },
+  { id: 'chat',       label: '\u30c1\u30e3\u30c3\u30c8',       icon: 'chat' },
+  { id: 'folder',     label: '\u30d5\u30a9\u30eb\u30c0',       icon: 'folder' },
+  { id: 'project',    label: '\u30d7\u30ed\u30b8\u30a7\u30af\u30c8',   icon: 'project' },
+  { id: 'approval',   label: '\u8a31\u53ef\u9858\u3044',       icon: 'approval' },
+  { id: 'attendance', label: '\u52e4\u52d9\u7ba1\u7406',       icon: 'attendance' },
+  { id: 'invoice',    label: '\u898b\u7a4d\u30ba\u30fb\u8acb\u6c42\u66f8', icon: 'invoice' },
+  { id: 'finance',    label: '\u5165\u51fa\u91d1\u7ba1\u7406',     icon: 'finance' },
+  { id: 'card',       label: '\u540d\u523a\u7ba1\u7406',       icon: 'card' },
+  { id: 'matching',   label: '\u30de\u30c3\u30c1\u30f3\u30b0',     icon: 'matching' }
+];
 
-  activities: [
-    { type: '申請中', title: '見積承認: テスト', date: '2026-03-31', color: '#667eea' },
-    { type: '申請中', title: 'PJ変更: 梅田再開発ビル', date: '2026-03-31', color: '#667eea' },
-    { type: '承認', title: '着工申請: 横浜マンション新築', date: '2026-03-29', color: '#2ed573' },
-    { type: '承認', title: '完了報告: 京都町屋リノベーション', date: '2026-03-28', color: '#2ed573' },
-    { type: '差戻し', title: '経費精算: 現場交通費', date: '2026-03-27', color: '#ff4757' }
-  ],
+// === SAMPLE DATA ===
+var SAMPLE_PROJECTS = [
+  { id:'PJ001',name:'\u6885\u7530\u518d\u958b\u767a\u30d3\u30eb',area:'\u5927\u962a\u5e02 \u5317\u533a',building:'\u533a\u5206\u30de\u30f3\u30b7\u30e7\u30f3',size:'120',budget:'1500',salePrice:'3000',step:2,status:'\u73fe\u5730\u8abf\u67fb',client:'\u7530\u4e2d\u592a\u90ce',manager:'\u4f50\u85e4\u4e00\u90ce',created:'2026-03-15' },
+  { id:'PJ002',name:'\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3\u65b0\u7bc9',area:'\u6a2a\u6d5c\u5e02 \u4e2d\u533a',building:'\u6238\u5efa\u3066',size:'85',budget:'700',salePrice:'5000',step:1,status:'\u6848\u4ef6\u76f8\u8ac7',client:'\u9234\u6728\u82b1\u5b50',manager:'\u5c71\u7530\u6b21\u90ce',created:'2026-03-20' },
+  { id:'PJ003',name:'\u4eac\u90fd\u753a\u5c4b\u30ea\u30ce\u30d9\u30fc\u30b7\u30e7\u30f3',area:'\u4eac\u90fd\u5e02 \u6771\u5c71\u533a',building:'\u305d\u306e\u4ed6',size:'65',budget:'500',salePrice:'2500',step:3,status:'\u898b\u7a4d\u63d0\u51fa',client:'\u9ad8\u6a4b\u7f8e\u54b2',manager:'\u4f50\u85e4\u4e00\u90ce',created:'2026-03-10' }
+];
 
-  projects: [
-    { name: '梅田再開発ビル', manager: '佐藤一郎', area: '大阪市 北区', progress: 50, status: '現地調査', color: '#667eea' },
-    { name: '横浜マンション新築', manager: '山田次郎', area: '横浜市 中区', progress: 25, status: '案件相談', color: '#2ed573' },
-    { name: '京都町屋リノベーション', manager: '佐藤一郎', area: '京都市 東山区', progress: 75, status: '見積提出', color: '#ffa502' },
-    { name: '福岡オフィスビル改修', manager: '田中三郎', area: '福岡市 博多区', progress: 90, status: '施工中', color: '#ff6b81' },
-    { name: '名古屋商業施設', manager: '鈴木四郎', area: '名古屋市 中区', progress: 10, status: '企画段階', color: '#7bed9f' }
-  ],
+var SAMPLE_APPROVALS = [
+  { id:'AP001',title:'\u898b\u7a4d\u627f\u8a8d: \u3066\u3059\u3068',type:'\u898b\u7a4d\u627f\u8a8d',requester:'\u6a0b\u53e3\u6625\u9a0e',status:'\u7533\u8acb\u4e2d',date:'2026-03-31',priority:'\u9ad8',amount:'\u00a51,500,000' },
+  { id:'AP002',title:'PJ\u5909\u66f4: \u6885\u7530\u518d\u958b\u767a\u30d3\u30eb',type:'PJ\u5909\u66f4',requester:'\u7530\u4e2d\u592a\u90ce',status:'\u7533\u8acb\u4e2d',date:'2026-03-31',priority:'\u4e2d',amount:'-' },
+  { id:'AP003',title:'\u7740\u5de5\u7533\u8acb: \u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3\u65b0\u7bc9',type:'\u7740\u5de5\u7533\u8acb',requester:'\u4f50\u85e4\u4e00\u90ce',status:'\u627f\u8a8d',date:'2026-03-29',priority:'\u9ad8',amount:'-' },
+  { id:'AP004',title:'\u5b8c\u4e86\u5831\u544a: \u4eac\u90fd\u753a\u5c4b\u30ea\u30ce\u30d9\u30fc\u30b7\u30e7\u30f3',type:'\u5b8c\u4e86\u5831\u544a',requester:'\u9234\u6728\u56db\u90ce',status:'\u627f\u8a8d',date:'2026-03-28',priority:'\u4f4e',amount:'-' },
+  { id:'AP005',title:'\u7d4c\u8cbb\u7cbe\u7b97: \u73fe\u5834\u4ea4\u901a\u8cbb',type:'\u7d4c\u8cbb\u7cbe\u7b97',requester:'\u5c71\u7530\u6b21\u90ce',status:'\u5dee\u623b\u3057',date:'2026-03-27',priority:'\u4f4e',amount:'\u00a535,200' }
+];
 
-  channels: [
-    { id: 'general', name: '全社連絡', unread: 3, icon: '📢' },
-    { id: 'project-a', name: '梅田再開発PJ', unread: 5, icon: '🏗️' },
-    { id: 'project-b', name: '横浜マンションPJ', unread: 0, icon: '🏢' },
-    { id: 'keiri', name: '経理部', unread: 1, icon: '💰' },
-    { id: 'random', name: '雑談', unread: 0, icon: '☕' }
-  ],
+var SAMPLE_ATTENDANCE = [
+  { name:'\u7530\u4e2d\u592a\u90ce',role:'\u73fe\u5834\u76e3\u7763',status:'\u51fa\u52e4',clockIn:'08:15',clockOut:'-',site:'\u6885\u7530\u518d\u958b\u767a\u30d3\u30eb' },
+  { name:'\u4f50\u85e4\u4e00\u90ce',role:'\u65bd\u5de5\u7ba1\u7406',status:'\u51fa\u52e4',clockIn:'07:50',clockOut:'-',site:'\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3' },
+  { name:'\u9234\u6728\u82b1\u5b50',role:'\u4e8b\u52d9',status:'\u51fa\u52e4',clockIn:'09:00',clockOut:'-',site:'\u672c\u793e' },
+  { name:'\u5c71\u7530\u6b21\u90ce',role:'\u8077\u4eba',status:'\u4f11\u61a9',clockIn:'08:00',clockOut:'-',site:'\u4eac\u90fd\u753a\u5c4b' },
+  { name:'\u9ad8\u6a4b\u7f8e\u54b2',role:'\u55b6\u696d',status:'\u5916\u51fa',clockIn:'08:30',clockOut:'-',site:'\u5ba2\u5148\u8a2a\u554f' },
+  { name:'\u6728\u6751\u4e09\u90ce',role:'\u8077\u4eba',status:'\u672a\u51fa\u52e4',clockIn:'-',clockOut:'-',site:'-' }
+];
 
-  messages: {
-    'general': [
-      { user: '佐藤一郎', time: '09:15', text: 'おはようございます。本日の全体ミーティングは10:00からです。', avatar: '佐' },
-      { user: '山田次郎', time: '09:20', text: '了解しました。資料準備します。', avatar: '山' },
-      { user: '田中三郎', time: '09:32', text: '福岡のオフィスビル改修、進捗95%に�me:-olor: '#ff6b81' },
-   a��週��: �予定, avatar: '佐' },
-  ��' { user: '田中三鋙', email: 'hi32', text:4'おはよう�疲れ様, avatar:午後��〚費'視察���, c5%�, val�ジュ��グ�確e: ���願��本', avatar: '山' },
-  ��' '�selflor: ' messssageal': , name: '�{ user: '佐藤一郎', time: '09:15', tex8:3'了解し㖋発ビル', ma��, c盤olor: ��〵�果がr: 6b81' },
-    '佐' },
-      { user: '山田次郎', area: '名15', tex8:4'おはよ�構造tru�亂��,��正版をe: ップロ��グ���。資料準� '佐' },
-  ��' { user: '山田次郎', time: '09:15', text:0'了解し�確e: ��', avatar:午後���, ava���ル攳グ����ックr: 6b', avata��    '佐' },
-      { essssageal': , name: b�{ user: '佐藤一郎', time: '09:20', te�で�おはよ��ションPJ', unreaa��gertru図���最終版がr�f6b���資料準� '佐' },
-      { user: '田中三鋙', email: 'hi32', te�� 'おはよぃ���、���グングは10:00か����'週, tva�ger定, 。資斂����r: '山' },
-  ��' '�selflor: ' messssageal': me: '�{ user: '佐藤一�, unre 太: '09:20', te�1���おはよ�ue: 分��〵: 現場亂�〷�め切#ff6b�ue: 5��ミavatar: '佐' },
-  ��� { user: '田中三� unre 太: '09:20', te�1��'おはよ�領収書���電子保存���忘������lor: �願��本', avatar: '山' },
-  ��� { essssageal': ame: '�{ user: '佐藤一郎', time: '09:20', te�2:3'了解し�近くlorana��', �ラ��グ�0:0��ミava������資料溂�！ '山' },
-      { user: '田中三郎', time: '09:32', te�2:3'おはよう資�, avata��！��'度行6b���資斂����！ '山' },
-  ��' { essssaess}ges: : ['� name: '梅田再�プロ���ェク: '��し�'���' },
-    �'#7beunよ24#667eea' },
-    { name: '横浜マ�契約書'���' },
-    �'#7beunよ8#ffa502' },
-    { name: '福岡オ�図� ・gertru書'���' },
-    �'#7beunよ15#2ed573' },
-    { name: '京都町�写�ン���費'記録'���' },
-    �'#7beunよ156#ff6b81' },
-    { name: '名古屋� unre書類'���' },
-    { #7beunよ42#7bed9f' }
-  ],
+var SAMPLE_INVOICES = [
+  { id:'INV-2026-001',type:'\u898b\u7a4d\u66f8',client:'\u7530\u4e2d\u4e0d\u52d5\u7523',project:'\u6885\u7530\u518d\u958b\u767a\u30d3\u30eb',amount:15000000,tax:1500000,total:16500000,status:'\u9001\u4ed8\u6e08',date:'2026-03-15',due:'2026-04-15',invoice_no:'T1234567890123' },
+  { id:'INV-2026-002',type:'\u8acb\u6c42\u66f8',client:'\u9234\u6728\u5efa\u8a2d',project:'\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3\u65b0\u7bc9',amount:7000000,tax:700000,total:7700000,status:'\u672a\u9001\u4ed8',date:'2026-03-28',due:'2026-04-28',invoice_no:'T1234567890123' },
+  { id:'INV-2026-003',type:'\u898b\u7a4d\u66f8',client:'\u9ad8\u6a4b\u958b\u767a',project:'\u4eac\u90fd\u753a\u5c4b\u30ea\u30ce\u30d9\u30fc\u30b7\u30e7\u30f3',amount:5000000,tax:500000,total:5500000,status:'\u627f\u8a8d\u6e08',date:'2026-03-10',due:'-',invoice_no:'T1234567890123' }
+];
 
-  cme: '名古屋僤�内�ヮ�'���' },
-    � #7beunよ6#ff6b81' },a29bfe  messages: file name: '梅田再開発ビル', m_��', co��_v3.pdfお㈻し'PDF '�siz3-27'.4MB2026-03-28', color: '#2�' },
-    �'#ff4757' }
-  ],
+var SAMPLE_TRANSACTIONS = [
+  { id:'TX001',date:'2026-03-31',type:'\u5165\u91d1',category:'\u58f2\u4e0a',description:'\u6885\u7530\u518d\u958b\u767a\u30d3\u30eb \u4e2d\u9593\u91d1',amount:8250000,balance:15420000,method:'\u632f\u8fbc',receipt:true },
+  { id:'TX002',date:'2026-03-30',type:'\u51fa\u91d1',category:'\u5916\u6ce8\u8cbb',description:'\u9234\u6728\u5efa\u8a2d \u5de5\u4e8b\u4ee3\u91d1',amount:-3500000,balance:7170000,method:'\u632f\u8fbc',receipt:true },
+  { id:'TX003',date:'2026-03-28',type:'\u51fa\u91d1',category:'\u6750\u6599\u8cbb',description:'\u5efa\u6750\u8cfc\u5165 \u6a2a\u6d5c\u73fe\u5834',amount:-1200000,balance:10670000,method:'\u632f\u8fbc',receipt:true },
+  { id:'TX004',date:'2026-03-25',type:'\u5165\u91d1',category:'\u58f2\u4e0a',description:'\u4eac\u90fd\u753a\u5c4b \u7740\u624b\u91d1',amount:2750000,balance:11870000,method:'\u632f\u8fbc',receipt:false },
+  { id:'TX005',date:'2026-03-22',type:'\u51fa\u91d1',category:'\u7d66\u4e0e',description:'3\u6708\u5206\u7d66\u4e0e\u652f\u6255',amount:-4800000,balance:9120000,method:'\u632f\u8fbc',receipt:true }
+];
 
-  pme: '横浜マンション新築', m_gertru図.dwgお㈻し'CAD '�siz3-2715.8MB2026-03-28', color:5'���' },
-    �'#7be573' },
-    { name: '京都町�ue: 度_��: 現場�ime覧.xlsxお㈻し'Excel '�siz3-27845KB2026-03-31', color: '#6�' },
-    �'#7be573' },
-    { name: '京都町倚費'写��_0325.zipお㈻し'ZIP '�siz3-2748.2MB2026-03-28', color:5'���' },
-   ��  { #ffa502' },
-    { name: '福岡オ�安��',��nre��ン�����: ル.docxお㈻し'Wor: {�siz3-271.2MB2026-03-28', color:0'#6�' },
-    � #ffa502' },3742f{ name: '横浜マ�工程表_ue: .xlsxお㈻し'Excel '�siz3-27520KB2026-03-31', col4-0 '#6�' },
-    �'#7be573' },
-    { name: '京都町�議事録_��テ�会議_0401.pdfお㈻し'PDF '�siz3-27380KB2026-03-31', col4-0 '#6�' },
-    �'#ff4757' }
-  ],
+var SAMPLE_CARDS = [
+  { id:'C001',name:'\u7530\u4e2d \u592a\u90ce',company:'\u7530\u4e2d\u4e0d\u52d5\u7523\u682a\u5f0f\u4f1a\u793e',title:'\u4ee3\u8868\u53d6\u7de0\u5f79',email:'tanaka@tanaka-re.co.jp',phone:'06-1234-5678',mobile:'090-1111-2222',address:'\u5927\u962a\u5e02\u5317\u533a\u6885\u75301-1-1',tag:'\u9867\u5ba2',note:'\u6885\u7530\u518d\u958b\u767a\u6848\u4ef6\u306e\u4f9d\u983c\u4e3b',date:'2026-01-15' },
+  { id:'C002',name:'\u4f50\u85e4 \u82b1\u5b50',company:'\u4f50\u85e4\u8a2d\u8a08\u4e8b\u52d9\u6240',title:'\u4e00\u7d1a\u5efa\u7bc9\u58eb',email:'sato@sato-arch.jp',phone:'03-9876-5432',mobile:'080-3333-4444',address:'\u6771\u4eac\u90fd\u6e0b\u8c37\u533a\u795e\u5bae\u524d2-2-2',tag:'\u5354\u529b\u4f1a\u793e',note:'\u8a2d\u8a08\u30d1\u30fc\u30c8\u30ca\u30fc',date:'2026-02-10' },
+  { id:'C003',name:'\u9234\u6728 \u4e00\u90ce',company:'\u9234\u6728\u5efa\u8a2d\u682a\u5f0f\u4f1a\u793e',title:'\u5de5\u4e8b\u90e8\u9577',email:'suzuki@suzuki-con.co.jp',phone:'045-111-2222',mobile:'070-5555-6666',address:'\u6a2a\u6d5c\u5e02\u4e2d\u533a\u5c71\u4e0b\u753a3-3-3',tag:'\u5354\u529b\u4f1a\u793e',note:'\u6a2a\u6d5c\u30de\u30f3\u30b7\u30e7\u30f3\u65bd\u5de5\u62c5\u5f53',date:'2026-03-01' },
+  { id:'C004',name:'\u5c71\u7530 \u6b21\u90ce',company:'\u5c71\u7530\u5857\u88c5\u5de5\u696d',title:'\u4ee3\u8868',email:'yamada@yamada-paint.jp',phone:'075-333-4444',mobile:'090-7777-8888',address:'\u4eac\u90fd\u5e02\u6771\u5c71\u533a\u7947\u57124-4-4',tag:'\u8077\u4eba',note:'\u4eac\u90fd\u30a8\u30ea\u30a2\u306e\u5857\u88c5\u8077\u4eba',date:'2026-03-05' }
+];
 
-  projects: lter: 'a id: 'general',�田次郎', time: '09:6-03-28', color: '#2ameunよ4500☕c-03gory��まdate: '2026esc�� 北区'��張得'幹線代''施工中',tle: 待ち id: 'random', 2,�藤一郎', time: '09:6-03-29', color: '#2ameunよ1280☕c-03gory���消耗� �'#76esc�� ��費'用安��'靴���ヘル���0:�: '202��工中',tle: 待ち id: 'random', 3,�中三郎', time: '09:6-03-27', color: '#fameunよ38000☕c-03gory���外注: '2026esc�� 電気olor�� 協力会���支払, �202��工中',tle: 済 id: 'random', 4,�田次郎', area: '名6-03-27', color:6'#fameunよ850☕c-03gory��まda��: '2026esc�� 取引先と���,��食: '202��工中', title: 'id: 'random', 5��田次郎', time: '09:6-03-28', color:5'#2ameunよ15600☕c-03gory���備� �'#76esc�� 測量機器�����新�ル: '202��工中',tle: 済 id: 'random', 6,�藤一郎', time: '09:6-03-29', color3'了ameunよ2300☕c-03gory��まdate: '2026esc�� ��シ〚費' 往復��date: '202��工中',tle: 待ち id: 'random', 7,�中三郎', time: '09:6-03-27', color:4了ameunよ6700☕c-03gory���材���: '2026esc�� ��フ〚費' 塗���・g�そ�202��工中',tle: 済 id: 'random', 8,�田次郎', area: '名6-03-27', color: '#6ameunよ54000☕c-03gory���外注: '2026esc�� 構造tru�� 委託 現��202��工中',tle: 待ち idrojects: 32',Recor: id: 'gener6-03-31', col4-0 '#6e: null tex8:3'了e: nuOuよ�18� 'おhou� na9.: '�over32', t1.: '�not再開発〚費' id: 'rando6-03-31', color: '#66: null tex8:0'了e: nuOuよ�19:3'了hou� na11. '�over32', t3. '�not再閜�末処nre id: 'rando6-03-31', color: '#2e: null tex8: 'おe: nuOuよ�17:4'おhou� na9. '�over32', t1. '�not再閸�区'��張 id: 'rando6-03-31', color:7'#2e: null tex9:0'了e: nuOuよ�17:3'了hou� na8. '�over32', t0. '�not再郤�内業l: 'id: 'rando6-03-31', color:6'#66: null tex8:0'了e: nuOuよ�2で�おhou� na12.0'�over32', t4.0'�not再鱋リペ費' 立,��, �2id: 'rando6-03-31', color:5'#6e: null tex8:3'了e: nuOuよ�17���おhou� na8. '�over32', t0. '�not再�ate常勤l: 'id: 'rando6-03-31', color:4'#6e: null tex7:4'おe: nuOuよ�18�3'了hou� na10.: '�over32', t2.: '�not再閗�朝搬入 idrojects: ter: 'a name: '梅�o���INV-', col042おe:ienよ 北区'��ger株式会���'#2ameunよ4500�0☕6-03-31', color 'おdu3-31', col4- 'お��工中'送���済 ��㈻し'請求書'name: '京�o���INV-', col043おe:ienよ ���区不動産��', m了ameunよ2800�0☕6-03-31', color:0'#6du3-31', col4-:0'#6��工中',��送��� ��㈻し'請求書'name: '京�o���EST-', col018おe:ienよ ��リノヮ����生機構'#fameunよ8900�0☕6-03-31', color:'おdu3-31—'#6��工中'��d渉e: 'PJ刻し'�', co��'name: '京�o���INV-', col041おe:ienよ 博多商r��株式会���'#2ameunよ1250�0☕6-03-31', color0 '#6du3-31', color: '#6��工中',��金済 ��㈻し'請求書'name: '京�o���RCP-', col012おe:ienよ 博多商r��株式会���'#2ameunよ1250�0☕6-03-31', col4r0 '#6du3-31—'#6��工中', m行済 ��㈻し'領収書'name: '京�o���EST-', col019おe:ienよ � 中区山区��', m了ameunよ1250�0�☕6-03-31', col4r0 '#6du3-31—'#6��工中'作成e: 'PJ刻し'�', co��'name: '京�o���INV-', col040おe:ienよ ������'��築gertrur��l: 所'#fameunよ320�0�☕6-03-31', col2r: '#2du3-31', color: '#2��工中',��限超過 ��㈻し'請求書'narojects: 3ransause s id: 'gener6-03-31', col4-0 '#66esc�� 北区'��ger ,��金'#facbeunよ'売上高'#66ebiよ4500�0☕crediよ☕c-0�� 収入 id: 'rando6-03-31', color: '#66esc�� ue: 分 給与支払, �202acbeunよ'給与手当'#66ebiよ☕crediよ320�0�☕c-0�� 人件: '2id: 'rando6-03-31', color: '#66esc�� r��l: 所���賃'#facbeunよ'地代���賃'#f6ebiよ☕crediよ45�0�☕c-0�� ��: � id: 'rando6-03-31', color: '#26esc�� g�そ�購入 ��', t'�����202acbeunよ'材���: '2026ebiよ☕crediよ8900�0��c-0�� 原価2id: 'rando6-03-31', color:5'#66esc�� ��シ�不動産 ,��金'#facbeunよ'売上高'#66ebiよ2800�0☕crediよ☕c-0�� 収入 id: 'rando6-03-31', color:0'#6desc�� 通信: '202acbeunよ'通信: '2026ebiよ☕crediよ850�☕c-0�� ��: � id: 'rando6-03-31', color152026esc�� ��フ�商r�� ,��金'#facbeunよ'売上高'#66ebiよ1250�0☕crediよ☕c-0�� 収入 id: 'rando6-03-31', color10'#6desc�� 保険��� 支払, �202acbeunよ'保険���2026ebiよ☕crediよ12�0�☕c-0�� ��: � id: 'rando6-03-31', color05'#66esc�� 化注: ' 電気olor��'#facbeunよ'外注: '2026ebiよ☕crediよ3800�0��c-0�� 原価2idhannels: [ar: id: 'gener都町� ti�� 健ime'#ff4mpany�� 北区'��ger株式会���'#2�了報呏�締役 営業部長s: 1hon, tex6-1234-5678'higuchi@hatamura@osaka-kensetsu.co: 'AX�tag id:''��ger', 北区', 重要']'佐' },
-  ��' { user: ��都町屸�i�� 美咲'#ff4mpany�� ���区不動産��', m了�了報僫', mr��業部 部長s: 1hon, tex45-987-6543おguchi@hanakamura@yokohama-dev.co: 'AX�tag id:'不動産', ���区']'佐' },
-  e: 'name: '横浜マ�小林 誠'#ff4mpany�� ��リノヮ����生機構'#f�了報�代表nrer��'#f1hon, tex75-111-2222おguchi@hakobayashi@kyoto-machiya.orgAX�tag id:'NPO', ��リ�', ���化財']'佐' },
-  小'name: '横浜マ�高橋 裕也'#ff4mpany�� 博多商r��株式会���'#2�費精箷�l: 部 課長s: 1hon, tex92-333-4444'higuchi@hatakahashi@fukuoka-s.co: 'AX�tag id:''�er��'# 博多']'佐' },
-  高' pme: '横浜マヸ�辺 直人'#ff4mpany�� � 中区山区��', m了�積承�ertru部 主任s: 1hon, tex52-555-6666'higuchi@haw' }nabe@nagoya-urban.co: 'AX�tag id:'�ertru', � 中区']'佐' },
-  ��� { user: ��都町屼�藤 綾香'#ff4mpany�� ������'��築gertrur��l: 所'#f�了報�主任'��築士s: 1hon, tex3-7777-8888'higuchi@haito@tokyo-  _c.co: 'AX�tag id:'�ertru', ������', ���級'��築士s]'佐' },
-  e��2idhannels: work� name: '梅田再�山本'��ger', skilスゆ�装', yea� na1 '�rat,
-  c4.8'佐'ilsWorlor: '#4tag id:''��装仕上げ', ク: �ス', 床s]'�cer3 id:'1級'��装仕上, colo技豱士s]name: '横浜マ��', a電工', skilス�電気', yea� na20'�rat,
-  c4.9'佐'ilsWorloor: '#4tag id:'電気olor��'#'照明', 配電盤s]'�cer3 id:'第���種電気olor��士s]name: '横浜マ�佐々, ager備', skilス�配管', yea� na12'�rat,
-  c4.5'佐'ilsWorlor: '#4tag id:'給排水'#'空調配管', ガス']'�cer3 id:'管olor��, colo,��nre技士s]name: '横浜マ�高��メ�装', skilスァ�装', yea� na18'�rat,
-  c4.7'佐'ilsWorlor: '#4tag id:''��壁���装','防水'#'吹��� ]'�cer3 id:'1級'��装技豱士s]name: '横浜マ�, ai��鉄工', skilス�鉄骨', yea� na25'�rat,
-  c4.9'佐'ilsWorloor: '#4tag id:'鉄骨組立'#'溶接'#'据��� ]'�cer3 id:'1級'��築, colo,��nre技士s]name: '横浜マヸ�辺olo業', skilス�電気', yea� na8'�rat,
-  c4.3'佐'ilsWorlor: '#4tag id:''��電'#'LAN','通信s]'�cer3 id:'第���種電気olor��士s]name: '横浜マ�� t'�����装', skilスゆ�装', yea� na10'�rat,
-  c4.6'佐'ilsWorlor: '#4tag id:''��装', タイger: '左官 ]'�cer3 id:'2級'��装仕上, colo技豱士s]name: '横浜マ�北西配管', skilス�配管', yea� na22'�rat,
-  c4.8'佐'ilsWorloor: '#4tag id:'給排水'#'消防ger備','��修���シ�ク: ���� ]'�cer3 id:'消防ger備士s]nahann
-}====================================
-   STATE — ICONS================================== */
-var STATE = {
-ICONSrentTab,
-  user:���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>ointsl: '���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><path d="M21a1 a2 2 0 0 1-2 2H7l-4 4V a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>oints: ['ヂ��<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>oints, name:���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline0,20 20="14 2 14 8a20 8"/></svg>ointslter: 'a���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>ointsliew: 'tab���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><circle cx="12" cy="12" r="10"/><polyline0,20 20="12 6a12a12a16a14"/></svg>ointster: 'a���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line0x1="2" y1="10" x2="22" y2="10"/></svg>oints:er: 'a���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><line0x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5t3.  0 0 0 0 7h5a3.5t3.  0 0 1 0 7H6"/></svg>ointsler:���<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line0x1="2" y1="10" x2="22" y2="10"/><circle cx="8" cy="15" r="2"/><path d="M22 15h-6"/></svg>ointsr: 'a,
-  c�<svg width="20" height="20" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16t3.13a4 4 0 0 1 0 7.75"/></svg>o
-}====================================
-   STATE — TABS Configure
-   ================================== */
-var STATE = {
-TABS =ame: dom', n,
-  user: {��質ス�
-  _a���築�ボ��グ�'#6�' },
-ICONS.,
-  user:name: dom', nl: ' {��質ス�
- �ャ0:�: '202�' },
-ICONS.l: 'name: dom', n: ['� {��質ス�
- �ォル���202�' },
-ICONS.: ['�name: dom', n, name: {��質ス�
- �ロ���ェク: '202�' },
-ICONS., name:name: dom', nlter: 'a {��質ス�許可願���202�' },
-ICONS.lter: 'aname: dom', nliew: 'tab {��質ス�勤l: ,��nre202�' },
-ICONS.liew: 'tabname: dom', nter: 'a {��質ス��', cズ・g��求書'02�' },
-ICONS.ter: 'aname: dom', n:er: 'a {��質ス�入出金,��nre202�' },
-ICONS.:er: 'aname: dom', nler: {��質ス�� 䈺,��nre202�' },
-ICONS.cer:name: dom', nr: 'a,
-  {��質ス�
- �0:�: �0:00�202�' },
-ICONS.r: 'a,
- nah]====================================
-   STATE — CORE INFRASTRUCTURE================================== */
-var STATE { 'use s buildSidebar()ntTab= {
-sb =adocumash.querySelme:or('.sidebar');ntstf (!sb) return;Tab= {
-logoH =a'<div
-/*yle="padd,
-  20pxa16pxa10px;"><div
-/*yle="font-siz3-20px;font-weight:800;f4757'white;">��す溂���本�</div><div
-/*yle="font-siz3-10px;f4757'rgba(25 75, 75, 70.6);margin-top:2px;">知行合一l appAX革命</div></div>';Tab= {
-tabsH =aTABS.r:p){ 'use stt)neral':= {
-ac =a  cur.: 'dashboa==== t.id ? 'background'rgba(25 75, 75, 70.15);f4757'white;' , nl4757'rgba(25 75, 75, 70.7);';Tab  returna'<div
-onclick="window._jp', role:swi 'aboa(\''+t.id+'\')"
-/*yle="display:flex;align-items:casher;gap-10px;padd,
-  10pxa16px;margin:2px 8px;bor'�-radius:8px;: 's57',20 2er;3ransise s:all 0.2s;'+ac+'"
-onmouseover="this./*yle.background=\'rgba(25 75, 75, 70.1)\'"
-onmouseout="this./*yle.background=\''+(a  cur.: 'dashboa==== t.id ? 'rgba(25 75, 75, 70.15)' , n3ranspadash' )+'\'">'+t.i' }+�<span
-/*yle="font-siz3-13px;">'+t.�質�+�</span></div>';Tab}).j20 ('');nts= {
-田�H =a'<div
-/*yle="posise s:absolute;bottom:0;left:0;right:0;padd,
-  12pxa16px;bor'�-top:1pxasolid rgba(25 75, 75, 70.1);display:flex;align-items:casher;gap-10px;"><div
-/*yle="width:32px;height:32px;bor'�-radius:50%;background'linear-gradiash(135deg,,
-    {,#764ba2);display:flex;align-items:casher;justify-' }ten�casher;f4757'white;font-siz3-14px;font-weight:700;">樋</div><div><div
-/*yle="f4757'white;font-siz3-12px;font-weight:600;">'+  cur.田�.浜�+�</div><div
-/*yle="f4757'rgba(25 75, 75, 70.5);font-siz3-10px;">'+  cur.田�.���+�</div></div></div>';Tabsb.ten��HTML =alogoH +a'<div
-/*yle="margin-top:8px;">'+tabsH+�</div>' +a田�H;
+var SAMPLE_MATCHINGS = [
+  { id:'M001',title:'\u6885\u7530\u30a8\u30ea\u30a2 \u5185\u88c5\u5de5\u4e8b \u8077\u4eba\u52df\u96c6',type:'\u6c42\u4eba',category:'\u5185\u88c5\u5de5\u4e8b',area:'\u5927\u962a\u5e02 \u5317\u533a',budget:'\u65e5\u5f53\u00a525,000\u301c',period:'2026/04/15\u301c2026/06/30',applicants:5,status:'\u52df\u96c6\u4e2d',posted:'2026-03-20' },
+  { id:'M002',title:'\u6a2a\u6d5c \u96fb\u6c17\u5de5\u4e8b \u5354\u529b\u4f1a\u793e\u52df\u96c6',type:'\u6c42\u4eba',category:'\u96fb\u6c17\u5de5\u4e8b',area:'\u6a2a\u6d5c\u5e02 \u4e2d\u533a',budget:'\u4e00\u5f0f\u00a53,000,000',period:'2026/05/01\u301c2026/07/31',applicants:2,status:'\u52df\u96c6\u4e2d',posted:'2026-03-25' },
+  { id:'M003',title:'\u30de\u30f3\u30b7\u30e7\u30f3\u30ea\u30ce\u30d9\u30fc\u30b7\u30e7\u30f3\u8a2d\u8a08',type:'\u6848\u4ef6',category:'\u8a2d\u8a08',area:'\u4eac\u90fd\u5e02 \u6771\u5c71\u533a',budget:'\u00a5500,000\u301c',period:'2026/04/01\u301c2026/04/30',applicants:8,status:'\u9078\u8003\u4e2d',posted:'2026-03-10' }
+];
+
+// Load state
+try {
+  var saved = sessionStorage.getItem('hataraiku_state');
+  if (saved) { var parsed = JSON.parse(saved); for (var k in parsed) { if (STATE.hasOwnProperty(k)) STATE[k] = parsed[k]; } }
+} catch(e) {}
+if (!STATE.projects.length) STATE.projects = SAMPLE_PROJECTS;
+if (!STATE.approvals.length) STATE.approvals = SAMPLE_APPROVALS;
+if (!STATE.attendance.length) STATE.attendance = SAMPLE_ATTENDANCE;
+if (!STATE.invoices.length) STATE.invoices = SAMPLE_INVOICES;
+if (!STATE.transactions.length) STATE.transactions = SAMPLE_TRANSACTIONS;
+if (!STATE.cards.length) STATE.cards = SAMPLE_CARDS;
+if (!STATE.matchings.length) STATE.matchings = SAMPLE_MATCHINGS;
+
+function saveState() { try { sessionStorage.setItem('hataraiku_state', JSON.stringify(STATE)); } catch(e) {} }
+function fmt(n) { return Number(n).toLocaleString('ja-JP'); }
+function fmtYen(n) { return '\u00a5' + fmt(n); }
+function today() { var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function nowTime() { var d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+function el(tag,cls,html) { var e=document.createElement(tag); if(cls)e.className=cls; if(html)e.innerHTML=html; return e; }
+
+// ============ SIDEBAR ============
+function buildSidebar() {
+  var sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+  var logo = '<div style="padding:20px 16px 8px;font-size:20px;font-weight:800;color:#fff;letter-spacing:1px;">\u306f\u305f\u3089\u3044\u304f</div><div style="padding:0 16px 16px;font-size:11px;color:rgba(255,255,255,0.6);">\u77e5\u884c\u5408\u4e00 \u2014 AX\u9769\u547d</div>';
+  var nav = '';
+  TABS.forEach(function(tab) {
+    var isA = STATE.currentTab === tab.id;
+    var st = isA ? 'background:rgba(255,255,255,0.15);color:#fff;font-weight:600;' : 'color:rgba(255,255,255,0.75);';
+    nav += '<div onclick="window._hataraiku.switchTab(\''+tab.id+'\')" style="display:flex;align-items:center;gap:10px;padding:10px 16px;margin:2px 8px;border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:13px;'+st+'" onmouseover="this.style.background=\'rgba(255,255,255,0.1)\'" onmouseout="if(\''+tab.id+'\'!==window._hataraiku.getState().currentTab)this.style.background=\'transparent\'"><span style="width:20px;height:20px;flex-shrink:0;">'+ICONS[tab.icon]+'</span><span>'+tab.label+'</span></div>';
+  });
+  var profile = '<div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;"><div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;">\u6a0b</div><div><div style="font-size:13px;color:#fff;font-weight:600;">\u6a0b\u53e3\u6625\u9a0e</div><div style="font-size:10px;color:rgba(255,255,255,0.5);">AX\u30ea\u30fc\u30c0\u30fc</div></div></div>';
+  sidebar.innerHTML = logo + '<div style="padding-top:4px;">' + nav + '</div>' + profile;
+  sidebar.style.cssText = 'position:fixed;left:0;top:0;bottom:0;width:180px;background:linear-gradient(180deg,#5B4FE8 0%,#3B30B8 100%);z-index:100;overflow-y:auto;overflow-x:hidden;';
 }
- { 'use s buildMainArea()ntTab= {
-main =adocumash.querySelme:or('.main');ntstf (!main) return;Tabmain.ten��HTML =a'<div
-/*yle="padd,
-  0 0 8px;display:flex;align-items:casher;justify-' }ten�space-between;"><h2
-/*yle="margin:0;font-siz3-18px;f4757'#1a1a2e;">' +a(TABS.:erd){ 'use stt){returnat.id===  cur.: 'dashboa;})||{}).�質� +a'</h2></div><div
-clas0="tab-' }ten�"></div>';Tabreturnamain.querySelme:or('.tab-' }ten�');n}
- { 'use s das'�boa()ntTab= {
-' }tain�n= buildMainArea();ntstf (!' }tain�) return;Tabswi 'a (  cur.: 'dashboa)neral':case n,
-  user: : das'�D
-  user:(' }tain�); break;ral':case nl: ' : das'�C: '(' }tain�); break;ral':case n: ['� : das'�F ['�(' }tain�); break;ral':case n, name: : das'�P name:(' }tain�); break;ral':case nlter: 'a : das'�Ater: 'a(' }tain�); break;ral':case nliew: 'tab : das'�Aiew: 'tab(' }tain�); break;ral':case nter: 'a : das'�Ier: 'a(' }tain�); break;ral':case n:er: 'a : das'�Fer: 'a(' }tain�); break;ral':case nler: : das'�Cer:(' }tain�); break;ral':case nr: 'a,
-  : das'�M: 'a,
- (' }tain�); break;ral}n}
- =================================
-   STATE — RENDER FUNCTIONSr(Upgraded v6.1)================================== */
-var STATE //======================== //=D
-  user: Ras'� F 'use s //======================== { 'use s das'�D
-  user:(' }tain�)neralif(!' }tain�)return;Tral//=Get greet,
-  based
-on 32', of dayntslonst�hou�n= new=D
-te().getHou� ();ntslonst�greet,
-  =�hou�n<a12a?�うございます。本日�' , hou�n<a18a?�う�んlor: ����' , n���んlo�んlo�';ntslonst�emoji =�hou�n<a12a?��🌅' , hou�n<a18a?��☀  { i,
-   ��';Trallonst�nown= new=D
-te();ntslonst�6-03St�n= `${now.getFullYear()}年${now.getM�', ()n+ 1}月${now.getD
-te()}日 ${now.getHou� ().toSt�,
- ().padS', t(2,'0')}:${now.getMinute ().toSt�,
- ().padS', t(2,'0')}`;Trallonst�htmln= `ral':<div
-/*yle="padd,
-  24px; background'linear-gradiash(135deg, ,
-    { 0%, ,764ba2  ],%); f4757'white; bor'�-radius:12px; margin-bottom:24px;">ser: '�<div
-/*yle="display:flex; justify-' }ten�space-between; align-items:casher;">ser: '�'�<div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; margin-bottom:8px;">${emoji} ${greet,
- }a��,�', t太: 'さん</div>ser: '�'�'�<div
-/*yle="font-siz3-14px; opacity:0.9;">${6-03St�}</div>ser: '�'�</div>ser: '�'�<div
-/*yle="は�-align:right;">ser: '�'�':<div
-/*yle="posise s:relative; display:inline-b: nu; : 's57',20 2er; margin-right:16px;">ser: '�'�':':<svg width="24" height="24" viewBox="0 0 24 24" fill="non,"
-/* oke=": 'dashC4757"
-/* oke-width="2">ser: '�'�':':':<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>ser: '�'�':':':<path d="M13.73 21a2 2 0 0 1-3.46 0"/>ser: '�'�':':</svg>ser: '�'�':':<div
-/*yle="posise s:absolute; top:-6px; right:-6px; background'
-  ],
 
-; f4757'white; bor'�-radius:50%; width-20px; height-20px; font-siz3-12px; display:flex; align-items:casher; justify-' }ten�casher; font-weight:b [';">3</div>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="display:inline-b: nu;">ser: '�'�':':<span
-/*yle="font-weight:600;">��体ミ�タスク: 5件</span>ser: '�'�'�</div>ser: '�'�</div>ser: '�</div>ser: </div>s
-'�'�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-16px; margin-bottom:24px;">ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">��', value: </div>ser: '�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#66   {; margin-bottom:12px;">¥8,450</div>ser: '�'�<svg viewBox="0 0  ], 40"
-/*yle="width: ],%; height-30px;">ser: '�'�':<polyline0,20 20=" 40,210' },3 40,145 }
- 2 90,8 108s: '12
-    {"
-/* oke="#66   {"
-/* oke-width="2" fill="non,"/>ser: '�'�':<polyline0,20 20=" 44,210' },3 40,145 }
- 2 90,8 108s: '12
-    {
-    40"
-fill="rgba(102,a126, 234, 0.1)"/>ser: '�'�</svg>ser: '�</div>ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;"> value: </div>ser: '�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#764ba2; margin-bottom:12px;">12件</div>ser: '�'�<svg viewBox="0 0  ], 40"
-/*yle="width: ],%; height-30px;">ser: '�'�':<polyline0,20 20=" 75,12 80,135100,5' }
- 6590,88 },
-95904"
-/* oke="#764ba2"
-/* oke-width="2" fill="non,"/>ser: '�'�':<polyline0,20 20="544,22 80,135100,5' }
- 6590,88 },
-95904
-95940"
-fill="rgba(118'�: '�162, 0.1)"/>ser: '�'�</svg>ser: '�</div>ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">��', value: </div>ser: '�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#00b894; margin-bottom:12px;">168h</div>ser: '�'�<svg viewBox="0 0  ], 40"
-/*yle="width: ],%; height-30px;">ser: '�'�':<polyline0,20 20=" 75820 60013510,85 100,60' },8' }9
-95906"
-/* oke="#00b894"
-/* oke-width="2" fill="non,"/>ser: '�'�':<polyline0,20 20="544,22 80013510,85 100,60' },8' }9
-95906
-95940"
-fill="rgba(0'�184, 148, 0.1)"/>ser: '�'�</svg>ser: '�</div>ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">��ア', value: </div>ser: '�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#
-    {; margin-bottom:12px;">94%</div>ser: '�'�<svg viewBox="0 0  ], 40"
-/*yle="width: ],%; height-30px;">ser: '�'�':<polyline0,20 20=" 75,22 80213510585 18,60' 4,8' }
- 95903"
-/* oke="#
-    {"
-/* oke-width="2" fill="non,"/>ser: '�'�':<polyline0,20 20="544,22 80213510585 18,60' 4,8' }
- 95903
-95940"
-fill="rgba(5, 7�16 7�2, 0.1)"/>ser: '�'�</svg>ser: '�</div>ser: </div>s
-'�'�<div
-clas0="kp"
-/*yle="padd,
-  20px; margin-bottom:24px;">ser: '�<h3
-/*yle="margin-top:0; margin-bottom:16px; font-siz3-16px; font-weight:600;">���次推移</h3>ser: '�<svg viewBox="0 0 80,28 0"
-/*yle="width: ],%; height-250px;">ser: '�'�<!-- Grid lines -->ser: '�'�<line0x1="60" y1="30" x2="60" y2="250"
-/* oke="#ddd"
-/* oke-width="1"/>ser: '�'�<line0x1="60" y1="250"
-x2="780" y2="250"
-/* oke="#ddd"
-/* oke-width="1"/>ser: '�'�<line0x1="60" y1="190"
-x2="780" y2="190"
-/* oke="#eee"
-/* oke-width="1"
-/* oke-,
-  array="5,5"/>ser: '�'�<line0x1="60" y1="130"
-x2="780" y2="130"
-/* oke="#eee"
-/* oke-width="1"
-/* oke-,
-  array="5,5"/>ser: '�'�<line0x1="60" y1="70"
-x2="780" y2="70"
-/* oke="#eee"
-/* oke-width="1"
-/* oke-,
-  array="5,5"/>sser: '�'�<!-- Y-axis��質�s -->ser: '�'�<は� x="40"
-y="25{"
-font-siz3="12" fill="#999">0</は�>ser: '�'�<は� x="40"
-y="13{"
-font-siz3="12" fill="#999">50M</は�>ser: '�'�<は� x="25"
-y="7{"
-font-siz3="12" fill="#999"> ],M</は�>sser: '�'�<!--    {  lines -->ser: '�'�<polyline0,20 20="10 800,210' }6,22  90,,220' }2,28 0' 40135' }
-, 40' }1,145 180 50�90 55 17
- 2  185,600,6,2700,75�:   {0"ser: '�'�':':':::::/* oke="#66   {"
-/* oke-width="3" fill="non,"
-onmouseover="this./*yle./* oke='#764ba2'"
-onmouseout="this./*yle./* oke='#
-    { "/>ser: '�'�<polyline0,20 20="10 801,210' }7522  9095220' }3528 0' 55135' }2, 40' }3,145 1}
-, 50' }1,155 19
- 2  1105,600,8,2700,95�:   70"ser: '�'�':':':::::/* oke="#764ba2"
-/* oke-width="3" fill="non,"
-opacity="0.6"
-onmouseover="this./*yle.opacity='1'"
-onmouseout="this./*yle.opacity='0.6 "/>ser: '�'�<polyline0,20 20="10 802,210' }9,22  901,220' }5,28 0' 70135' }4, 40' }5,145 1}2, 50' }3,155 111
- 2  1125,600,}
-, 70' }15�:   90"ser: '�'�':':':::::/* oke="#
-   6b"
-/* oke-width="3" fill="non,"
-opacity="0.4"
-onmouseover="this./*yle.opacity='1'"
-onmouseout="this./*yle.opacity='0.4'"/>sser: '�'�<!-- X-axis��質�s -->ser: '�'�<は� x="90"
-y="27{"
-font-siz3="12" fill="#999"> ���</は�>ser: '�'�<は� x="190"
-y="27{"
-font-siz3="12" fill="#999">2���</は�>ser: '�'�<は� x="290"
-y="27{"
-font-siz3="12" fill="#999">3���</は�>ser: '�'�<は� x="390"
-y="27{"
-font-siz3="12" fill="#999">4���</は�>ser: '�'�<は� x="490"
-y="27{"
-font-siz3="12" fill="#999">5���</は�>ser: '�'�<は� x="590"
-y="27{"
-font-siz3="12" fill="#999">6���</は�>ser: '�'�<は� x="690"
-y="27{"
-font-siz3="12" fill="#999">7���</は�>ser: '�'�<は� x="740"
-y="27{"
-font-siz3="12" fill="#999">8���</は�>sser: '�'�<!-- Legend -->ser: '�'�<circle cx="1 0"
-cy="25"
-r="4" fill="#66   {"/>ser: '�'�<は� x="110"
-y="30"
-font-siz3="12">��', ve: </は�>ser: '�'�<circle cx="2 0"
-cy="25"
-r="4" fill="#764ba2"/>ser: '�'�<は� x="210"
-y="30"
-font-siz3="12">支r: e: </は�>ser: '�'�<circle cx="280"
-cy="25"
-r="4" fill="#
-   6b"/>ser: '�'�<は� x="290"
-y="30"
-font-siz3="12">���益</は�>ser: '�</svg>ser: </div>s
-'�'�<div
-/*yle="display:grid; grid-template-' lumns:1fr 1fr; gap-24px; margin-bottom:24px;">ser: '�<div
-clas0="kp"
-/*yle="padd,
-  20px;">ser: '�'�<h3
-/*yle="margin-top:0; margin-bottom:16px; font-siz3-16px; font-weight:600;">���近の�: ク: は10:�: は1</h3>ser: '�'�<div
-/*yle="space-y:8px;">ser: '�'�'�<div
-/*yle="display:flex; align-items:casher; padd,
-  12px; bor'�-left:4pxasolid #66   {; margin-bottom:8px; background'
- 8f9ff;">ser: '�'�':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
-66   {; margin-right:12px;"></div>ser: '�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">��', u
- �ロ���ェク: ',tle: </div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:2px;">営業PJ - ', c/04/03 14:32</div>ser: '�'�'�'�</div>ser: '�'�'�'�<span
-clas0="sb"
-/*yle="background'
-66   {; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px;">��', u</span>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="display:flex; align-items:casher; padd,
-  12px; bor'�-left:4pxasolid #00b894; margin-bottom:8px; background'
- 0fdf4;">ser: '�'�':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
-00b894; margin-right:12px;"></div>ser: '�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">���次��������グ�,tle: 済</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:2px;">', c/04/02
-  :15</div>ser: '�'�'�'�</div>ser: '�'�'�'�<span
-clas0="sb"
-/*yle="background'
-00b894; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px;">��: �</span>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="display:flex; align-items:casher; padd,
-  12px; bor'�-left:4pxasolid #
-    {; margin-bottom:8px; background'
- ffbf0;">ser: '�'�':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
+// ============ MAIN AREA ============
+function buildMainArea() {
+  var main = document.querySelector('.main');
+  if (!main) return;
+  main.style.cssText = 'margin-left:180px;padding:0;min-height:100vh;background:#f5f5f7;';
+  main.innerHTML = '';
+  var topbar = el('div','','');
+  topbar.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:#fff;border-bottom:1px solid #e8e8ed;position:sticky;top:0;z-index:50;';
+  topbar.id = 'hk-topbar';
+  var tabDef = TABS.find(function(t){return t.id===STATE.currentTab;});
+  topbar.innerHTML = '<div><h1 style="font-size:22px;font-weight:700;color:#1a1a2e;margin:0;">'+(tabDef?tabDef.label:'\u30c0\u30c3\u30b7\u30e5\u30dc\u30fc\u30c9')+'</h1><p style="font-size:12px;color:#888;margin:2px 0 0;" id="hk-subtitle"></p></div><div style="display:flex;align-items:center;gap:12px;" id="hk-topbar-actions"></div>';
+  main.appendChild(topbar);
+  var content = el('div','','');
+  content.id = 'hk-content';
+  content.style.cssText = 'padding:24px 28px;';
+  main.appendChild(content);
+  renderTab(STATE.currentTab);
+}
 
-    {; margin-right:12px;"></div>ser: '�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">'��張 現���浜�待ち</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:2px;">', c/04/02
-xt:4'</div>ser: '�'�'�'�</div>ser: '�'�'�'�<span
-clas0="sb"
-/*yle="background'
+function renderTab(tabId) {
+  var c = document.getElementById('hk-content');
+  if (!c) return;
+  c.innerHTML = '';
+  var sub = document.getElementById('hk-subtitle');
+  var act = document.getElementById('hk-topbar-actions');
+  var h1 = document.querySelector('#hk-topbar h1');
+  var td = TABS.find(function(t){return t.id===tabId;});
+  if (h1 && td) h1.textContent = td.label;
+  switch(tabId) {
+    case 'dash': renderDashboard(c,sub,act); break;
+    case 'chat': renderChat(c,sub,act); break;
+    case 'folder': renderFolder(c,sub,act); break;
+    case 'project': renderProject(c,sub,act); break;
+    case 'approval': renderApproval(c,sub,act); break;
+    case 'attendance': renderAttendance(c,sub,act); break;
+    case 'invoice': renderInvoice(c,sub,act); break;
+    case 'finance': renderFinance(c,sub,act); break;
+    case 'card': renderCard(c,sub,act); break;
+    case 'matching': renderMatching(c,sub,act); break;
+  }
+}
 
-    {; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px;">���機</span>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="display:flex; align-items:casher; padd,
-  12px; bor'�-left:4pxasolid #
-   6b; margin-bottom:8px; background'
- ff5f5;">ser: '�'�':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
+// ============ MODULE 1: DASHBOARD ============
+function renderDashboard(container) {
+  if(!container)return;
+  var now = new Date();
+  var dateStr = now.getFullYear() + '/' + (now.getMonth()+1) + '/' + now.getDate() + ' ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+  var user = '';
+  try { user = window['session'+'Storage'].getItem('hataraiku_user') || ''; } catch(e){}
+  var greeting = now.getHours() < 12 ? 'おはようございます' : now.getHours() < 18 ? 'お疲れ様です' : 'お疲れ様です';
 
-   6b; margin-right:12px;"></div>ser: '�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">g��求書,��送���</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:2px;">INV-', col01 - ', c/04/01</div>ser: '�'�'�'�</div>ser: '�'�'�'�<span
-clas0="sb"
-/*yle="background'
+  container.innerHTML = '<div class="topbar"><div><h2>ダッシュボード</h2><span style="font-size:.85rem;color:var(--sub)">リアルタイム経営指標</span></div><div style="display:flex;align-items:center;gap:16px"><span style="color:var(--sub);font-size:.85rem">' + dateStr + '</span><button class="btn" onclick="window._hataraiku.openNewProject()">+ 新規案件</button></div></div>'
+    + '<div style="padding:0 .5rem">'
+    + '<div style="background:linear-gradient(135deg,var(--p),var(--s));border-radius:16px;padding:24px 32px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden">'
+    + '<div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,.1);border-radius:50%"></div>'
+    + '<div style="position:absolute;right:40px;bottom:-30px;width:80px;height:80px;background:rgba(255,255,255,.08);border-radius:50%"></div>'
+    + '<div style="font-size:1.1rem;opacity:.9">' + greeting + '</div>'
+    + '<div style="font-size:1.5rem;font-weight:700;margin:4px 0">' + (user ? user.split('@')[0] : '樋口専務') + ' さん</div>'
+    + '<div style="font-size:.85rem;opacity:.8;margin-top:8px">本日のタスク: 3件 / 承認待ち: 2件 / 未読メッセージ: 5件</div>'
+    + '</div></div>'
+    // KPI cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 .5rem;margin-bottom:24px">'
+    + _kpi('受注総額', '￥14,854万', '+12.3%', '前月比', 'var(--p)')
+    + _kpi('進行PJ', '3件', '+1', '新規獲得', '#f59e0b')
+    + _kpi('稼働時間', '179h', '', '今月累計', '#10b981')
+    + _kpi('品質スコア', '93.8%', '-0.2%', '深浦データ算出', '#ef4444')
+    + '</div>'
+    // Charts row
+    + '<div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;padding:0 .5rem;margin-bottom:24px">'
+    + '<div class="kp" style="padding:20px"><h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px">月次推移</h3>' + _miniChart() + '</div>'
+    + '<div class="kp" style="padding:20px"><h3 style="font-size:.95rem;font-weight:700;margin-bottom:12px">直近の活動</h3>' + _activityList() + '</div>'
+    + '</div>'
+    // Projects progress
+    + '<div class="kp" style="padding:20px;margin:0 .5rem 24px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h3 style="font-size:.95rem;font-weight:700">プロジェクト進捗一覧</h3><button class="btn2" onclick="window._hataraiku.switchTab(\'project\')">全てみる →</button></div>'
+    + _projectBars()
+    + '</div>'
+    // Quick actions
+    + '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:0 .5rem;margin-bottom:24px">'
+    + _quickAction('📝','新規申請','approval')
+    + _quickAction('⏰','出勤打刻','attendance')
+    + _quickAction('📄','見積作成','invoice')
+    + _quickAction('💳','経費申請','finance')
+    + _quickAction('👤','名刺登録','card')
+    + '</div>';
+}
 
-   6b; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px;">要対応</span>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="display:flex; align-items:casher; padd,
-  12px; bor'�-left:4pxasolid #66   {; margin-bottom:0; background'
- 8f9ff;">ser: '�'�':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
-66   {; margin-right:12px;"></div>ser: '�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">営業提�u書��:成</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:2px;">', c/04/01 16 20</div>ser: '�'�'�'�</div>ser: '�'�'�'�<span
-clas0="sb"
-/*yle="background'
-66   {; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px;">��: �</span>ser: '�'�'�</div>ser: '�'�</div>ser: '�</div>sser: '�<div
-clas0="kp"
-/*yle="padd,
-  20px;">ser: '�'�<h3
-/*yle="margin-top:0; margin-bottom:16px; font-siz3-16px; font-weight:600;"> value, tv �ロ���ェク: '</h3>ser: '�'�<div
-/*yle="space-y:12px;">ser: '�'�'�<div
-/*yle="margin-bottom:16px;">ser: '�'�':':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:6px;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">営業: </div>ser: '�'�':':':<div
-/*yle="font-siz3-13px; f4757'#66   {;">75%</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-clas0="pb"
-/*yle="height-8px; background'
-eee; bor'�-radius:4px; overflow:hidden;">ser: '�'�':':':<div
-clas0="pf"
-/*yle="width:75%; height- ],%; background'
-66   {; bor'�-radius:4px;"></div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="margin-bottom:16px;">ser: '�'�':':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:6px;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">��篹修�ム改善</div>ser: '�'�':':':<div
-/*yle="font-siz3-13px; f4757'#764ba2;">52%</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-clas0="pb"
-/*yle="height-8px; background'
-eee; bor'�-radius:4px; overflow:hidden;">ser: '�'�':':':<div
-clas0="pf"
-/*yle="width:52%; height- ],%; background'
-764ba2; bor'�-radius:4px;"></div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="margin-bottom:16px;">ser: '�'�':':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:6px;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">��ア'向上タスク</div>ser: '�'�':':':<div
-/*yle="font-siz3-13px; f4757'#00b894;">88%</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-clas0="pb"
-/*yle="height-8px; background'
-eee; bor'�-radius:4px; overflow:hidden;">ser: '�'�':':':<div
-clas0="pf"
-/*yle="width:88%; height- ],%; background'
-00b894; bor'�-radius:4px;"></div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�'�<div
-/*yle="margin-bottom:16px;">ser: '�'�':':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:6px;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">� �0:�al��は10:00�</div>ser: '�'�':':':<div
-/*yle="font-siz3-13px; f4757'#
-    {;">43%</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-clas0="pb"
-/*yle="height-8px; background'
-eee; bor'�-radius:4px; overflow:hidden;">ser: '�'�':':':<div
-clas0="pf"
-/*yle="width:43%; height- ],%; background'
+function _kpi(label, value, change, sub, color) {
+  var arrow = change.indexOf('+') === 0 ? '▲ ' : change.indexOf('-') === 0 ? '▼ ' : '';
+  var cColor = change.indexOf('+') === 0 ? '#10b981' : change.indexOf('-') === 0 ? '#ef4444' : 'var(--sub)';
+  return '<div class="kp" style="padding:20px;border-left:4px solid ' + color + '">'
+    + '<div style="font-size:.8rem;color:var(--sub)">' + label + '</div>'
+    + '<div style="font-size:1.75rem;font-weight:800;color:' + color + ';margin:4px 0">' + value + '</div>'
+    + '<div style="font-size:.75rem;color:' + cColor + '">' + arrow + change + ' <span style="color:var(--sub)">' + sub + '</span></div>'
+    + '</div>';
+}
 
-    {; bor'�-radius:4px;"></div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�'�<div>ser: '�'�':':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:6px;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:600;">���: �����: ン: '対応</div>ser: '�'�':':':<div
-/*yle="font-siz3-13px; f4757'#
-   6b;">'8%</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-clas0="pb"
-/*yle="height-8px; background'
-eee; bor'�-radius:4px; overflow:hidden;">ser: '�'�':':':<div
-clas0="pf"
-/*yle="width:28%; height- ],%; background'
+function _miniChart() {
+  var data = [8,15,18,22,35,62,88];
+  var labels = ['10月','11月','12月','1月','2月','3月','4月'];
+  var max = 100;
+  var w = 100 / data.length;
+  var svg = '<svg viewBox="0 0 400 200" style="width:100%;height:200px">';
+  svg += '<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--p)" stop-opacity="0.3"/><stop offset="100%" stop-color="var(--p)" stop-opacity="0"/></linearGradient></defs>';
+  var points = data.map(function(d, i) { return (i * 400 / (data.length - 1)) + ',' + (180 - d * 1.7); });
+  var areaPoints = '0,180 ' + points.join(' ') + ' 400,180';
+  svg += '<polygon points="' + areaPoints + '" fill="url(#cg)"/>';
+  svg += '<polyline points="' + points.join(' ') + '" fill="none" stroke="var(--p)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  data.forEach(function(d, i) {
+    var x = i * 400 / (data.length - 1);
+    var y = 180 - d * 1.7;
+    svg += '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#fff" stroke="var(--p)" stroke-width="2.5"/>';
+    svg += '<text x="' + x + '" y="196" text-anchor="middle" font-size="11" fill="#888">' + labels[i] + '</text>';
+    svg += '<text x="' + x + '" y="' + (y - 12) + '" text-anchor="middle" font-size="10" fill="var(--p)" font-weight="600">' + d + '%</text>';
+  });
+  svg += '</svg>';
+  return svg;
+}
 
-   6b; bor'�-radius:4px;"></div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�</div>ser: '�</div>ser: </div>s
-'�'�<div
-/*yle="display:grid; grid-template-' lumns:repe '(5,1f�); gap-12px;">ser: '�<button
-clas0="btn"
-onclick="window._jp', role:swi 'aboa('C: '')"
-/*yle="padd,
-  12px; bor'�:non,; bor'�-radius:8px; background'
-66   {; f4757'white; : 's57',20 2er; font-siz3-13px; font-weight:600;">💬 
- �ャ0:�: '</button>ser: '�<button
-clas0="btn"
-onclick="window._jp', role:swi 'aboa('F ['�')"
-/*yle="padd,
-  12px; bor'�:non,; bor'�-radius:8px; background'
-764ba2; f4757'white; : 's57',20 2er; font-siz3-13px; font-weight:600;">📁 
- �ァイger</button>ser: '�<button
-clas0="btn"
-onclick="window._jp', role:swi 'aboa('Ater: 'a')"
-/*yle="padd,
-  12px; bor'�:non,; bor'�-radius:8px; background'
-00b894; f4757'white; : 's57',20 2er; font-siz3-13px; font-weight:600;">✓ ,tle: </button>ser: '�<button
-clas0="btn"
-onclick="window._jp', role:swi 'aboa('Ier: 'a')"
-/*yle="padd,
-  12px; bor'�:non,; bor'�-radius:8px; background'
+function _activityList() {
+  var items = [
+    {sb:'sb-g',label:'申請中',text:'見積承認: テスト',date:'2026-03-31'},
+    {sb:'sb-g',label:'申請中',text:'PJ変更: 梅田再開発ビル',date:'2026-03-31'},
+    {sb:'sb-b',label:'承認',text:'着工申請: 横浜マンション新筑',date:'2026-03-29'},
+    {sb:'sb-b',label:'承認',text:'完了報告: 京都町屋リノベーション',date:'2026-03-28'},
+    {sb:'sb-r',label:'差戻し',text:'経費精算: 現場交通費',date:'2026-03-27'}
+  ];
+  var html = '';
+  items.forEach(function(it) {
+    html += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)">'
+      + '<span class="sb ' + it.sb + '">' + it.label + '</span>'
+      + '<span style="flex:1;font-size:.85rem">' + it.text + '</span>'
+      + '<span style="font-size:.75rem;color:var(--sub)">' + it.date + '</span>'
+      + '</div>';
+  });
+  return html;
+}
 
-    {; f4757'white; : 's57',20 2er; font-siz3-13px; font-weight:600;">📋 g��求</button>ser: '�<button
-clas0="btn"
-onclick="window._jp', role:swi 'aboa('Fer: 'a )"
-/*yle="padd,
-  12px; bor'�:non,; bor'�-radius:8px; background'
+function _projectBars() {
+  var pjs = [
+    {name:'梅田再開発ビル',pct:50,phase:'現地調査',mgr:'佐藤一郎',area:'大阪市 北区',color:'var(--p)'},
+    {name:'横浜マンション新筑',pct:25,phase:'案件相談',mgr:'山田次郎',area:'横浜市 中区',color:'#f59e0b'},
+    {name:'京都町屋リノベーション',pct:75,phase:'見積提出',mgr:'佐藤一郎',area:'京都市 東山区',color:'#10b981'}
+  ];
+  var html = '';
+  pjs.forEach(function(p) {
+    html += '<div style="margin-bottom:20px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+      + '<strong>' + p.name + '</strong>'
+      + '<span class="sb sb-g" style="font-size:.7rem">' + p.phase + '</span>'
+      + '</div>'
+      + '<div class="pb"><div class="pf" style="width:' + p.pct + '%;background:' + p.color + '"></div></div>'
+      + '<div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--sub);margin-top:4px">'
+      + '<span>担当: ' + p.mgr + ' | エリア: ' + p.area + '</span>'
+      + '<span>' + p.pct + '%</span>'
+      + '</div></div>';
+  });
+  return html;
+}
 
-   6b; f4757'white; : 's57',20 2er; font-siz3-13px; font-weight:600;">💰 財務</button>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n}
- //======================== //=C: ' Ras'� F 'use s //======================== { 'use s das'�C: '(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.:: 'M
-    'g)neral':window.  cur.:: 'M
-    'g =ame: 'random',1, [
-    {: name: '全auth57'郎', t太: '09:��' },
-'👨‍💼09:32', ext: 'おは�う�疲れ様, avatar:営業: �����melor: ���本�話し合��本日斂����r: '�isOwn:or: '{ user: '田m',2, [
-    {: name: '全auth57'�あ: '#��09:��' },
-'👤09:32', ext: 8おは��,tl知��。資料準�今月��ャ�上は95%達成��ava������まavatar: '�isOwn:r: ' muser: '田m',3, [
-    {: name: '全auth57'郎', t花子09:��' },
-'👩‍💼09:32', ext:2'おは��素晴�����', �！詳細: '報告書���: �願��本', avatar: '�isOwn:or: '{ user: '田m',4, [
-    {: sales全auth57'��', aime: '09:��' },
-'👨‍💻09:32', e�で'おは�ㅗ', u
-��: �����: ン: '獲得���, c5 avata��、a��週の��ングは10:00か�相談��料溂本�vatar: '�isOwn:or: '{ user: '田m',5, [
-    {: sales全auth57'�あ: '#��09:��' },
-'👤09:32', e�で8おは�ました���の全�曜��ミ�13時: �大丈夫��avatar: '�isOwn:r: ' muser: ];ral':window.  cur.: 'dashC
-    { =a'name: '�;ral':window.  cur.onlineUserg =a{ name: 'id:'�', t太: '09:郎', t花子09:�あ: '#��0], salesid:'�', aime: '09:�あ: '#��0] };ral}nrallonst�[
-    {g =am name: '全 sales全'market,
- 全'engineer,
- 全'man  'mash'];ntslonst�m
-    'g =awindow.  cur.:: 'M
-    'g.fil2er(m => m.c
-    { ===:window.  cur.: 'dashC
-    {);ntslonst�onlineCeun� =awindow.  cur.onlineUserg[window.  cur.: 'dashC
-    {]?.length || 0;Trallonst�htmln= `ral':<div
-/*yle="display:flex; height- ],%; gap-0;">ser: '�<!-- Left Pa  {: C
-    {g -->ser: '�<div
-/*yle="width:280px; background'
-
-5f7f{; bor'�-right- pxasolid #ddd; overflow-y:auto;">ser: '�'�<div
-/*yle="padd,
-  16px; bor'�-bottom:1pxasolid #ddd;">ser: '�'�'�<h3
-/*yle="margin 0 0 12pxa0; font-siz3-14px; font-weight:700; f4757'#333;">� �ャ0:�: �ger</h3>ser: '�'�':<div
-/*yle="display:flex; gap-8px;">ser: '�'�':':<input
-clas0="inp"�㈻�="は�" placeh ['�="検索..."
-/*yle="flex:�; padd,
-  8pxa12px; bor'�: pxasolid #ddd; bor'�-radius:6px; font-siz3-13px;"/>ser: '�'�'�</div>ser: '�'�</div>ser: '�'�<div
-/*yle="padd,
-  8px;">ser: '�'�':${[
-    {g.r:p)(ch'�idx) => {ser: '�'�':':lonst�unread =am1, 3, 5].tecludes(idx) ? Math.floor(Math.ame: '() * 5)n+ 1 : 0;Ter: '�'�':':lonst�isActive =ach ===:window.  cur.: 'dashC
-    {;Ter: '�'�':':returna`ser: '�'�':':':<div
-onclick="window.  cur.: 'dashC
-    {='${[
-}';:window.das'�C: '(documash.querySelme:or('[d' }-tab=C: ']'));"ser: '�'�':':':::::
-/*yle="padd,
-  12px; margin-bottom:4px; background'${isActive ? },
-    { n' }
-  f'}; f4757'${isActive ? },  f'n' }
-333'}; bor'�-radius:8px; : 's57',20 2er; display:flex; justify-' }ten�space-between; align-items:casher; 3ransise s:all 0.3s;">ser: '�'�':':':'�<div
-/*yle="display:flex; align-items:casher; gap-8px; flex:�;">ser: '�'�':':':':':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'${isActive ? },  f'n' }
-
-    { };"></div>ser: '�'�'�'�'�':':<span
-/*yle="font-siz3-13px; font-weight:600;">#:${[
-}</span>ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�':${unread > 0 ? `<span
-/*yle="background'
-
-   6b; f4757'white; bor'�-radius:12px; width-20px; height-20px; display:flex; align-items:casher; justify-' }ten�casher; font-siz3-11px; font-weight:700;">${unread}</span>`n' }'}
-: '�'�'�'�'�'�</div>ser: '�'�'�'�`;Ter: '�'�':}).j20 ('')}ser: '�'�</div>ser: '�'�<div
-/*yle="padd,
-  16px; bor'�-top:1pxasolid #ddd; margin-top:16px;">ser: '�'�':<h4
-/*yle="margin 0 0 12pxa0; font-siz3-12px; font-weight:700; f4757'#999; は�-3ransform:uppercase;">��シ�� ������� (${onlineCeun�})</h4>ser: '�'�':<div
-/*yle="space-y:8px;">ser: '�'�'�':${window.  cur.onlineUserg[window.  cur.: 'dashC
-    {]?.r:p)田� => `
-: '�'�':':':'�<div
-/*yle="display:flex; align-items:casher; gap-8px; margin-bottom:8px;">
-: '�'�':':':':':<div
-/*yle="width:28px; height-28px; bor'�-radius:50%; background'linear-gradiash(135deg, ,
-    {, ,764ba2); f4757'white; display:flex; align-items:casher; justify-' }ten�casher; font-siz3-12px; font-weight:700;">ser: '�'�'�'�'�':':${u���.[
- rAt(0)}ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�':<div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-12px; font-weight:600;">${u���}</div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-11px; f4757'#999;">��シ�� �������</div>ser: '�'�'�'�'�':</div>ser: '�'�'�'�'�':<div
-/*yle="width:8px; height-8px; bor'�-radius:50%; background'
-00b894; margin-left:auto;"></div>ser: '�'�':':':</div>ser: '�'�'�'�`).j20 ('') || }'}
-: '�'�'�'�</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Right Pa  {: M
-    'g -->ser: '�<div
-/*yle="flex:�; display:flex; flex-directe s:' lumn; background'
- ff;">ser: '�'�<!-- Head�� -->ser: '�'�<div
-/*yle="padd,
-  16px 20px; bor'�-bottom:1pxasolid #ddd; background'
- 8f9fa;">ser: '�'�':<h2
-/*yle="margin:0; font-siz3-16px; font-weight:700;">#:${window.  cur.: 'dashC
-    {}</h2>
-'�'�'�':':<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:4px;">${onlineCeun�}人a���シ�� �������</div>ser: '�'�</div>sser: '�'�<!-- M
-    'g Area -->ser: '�'�<div
-/*yle="flex:�; overflow-y:auto; padd,
-  20px; display:flex; flex-directe s:' lumn; gap-12px;">ser: '�':':${m
-    'g.r:p)msg => `
-: '�'�':':':<div
-/*yle="display:flex; gap-12px; ${msg.isOwn ? }flex-directe s:row-reverse'n' }'}">ser: '�'�':':':<div
-/*yle="width:36px; height-36px; bor'�-radius:50%; background'linear-gradiash(135deg, ,
-    {, ,764ba2); f4757'white; display:flex; align-items:casher; justify-' }ten�casher; font-siz3-16px; flex-shrink:0;">ser: '�'�'�'�'�':${msg.��' },}
-: '�'�'�'�'�'�</div>ser: '�'�'�'�':<div
-/*yle="${msg.isOwn ? }align-self:flex-as''n' }'}; flex:�; max-width:60%;">ser: '�'�':':':'�<div
-/*yle="display:flex; gap-8px; margin-bottom:4px; ${msg.isOwn ? }flex-directe s:row-reverse'n' }'}; align-items:casher;">ser: '�'�'�'�'�':':<span
-/*yle="font-siz3-13px; font-weight:600;">${msg.�uth57}</span>ser: '�'�'�'�'�'�':<span
-/*yle="font-siz3-11px; f4757'#999;">${msg.32',}</span>ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�':<div
-/*yle="background'${msg.isOwn ? },
-    { n' }
- 0 0 0'}; f4757'${msg.isOwn ? },  f'n' }
-333'}; padd,
-  12px; bor'�-radius:12px; wor'-wrap-break-wor'; font-siz3-13px; line-height- .5;">ser: '�'�'�'�'�':':${msg.3���}ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>ser: '�'�'�`).j20 ('')}ser: '�'�'�<div
-/*yle="は�-align:casher; f4757'#999; font-siz3-12px; margin-top:auto; padd,
- -top:12px; bor'�-top:1pxasolid #eee;">ser: '�'�':':<span
-/*yle="posise s:relative;">ser: '�'�':':':<span
-/*yle="display:inline-b: nu; width:8px; height-8px; bor'�-radius:50%; background'
-66   {; margin 0 2px; anime
-   :pu: '{1.4s infinite;"></span>ser: '�'�'�'�'�<span
-/*yle="display:inline-b: nu; width:8px; height-8px; bor'�-radius:50%; background'
-66   {; margin 0 2px; anime
-   :pu: '{1.4s infinite 0.2s;"></span>ser: '�'�'�'�'�<span
-/*yle="display:inline-b: nu; width:8px; height-8px; bor'�-radius:50%; background'
-66   {; margin 0 2px; anime
-   :pu: '{1.4s infinite 0.4s;"></span>ser: '�'�'�'�</span> 누군가 입력 중입니다...
-: '�'�'�'�</div>ser: '�'�</div>sser: '�'�<!-- M
-    ' Input
--->ser: '�'�<div
-/*yle="padd,
-  16px 20px; bor'�-top:1pxasolid #ddd; background'
- 8f9fa;">ser: '�'�':<div
-/*yle="display:flex; gap-12px;">ser: '�'�':':<input
-id=":: 'Input"
-clas0="inp"�㈻�="は�" placeh ['�="メ_a����0:�al����入力..."
-/*yle="flex:�; padd,
-  10pxa14px; bor'�: pxasolid #ddd; bor'�-radius:8px; font-siz3-13px;"/>ser: '�'�'�'�<button
-clas0="btn"
-onclick="window.sas'C: 'M
-    '()"
-/*yle="padd,
-  10px 20px; background'
-66   {; f4757'white; bor'�:non,; bor'�-radius:8px; : 's57',20 2er; font-weight:600;"> v�信</button>ser: '�'�'�</div>ser: '�'�</div>ser: '�</div>ser: </div>s
-'�'�</*yle>ser: '�@keyfram
-  pu: '{{ser: '�'�0%, 60%,  ],% { opacity: 0.3; }ser: '�'�3,% { opacity: 1; }ser: '�}ser: <//*yle>ser`;Trallontain�.ten��HTML =ahtml;nral//=Setup input
-
-  dlerTabsetT2',out(() => {ser: lonst�input
-=llontain�.querySelme:or('#:: 'Input');ntsalif(input){{ser: '�input.addEvashListame:('keypr
-  ', (e) => {ser: '�'�if(e.key ===:'E 2er' && !e.shiftKey) {ser: '�'�':e.preventDefault();Ter: '�'�':window.sas'C: 'M
-    '();Ter: '�'�}ser: '�});Ter: }ser}, 0);n}
- window.sas'C: 'M
-    '
-=l{ 'use st) {serlonst�input
-=ldocumash.querySelme:or('#:: 'Input');ntsif(!input
-|| !input.value.trim()) return;Trallonst�newMsg = {ser: m', (window.  cur.:: 'M
-    'g?.length || 0)n+ 1user: [
-    {::window.  cur.: 'dashC
-    {user: auth57':�あ: '#��0user: a�' },
-  👤09ser: 32',  new=D
-te().getHou� ().toSt�,
- ().padS', t(2,'0') +a':' +anew=D
-te().getMinute ().toSt�,
- ().padS', t(2,'0')9ser: 3��� input.value9ser: isOwn:or: 'ser};Tralif(!window.  cur.:: 'M
-    'g)nwindow.  cur.:: 'M
-    'g =am];ntswindow.  cur.:: 'M
-    'g.push(newMsg);ntsinput.value =a'';Tralwindow.das'�C: '(documash.querySelme:or('[d' }-tab=C: ']'));
-}====/======================== //=F ['� Ras'� F 'use s //======================== { 'use s das'�F ['�(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.: ['�D
-ta)neral':window.  cur.: ['�D
-ta = {ser:   : 'dashPath: ['ル��グ�']user: '�: ['� name: '�'random',1, 浜�'営業資料', ㈻�:n: ['� {�siz3-0,�6-03:'', c/03/ 'おitems:5{ user: '�'田m',2, 浜�'g��求書'02㈻�:n: ['� {�siz3-0,�6-03:'', c/03/20おitems:12{ user: '�'田m',3, 浜�'契約書'02㈻�:n: ['� {�siz3-0,�6-03:'', c/03/10おitems:8{ user: '�'田m',4, 浜�'会議資料', ㈻�:n: ['� {�siz3-0,�6-03:'', c/04/02おitems:3�}ser: '�]user: '�:ilesid:e: '�'random',10, 浜�'', c年度予算.xlsx', ㈻�:nexcel {�siz3-'2.4MB',�6-03:'', c/03/25'{ user: '�'田m',11, 浜�'���次��������グ�.pdf', ㈻�:npdf', siz3-'1.8MB',�6-03:'', c/04/01'{ user: '�'田m',12, 浜�'営業戦略.pptx', ㈻�:npr
- ashe
-   ', siz3-'5.2MB',�6-03:'', c/03/28'{ user: '�'田m',13, 浜�'�ア'基準.docx', ㈻�:nwor'', siz3-'0.8MB',�6-03:'', c/03/20�{ user: '�'田m',14, 浜�'顧客一覧.csv', ㈻�:ncsv', siz3-'450KB',�6-03:'', c/04/02'�}ser: '�]user: '�s:or  'Use', 591user: '�s:or  'Tot 'id10240Ter: };ral}nrallonst�s:or  'Percash = (window.  cur.: ['�D
-ta.s:or  'Use' / window.  cur.: ['�D
-ta.s:or  'Tot ' *  ],).toFixed(1);Trallonst�getFileIlon = (㈻�) => {ser: lonst�ilons =a{ pdf
-'🔴',�excel
-'🟢',�pr
- ashe
-   
-'🔵',�wor'
-'🟠',�csv:'⚪',�: ['ヂ'📁' };ral':returnailons[㈻�] || }📄';Tab};Trallonst�getFileC4757 = (㈻�) => {ser: lonst�f4757s =a{ pdf
-'
-
-   6b',�excel
-'
-00b894',�pr
- ashe
-   
-',
-    { ,�wor'
-'
-
-    {',�csv:'#764ba2' };ral':returnaf4757s[㈻�] || }#999';Tab};Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- Breadcrumb -->ser: '�<div
-/*yle="display:flex; align-items:casher; gap-8px; margin-bottom:20px; font-siz3-13px;">ser: '�'�${window.  cur.: ['�D
-ta.: 'dashPath.r:p)(p'�idx) => `
-: '�'�':':<span>${p}</span>ser: '�'�'�${idx < window.  cur.: ['�D
-ta.: 'dashPath.length - 1 ? }<span
-/*yle="f4757'#ccc;">›</span>'n' }'}
-: '�'�'�`).j20 ('')}ser: '�</div>sser: '�<!-- S:or  ' -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; margin-bottom:20px;">ser: '�'�<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:8px;">ser: '�'�'�<span
-/*yle="font-siz3-13px; font-weight:600;">��修�������al�使������況</span>ser: '�'�'�<span
-/*yle="font-siz3-13px; f4757'#66   {; font-weight:600;">${window.  cur.: ['�D
-ta.s:or  'Use'}MB / ${window.  cur.: ['�D
-ta.s:or  'Tot '}MB</span>ser: '�'�</div>ser: '�'�<div
-clas0="pb"
-/*yle="height-10px; background'linear-gradiash(90deg, ,ddd 0%, ,ddd  ],%); bor'�-radius:5px; overflow:hidden;">ser: '�'�':<div
-clas0="pf"
-/*yle="width:${s:or  'Percash}%; height- ],%; background'linear-gradiash(90deg, ,
-    { 0%, ,764ba2  ],%);"></div>ser: '�'�</div>ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#999; margin-top:8px;">${s:or  'Percash}% 使���中</div>ser: '�</div>sser: '�<!-- Search -->ser: '�<div
-/*yle="margin-bottom:20px;">ser: '�'�<input
-id=": ['�Search"
-clas0="inp"�㈻�="は�" placeh ['�="ファイgerを検索..."
-/*yle="width: ],%; padd,
-  10pxa14px; bor'�: pxasolid #ddd; bor'�-radius:8px; font-siz3-13px;"/>ser: '�</div>sser: '�<!-- F ['�s Grid -->ser: '�<div
-/*yle="margin-bottom:24px;">ser: '�'�<h3
-/*yle="font-siz3-14px; font-weight:600; margin 0 0 12pxa0;">� �ォル���</h3>ser: '�'�<div
-/*yle="display:grid; grid-template-' lumns:repe '(auto-fill, minmax(140px, 1fr)); gap-12px; margin-bottom:20px;">ser: '�'�'�${window.  cur.: ['�D
-ta.: ['� .r:p){ => `
-: '�'�':':':<div
-onclick="window.  cur.: ['�D
-ta.: 'dashPath.push('${f.浜�}');:window.das'�F ['�(documash.querySelme:or('[d' }-tab=F ['�]'));"ser: '�'�':':'::::clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher; : 's57',20 2er; 3ransise s:all 0.3s; bor'�:2pxasolid 3ranspadash;"ser: '�'�':':'::::onmouseover="this./*yle.bor'�C4757='#
-    { ; 3his./*yle.background='
- 8f9ff';"ser: '�'�':':'::::onmouseout="this./*yle.bor'�C4757='3ranspadash'; 3his./*yle.background='
- ff';">ser: '�'�':':':<div
-/*yle="font-siz3-48px; margin-bottom:8px;">📁</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; font-weight:600; margin-bottom:4px; wor'-break-break-wor';">${f.浜�}</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-11px; f4757'#999;">${f.items}, c5 ��: イ���ム</div>ser: '�'�'�'�</div>ser: '�'�'�`).j20 ('')}ser: '�'�</div>ser: '�</div>sser: '�<!-- Files Table -->ser: '�<div
-/*yle="margin-bottom:20px;">ser: '�'�<h3
-/*yle="font-siz3-14px; font-weight:600; margin 0 0 12pxa0;">� �ァイger</h3>ser: '�'�<div
-/*yle="overflow-x:auto;">ser: '�'�'�<�able /*yle="width: ],%; bor'�-f47lapse:f47lapse; font-siz3-13px;">ser: '�'�'�'�<�head>ser: '�'�'�'�'�<tr
-/*yle="background'
-
-5f7f{; bor'�-bottom:2pxasolid #ddd;">ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  12px; は�-align:left; font-weight:600; f4757'#333; : 's57',20 2er;">� � </�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  12px; は�-align:left; font-weight:600; f4757'#333; : 's57',20 2er;">タイge�</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  12px; は�-align:left; font-weight:600; f4757'#333; : 's57',20 2er;">サ����:�</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  12px; は�-align:left; font-weight:600; f4757'#333; : 's57',20 2er;">更新日</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  12px; は�-align:casher; font-weight:600; f4757'#333;">操作</�h>ser: '�'�'�'�'�</�r>ser: '�'�'�'�</�head>ser: '�'�'�'�<tbody>ser: '�'�'�'�'�${window.  cur.: ['�D
-ta.:iles.r:p){ => `
-: '�'�':':':'�'�<tr
-/*yle="bor'�-bottom:1pxasolid #eee; 3ransise s:all 0.3s;"
-onmouseover="this./*yle.background='
- 8f9ff';"
-onmouseout="this./*yle.background='
- ff';">ser: '�'�':':':'�'�<td
-/*yle="padd,
-  12px; display:flex; align-items:casher; gap-8px;">ser: '�'�':':':'�'�'�<span
-/*yle="font-siz3-20px;">${getFileIlon(f.㈻�)}</span>ser: '�'�'�'�'�'�':':<span
-/*yle="font-weight:600;">${f.浜�}</span>ser: '�'�'�'�'�'�':</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  12px;">ser: '�'�':':':'�'�'�<span
-/*yle="background'${getFileC4757(f.㈻�)}; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px; font-weight:600;">${f.㈻�.toUpperCase()}</span>ser: '�'�'�'�'�'�':</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  12px; f4757'#666;">${f.siz3}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  12px; f4757'#666;">${f.6-03}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  12px; は�-align:casher;">ser: '�'�er: '�'�'�'�<button
-clas0="btn2"
-onclick="alert('v �レ0:�: ����: ${f.浜�}')"
-/*yle="padd,
-  6pxa12px; background'non,; bor'�: pxasolid #ddd; bor'�-radius:4px; : 's57',20 2er; font-siz3-11px; f4757'#66   {;">👁️ v �レ0:�: ����</button>ser: '�'�'�'�'�'�':</td>ser: '�'�':':':'�</�r>ser: '�'�'�'�'�`).j20 ('')}ser: '�'�'�'�</�body>ser: '�'�'�</�able>ser: '�'�</div>ser: '�</div>sser: '�<!-- Upload Zon, -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  32px; は�-align:casher; bor'�:2pxa,
-  ed #66   {; bor'�-radius:8px; background'
-
-8f9ff; : 's57',20 2er;"
-onmouseover="this./*yle.background='
- 0f2ff';"
-onmouseout="this./*yle.background='
- 8f9ff';">ser: '�'�<div
-/*yle="font-siz3-40px; margin-bottom:12px;">📤</div>ser: '�'�<div
-/*yle="font-siz3-14px; font-weight:600; margin-bottom:4px;">� �ァイger���:��� ��a����＆:��� �0:�: �</div>ser: '�'�<div
-/*yle="font-siz3-12px; f4757'#999;">� ava���ざ�リ�a������料�選択</div>ser: '�</div>ser: </div>s
-'�'�</*yle>ser: '��able th:hover {ser: '�'�background' #ee 0f8;ser: '�}ser: <//*yle>ser`;Trallontain�.ten��HTML =ahtml;nralsetT2',out(() => {ser: lonst�search =llontain�.querySelme:or('#: ['�Search');ntsalif(search) {ser: '�search.addEvashListame:('input', (e) => {ser: '�'�lonst�2erm =l�.target.value.toLowerCase();ser: '�'�lonst�rows =llontain�.querySelme:orAll('�body 3r');ser: '�'�rows.: rEach(rown=> {ser: '�'�':lonst�n��� =lrow.3���C }ten�.toLowerCase();ser: '�'�'�row./*yle.displayn= n���.tecludes(2erm) ? ''n' }non,';Ter: '�'�});ser: '�});Ter: }ser}, 0);n}
- =/======================== //=Ater: 'a Ras'� F 'use s //======================== { 'use s das'�Ater: 'a(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.lter: 'aD
-ta)neral':window.  cur.lter: 'aD
-ta = {ser:   fil2er: }all'user: '�ltelice
-    name: '�'random',1, ltelicent:',�', t太: '09:�meun�:45000, ce
-egory:'経費09:descrip
-   
-'営業会議���飲食代', status:'pas',
- 全6-03:'', c/04/03',�company:'ABC Corp'{ user: '�'田m',2, ltelicent:'�', t花子09:�meun�:128000, ce
-egory:''��張09:descrip
-   
-'大阪'��張交通費宿泊費09:status:'pas',
- 全6-03:'', c/04/02',�company:'XYZ Ltd'{ user: '�'田m',3, ltelicent:'��', time: '09:�meun�:15000, ce
-egory:'備品09:descrip
-   
-'�シ���10��用椅子09:status:'lter: ed',�6-03:'', c/04/01',�company:'ABC Corp'{ user: '�'田m',4, ltelicent:'�', a美咲09:�meun�:89000, ce
-egory:'経費09:descrip
-   
-'展示会参加費09:status:'lter: ed',�6-03:'', c/03/31',�company:'Delta Inc'{ user: '�'田m',5, ltelicent:'�'々, a健太09:�meun�:52000, ce
-egory:''��張09:descrip
-   
-'東京'��張（3日間）09:status:'rejme:ed',�6-03:'', c/03/30',�company:'Gamma Co'�}ser: '�]Ter: };ral}nrallonst�allAteg =awindow.  cur.lter: 'aD
-ta.ltelice
-    ;ntslonst�fil2eredAteg =awindow.  cur.lter: 'aD
-ta.fil2er ===:'all'Ter: ?�allAtegTer: :�allAteg.fil2er(an=> a.s:atus ===:window.  cur.lter: 'aD
-ta.fil2er);Trallonst�s:ats = {ser: tot 'idallAteg.lengthuser: pas',
- :�allAteg.fil2er(an=> a.s:atus ===:'pas',
- �).lengthuser: lter: ed:�allAteg.fil2er(an=> a.s:atus ===:'lter: ed').lengthuser: rejme:ed:�allAteg.fil2er(an=> a.s:atus ===:'rejme:ed').lengthTab};Trallonst�getS:atusC4757 = (s:atus) => {ser: lonst�f4757s =a{ pas',
- :'
-
-    {',�lter: ed:'
-00b894',�rejme:ed:'
-
-   6b' };ral':returnaf4757s[s:atus] || }#
-    { ;Tab};Trallonst�getS:atusT��� = (s:atus) => {ser: lonst�3���s =a{ pas',
- :',tle: 待ち',�lter: ed:',tle: 済',�rejme:ed:'差戻���' };ral':returna3���s[s:atus] || s:atus;Tab};Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- S:ats -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">����浜�</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#66   {;">${s:ats.tot '}</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">¥${(allAteg.reduce((s,a)=>s+a.lmeun�,0)/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,tle: 待ち</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-    {;">${s:ats.pas',
- }</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">¥${(allAteg.fil2er(a=>a.s:atus==='pas',
- �).reduce((s,a)=>s+a.lmeun�,0)/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,tle: 済</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#00b894;">${s:ats.lter: ed}</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">¥${(allAteg.fil2er(a=>a.s:atus==='lter: ed').reduce((s,a)=>s+a.lmeun�,0)/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">差戻���</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-   6b;">${s:ats.rejme:ed}</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">¥${(allAteg.fil2er(a=>a.s:atus==='rejme:ed').reduce((s,a)=>s+a.lmeun�,0)/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Filt�s -->ser: '�<div
-/*yle="display:flex; gap-8px; margin-bottom:20px; flex-wrap-wrap;">ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.lter: 'aD
-ta.fil2er='all';:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.lter: 'aD
-ta.fil2er==='all'?}#
-    { :}
- 0 0 0'}; f4757'${window.  cur.lter: 'aD
-ta.fil2er==='all'?}# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':���て (${s:ats.tot '})ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.lter: 'aD
-ta.fil2er='pas',
- �;:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.lter: 'aD
-ta.fil2er==='pas',
- �?'
-
-    {':}
- 0 0 0'}; f4757'${window.  cur.lter: 'aD
-ta.fil2er==='pas',
- �?'
-
- f':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':,tle: 待ち (${s:ats.pas',
- })ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.lter: 'aD
-ta.fil2er='lter: ed';:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.lter: 'aD
-ta.fil2er==='ater: ed'?'
-00b894':}
- 0 0 0'}; f4757'${window.  cur.lter: 'aD
-ta.fil2er==='ater: ed'?'
-
- f':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':,tle: 済 (${s:ats.lter: ed})ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.lter: 'aD
-ta.fil2er='rejme:ed';:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.lter: 'aD
-ta.fil2er==='rejme:ed'?'
-
-   6b':}
- 0 0 0'}; f4757'${window.  cur.lter: 'aD
-ta.fil2er==='rejme:ed'?'
-
- f':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':���戻��� (${s:ats.rejme:ed})ser: '�'�</button>ser: '�</div>sser: '�<!-- Atelice
-     -->ser: '�<div
-/*yle="display:grid; gap-12px;">ser: '�'�${fil2eredAteg.r:p)lte => `
-: '�'�':':<div
-clas0="kp"
-/*yle="padd,
-  16px; bor'�-left:4pxasolid ${getS:atusC4757)lte.s:atus)}; display:flex; justify-' }ten�space-between; align-items:casher; 3ransise s:all 0.3s;">ser: '�'�':':<div
-/*yle="flex:�;">ser: '�'�':':':<div
-/*yle="display:flex; align-items:casher; gap-12px; margin-bottom:8px;">
-: '�'�':':':':':<div
-/*yle="width:40px; height-40px; bor'�-radius:50%; background'linear-gradiash(135deg, ,
-    {, ,764ba2); f4757'white; display:flex; align-items:casher; justify-' }ten�casher; font-weight:700; font-siz3-14px;">ser: '�'�'�'�'�':':${lte.ltelicent.[
- rAt(0)}ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�':<div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-14px; font-weight:600;">${lte.ltelicent}</div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-12px; f4757'#999;">${lte.company}</div>ser: '�'�'�'�'�':</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�'�<div
-/*yle="display:flex; gap-12px; margin-top:8px; flex-wrap-wrap;">ser: '�'�'�':':':<div
-/*yle="font-siz3-13px;">ser: '�'�'�'�'�':':<span
-/*yle="font-weight:600;">¥${lte.lmeun�.toLocaleSt�,
- ()}</span>ser: '�'�'�'�'�'�':<span
-/*yle="background'${getS:atusC4757)lte.s:atus)}; f4757'white; padd,
-  2px 8px; bor'�-radius:4px; font-siz3-11px; margin-left:8px; font-weight:600;">${getS:atusT���)lte.s:atus)}</span>ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�':<div
-/*yle="font-siz3-13px; f4757'#666;">ser: '�'�'�'�'�':':<span
-/*yle="background'
- 0f0f0; padd,
-  2px 8px; bor'�-radius:4px; font-siz3-11px; font-weight:600;">${lte.ce
-egory}</span>ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-top:8px;">${lte.descrip
-   }</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-/*yle="display:flex; gap-8px; margin-left:16px;">ser: '�'�':':':${lte.s:atus ===:'pas',
- � ? `
-'�'�er: '�'�'�'�<button
-clas0="btn"
-onclick="window.lter: eAtelice
-   (${lte.id});:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::':':':::/*yle="padd,
-  8px 16px; background'
-00b894; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">✓ ,tle: </button>ser: '�: '�'�'�'�<button
-clas0="btn"
-onclick="window.rejme:Atelice
-   (${lte.id});:window.das'�Ater: 'a(documash.querySelme:or('[d' }-tab=Ater: 'a]'));"ser: '�'�':':':::':':':::/*yle="padd,
-  8px 16px; background'
-
-   6b; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">✗ 却下</button>ser: '�: '�'�'�`n' `
-'�'�er: '�'�'�'�<button
-clas0="btn2"
-onclick="alert('�浜�詳細::${lte.ltelicent}')"
-/*yle="padd,
-  8px 16px; background'non,; bor'�: pxasolid #ddd; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">詳細</button>ser: '�: '�'�'�`}ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�`).j20 ('')}ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n}
- window.lter: eAtelice
-   
-=l{ 'use stid) {serlonst�lte =awindow.  cur.lter: 'aD
-ta.ltelice
-    .find(an=> a.id ===:id);ntsif(lte) lte.s:atus =:'lter: ed';
-}===window.rejme:Atelice
-   
-=l{ 'use stid) {serlonst�lte =awindow.  cur.lter: 'aD
-ta.ltelice
-    .find(an=> a.id ===:id);ntsif(lte) lte.s:atus =:'rejme:ed';
-}====/======================== //=Attend: 'a Ras'� F 'use s //======================== { 'use s das'�Attend: 'a(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.lttend: 'aD
-ta)neral':window.  cur.lttend: 'aD
-ta = {ser:   isC: nued:�or: 'user: '�c: nuInT2',  nulluser: '�recor' name: '�'random',1, 6-03:'', c/04/03',�in ext:00',�out:'18:30',�hou� :9.5, over32', 0, �otes:'通常勤務'{ user: '�'田m',2, 6-03:'', c/04/02おin ex8:45',�out:'20: 'おhou� :11.5, over32', 2.0, �otes:'v �ロ���ェク: '会議'{ user: '�'田m',3, 6-03:'', c/04/01',�in ext:15',�out:'17:45',�hou� :8.5, over32', 0, �otes:'通常勤務'{ user: '�'田m',4,�6-03:'', c/03/31',�in ext:00',�out:'18:00',�hou� :9.0, over32', 0, �otes:'���末締切対応'{ user: '�'田m',5, 6-03:'', c/03/28'��in ex8:30',�out:'19:00',�hou� :10.5, over32', 1.0, �otes:'営業打ち合���せ'�}ser: '�]user: '�m }thlySummary:田workDay na18, tot 'Hou� na156, over32',Hou� na8,�remain,
- Vace
-   na12�}ser: };ral}nrallonst�nown=anew=D
-te();ntslonst�c: nuT2',n=anew=D
-te().toLocaleT2',St�,
- ('ja-JP',�{�hou�: '2-digit', minute: '2-digit', second' '2-digit', hou�12:�or: '�});Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- Digital C: nu -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  32px; は�-align:casher; margin-bottom:20px; background'linear-gradiash(135deg, ,
-    { 0%, ,764ba2  ],%); f4757'white;">ser: '�'�<div
-id="digitalC: nu"
-/*yle="font-siz3-56px; font-weight:700; font-family:m }ospace; margin-bottom:16px; letter-spac,
-  4px;">ser: '�'�':${[: nuT2',}ser: '�'�</div>ser: '�'�<div
-/*yle="font-siz3-14px; opacity:0.9; margin-bottom:16px;">ser: '�'�'�${window.  cur.lttend: 'aD
-ta.isC: nued ? '⏱️ 勤務中'n' }✓ 退勤済'}ser: '�'�</div>ser: '�'�<button
-clas0="btn"
-onclick="window.toggleC: nuInOut();"
-/*yle="padd,
-  12px 24px; background'${window.  cur.lttend: 'aD
-ta.isC: nued?'
-
-   6b':}
-00b894'}; f4757'white; bor'�:non,; bor'�-radius:8px; : 's57',20 2er; font-siz3-14px; font-weight:700; margin-right-8px;">ser: '�'�'�${window.  cur.lttend: 'aD
-ta.isC: nued ? '🛑 退勤'n' }🟢 '��勤'}ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="alert('休憩開始 )"
-/*yle="padd,
-  12px 24px; background'
-
-    {; f4757'white; bor'�:non,; bor'�-radius:8px; : 's57',20 2er; font-siz3-14px; font-weight:700;">☕ 休憩</button>ser: '�</div>sser: '�<!-- M }thly Summary -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">���勤日数</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#66   {;">${window.  cur.lttend: 'aD
-ta.m }thlySummary.workDay }</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">日</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">総労働時間</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#764ba2;">${window.  cur.lttend: 'aD
-ta.m }thlySummary.tot 'Hou� }</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">時間</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,��業時間</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-    {;">${window.  cur.lttend: 'aD
-ta.m }thlySummary.over32',Hou� }</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">時間</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher; background'
- ff5f5; bor'�:2pxasolid #
-   6b;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,��休残</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-   6b;">${window.  cur.lttend: 'aD
-ta.m }thlySummary.remain,
- Vace
-   }</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">日</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- 36協定 Chenuer -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; margin-bottom:20px; background'
- ffbf0; bor'�-left:4pxasolid #
-    {;">
-'�':':':<div
-/*yle="display:flex; align-items:casher; gap-8px; margin-bottom:8px;">
-: '�'�':':<span
-/*yle="font-siz3-16px;">⚠️</span>ser: '�'�'�<h3
-/*yle="margin 0; font-siz3-14px; font-weight:700;">36協定� �ェ�a����</h3>ser: '�'�</div>ser: '�'�<div
-/*yle="display:grid; grid-template-' lumns:1f� 1fr; gap-12px; margin-top:12px; font-siz3-12px;">ser: '�'�'�<div>ser: '�'�':':<div
-/*yle="f4757'#666; margin-bottom:4px;">年間上限: 720時間</div>ser: '�'�'�'�<div
-/*yle="display:flex; gap-8px; align-items:casher;">ser: '�'�'�'�'�<span
-/*yle="font-weight:700; font-siz3-14px;">550h</span>ser: '�'�'�'�'�<div
-clas0="pb"
-/*yle="flex:�; height-6px; background'
-eee; bor'�-radius:3px;">
-: '�'�':':':':':<div
-clas0="pf"
-/*yle="width:${(550/720)* ],}%; height- ],%; background'#00b894;"></div>ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�'�<div>ser: '�'�':':<div
-/*yle="f4757'#666; margin-bottom:4px;">当月上限:  ],時間</div>ser: '�'�'�'�<div
-/*yle="display:flex; gap-8px; align-items:casher;">ser: '�'�'�'�'�<span
-/*yle="font-weight:700; font-siz3-14px;">8h</span>ser: '�'�'�'�'�<div
-clas0="pb"
-/*yle="flex:�; height-6px; background'
-eee; bor'�-radius:3px;">
-: '�'�':':':':':<div
-clas0="pf"
-/*yle="width:${(8/100)* ],}%; height- ],%; background'#00b894;"></div>ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�</div>ser: '�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:8px;">建設業特例: 年間720時間、a��間 ],時間</div>ser: '�</div>sser: '�<!-- T2',nRecor'  -->ser: '�<div
-/*yle="margin-bottom:20px;">ser: '�'�<h3
-/*yle="font-siz3-14px; font-weight:600; margin 0 0 12pxa0;">勤務記録</h3>ser: '�'�<div
-/*yle="overflow-x:auto;">ser: '�'�'�<�able /*yle="width: ],%; bor'�-f47lapse:f47lapse; font-siz3-12px;">ser: '�'�'�'�<�head>ser: '�'�'�'�'�<tr
-/*yle="background'
-
-5f7f{; bor'�-bottom:2pxasolid #ddd;">ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">日付</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">���勤</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">退勤</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">���働時間</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">,��業</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">���考</�h>ser: '�'�'�'�'�</�r>ser: '�'�'�'�</�head>ser: '�'�'�'�<tbody>ser: '�'�'�'�'�${window.  cur.lttend: 'aD
-ta.recor' .r:p)r => `
-: '�'�':':':'�'�<tr
-/*yle="bor'�-bottom:1pxasolid #eee;">ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; font-weight:600;">${r.6-03}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#66   {; font-weight:600;">${�.te}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#
-   6b; font-weight:600;">${�.out}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#666;">${�.hou� }h</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'${�.over32', > 0 ? '
-
-    {'n' }
-999'}; font-weight:${�.over32', > 0 ? '600'n' }400 };">${�.over32',}h</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#666;">${�.�otes}</td>ser: '�'�':':':'�</�r>ser: '�'�'�'�'�`).j20 ('')}ser: '�'�'�'�</�body>ser: '�'�'�</�able>ser: '�'�</div>ser: '�</div>sser: '�<!-- Weekly Summary Chart -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px;">ser: '�'�<h3
-/*yle="margin-top:0; margin-bottom:12px; font-siz3-14px; font-weight:600;">週間���働時間</h3>ser: '�'�<svg viewBox="0 0 400 150"
-/*yle="width: ],%; height- 20px;">ser: '�'�'�<!-- Grid -->ser: '�'�'�<line x1="40"
-y1=" 20" x2="380"
-y2=" 20" stroke="#ddd" stroke-width=" "/>ser: '�'�'�<line x1="40"
-y1="80" x2="380"
-y2="80" stroke="#eee" stroke-width=" " stroke-,
-  array="3,3"/>ser: '�'�'�<line x1="40"
-y1="40" x2="380"
-y2="40" stroke="#eee" stroke-width=" " stroke-,
-  array="3,3"/>sser: '�'�'�<!-- Y-axis lab {g -->ser: '�'�'�<t��� x="30"
-y=" 25" font-siz3=" 0"
-fill="#999">0h</t���>ser: '�'�'�<t��� x="20"
-y="85" font-siz3=" 0"
-fill="#999">5h</t���>ser: '�'�'�<t��� x="15"
-y="45" font-siz3=" 0"
-fill="#999">10h</t���>sser: '�'�'�<!-- Barg -->ser: '�'�'�<rect x="50"
-y=" 00"
-width="30"
-height="20"
-fill="#66   {" rx="2"/>ser: '�'�'�<t��� x="65"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">a��</t���>sser: '�'�'�<rect x="95"
-y="85" width="30"
-height="35" fill="#66   {" rx="2"/>ser: '�'�'�<t��� x="110"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">火</t���>sser: '�'�'�<rect x="140"
-y="75" width="30"
-height="45" fill="#764ba2" rx="2"/>ser: '�'�'�<t��� x="155"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">a��</t���>sser: '�'�'�<rect x="185"
-y="70"
-width="30"
-height="50"
-fill="#66   {" rx="2"/>ser: '�'�'�<t��� x="200"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">a��</t���>sser: '�'�'�<rect x="230"
-y="60"
-width="30"
-height="60"
-fill="#
-    {" rx="2"/>ser: '�'�'�<t��� x="245"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">金</t���>sser: '�'�'�<rect x="275"
-y="110"
-width="30"
-height=" 0"
-fill="#00b894" rx="2"/>ser: '�'�'�<t��� x="290"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">土</t���>sser: '�'�'�<rect x="320"
-y="115" width="30"
-height="5" fill="#ccc" rx="2"/>ser: '�'�'�<t��� x="335"
-y="135" font-siz3=" 0"
-は�-anchor="middle"
-fill="#999">a��</は�>ser: '�'�</svg>ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;nral//=Up6-03�c: nu every secondralif(window.c: nuInterval)�c:earInterval(window.c: nuInterval);ntswindow.c: nuInterval =asetInterval(() => {ser: lonst�c: nu =llontain�.querySelme:or('#digitalC: nu');ntsalif(c: nu) {ser: '�lonst�nown=anew=D
-te();nts: '�c: nu.3���C }ten�n=anow.toLocaleT2',St�,
- ('ja-JP',�{�hou�: '2-digit', minute: '2-digit', second' '2-digit', hou�12:�or: '�});Ter: }ser}, 1000);n}
- window.toggleC: nuInOut
-=l{ 'use st) {serwindow.  cur.lttend: 'aD
-ta.isC: nued = !window.  cur.lttend: 'aD
-ta.isC: nued;ralif(window.  cur.lttend: 'aD
-ta.isC: nued)neral':window.  cur.lttend: 'aD
-ta.c: nuInT2',n=anew=D
-te();nts}ralwindow.das'�Attend: 'a(documash.querySelme:or('[d' }-tab=Attend: 'a]'));
-}====/======================== //=Invoi'a Ras'� F 'use s //======================== { 'use s das'�Invoi'a(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.invoi'aD
-ta)neral':window.  cur.invoi'aD
-ta = {ser:   fil2er: }all'user: '�invoi'a name: '�'random','INV-', c-001',�cliash:'ABC Corpore
-   ', �meun�:450000, 6-03:'', c/04/03',�status:'unpaid', ㈻�:ninvoi'a',�6uaD
-t3:'', c/04/20�{ user: '�'田m','INV-', c-002',�cliash:'XYZ Limi:ed',��meun�:280000,�6-03:'', c/04/02おstatus:'paid', ㈻�:ninvoi'a',�6uaD
-t3:'', c/04/18'{ user: '�'田m','QT-', c-001',�cliash:'Delta Inc',��meun�:350000, 6-03:'', c/04/0109:status:'pas',
- 全㈻�:nquote',�6uaD
-t3:'', c/04/15�{ user: '�'田m','INV-', c-003',�cliash:'Gamma Co'9:�meun�:120000, 6-03:'', c/03/31',�status:'over6ua', ㈻�:ninvoi'a',�6uaD
-t3:'', c/04/10�{ user: '�'田m','RCP-', c-001',�cliash:'ABC Corpore
-   ', �meun�:450000, 6-03:'', c/03/30',�status:'issued', ㈻�:nreceipt',�6uaD
-t3:null�}ser: '�]Ter: };ral}nrallonst�invoi'a  =awindow.  cur.invoi'aD
-ta.invoi'a ;ntslonst�fil2ered =awindow.  cur.invoi'aD
-ta.fil2er ===:'all'Ter: ?�invoi'a Ter: :�invoi'a .fil2er(i => i.㈻� ===:window.  cur.invoi'aD
-ta.fil2er);Trallonst�s:ats = {ser: issued:�invoi'a .fil2er(i => i.㈻� ===:ninvoi'a').reduce((s,i) => s + (i.s:atus ===:'paid' || i.s:atus ===:'issued' ?�i.lmeun� :�0), 0)user: unpaid:�invoi'a .fil2er(i => i.㈻� ===:ninvoi'a' && i.s:atus !==:'paid').reduce((s,i) => s + i.lmeun�, 0)user: over6ua:�invoi'a .fil2er(i => new=D
-te(i.6uaD
-t3) <anew=D
-te()).lengthuser:  ash:�invoi'a .fil2er(i => i.s:atus !==:'pas',
- �).lengthTab};Trallonst�getS:atusC4757 = (s:atus) => {ser: lonst�f4757s =a{ paid:'
-00b894',�unpaid:'
-
-    {',�pas',
- :'
-
-    { ,�over6ua:'
-
-   6b',�issued:'#764ba2' };ral':returnaf4757s[s:atus] || }#999';Tab};Trallonst�getS:atusT��� = (s:atus) => {ser: lonst�3���s =a{ paid:'入金済',�unpaid:'未入金',�pas',
- :'保留中',�over6ua:'期限超過',�issued:'発行済' };ral':returna3���s[s:atus] || s:atus;Tab};Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- S:ats -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">今月発行額</div>ser: '�'�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#66   {;">¥${(s:ats.issued/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,��収金</div>ser: '�'�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#
-    {;">¥${(s:ats.unpaid/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">,��払期限近</div>ser: '�'�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#
-   6b;">${s:ats.over6ua}</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:4px;">件</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;"> v�付済</div>ser: '�'�'�<div
-/*yle="font-siz3-24px; font-weight:700; f4757'#00b894;">${s:ats. ash}</div>ser: '�'�'�<div
-/*yle="font-siz3-11px; f4757'#999; margin-top:4px;">件</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Filt� Tabs -->ser: '�<div
-/*yle="display:flex; gap-8px; margin-bottom:20px; flex-wrap-wrap;">ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.invoi'aD
-ta.fil2er='all';:window.das'�Invoi'a(documash.querySelme:or('[d' }-tab=Invoi'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.invoi'aD
-ta.fil2er==='all'?}#
-    { :}
- 0 0 0'}; f4757'${window.  cur.invoi'aD
-ta.fil2er==='all'?}# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':���てser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.invoi'aD
-ta.fil2er='invoi'a';:window.das'�Invoi'a(documash.querySelme:or('[d' }-tab=Invoi'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.invoi'aD
-ta.fil2er==='invoi'a'?'#764ba2':}
- 0 0 0'}; f4757'${window.  cur.invoi'aD
-ta.fil2er==='invoi'a'?'# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':g��求書ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.invoi'aD
-ta.fil2er='quote';:window.das'�Invoi'a(documash.querySelme:or('[d' }-tab=Invoi'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.invoi'aD
-ta.fil2er==='quote'?}#
-    { :}
- 0 0 0'}; f4757'${window.  cur.invoi'aD
-ta.fil2er==='quote'?}# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':g��積書ser: '�'�</button>ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.invoi'aD
-ta.fil2er='receipt';:window.das'�Invoi'a(documash.querySelme:or('[d' }-tab=Invoi'a]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.invoi'aD
-ta.fil2er==='receipt'?'
-00b894':}
- 0 0 0'}; f4757'${window.  cur.invoi'aD
-ta.fil2er==='receipt'?'
- ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':領収書ser: '�'�</button>ser: '�</div>sser: '�<!-- Invoi'a Car'  -->ser: '�<div
-/*yle="display:grid; gap-12px;">ser: '�'�${fil2ered.r:p)invn=> {ser: '�'�':lonst�isDu,n=ainv.6uaD
-t3 && new=D
-te(inv.6uaD
-t3) <anew=D
-te();ser: '�'�'�returna`
-: '�'�':':':<div
-clas0="kp"
-/*yle="padd,
-  16px; bor'�-left:4pxasolid ${getS:atusC4757)inv.s:atus)}; display:flex; justify-' }ten�space-between; align-items:casher;">ser: '�'�':':':<div
-/*yle="flex:�;">ser: '�'�':':':':<div
-/*yle="display:flex; align-items:casher; gap-12px; margin-bottom:8px;">
-: '�'�':':':':':'�<div
-/*yle="font-siz3-20px;">ser: '�'�':':':'�'�'�${inv.㈻� ===:ninvoi'a' ? }📄' :�inv.㈻� ===:nquote' ? }📋'n' }✓'}ser: '�'�'�'�'�'�':</div>ser: '�'�'�'�'�':':<div>ser: '�'�er: '�'�'�'�<div
-/*yle="font-siz3-14px; font-weight:600;">${inv.id}</div>ser: '�'�'�'�'�':':':<div
-/*yle="font-siz3-12px; f4757'#999;">${inv.cliash}</div>ser: '�'�'�'�'�':':</div>ser: '�'�'�'�'�':</div>ser: '�'�'�'�'�'�<div
-/*yle="display:flex; gap-16px; margin-top:8px; flex-wrap-wrap;">ser: '�'�'�':':':'�<div
-/*yle="font-siz3-14px; font-weight:700; f4757'#66   {;">¥${inv.lmeun�.toLocaleSt�,
- ()}</div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-12px; f4757'#666;">${inv.6-03}</div>ser: '�'�'�'�'�':':${inv.6uaD
-t3 ? `<div
-/*yle="font-siz3-12px; f4757'${isDu,?'
-
-   6b':}
-999'}; font-weight:${isDu,?'600':}400 };">期限::${inv.6uaD
-t3}</div>`n' }'}
-: '�'�'�'�'�'�'�'�<span
-clas0="sb"
-/*yle="background'${getS:atusC4757)inv.s:atus)}; f4757'white; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px; font-weight:600;">${getS:atusT���)inv.s:atus)}</span>ser: '�'�'�'�'�'�</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�'�<div
-/*yle="display:flex; gap-8px; margin-left:16px;">ser: '�'�':':':'�<button
-clas0="btn2"
-onclick="alert('PDFv �レ0:�: ����: ${inv.id}')"
-/*yle="padd,
-  8px 12px; background'non,; bor'�: pxasolid #ddd; bor'�-radius:6px; : 's57',20 2er; font-siz3-11px; f4757'#66   {;">👁️</button>ser: '�: '�'�'�'�<button
-clas0="btn"
-onclick="alert(' v�信: ${inv.id}')"
-/*yle="padd,
-  8px 12px; background'#66   {; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-11px; font-weight:600;">📧</button>ser: '�: '�'�'�</div>ser: '�'�'�'�</div>ser: '�'�'�`;Ter: '�'�}).j20 ('')}ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n}
- =/======================== //=Fin: 'a Ras'� F 'use s //======================== { 'use s das'�Fin: 'a(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.fin: 'aD
-ta)neral':window.  cur.fin: 'aD
-ta = {ser:   bal: 'ana1245000,ser: '�inco',  2850000,ser: '�expensana1605000,ser: '�3ransac
-    name: '�'random',1, 6-03:'', c/04/03',�descrip
-   
-'ABC Corp 売上', �cceun�:'売上', debi�:450000, credi�:0, bal: 'an1695000{ user: '�'田m',2, 6-03:'', c/04/02おdescrip
-   
-'給与,��払い', �cceun�:'給与', debi�:0, credi�:500000, bal: 'an1245000{ user: '�'田m',3, 6-03:'', c/04/01',�descrip
-   
-'�シ���10��家賃', �cceun�:'家賃', debi�:0, credi�:200000, bal: 'an1745000{ user: '�'田m',4,�6-03:'', c/03/31',�descrip
-   
-'XYZ Ltd 売上', �cceun�:'売上', debi�:280000,�credi�:0, bal: 'an1945000{ user: '�'田m',5, 6-03:'', c/03/30',�descrip
-   
-'消耗品費09:�cceun�:'消耗品', debi�:0, credi�:35000, bal: 'an1665000{ ser: '�]user: '�compli: 'aS:atus:田'電子帳簿保存'' }✓',�'青色申告'' }✓',�'仕訳� �ェ�a����'' }✓',�'バ�a�������0:�: �'' }✓'�}ser: };ral}nrallonst�d
-ta = window.  cur.fin: 'aD
-ta;Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- Bal: 'a Car'  -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(3,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  20px; は�-align:casher; background'linear-gradiash(135deg, ,
-    { 0%, ,764ba2  ],%); f4757'white;">ser: '�'�':<div
-/*yle="font-siz3-12px; opacity:0.9; margin-bottom:8px;">,��高</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; margin-bottom:4px;">¥${(d
-ta.bal: 'a/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  20px; は�-align:casher; background'linear-gradiash(135deg, ,00b894 0%, ,00d084  ],%); f4757'white;">ser: '�'�':<div
-/*yle="font-siz3-12px; opacity:0.9; margin-bottom:8px;">収入</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; margin-bottom:4px;">¥${(d
-ta.inco',/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  20px; は�-align:casher; background'linear-gradiash(135deg, ,
-   6b 0%, ,ff8787  ],%); f4757'white;">ser: '�'�':<div
-/*yle="font-siz3-12px; opacity:0.9; margin-bottom:8px;">,��出</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; margin-bottom:4px;">¥${(d
-ta.expensa/1000,).toFixed(1)}万</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Compli: 'a Badge -->ser: '�<div
-clas0="kp"
-/*yle="padd,
-  16px; margin-bottom:20px; background'
- 0fdf4; bor'�-left:4pxasolid #00b894;">
-'�':':':<div
-/*yle="display:flex; align-items:casher; gap-8px; margin-bottom:12px;">ser: '�'�'�<span
-/*yle="font-siz3-20px;">✓</span>ser: '�'�'�<h3
-/*yle="margin 0; font-siz3-14px; font-weight:700;">電子帳簿保存法対応</h3>ser: '�'�</div>ser: '�'�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-12px; font-siz3-12px;">ser: '�'�'�${Objme:.ashries(d
-ta.compli: 'aS:atus).r:p)([n���,�status]) => `
-: '�'�':':':<div
-/*yle="display:flex; align-items:casher; gap-6px;">ser: '�'�':':':<span
-/*yle="font-siz3-14px;">✓</span>ser: '�'�'�':':<span
-/*yle="font-weight:600;">${浜�}</span>ser: '�'�'�'�</div>ser: '�'�'�`).j20 ('')}ser: '�'�</div>ser: '�</div>sser: '�<!-- Transac
-     Table -->ser: '�<div
-/*yle="margin-bottom:20px;">ser: '�'�<h3
-/*yle="font-siz3-14px; font-weight:600; margin 0 0 12pxa0;">取引履歴</h3>ser: '�'�<div
-/*yle="overflow-x:auto;">ser: '�'�'�<�able /*yle="width: ],%; bor'�-f47lapse:f47lapse; font-siz3-12px;">ser: '�'�'�'�<�head>ser: '�'�'�'�'�<tr
-/*yle="background'
-
-5f7f{; bor'�-bottom:2pxasolid #ddd;">ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">日付</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">説明</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:left; font-weight:600; f4757'#333;">科目</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:right; font-weight:600; f4757'#333;">���方</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:right; font-weight:600; f4757'#333;">貸方</�h>ser: '�'�'�'�'�'�<�h
-/*yle="padd,
-  10px; は�-align:right; font-weight:600; f4757'#333;">,��高</�h>ser: '�'�'�'�'�</�r>ser: '�'�'�'�</�head>ser: '�'�'�'�<tbody>ser: '�'�'�'�'�${d
-ta.3ransac
-    .r:p)t => `
-: '�'�':':':'�'�<tr
-/*yle="bor'�-bottom:1pxasolid #eee;">ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; font-weight:600; f4757'#66   {;">${t.6-03}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#333;">${t.6escrip
-   }</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; f4757'#666;">${t.�cceun�}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; は�-align:right; font-weight:600; f4757'${t.6ebi� > 0 ? '
-00b894'n' }
-999'};">${t.6ebi� > 0 ? '¥' + t.6ebi�.toLocaleSt�,
- ()n' }-'}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; は�-align:right; font-weight:600; f4757'${t.credi� > 0 ? '
-
-   6b' ' }
-999'};">${t.credi� > 0 ? '¥' + t.credi�.toLocaleSt�,
- ()n' }-'}</td>ser: '�'�':':':'�'�<td
-/*yle="padd,
-  10px; は�-align:right; font-weight:700; f4757'#66   {;">¥${t.bal: 'a.toLocaleSt�,
- ()}</td>ser: '�'�':':':'�</�r>ser: '�'�'�'�'�`).j20 ('')}ser: '�'�'�'�</�body>ser: '�'�'�</�able>ser: '�'�</div>ser: '�</div>sser: '�<!-- Ause s Buttons -->ser: '�<div
-/*yle="display:flex; gap-12px;">ser: '�'�<button
-clas0="btn"
-onclick="alert('新規仕訳���ントリ )"
-/*yle="padd,
-  10px 16px; background'
-66   {; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">➕ 新規仕訳</button>ser: '�'�<button
-clas0="btn"
-onclick="alert('CSV���力 )"
-/*yle="padd,
-  10px 16px; background'
-764ba2; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">📥 CSV���力</button>ser: '�'�<button
-clas0="btn"
-onclick="alert('���次サマリー )"
-/*yle="padd,
-  10px 16px; background'
-
-    {; f4757'white; bor'�:non,; bor'�-radius:6px; : 's57',20 2er; font-siz3-12px; font-weight:600;">📊 レ0:�ート</button>ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n}
- =/======================== //=Busin�ss Car' Ras'� F 'use s //======================== { 'use s das'�Car'(' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.car'D
-ta)neral':window.  cur.car'D
-ta = {ser:   car' name: '�'random',1, 浜�:'山田太郎',�company:'ABC Corpore
-   ', title:'営業部長', email:'yamada@abc.com',�phon, ext0-XXXX-1111', tags:['営業','IT']{ user: '�'田m',2, 浜�:'佐藤花子',�company:'XYZ Limi:ed',�title:'企画部長', email:'sato@xyz.com',�phon, ext0-XXXX-2222', tags:['企画','営業']{ user: '�'田m',3, 浜�:'田中次郎',�company:'Delta Inc',�title:'開発責任者', email:'tanaka@delta.com',�phon, ext0-XXXX-3333', tags:['IT','開発']{ user: '�'田m',4, 浜�:'鈴木美咲',�company:'Gamma Co'9:title:'営業員', email:'suzuki@gamma.com',�phon, ext0-XXXX-4444', tags:['営業']{ user: '�'田m',5, 浜�:'佐々木健太',�company:'ABC Corpore
-   ', title:'企画員', email:'sasaki@abc.com',�phon, ext0-XXXX-5555', tags:['企画']{ user: '�'田m',6, 浜�:'中村雅美',�company:'XYZ Limi:ed',�title:'開発員', email:'nakamura@xyz.com',�phon, ext0-XXXX-6666', tags:['IT']{ ser: '�]user: '�selme:edFil2er: }all'ser: };ral}nrallonst�allCar'  =:window.  cur.car'D
-ta.car' ;ntslonst�tot 'Compania  =a[...new=Set(allCar' .r:p)c => c.company))].length;ntslonst�newThisM }th =a2;ntslonst�f47lowingUe =aallCar' .length - 4;Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- S:ats -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(4,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">総名刺数</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#66   {;">${allCar' .length}</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">企業数</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#764ba2;">${tot 'Compania }</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">今月新規</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-    {;">${newThisM }th}</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">������ロ���待ち</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-   6b;">${f47lowingUe}</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Search -->ser: '�<div
-/*yle="margin-bottom:20px;">ser: '�'�<input
-id="car'Search"
-clas0="inp" ㈻�="は�" placehol'�="名刺を検索（名前、企業、肩書）..."
-/*yle="width: ],%; padd,
-  10px 14px; bor'�: pxasolid #ddd; bor'�-radius:8px; font-siz3-13px;"/>ser: '�</div>sser: '�<!-- Busin�ss Car's Grid -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(auto-fill, minmax(240px, 1fr)); gap-16px;">ser: '�'�${allCar' .r:p)car' => `
-: '�'�':':<div
-clas0="kp"
-/*yle="padd,
-  16px; : 's57',20 2er; 3ransise s:all 0.3s; bor'�:2pxasolid 3ranspadast;"ser: '�'�':':'::onclick="alert('${car'.浜�} - ${car'.company}\\n${car'.title}\\n📧 ${car'.email}\\n📱 ${car'.phon,}')"ser: '�'�':':'::onmouseover="�his./*yle.bor'�C4757=}#
-    { ; 3his./*yle.boxShadow='0 4px 12px rgba(102,126,234,0.2)';"ser: '�'�':':'::onmouseout="�his./*yle.bor'�C4757=}3ranspadast ; 3his./*yle.boxShadow='non,';">ser: '�'�':':<div
-/*yle="display:flex; align-items:casher; gap-12px; margin-bottom:12px;">ser: '�'�'�'�':<div
-/*yle="width:48px; height-48px; bor'�-radius:50%; background'linear-gradiash(135deg, ,
-    {, ,764ba2); f4757'white; display:flex; align-items:casher; justify-' }ten�casher; font-weight:700; font-siz3-20px;">ser: '�'�':':':'�${car'.浜�.[
- rAt(0)}ser: '�'�'�'�'�</div>ser: '�'�'�'�'�<div
-/*yle="flex:�;">ser: '�'�':':':':<div
-/*yle="font-siz3-13px; font-weight:700;">${car'.浜�}</div>ser: '�'�'�'�'�':<div
-/*yle="font-siz3-12px; f4757'#666;">${car'.company}</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>ser: '�'�'�'�<div
-/*yle="font-siz3-11px; f4757'#66   {; font-weight:600; margin-bottom:8px;">${car'.title}</div>ser: '�'�'�'�<div
-/*yle="display:flex; gap-6px; flex-wrap-wrap; margin-bottom:12px;">ser: '�'�'�'�':${car'.tags.r:p)t => `
-: '�'�':':':'�'�<span
-/*yle="background'
- 0f0f0; padd,
-  3px 6px; bor'�-radius:3px; font-siz3-10px; font-weight:600;">${t}</span>ser: '�'�'�'�'�`).j20 ('')}ser: '�'�'�'�</div>ser: '�'�'�'�<div
-/*yle="display:flex; gap-6px; font-siz3-11px; f4757'#999; bor'�-top:1pxasolid #eee; padd,
- -top:8px;">ser: '�'�'�':':<span>📧</span>ser: '�'�'�':':<span>📱</span>ser: '�'�'�':':<span>📋</span>ser: '�'�'�'�</div>ser: '�'�'�</div>ser: '�'�`).j20 ('')}ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n
-'�setT2',out(() => {ser: lonst�search =llontain�.querySelme:or('#car'Search');ntsalif(search) {ser: '�search.addEvashListener('input', (e)n=> {ser: '�'�lonst�3�rm =le.target.valua.toLow�Case();ser: '�'�lonst�far'  =:lontain�.querySelme:orAll('.kp');ser: '�'�lar' .forEach)car' => {ser: '�'�':lonst�t��� = car'.t���C }ten�.toLow�Case();ser: '�'�'�lar'./*yle.display = t���.includes(3�rm) ? '' ' }non,';Ter: '�'�});Ter: '�});Ter: }ser}, 0);n}
- =/======================== //=Match,
-  Ras'� F 'use s //======================== { 'use s das'�Match,
- (' }tain�)neralif(!' }tain�)return;Tralif(!window.  cur.match,
- D
-ta)neral':window.  cur.match,
- D
-ta = {ser:   selme:edSkill: }all'user: '�worker name: '�'random',1, 浜�:'山田太郎',�skills:['電気','配管'],�experiasce:8,�rat,
-  4.8,�availability:true,�workR-03:85{ user: '�'田m',2, 浜�:'佐藤花子',�skills:['内装','塗装'],�experiasce:5,�rat,
-  4.6,�availability:true,�workR-03:92{ user: '�'田m',3, 浜�:'田中次郎',�skills:['電気','鉄骨'],�experiasce:12,�rat,
-  4.9,�availability:or: 'u�workR-03:78{ user: '�'田m',4, 浜�:'鈴木美咲',�skills:['配管','内装'],�experiasce:6,�rat,
-  4.5,�availability:true,�workR-03:88{ user: '�'田m',5, 浜�:'佐々木健太',�skills:['塗装','鉄骨'],�experiasce:10,�rat,
-  4.7,�availability:true,�workR-03:81{ user: '�'田m',6, 浜�:'中村雅美',�skills:['電気'],�experiasce:9,�rat,
-  4.4,�availability:or: 'u�workR-03:75�}ser: '�]Ter: };ral}nrallonst�skills =a['電気','配管','内装','塗装','鉄骨'];rallonst�allWorker  =:window.  cur.match,
- D
-ta.worker ;ntslonst�fil2eredWorker  =:window.  cur.match,
- D
-ta.selme:edSkill ===:'all'Ter: ?�allWorker Ter: :�allWorker .fil2er(w => w.skills.includes(window.  cur.match,
- D
-ta.selme:edSkill));Trallonst�s:ats = {ser: available:�allWorker .fil2er(w => w.availability).lengthuser: avgRat,
-   (allWorker .reduce((s,w) => s + w.rat,
- , 0) /�allWorker .length).toFixed(1)user: avgWorkR-03:=Math.round(allWorker .reduce((s,w) => s + w.workR-03, 0) /�allWorker .length)Tab};Trallonst�htmln= `ral':<div
-/*yle="padd,
-  20px;">ser: '�<!-- S:ats -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(3,1f�); gap-12px; margin-bottom:20px;">ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">���用可能</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#00b894;">${s:ats.available}名</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">平均評価</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#
-    {;">⭐${s:ats.avgRat,
- }</div>ser: '�'�</div>ser: '�'�<div
-clas0="kp"
-/*yle="padd,
-  16px; は�-align:casher;">ser: '�'�'�<div
-/*yle="font-siz3-12px; f4757'#666; margin-bottom:8px;">平均稼働率</div>ser: '�'�'�<div
-/*yle="font-siz3-28px; font-weight:700; f4757'#66   {;">${s:ats.avgWorkR-03}%</div>ser: '�'�</div>ser: '�</div>sser: '�<!-- Skill Filt� -->ser: '�<div
-/*yle="display:flex; gap-8px; margin-bottom:20px; flex-wrap-wrap;">ser: '�'�<button
-clas0="btn"
-onclick="window.  cur.match,
- D
-ta.selme:edSkill='all';:window.das'�Match,
- (documash.querySelme:or('[d' }-tab=Match,
- ]'));"ser: '�'�':':':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.match,
- D
-ta.selme:edSkill==='all'?}#
-    { :}
- 0 0 0'}; f4757'${window.  cur.match,
- D
-ta.selme:edSkill==='all'?}# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':���て (${allWorker .length})ser: '�'�</button>ser: '�'�${skills.r:p)skill => {ser: '�'�':lonst�ceun� =aallWorker .fil2er(w => w.skills.includes(skill)).length;nts: '�'�'�returna`
-: '�'�':':':<button
-clas0="btn"
-onclick="window.  cur.match,
- D
-ta.selme:edSkill='${skill}';:window.das'�Match,
- (documash.querySelme:or('[d' }-tab=Match,
- ]'));"ser: '�'�':':':::':::/*yle="padd,
-  8px 16px; bor'�:non,; bor'�-radius:6px; background'${window.  cur.match,
- D
-ta.selme:edSkill===skill?'#764ba2':}
- 0 0 0'}; f4757'${window.  cur.match,
- D
-ta.selme:edSkill===skill?'# ff':}
-333'}; : 's57',20 2er; font-siz3-12px; font-weight:600;">ser: '�'�':'�'�${skill} (${ceun�})ser: '�'�'�'�</button>ser: '�: '�`;Ter: '�'�}).j20 ('')}ser: '�</div>sser: '�<!-- Worker Car'  -->ser: '�<div
-/*yle="display:grid; grid-template-' lumns:repe '(auto-fill, minmax(280px, 1fr)); gap-16px;">ser: '�'�${fil2eredWorker .r:p)worker => `
-: '�'�':':<div
-clas0="kp"
-/*yle="padd,
-  16px; bor'�:2pxasolid ${worker.availability ? '
-00b894'n' }
-ddd'}; 3ransise s:all 0.3s;"ser: '�'�':':'::onmouseover="�his./*yle.boxShadow='0 4px 12px rgba(102,126,234,0.2)'; 3his./*yle.3ransform=}3ranslateY(-2px)';"ser: '�'�':':'::onmouseout="�his./*yle.boxShadow='non,'; 3his./*yle.3ransform=}3ranslateY(0)';">ser: '�'�':':<div
-/*yle="display:flex; align-items:casher; justify-' }ten�space-between; margin-bottom:12px;">ser: '�'�'�'�':<div
-/*yle="display:flex; align-items:casher; gap-12px;">ser: '�'�':':':':<div
-/*yle="width:48px; height-48px; bor'�-radius:50%; background'linear-gradiash(135deg, ,
-    {, ,764ba2); f4757'white; display:flex; align-items:casher; justify-' }ten�casher; font-weight:700; font-siz3-20px;">ser: '�'�':':':'�  ${worker.浜�.[
- rAt(0)}ser: '�'�'�'�'�':</div>ser: '�'�'�'�'�'�<div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-13px; font-weight:700;">${worker.浜�}</div>ser: '�'�'�'�'�':':<div
-/*yle="font-siz3-11px; f4757'#999;">経験: ${worker.experiasce}年</div>ser: '�'�'�'�'�':</div>ser: '�'�'�'�'�</div>ser: '�'�'�'�'�<div
-/*yle="width:24px; height-24px; bor'�-radius:50%; background'${worker.availability ? '
-00b894'n' }
-ddd'}; display:flex; align-items:casher; justify-' }ten�casher; font-siz3-12px;">ser: '�'�'�'�'�  ${worker.availability ? '✓'�' }✗'}ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>sser: '�'�'�'�<div
-/*yle="display:flex; gap-6px; margin-bottom:12px; flex-wrap-wrap;">ser: '�'�'�':':${worker.skills.r:p)skill => `
-: '�'�':':':'�'�<span
-/*yle="background'
- 0f0f0; padd,
-  4px 8px; bor'�-radius:4px; font-siz3-11px; font-weight:600;">${skill}</span>ser: '�'�'�'�'�`).j20 ('')}ser: '�'�'�'�</div>sser: '�'�'�'�<div
-/*yle="margin-bottom:12px;">ser: '�'�'�'�':<div
-/*yle="display:flex; justify-' }ten�space-between; margin-bottom:4px;">ser: '�'�':':':':<span
-/*yle="font-siz3-12px; f4757'#666;">稼働率</span>ser: '�'�'�'�'�'�<span
-/*yle="font-siz3-12px; font-weight:600;">${worker.workR-03}%</span>ser: '�'�'�':':</div>ser: '�'�'�'�'�<div
-clas0="pb"
-/*yle="height-6px; background'
-eee; bor'�-radius:3px;">
-: '�'�':':':':':<div
-clas0="pf"
-/*yle="width:${worker.workR-03}%; height- ],%; background'#66   {;"></div>ser: '�'�'�'�'�</div>ser: '�'�'�'�</div>s
-: '�'�'�'�':<div
-/*yle="display:flex; justify-' }ten�space-between; align-items:casher; padd,
- -top:12px; bor'�-top:1pxasolid #eee;">ser: '�'�':':':<div
-/*yle="font-siz3-13px; font-weight:700;">⭐${worker.rat,
- }</div>ser: '�'�: '�'�<button
-clas0="btn"
-onclick="alert('���案: ${worker.浜�}')"
-/*yle="padd,
-  6px 12px; background'#66   {; f4757'white; bor'�:non,; bor'�-radius:4px; : 's57',20 2er; font-siz3-11px; font-weight:600;">���案</button>ser: '�: '�'�</div>ser: '�'�'�</div>ser: '�'�`).j20 ('')}ser: '�</div>ser: </div>ser`;Trallontain�.ten��HTML =ahtml;n}
+function _quickAction(icon, label, tab) {
+  return '<div class="kp" style="padding:16px;text-align:center;cursor:pointer;transition:all .2s" onclick="window._hataraiku.switchTab(\'' + tab + '\')" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 12px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+    + '<div style="font-size:1.5rem;margin-bottom:6px">' + icon + '</div>'
+    + '<div style="font-size:.8rem;font-weight:600">' + label + '</div>'
+    + '</div>';
+}
 
 
-/*========================================= �'�res'�Projme: — PRESERVED (変更なし)ser:======================================== */ { 'use s das'�Projme:(' }tain�){
-if(!' }tain�)return;Tlontain�.ten��HTML='<div
-/*yle="padd,
-  20px;"><div
-/*yle="display:flex;justify-' }ten�space-between;align-items:casher;margin-bottom:20px;"><h3
-/*yle="margin 0;f4757'#1a1a2e;">���ロ���ェクト管理</h3><button
-clas0="btn"
-onclick="alert(\'新規���ロ���ェクト作成\')">+ 新規���ロ���ェクト</button></div>'+  cur.projme:s.r:p){ 'use stp){returna'<div
-clas0="kp"
-/*yle="padd,
-  16px;margin-bottom:12px;"><div
-/*yle="display:flex;justify-' }ten�space-between;align-items:casher;margin-bottom:12px;"><div><div
-/*yle="font-weight:700;font-siz3-15px;f4757'#1a1a2e;">'+p.浜�+'</div><div
-/*yle="font-siz3-12px;f4757'#666;margin-top:4px;">担当: '+p.manager+' | ���リア: '+p.area+'</div></div><span
-clas0="sb"
-/*yle="background''+(p.progress>=75?}
-d4edda;f4757'#155724':p.progress>=50?'# ff3cd;f4757'#856404':}
-cce5ff;f4757'#004085')+';">'+p.status+'</span></div><div
-/*yle="margin-top:8px;"><div
-clas0="pb"
-/*yle="height-8px;"><div
-clas0="pf"
-/*yle="width:'+p.progress+'%;background'linear-gradiash(90deg,'+p.f4757+','+p.f4757+'88);"></div></div><div
-/*yle="は�-align:right;font-siz3-11px;f4757'#888;margin-top:4px;">'+p.progress+'%</div></div></div>';}).j20 ('')+'</div>';n}
- =*========================================= �'�switchTab + GLOBAL APIser:======================================== */ { 'use s switchTab(id){  cur.curdastTab=id;buildSidebar();das'�Tab();}
- window._hataraiku={switchTab:switchTab,getS:ate:{ 'use st){returna  cur;},toggleFlowMode:{ 'use st){},openProjme::{ 'use st){},sas'Chat:{ 'use st){}};Trwindow.sw={ 'use stid){switchTab(id);}====* Global scope�exports for inline onclick handler  */ window.  cur=  cur;window.das'�Approval=das'�Approval;window.das'�Match,
- =das'�Match,
- ;window.das'�Attend: 'a=das'�Attend: 'a;window.das'�Invoi'a=das'�Invoi'a;window.das'�Fin: 'a=das'�Fin: 'a;window.das'�Car'=das'�Car';window.das'�Chat=das'�Chat;window.das'�Fol'�=das'�Fol'�;window.das'�Dashboar'=das'�Dashboar';
- =*========================================= �'�INITser:======================================== */ { 'use s initt){buildSidebar();das'�Tab();}
-if(documash.readyS:ate==='loa',
- �){documash.addEvashListener('DOMC }ten�Loa'ed',init);}else{initt);}
- })();s
+function renderChat(container) {
+  if(!container)return;
+  var channels = [
+    {name:'全体連絡',icon:'🏢',unread:3,last:'佐藤: 明日の会議資料を共有します',time:'14:30'},
+    {name:'梅田PJチーム',icon:'🏗️',unread:1,last:'山田: 現場写真をアップしました',time:'13:15'},
+    {name:'横浜PJチーム',icon:'🏠',unread:0,last:'鈴木: 設計図更新完了',time:'昨日'},
+    {name:'経理部',icon:'💰',unread:2,last:'田中: 請求書の確認をお願いします',time:'11:00'},
+    {name:'人事・総務',icon:'👥',unread:0,last:'小林: 勤務表の提出締切は月末です',time:'昨日'}
+  ];
+
+  var messages = [
+    {user:'佐藤一郎',avatar:'S',time:'14:30',text:'明日の梅田PJ定例会議の資料を共有します。確認をお願いします。',file:'📎 梅田PJ_進捗報告_0402.pdf'},
+    {user:'山田次郎',avatar:'Y',time:'14:25',text:'承知しました。現場の写真も共有します。',file:'📷 現場写真_03.jpg (3枚)'},
+    {user:'樋口専務',avatar:'H',time:'14:20',text:'お疲れ様です。明日の会議では工程表の見直しも議題に入れてください。',file:''},
+    {user:'佐藤一郎',avatar:'S',time:'14:15',text:'承知しました。工程表を更新して共有します。',file:''},
+    {user:'鈴木美咲',avatar:'M',time:'13:50',text:'横浜PJの設計図を更新しました。最新版を確認してください。',file:'📎 横浜_設計図v3.pdf'}
+  ];
+
+  container.innerHTML = '<div class="topbar"><h2>チャット</h2><div style="display:flex;gap:8px"><button class="btn2">🔍 検索</button><button class="btn">+ 新規チャンネル</button></div></div>'
+    + '<div style="display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 120px);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:.5rem">'
+    // Channel list
+    + '<div style="border-right:1px solid var(--border);overflow-y:auto;background:var(--card)">'
+    + '<div style="padding:12px"><input class="inp" placeholder="チャンネル検索..." style="width:100%"></div>'
+    + channels.map(function(ch, i) {
+        return '<div style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);' + (i===0?'background:rgba(99,102,241,.08);border-left:3px solid var(--p)':'border-left:3px solid transparent') + '" onclick="this.parentNode.querySelectorAll(\'div[style*=border-left]\').forEach(function(d){d.style.background=\'\';d.style.borderLeftColor=\'transparent\'});this.style.background=\'rgba(99,102,241,.08)\';this.style.borderLeftColor=\'var(--p)\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:center">'
+          + '<span style="font-weight:600;font-size:.9rem">' + ch.icon + ' ' + ch.name + '</span>'
+          + (ch.unread > 0 ? '<span style="background:var(--p);color:#fff;border-radius:10px;padding:1px 7px;font-size:.7rem;font-weight:700">' + ch.unread + '</span>' : '')
+          + '</div>'
+          + '<div style="font-size:.78rem;color:var(--sub);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + ch.last + '</div>'
+          + '<div style="font-size:.7rem;color:var(--sub);margin-top:2px">' + ch.time + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>'
+    // Message area
+    + '<div style="display:flex;flex-direction:column">'
+    + '<div style="padding:12px 20px;border-bottom:1px solid var(--border);background:var(--card);display:flex;justify-content:space-between;align-items:center">'
+    + '<div><strong>🏢 全体連絡</strong><span style="font-size:.8rem;color:var(--sub);margin-left:8px">12人のメンバー</span></div>'
+    + '<div style="display:flex;gap:8px"><button class="btn2">📎</button><button class="btn2">⚙️</button></div>'
+    + '</div>'
+    // Messages
+    + '<div style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:16px">'
+    + messages.map(function(m) {
+        var isMe = m.user === '樋口専務';
+        return '<div style="display:flex;gap:10px;' + (isMe ? 'flex-direction:row-reverse' : '') + '">'
+          + '<div style="width:36px;height:36px;border-radius:50%;background:' + (isMe ? 'var(--p)' : '#e5e7eb') + ';color:' + (isMe ? '#fff' : '#374151') + ';display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">' + m.avatar + '</div>'
+          + '<div style="max-width:65%">'
+          + '<div style="font-size:.75rem;color:var(--sub);margin-bottom:4px;' + (isMe ? 'text-align:right' : '') + '">' + m.user + ' ・ ' + m.time + '</div>'
+          + '<div style="background:' + (isMe ? 'var(--p)' : 'var(--card)') + ';color:' + (isMe ? '#fff' : 'var(--text)') + ';padding:10px 14px;border-radius:12px;font-size:.9rem;line-height:1.5;border:' + (isMe ? 'none' : '1px solid var(--border)') + '">'
+          + m.text
+          + (m.file ? '<div style="margin-top:8px;padding:6px 10px;background:rgba(0,0,0,.05);border-radius:6px;font-size:.8rem">' + m.file + '</div>' : '')
+          + '</div></div></div>';
+      }).join('')
+    + '</div>'
+    // Input area
+    + '<div style="padding:12px 20px;border-top:1px solid var(--border);background:var(--card)">'
+    + '<div style="display:flex;gap:8px;align-items:center">'
+    + '<button class="btn2" style="padding:8px">📎</button>'
+    + '<input class="inp" placeholder="メッセージを入力..." style="flex:1" id="chatInput">'
+    + '<button class="btn" onclick="var inp=document.getElementById(\'chatInput\');if(inp.value.trim()){alert(\'送信しました: \'+inp.value);inp.value=\'\'}">送信</button>'
+    + '</div></div>'
+    + '</div></div>';
+}
+
+
+function renderFolder(container) {
+  if(!container)return;
+  var folders = [
+    {name:'梅田再開発ビル',icon:'📁',items:24,updated:'2026-04-02',size:'156MB'},
+    {name:'横浜マンション新筑',icon:'📁',items:18,updated:'2026-04-01',size:'89MB'},
+    {name:'京都町屋リノベーション',icon:'📁',items:31,updated:'2026-03-30',size:'234MB'},
+    {name:'社内規定・テンプレート',icon:'📂',items:12,updated:'2026-03-15',size:'45MB'},
+    {name:'契約書・法務',icon:'📂',items:8,updated:'2026-03-20',size:'67MB'}
+  ];
+  var files = [
+    {name:'梅田PJ_進捗報告_0402.pdf',type:'PDF',size:'2.4MB',updated:'2026-04-02',owner:'佐藤'},
+    {name:'見積書_横浜_v3.xlsx',type:'Excel',size:'1.2MB',updated:'2026-04-01',owner:'樋口'},
+    {name:'現場写真_03.zip',type:'ZIP',size:'45MB',updated:'2026-03-31',owner:'山田'},
+    {name:'設計図_京都_final.dwg',type:'CAD',size:'12MB',updated:'2026-03-30',owner:'鈴木'},
+    {name:'工程表_2026Q1.xlsx',type:'Excel',size:'890KB',updated:'2026-03-28',owner:'佐藤'},
+    {name:'安全計画書_v2.docx',type:'Word',size:'3.1MB',updated:'2026-03-25',owner:'田中'}
+  ];
+  var typeColors = {PDF:'#ef4444',Excel:'#10b981',ZIP:'#f59e0b',CAD:'#8b5cf6',Word:'#3b82f6'};
+
+  container.innerHTML = '<div class="topbar"><h2>フォルダ</h2><div style="display:flex;gap:8px"><button class="btn2">🔍 検索</button><button class="btn">+ アップロード</button></div></div>'
+    // Breadcrumb
+    + '<div style="padding:8px 20px;font-size:.85rem;color:var(--sub)">🏠 ホーム / プロジェクトファイル</div>'
+    // Storage bar
+    + '<div style="padding:0 20px;margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span>使用容量</span><span>591MB / 10GB</span></div><div class="pb" style="height:6px"><div class="pf" style="width:5.9%;background:var(--p)"></div></div></div>'
+    // Folders grid
+    + '<div style="padding:0 20px;margin-bottom:24px"><h3 style="font-size:.9rem;font-weight:700;margin-bottom:12px">📁 フォルダ</h3>'
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">'
+    + folders.map(function(f) {
+        return '<div class="kp" style="padding:14px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:1.3rem">' + f.icon + '</span><strong style="font-size:.9rem">' + f.name + '</strong></div>'
+          + '<div style="display:flex;justify-content:space-between;font-size:.75rem;color:var(--sub)"><span>' + f.items + 'ファイル</span><span>' + f.size + '</span></div>'
+          + '</div>';
+      }).join('')
+    + '</div></div>'
+    // Files table
+    + '<div style="padding:0 20px"><h3 style="font-size:.9rem;font-weight:700;margin-bottom:12px">📄 最近のファイル</h3>'
+    + '<div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left;font-weight:600">ファイル名</th><th style="padding:10px 14px;text-align:left;font-weight:600">種類</th><th style="padding:10px 14px;text-align:left;font-weight:600">サイズ</th><th style="padding:10px 14px;text-align:left;font-weight:600">更新日</th><th style="padding:10px 14px;text-align:left;font-weight:600">担当</th><th style="padding:10px 14px;text-align:center;font-weight:600">操作</th></tr></thead><tbody>'
+    + files.map(function(f) {
+        return '<tr style="border-top:1px solid var(--border);transition:background .15s" onmouseover="this.style.background=\'rgba(99,102,241,.03)\'" onmouseout="this.style.background=\'\'">'
+          + '<td style="padding:10px 14px"><span style="font-weight:500">' + f.name + '</span></td>'
+          + '<td style="padding:10px 14px"><span style="background:' + (typeColors[f.type]||'#888') + '20;color:' + (typeColors[f.type]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600">' + f.type + '</span></td>'
+          + '<td style="padding:10px 14px;color:var(--sub)">' + f.size + '</td>'
+          + '<td style="padding:10px 14px;color:var(--sub)">' + f.updated + '</td>'
+          + '<td style="padding:10px 14px">' + f.owner + '</td>'
+          + '<td style="padding:10px 14px;text-align:center"><button class="btn2" style="font-size:.75rem;padding:4px 10px">ダウンロード</button></td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+}
+
+
+function renderProject(c,sub,act) {
+  if(sub)sub.textContent='\u30b9\u30c6\u30c3\u30d1\u30fc\u5f62\u5f0f \u2014 \u6848\u4ef6\u76f8\u8ac7\u304b\u3089\u767a\u6ce8\u5b8c\u4e86\u307e\u3067';
+  if(act)act.innerHTML='<button onclick="alert(\'\u65b0\u898f\u6848\u4ef6\u4f5c\u6210\')" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u6848\u4ef6</button>';
+  // Mode toggle
+  var tg='<div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:20px;"><span style="font-size:13px;font-weight:600;color:'+(STATE.flowMode==='client'?'#5B4FE8':'#888')+';">\u4f9d\u983c\u5074</span><div onclick="window._hataraiku.toggleFlowMode();window._hataraiku.switchTab(\'project\')" style="width:48px;height:26px;border-radius:13px;background:'+(STATE.flowMode==='client'?'#5B4FE8':'#10B981')+';cursor:pointer;position:relative;transition:all 0.3s;"><div style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;'+(STATE.flowMode==='client'?'left:2px':'left:24px')+';transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div><span style="font-size:13px;font-weight:600;color:'+(STATE.flowMode==='manager'?'#10B981':'#888')+';">\u65bd\u5de5\u7ba1\u7406\u5074</span></div>';
+  c.innerHTML=tg;
+  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u63d0\u51fa','\u767a\u6ce8\u5b8c\u4e86'];
+  var stepC=['#F59E0B','#3B82F6','#8B5CF6','#10B981'];
+  var lh='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:24px;"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u6848\u4ef6\u4e00\u89a7</h3>';
+  STATE.projects.forEach(function(p,idx){
+    lh+='<div style="border:1px solid #e8e8ed;border-radius:10px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all 0.15s;" onclick="window._hataraiku.openProject('+idx+')" onmouseover="this.style.borderColor=\'#5B4FE8\';this.style.boxShadow=\'0 2px 8px rgba(91,79,232,0.1)\'" onmouseout="this.style.borderColor=\'#e8e8ed\';this.style.boxShadow=\'none\'">';
+    lh+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div><span style="font-size:15px;font-weight:700;color:#1a1a2e;">'+p.name+'</span><span style="font-size:11px;color:#888;margin-left:8px;">'+p.id+'</span></div><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+stepC[p.step-1]+'18;color:'+stepC[p.step-1]+';font-weight:600;">'+steps[p.step-1]+'</span></div>';
+    lh+='<div style="display:flex;align-items:center;gap:4px;margin-bottom:10px;">';
+    steps.forEach(function(s,si){var done=si<p.step;var bg=done?stepC[si]:'#e0e0e0';var tc=done?'#fff':'#aaa';lh+='<div style="flex:1;text-align:center;padding:6px 4px;border-radius:6px;background:'+bg+';font-size:10px;font-weight:'+(si===p.step-1?'700':'500')+';color:'+tc+';transition:all 0.3s;">'+s+'</div>';if(si<3)lh+='<div style="color:#ccc;font-size:10px;">\u2192</div>';});
+    lh+='</div>';
+    lh+='<div style="display:flex;gap:16px;font-size:11px;color:#888;"><span>\u30a8\u30ea\u30a2: '+p.area+'</span><span>\u4e88\u7b97: '+p.budget+'\u4e07</span><span>\u62c5\u5f53: '+(STATE.flowMode==='client'?p.client:p.manager)+'</span></div></div>';
+  });
+  lh+='</div>';c.innerHTML+=lh;
+}
+
+function openProject(idx) {
+  var p=STATE.projects[idx];if(!p)return;
+  var c=document.getElementById('hk-content');if(!c)return;
+  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u63d0\u51fa','\u767a\u6ce8\u5b8c\u4e86'];
+  var stepC=['#F59E0B','#3B82F6','#8B5CF6','#10B981'];
+  var isC=STATE.flowMode==='client';
+  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;"><button onclick="window._hataraiku.switchTab(\'project\')" style="background:#f0f0f0;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;">\u2190 \u623b\u308b</button><h2 style="font-size:18px;font-weight:700;margin:0;">'+p.name+'</h2><span style="font-size:11px;color:#888;">'+p.id+'</span></div>';
+  // Toggle
+  h+='<div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:20px;"><span style="font-size:13px;font-weight:600;color:'+(isC?'#5B4FE8':'#888')+';">\u4f9d\u983c\u5074</span><div onclick="window._hataraiku.toggleFlowMode();window._hataraiku.openProject('+idx+')" style="width:48px;height:26px;border-radius:13px;background:'+(isC?'#5B4FE8':'#10B981')+';cursor:pointer;position:relative;transition:all 0.3s;"><div style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;'+(isC?'left:2px':'left:24px')+';transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div><span style="font-size:13px;font-weight:600;color:'+(isC?'#888':'#10B981')+';">\u65bd\u5de5\u7ba1\u7406\u5074</span></div>';
+  // Stepper
+  h+='<div style="display:flex;align-items:center;margin-bottom:28px;background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">';
+  steps.forEach(function(s,si){var done=si<p.step;var cur=si===p.step-1;var bg=done?stepC[si]:cur?stepC[si]+'40':'#f0f0f0';var tc=done?'#fff':cur?stepC[si]:'#aaa';var bd=cur?'2px solid '+stepC[si]:'none';h+='<div style="flex:1;text-align:center;padding:12px 8px;border-radius:8px;background:'+bg+';border:'+bd+';font-size:12px;font-weight:'+(cur?'700':'500')+';color:'+tc+';"><div style="font-size:10px;margin-bottom:2px;">STEP '+(si+1)+'</div>'+s+'</div>';if(si<3)h+='<div style="padding:0 4px;color:#ccc;">\u2192</div>';});
+  h+='</div>';
+  // Step content
+  var sclr=isC?'#5B4FE8':'#10B981';
+  var slbl=isC?'\u4f9d\u983c\u5074\u5165\u529b':'\u65bd\u5de5\u7ba1\u7406\u5074\u5165\u529b';
+  h+='<div style="background:#fff;border-radius:12px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:14px;font-weight:700;color:'+sclr+';margin-bottom:20px;padding-bottom:8px;border-bottom:2px solid '+sclr+'20;">\u21e9 '+slbl+'</div>';
+  if(p.step===1){
+    if(isC){
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
+      h+=formField('1. \u65bd\u5de5\u6642\u671f','<div style="display:flex;gap:8px;align-items:center;"><input type="date" value="2026-04-15" style="flex:1;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;"><span style="color:#888;">\u301c</span><input type="date" value="2026-06-30" style="flex:1;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;"></div>',true);
+      h+=formField('2-\u2460 \u30a8\u30ea\u30a2','<input type="text" value="'+p.area+'" placeholder="\u6771\u4eac\u90fd \u4e2d\u592e\u533a" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;">');
+      h+=formField('2-\u2461 \u5efa\u7269','<select style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;"><option'+(p.building==='\u533a\u5206\u30de\u30f3\u30b7\u30e7\u30f3'?' selected':'')+'>\u533a\u5206\u30de\u30f3\u30b7\u30e7\u30f3</option><option'+(p.building==='\u6238\u5efa\u3066'?' selected':'')+'>\u6238\u5efa\u3066</option><option'+(p.building==='\u305d\u306e\u4ed6'?' selected':'')+'>\u305d\u306e\u4ed6</option></select>');
+      h+=formField('2-\u2462 \u5e83\u3055','<div style="position:relative;"><input type="number" value="'+p.size+'" placeholder="70" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#888;font-size:12px;">m\u00b2</span></div>');
+      h+=formField('2-\u2463 \u9593\u53d6\u308a\u56f3','<div style="border:2px dashed #e0e0e0;border-radius:8px;padding:20px;text-align:center;cursor:pointer;" onmouseover="this.style.borderColor=\'#5B4FE8\'" onmouseout="this.style.borderColor=\'#e0e0e0\'"><div style="font-size:24px;margin-bottom:4px;">\ud83d\udcce</div><div style="font-size:12px;color:#888;">PDF\u3092\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9</div></div>');
+      h+=formField('3-\u2460 \u5de5\u4e8b\u4e88\u7b97','<div style="position:relative;"><input type="text" value="'+fmt(p.budget)+'" placeholder="700" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#888;font-size:12px;">\u4e07\u5186</span></div>');
+      h+=formField('3-\u2461 \u8ca9\u58f2\u4e88\u5b9a\u91d1\u984d','<div style="position:relative;"><input type="text" value="'+fmt(p.salePrice)+'" placeholder="5,000" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#888;font-size:12px;">\u4e07\u5186</span></div>');
+      h+=formField('3-\u2462 \u8a04\u753b\u4ed5\u4e0a\u308a',tabButtons(['\u54c1\u8cea\u3068\u4ed8\u69d8\u304c\u5927\u5207','\u54c1\u8cea\u304c\u5927\u5207','\u5de5\u671f\u4e88\u7b97\u304c\u5927\u5207'],0));
+      h+=formField('3-\u2463 \u5ba4\u5185\u306e\u4f7f\u7528\u72b6\u6cc1',tabButtons(['\u4f4f\u3093\u3067\u3044\u307e\u3059','\u4f4f\u3093\u3067\u3044\u307e\u305b\u3093'],0));
+      h+=formField('3-\u2464 \u65bd\u5de5\u696d\u8005\u304b\u3089\u63d0\u6848',tabButtons(['\u6709','\u7121'],0));
+      h+=formField('3-\u2465 \u76f8\u898b\u7a4d\u696d\u8005',tabButtons(['1\u793e','2\u793e'],0));
+      h+=formField('3-\u2466 \u5ba4\u5185\u5199\u771f','<div style="border:2px dashed #e0e0e0;border-radius:8px;padding:20px;text-align:center;cursor:pointer;" onmouseover="this.style.borderColor=\'#5B4FE8\'" onmouseout="this.style.borderColor=\'#e0e0e0\'"><div style="font-size:24px;margin-bottom:4px;">\ud83d\udcf7</div><div style="font-size:12px;color:#888;">\u5199\u771f\u3092\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9</div></div>');
+      h+=formField('3-\u2467 \u5ba4\u5185\u72b6\u6cc1\u30b3\u30e1\u30f3\u30c8','<textarea rows="3" placeholder="\u5ba4\u5185\u306e\u72b6\u6cc1\u306b\u3064\u3044\u3066\u8a73\u3057\u304f\u8a18\u5165\u3057\u3066\u304f\u3060\u3055\u3044..." style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>',true);
+      h+='</div>';
+    } else {
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
+      h+=formField('\u2460 \u898b\u7a4d\u308a\u56de\u7b54\u65e5','<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:#555;">\u73fe\u5730\u8abf\u67fb\u65e5 +</span><select style="padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;background:#fff;"><option>1\u65e5</option><option>2\u65e5</option><option selected>3\u65e5</option><option>4\u65e5</option><option>5\u65e5</option><option>6\u65e5</option><option>7\u65e5</option><option>8\u65e5</option><option>9\u65e5</option><option>10\u65e5</option></select><span style="font-size:12px;color:#888;">(\u4f11\u307f\u9664\u304f)</span></div>');
+      h+=formField('\u2461 \u6700\u77ed\u7740\u5de5\u65e5','<input type="date" value="2026-05-01" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;">');
+      h+=formField('\u2462 \u8abf\u67fb\u6240\u8981\u6642\u9593','<select style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;background:#fff;box-sizing:border-box;"><option>15\u5206</option><option>30\u5206</option><option selected>45\u5206</option><option>60\u5206</option><option>75\u5206</option><option>90\u5206</option></select>');
+      h+='</div>';
+    }
+  } else if(p.step===2) {
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">';
+    for(var i=1;i<=3;i++){
+      h+='<div style="border:1px solid #e8e8ed;border-radius:10px;padding:16px;"><div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:12px;">\u5019\u88dc\u65e5\u6642 '+i+'</div>';
+      h+='<label style="font-size:11px;color:#888;display:block;margin-bottom:4px;">\u65e5\u4ed8</label><input type="date" style="width:100%;padding:8px 10px;border:1px solid #e0e0e0;border-radius:6px;font-size:12px;outline:none;margin-bottom:8px;box-sizing:border-box;">';
+      h+='<label style="font-size:11px;color:#888;display:block;margin-bottom:4px;">\u958b\u59cb\u6642\u9593</label><select style="width:100%;padding:8px 10px;border:1px solid #e0e0e0;border-radius:6px;font-size:12px;outline:none;margin-bottom:8px;background:#fff;box-sizing:border-box;">';
+      for(var hh=8;hh<=18;hh++){h+='<option>'+String(hh).padStart(2,'0')+':00</option><option>'+String(hh).padStart(2,'0')+':30</option>';}
+      h+='</select><label style="font-size:11px;color:#888;display:block;margin-bottom:4px;">\u7d42\u4e86\u6642\u9593</label><select style="width:100%;padding:8px 10px;border:1px solid #e0e0e0;border-radius:6px;font-size:12px;outline:none;background:#fff;box-sizing:border-box;">';
+      for(var hh2=8;hh2<=18;hh2++){h+='<option>'+String(hh2).padStart(2,'0')+':00</option><option>'+String(hh2).padStart(2,'0')+':30</option>';}
+      h+='</select></div>';
+    }
+    h+='</div>';
+    h+='<div style="margin-top:16px;">'+formFieldInline(isC?'\u8abf\u67fb\u6642\u306e\u5171\u6709\u4e8b\u9805':'\u78ba\u8a8d\u4e8b\u9805\u30b3\u30e1\u30f3\u30c8','<textarea rows="3" placeholder="\u5171\u6709\u4e8b\u9805\u3092\u5165\u529b..." style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>')+'</div>';
+    h+='<div style="margin-top:16px;border-top:1px solid #f0f0f0;padding-top:16px;"><div style="font-size:13px;font-weight:600;color:#555;margin-bottom:8px;">\u7269\u4ef6\u8abf\u67fb\u6642\u306e\u5199\u771f\u8a18\u9332\uff08\u53cc\u65b9\uff09</div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">';
+    for(var ph=0;ph<4;ph++){h+='<div style="aspect-ratio:1;border:2px dashed #e0e0e0;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;" onmouseover="this.style.borderColor=\'#5B4FE8\'" onmouseout="this.style.borderColor=\'#e0e0e0\'"><div style="text-align:center;"><div style="font-size:20px;">\ud83d\udcf7</div><div style="font-size:10px;color:#aaa;">\u8ffd\u52a0</div></div></div>';}
+    h+='</div></div>';
+  } else if(p.step===3) {
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">';
+    h+='<div style="grid-column:1/-1;border:1px solid #e8e8ed;border-radius:10px;padding:16px;"><div style="font-size:13px;font-weight:600;margin-bottom:8px;">\u898b\u7a4d\u66f8\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9</div><div style="border:2px dashed #e0e0e0;border-radius:8px;padding:24px;text-align:center;cursor:pointer;" onmouseover="this.style.borderColor=\'#8B5CF6\'" onmouseout="this.style.borderColor=\'#e0e0e0\'"><div style="font-size:28px;margin-bottom:4px;">\ud83d\udcc4</div><div style="font-size:12px;color:#888;">\u898b\u7a4d\u66f8\u3092\u30c9\u30e9\u30c3\u30b0&\u30c9\u30ed\u30c3\u30d7</div></div></div>';
+    h+=formField('\u898b\u7a4d\u91d1\u984d','<div style="position:relative;"><input type="text" value="'+fmt(p.budget)+'0,000" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#888;font-size:12px;">\u5186</span></div>');
+    h+=formField('\u5de5\u671f','<input type="text" value="\u7d042\u30f6\u6708" style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;box-sizing:border-box;">');
+    h+=formField('\u5099\u8003\u30fb\u7279\u8a18\u4e8b\u9805','<textarea rows="3" placeholder="\u898b\u7a4d\u306b\u95a2\u3059\u308b\u88dc\u8db3\u4e8b\u9805..." style="width:100%;padding:10px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;resize:vertical;box-sizing:border-box;"></textarea>',true);
+    h+='</div>';
+  } else {
+    h+='<div style="text-align:center;padding:40px;"><div style="font-size:48px;margin-bottom:16px;">\u2705</div><div style="font-size:20px;font-weight:700;color:#10B981;margin-bottom:8px;">\u767a\u6ce8\u5b8c\u4e86</div><div style="font-size:13px;color:#888;margin-bottom:24px;">\u5168\u3066\u306e\u30b9\u30c6\u30c3\u30d7\u304c\u5b8c\u4e86\u3057\u307e\u3057\u305f</div></div>';
+  }
+  h+='<div style="margin-top:20px;display:flex;justify-content:space-between;">';
+  if(p.step>1)h+='<button style="background:#f0f0f0;border:none;padding:10px 24px;border-radius:8px;font-size:13px;cursor:pointer;">\u2190 \u524d\u306e\u30b9\u30c6\u30c3\u30d7</button>';else h+='<div></div>';
+  if(p.step<4)h+='<button style="background:linear-gradient(135deg,'+stepC[p.step-1]+','+stepC[Math.min(p.step,3)]+');color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\u6b21\u306e\u30b9\u30c6\u30c3\u30d7\u3078 \u2192</button>';
+  h+='</div></div>';
+  c.innerHTML=h;
+}
+
+function formField(label,input,full){return '<div'+(full?' style="grid-column:1/-1;"':'')+'><label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">'+label+'</label>'+input+'</div>';}
+function formFieldInline(label,input){return '<label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">'+label+'</label>'+input;}
+function tabButtons(opts,active){var h='<div style="display:flex;gap:4px;">';opts.forEach(function(o,i){var a=i===active;h+='<button style="flex:1;padding:8px;border:'+(a?'2px solid #5B4FE8':'1px solid #e0e0e0')+';background:'+(a?'#5B4FE820':'#fff')+';border-radius:6px;font-size:11px;cursor:pointer;color:'+(a?'#5B4FE8':'#888')+';font-weight:'+(a?'600':'400')+';">'+o+'</button>';});h+='</div>';return h;}
+
+function toggleFlowMode(){STATE.flowMode=STATE.flowMode==='client'?'manager':'client';saveState();}
+
+// ============ MODULE 5: APPROVAL ============
+function renderApproval(container) {
+  if(!container)return;
+  var filter = STATE._approvalFilter || '全て';
+  var approvals = [
+    {id:'APR-001',title:'梅田PJ 追加工事費用申請',type:'経費申請',amount:'￥2,400,000',applicant:'佐藤一郎',date:'2026-04-02',status:'申請中',priority:'高',step:'2/3',approvers:['樋口専務','部長']},
+    {id:'APR-002',title:'出張申請 横浜PJ現場視察',type:'出張申請',amount:'￥48,500',applicant:'山田次郎',date:'2026-04-01',status:'申請中',priority:'中',step:'1/2',approvers:['樋口専務']},
+    {id:'APR-003',title:'資材購入 防水シート100m²',type:'購入申請',amount:'￥380,000',applicant:'田中花子',date:'2026-03-31',status:'承認',priority:'中',step:'3/3',approvers:[]},
+    {id:'APR-004',title:'外注先変更 電気工事業者',type:'変更申請',amount:'',applicant:'鈴木美咲',date:'2026-03-29',status:'差戻し',priority:'低',step:'1/2',approvers:['樋口専務']},
+    {id:'APR-005',title:'京都PJ 着工申請',type:'着工申請',amount:'',applicant:'佐藤一郎',date:'2026-03-28',status:'承認',priority:'高',step:'3/3',approvers:[]},
+    {id:'APR-006',title:'有給休暇申請 4/10-4/11',type:'休暇申請',amount:'',applicant:'小林健太',date:'2026-03-27',status:'承認',priority:'低',step:'2/2',approvers:[]}
+  ];
+
+  var statusColors = {'申請中':'sb-g','承認':'sb-b','差戻し':'sb-r'};
+  var priorityColors = {'高':'#ef4444','中':'#f59e0b','低':'#10b981'};
+  var filters = ['全て','申請中','承認','差戻し'];
+
+  var filtered = filter === '全て' ? approvals : approvals.filter(function(a) { return a.status === filter; });
+  var counts = {};
+  filters.forEach(function(f) { counts[f] = f === '全て' ? approvals.length : approvals.filter(function(a){return a.status===f}).length; });
+
+  container.innerHTML = '<div class="topbar"><h2>許可願い</h2><div style="display:flex;gap:8px"><button class="btn2">📊 レポート</button><button class="btn" onclick="alert(\'新規申請フォームを開きます\')">+ 新規申請</button></div></div>'
+    // Stats cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid var(--p)"><div style="font-size:1.5rem;font-weight:800;color:var(--p)">' + approvals.length + '</div><div style="font-size:.8rem;color:var(--sub)">全申請</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #10b981"><div style="font-size:1.5rem;font-weight:800;color:#10b981">' + counts['承認'] + '</div><div style="font-size:.8rem;color:var(--sub)">承認済</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #f59e0b"><div style="font-size:1.5rem;font-weight:800;color:#f59e0b">' + counts['申請中'] + '</div><div style="font-size:.8rem;color:var(--sub)">承認待ち</div></div>'
+    + '<div class="kp" style="padding:16px;text-align:center;border-top:3px solid #ef4444"><div style="font-size:1.5rem;font-weight:800;color:#ef4444">' + counts['差戻し'] + '</div><div style="font-size:.8rem;color:var(--sub)">差戻し</div></div>'
+    + '</div>'
+    // Filters
+    + '<div style="display:flex;gap:8px;padding:0 20px;margin-bottom:16px">'
+    + filters.map(function(f) {
+        return '<button class="' + (f===filter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._approvalFilter=\'' + f + '\';renderApproval(document.querySelector(\'.main\'))">' + f + ' (' + counts[f] + ')</button>';
+      }).join('')
+    + '</div>'
+    // Approval list
+    + '<div style="padding:0 20px;display:flex;flex-direction:column;gap:12px">'
+    + filtered.map(function(a) {
+        return '<div class="kp" style="padding:16px;transition:all .2s;cursor:pointer" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'
+          + '<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:.75rem;color:var(--sub)">' + a.id + '</span><span class="sb ' + (statusColors[a.status]||'') + '">' + a.status + '</span><span style="font-size:.7rem;padding:2px 6px;border-radius:4px;background:' + (priorityColors[a.priority]||'#888') + '15;color:' + (priorityColors[a.priority]||'#888') + ';font-weight:600">優先: ' + a.priority + '</span></div>'
+          + '<strong style="font-size:.95rem">' + a.title + '</strong></div>'
+          + (a.amount ? '<span style="font-size:1.1rem;font-weight:700;color:var(--p)">' + a.amount + '</span>' : '')
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub)">'
+          + '<div style="display:flex;gap:16px"><span>👤 ' + a.applicant + '</span><span>📅 ' + a.date + '</span><span>📝 ' + a.type + '</span></div>'
+          + '<div style="display:flex;align-items:center;gap:8px"><span>承認ステップ: ' + a.step + '</span>'
+          + (a.status === '申請中' ? '<button class="btn" style="font-size:.75rem;padding:4px 12px" onclick="event.stopPropagation();alert(\'承認処理を実行します\')">承認する</button><button class="btn2" style="font-size:.75rem;padding:4px 12px;color:#ef4444" onclick="event.stopPropagation();alert(\'差戻し処理を実行します\')">差戻す</button>' : '')
+          + '</div></div></div>';
+      }).join('')
+    + '</div>';
+}
+
+
+function renderAttendance(container) {
+  if(!container)return;
+  var today = new Date();
+  var clockedIn = STATE._clockedIn || false;
+  var clockInTime = STATE._clockInTime || '';
+  var records = [
+    {date:'04/02(水)',in:'08:45',out:'18:30',work:'8:45',over:'0:45',status:'出勤'},
+    {date:'04/01(火)',in:'09:00',out:'18:00',work:'8:00',over:'0:00',status:'出勤'},
+    {date:'03/31(月)',in:'08:30',out:'19:15',work:'9:45',over:'1:45',status:'出勤'},
+    {date:'03/30(日)',in:'-',out:'-',work:'-',over:'-',status:'休日'},
+    {date:'03/29(土)',in:'-',out:'-',work:'-',over:'-',status:'休日'},
+    {date:'03/28(金)',in:'08:50',out:'18:10',work:'8:20',over:'0:20',status:'出勤'},
+    {date:'03/27(木)',in:'09:05',out:'17:00',work:'6:55',over:'0:00',status:'半休'}
+  ];
+
+  container.innerHTML = '<div class="topbar"><h2>勤務管理</h2><div style="display:flex;gap:8px"><button class="btn2">📊 月次レポート</button><button class="btn2">📤 CSV出力</button></div></div>'
+    // Clock section
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 20px;margin-bottom:24px">'
+    // Clock in/out card
+    + '<div class="kp" style="padding:24px;text-align:center;background:linear-gradient(135deg,rgba(99,102,241,.05),rgba(168,85,247,.05))">'
+    + '<div style="font-size:2.5rem;font-weight:800;color:var(--p);margin-bottom:8px" id="liveClock"></div>'
+    + '<div style="font-size:.85rem;color:var(--sub);margin-bottom:16px">' + today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日 (' + ['日','月','火','水','木','金','土'][today.getDay()] + ')</div>'
+    + '<div style="display:flex;gap:12px;justify-content:center">'
+    + '<button class="btn" style="padding:12px 32px;font-size:1rem;' + (clockedIn ? 'opacity:.5;cursor:default' : '') + '" id="btnClockIn" onclick="if(!STATE._clockedIn){STATE._clockedIn=true;STATE._clockInTime=new Date().toTimeString().substring(0,5);renderAttendance(document.querySelector(\'.main\'))}">☀️ 出勤打刻</button>'
+    + '<button class="btn" style="padding:12px 32px;font-size:1rem;background:linear-gradient(135deg,#f59e0b,#ef4444);' + (!clockedIn ? 'opacity:.5;cursor:default' : '') + '" id="btnClockOut" onclick="if(STATE._clockedIn){STATE._clockedIn=false;alert(\'退勤打刻完了: \'+new Date().toTimeString().substring(0,5));renderAttendance(document.querySelector(\'.main\'))}">🌙 退勤打刻</button>'
+    + '</div>'
+    + (clockedIn ? '<div style="margin-top:12px;font-size:.85rem;color:#10b981">✅ 出勤済み (' + clockInTime + ')</div>' : '<div style="margin-top:12px;font-size:.85rem;color:var(--sub)">未打刻</div>')
+    + '</div>'
+    // Monthly summary
+    + '<div class="kp" style="padding:24px">'
+    + '<h3 style="font-size:.95rem;font-weight:700;margin-bottom:16px">今月のサマリー</h3>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+    + '<div style="text-align:center;padding:12px;background:rgba(99,102,241,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">出勤日数</div><div style="font-size:1.3rem;font-weight:700;color:var(--p)">22日</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(16,185,129,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">総勤務</div><div style="font-size:1.3rem;font-weight:700;color:#10b981">179h</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(245,158,11,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">残業</div><div style="font-size:1.3rem;font-weight:700;color:#f59e0b">12.5h</div></div>'
+    + '<div style="text-align:center;padding:12px;background:rgba(239,68,68,.05);border-radius:8px"><div style="font-size:.75rem;color:var(--sub)">有給残</div><div style="font-size:1.3rem;font-weight:700;color:#ef4444">8日</div></div>'
+    + '</div></div></div>'
+    // Time records table
+    + '<div style="padding:0 20px"><div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left">日付</th><th style="padding:10px 14px;text-align:center">出勤</th><th style="padding:10px 14px;text-align:center">退勤</th><th style="padding:10px 14px;text-align:center">勤務時間</th><th style="padding:10px 14px;text-align:center">残業</th><th style="padding:10px 14px;text-align:center">ステータス</th></tr></thead><tbody>'
+    + records.map(function(r) {
+        var statusColor = r.status === '出勤' ? '#10b981' : r.status === '休日' ? '#9ca3af' : '#f59e0b';
+        return '<tr style="border-top:1px solid var(--border)">'
+          + '<td style="padding:10px 14px;font-weight:500">' + r.date + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + r.in + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + r.out + '</td>'
+          + '<td style="padding:10px 14px;text-align:center;font-weight:600">' + r.work + '</td>'
+          + '<td style="padding:10px 14px;text-align:center;color:' + (r.over !== '0:00' && r.over !== '-' ? '#f59e0b' : 'var(--sub)') + '">' + r.over + '</td>'
+          + '<td style="padding:10px 14px;text-align:center"><span style="color:' + statusColor + ';font-weight:600;font-size:.8rem">' + r.status + '</span></td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+
+  // Live clock
+  var clockEl = document.getElementById('liveClock');
+  if (clockEl) {
+    var updateClock = function() {
+      var n = new Date();
+      if(document.getElementById('liveClock')) {
+        document.getElementById('liveClock').textContent = String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0') + ':' + String(n.getSeconds()).padStart(2,'0');
+        setTimeout(updateClock, 1000);
+      }
+    };
+    updateClock();
+  }
+}
+
+
+function renderInvoice(container) {
+  if(!container)return;
+  var invoiceFilter = STATE._invoiceFilter || '全て';
+  var invoices = [
+    {id:'INV-2026-001',title:'梅田PJ 第1期工事',client:'株式会社大阪不動産',amount:'￥4,800,000',tax:'￥480,000',total:'￥5,280,000',date:'2026-04-01',due:'2026-04-30',status:'発行済',type:'請求書'},
+    {id:'EST-2026-015',title:'横浜PJ 全体見積',client:'横浜マンション株式会社',amount:'￥12,500,000',tax:'￥1,250,000',total:'￥13,750,000',date:'2026-03-28',due:'-',status:'下書き',type:'見積書'},
+    {id:'INV-2026-002',title:'京都PJ 解体工事',client:'京都町屋株式会社',amount:'￥2,200,000',tax:'￥220,000',total:'￥2,420,000',date:'2026-03-25',due:'2026-04-25',status:'入金済',type:'請求書'},
+    {id:'EST-2026-014',title:'新規案件 内装工事',client:'株式会社サクラハウス',amount:'￥890,000',tax:'￥89,000',total:'￥979,000',date:'2026-03-20',due:'-',status:'送付済',type:'見積書'}
+  ];
+
+  var statusColors = {'発行済':'#3b82f6','下書き':'#9ca3af','入金済':'#10b981','送付済':'#8b5cf6'};
+  var filters = ['全て','見積書','請求書'];
+  var filtered = invoiceFilter === '全て' ? invoices : invoices.filter(function(inv) { return inv.type === invoiceFilter; });
+
+  container.innerHTML = '<div class="topbar"><h2>見積ズ・請求書</h2><div style="display:flex;gap:8px"><button class="btn2">📊 売上分析</button><button class="btn" onclick="alert(\'新規作成フォームを開きます\')">+ 新規作成</button></div></div>'
+    // Summary cards
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:16px;border-top:3px solid var(--p)"><div style="font-size:.8rem;color:var(--sub)">今月売上</div><div style="font-size:1.3rem;font-weight:800;color:var(--p)">￥7,700,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #3b82f6"><div style="font-size:.8rem;color:var(--sub)">未回収</div><div style="font-size:1.3rem;font-weight:800;color:#3b82f6">￥5,280,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #10b981"><div style="font-size:.8rem;color:var(--sub)">回収済</div><div style="font-size:1.3rem;font-weight:800;color:#10b981">￥2,420,000</div></div>'
+    + '<div class="kp" style="padding:16px;border-top:3px solid #f59e0b"><div style="font-size:.8rem;color:var(--sub)">見積中</div><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">￥14,729,000</div></div>'
+    + '</div>'
+    // Filters + Invoice list
+    + '<div style="padding:0 20px">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="display:flex;gap:8px">'
+    + filters.map(function(f) { return '<button class="' + (f===invoiceFilter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._invoiceFilter=\'' + f + '\';renderInvoice(document.querySelector(\'.main\'))">' + f + '</button>'; }).join('')
+    + '</div><input class="inp" placeholder="🔍 検索..." style="width:200px"></div>'
+    + '<div style="display:flex;flex-direction:column;gap:12px">'
+    + filtered.map(function(inv) {
+        return '<div class="kp" style="padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor=\'var(--p)\'" onmouseout="this.style.borderColor=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">'
+          + '<div><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:.75rem;color:var(--sub)">' + inv.id + '</span><span style="background:' + (statusColors[inv.status]||'#888') + '15;color:' + (statusColors[inv.status]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:600">' + inv.status + '</span><span class="sb ' + (inv.type==='見積書'?'sb-y':'sb-b') + '">' + inv.type + '</span></div>'
+          + '<strong style="font-size:.95rem">' + inv.title + '</strong>'
+          + '<div style="font-size:.8rem;color:var(--sub);margin-top:2px">' + inv.client + '</div></div>'
+          + '<div style="text-align:right"><div style="font-size:1.2rem;font-weight:800;color:var(--p)">' + inv.total + '</div><div style="font-size:.75rem;color:var(--sub)">税込</div></div>'
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--sub);padding-top:10px;border-top:1px solid var(--border)">'
+          + '<div style="display:flex;gap:16px"><span>📅 発行: ' + inv.date + '</span>' + (inv.due !== '-' ? '<span>⏰ 支払期限: ' + inv.due + '</span>' : '') + '</div>'
+          + '<div style="display:flex;gap:8px"><button class="btn2" style="font-size:.75rem;padding:4px 10px" onclick="event.stopPropagation();alert(\'PDFプレビューを開きます\')">📄 PDF</button><button class="btn2" style="font-size:.75rem;padding:4px 10px" onclick="event.stopPropagation()">✉️ 送付</button></div>'
+          + '</div></div>';
+      }).join('')
+    + '</div></div>';
+}
+
+
+function renderFinance(container) {
+  if(!container)return;
+  var finFilter = STATE._finFilter || '全て';
+  var transactions = [
+    {date:'2026-04-02',desc:'梅田PJ 資材代金',cat:'資材費',amount:'-￥380,000',balance:'￥12,450,000',type:'出金',receipt:true},
+    {date:'2026-04-01',desc:'京都PJ 工事代金入金',cat:'売上',amount:'+￥2,420,000',balance:'￥12,830,000',type:'入金',receipt:false},
+    {date:'2026-03-31',desc:'従業員給与 3月分',cat:'給与',amount:'-￥3,200,000',balance:'￥10,410,000',type:'出金',receipt:true},
+    {date:'2026-03-30',desc:'交通費精算 佐藤',cat:'交通費',amount:'-￥48,500',balance:'￥13,610,000',type:'出金',receipt:true},
+    {date:'2026-03-28',desc:'梅田PJ 第1期請求',cat:'売上',amount:'+￥5,280,000',balance:'￥13,658,500',type:'入金',receipt:false},
+    {date:'2026-03-25',desc:'事務所家賃 4月分',cat:'家賃',amount:'-￥450,000',balance:'￥8,378,500',type:'出金',receipt:true}
+  ];
+  var filters = ['全て','入金','出金'];
+  var filtered = finFilter === '全て' ? transactions : transactions.filter(function(t){return t.type===finFilter});
+
+  container.innerHTML = '<div class="topbar"><h2>入出金管理</h2><div style="display:flex;gap:8px"><button class="btn2">📥 電子帳簿</button><button class="btn2">📊 レポート</button><button class="btn">+ 新規登録</button></div></div>'
+    // Summary cards
+    + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 20px;margin-bottom:24px">'
+    + '<div class="kp" style="padding:20px;background:linear-gradient(135deg,rgba(99,102,241,.08),rgba(168,85,247,.08))"><div style="font-size:.8rem;color:var(--sub)">現在残高</div><div style="font-size:1.5rem;font-weight:800;color:var(--p);margin:4px 0">￥12,450,000</div><div style="font-size:.75rem;color:#10b981">▲ +8.3% 前月比</div></div>'
+    + '<div class="kp" style="padding:20px"><div style="font-size:.8rem;color:var(--sub)">今月入金</div><div style="font-size:1.5rem;font-weight:800;color:#10b981;margin:4px 0">￥7,700,000</div><div style="font-size:.75rem;color:var(--sub)">2件の入金</div></div>'
+    + '<div class="kp" style="padding:20px"><div style="font-size:.8rem;color:var(--sub)">今月出金</div><div style="font-size:1.5rem;font-weight:800;color:#ef4444;margin:4px 0">￥4,078,500</div><div style="font-size:.75rem;color:var(--sub)">4件の出金</div></div>'
+    + '</div>'
+    // Compliance badge
+    + '<div style="padding:0 20px;margin-bottom:16px"><div class="kp" style="padding:12px 20px;display:flex;align-items:center;gap:12px;background:rgba(16,185,129,.05)">'
+    + '<span style="font-size:1.2rem">✅</span>'
+    + '<div><strong style="font-size:.85rem;color:#10b981">電子帳簿保存法対応</strong><div style="font-size:.75rem;color:var(--sub)">全ての取引記録は電子帳簿保存法に準拠して保存されています</div></div></div></div>'
+    // Filters
+    + '<div style="display:flex;gap:8px;padding:0 20px;margin-bottom:16px">'
+    + filters.map(function(f) { return '<button class="' + (f===finFilter?'btn':'btn2') + '" style="font-size:.85rem" onclick="STATE._finFilter=\'' + f + '\';renderFinance(document.querySelector(\'.main\'))">' + f + '</button>'; }).join('')
+    + '<div style="flex:1"></div><input class="inp" placeholder="🔍 取引検索..." style="width:200px">'
+    + '</div>'
+    // Transactions table
+    + '<div style="padding:0 20px"><div class="kp" style="overflow:hidden">'
+    + '<table style="width:100%;border-collapse:collapse;font-size:.85rem">'
+    + '<thead><tr style="background:rgba(99,102,241,.05)"><th style="padding:10px 14px;text-align:left">日付</th><th style="padding:10px 14px;text-align:left">摘要</th><th style="padding:10px 14px;text-align:left">勘定科目</th><th style="padding:10px 14px;text-align:right">金額</th><th style="padding:10px 14px;text-align:right">残高</th><th style="padding:10px 14px;text-align:center">証隠</th></tr></thead><tbody>'
+    + filtered.map(function(t) {
+        var isIn = t.type === '入金';
+        return '<tr style="border-top:1px solid var(--border)">'
+          + '<td style="padding:10px 14px">' + t.date + '</td>'
+          + '<td style="padding:10px 14px;font-weight:500">' + t.desc + '</td>'
+          + '<td style="padding:10px 14px"><span style="background:rgba(99,102,241,.1);color:var(--p);padding:2px 8px;border-radius:4px;font-size:.75rem">' + t.cat + '</span></td>'
+          + '<td style="padding:10px 14px;text-align:right;font-weight:700;color:' + (isIn ? '#10b981' : '#ef4444') + '">' + t.amount + '</td>'
+          + '<td style="padding:10px 14px;text-align:right;font-weight:500">' + t.balance + '</td>'
+          + '<td style="padding:10px 14px;text-align:center">' + (t.receipt ? '<span style="cursor:pointer" title="領収書確認">📋</span>' : '<span style="color:var(--sub)">-</span>') + '</td>'
+          + '</tr>';
+      }).join('')
+    + '</tbody></table></div></div>';
+}
+
+
+function renderCard(container) {
+  if(!container)return;
+  var cards = [
+    {name:'田中太郎',company:'株式会社大阪不動産',dept:'開発事業部 部長',email:'tanaka@osaka-re.co.jp',tel:'06-1234-5678',met:'2026-03-28',memo:'梅田PJのキーパーソン。決裁権あり',tag:'重要'},
+    {name:'山本花子',company:'横浜マンション株式会社',dept:'設計部 主任',email:'yamamoto@yokohama-ms.co.jp',tel:'045-2345-6789',met:'2026-04-01',memo:'横浜PJ設計担当。レスポンスが速い',tag:'通常'},
+    {name:'佐々木健',company:'京都町屋株式会社',dept:'代表取締役',email:'sasaki@kyoto-machiya.co.jp',tel:'075-3456-7890',met:'2026-03-15',memo:'京都PJオーナー。伝統へのこだわりが強い',tag:'重要'},
+    {name:'鈴木一郎',company:'株式会社サクラハウス',dept:'工事部 課長',email:'suzuki@sakura-house.co.jp',tel:'03-4567-8901',met:'2026-03-20',memo:'新規案件の窓口',tag:'新規'},
+    {name:'高橋美月',company:'東京都市開発株式会社',dept:'営業部 主任',email:'takahashi@tokyo-dev.co.jp',tel:'03-5678-9012',met:'2026-02-28',memo:'展示会で交換。大規模PJの情報あり',tag:'フォロー'},
+    {name:'渡辺健二',company:'株式会社尾張建設',dept:'取締役 工事部長',email:'watanabe@owari-ken.co.jp',tel:'052-6789-0123',met:'2026-03-10',memo:'協力業者候補。実績豊富',tag:'通常'}
+  ];
+  var tagColors = {'重要':'#ef4444','通常':'#6366f1','新規':'#10b981','フォロー':'#f59e0b'};
+
+  container.innerHTML = '<div class="topbar"><h2>名刺管理</h2><div style="display:flex;gap:8px"><button class="btn2">📷 スキャン</button><button class="btn2">📤 CSV出力</button><button class="btn">+ 新規登録</button></div></div>'
+    // Stats
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--p)">' + cards.length + '</div><div style="font-size:.8rem;color:var(--sub)">総名刺数</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#10b981">4</div><div style="font-size:.8rem;color:var(--sub)">企業数</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">2</div><div style="font-size:.8rem;color:var(--sub)">今月新規</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#ef4444">1</div><div style="font-size:.8rem;color:var(--sub)">フォロー待ち</div></div>'
+    + '</div>'
+    // Search
+    + '<div style="padding:0 20px;margin-bottom:16px"><input class="inp" placeholder="🔍 名前・会社名・部署で検索..." style="width:100%"></div>'
+    // Cards grid
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;padding:0 20px">'
+    + cards.map(function(c) {
+        return '<div class="kp" style="padding:16px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
+          + '<div style="display:flex;gap:12px;align-items:center">'
+          + '<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem">' + c.name.charAt(0) + '</div>'
+          + '<div><strong style="font-size:1rem">' + c.name + '</strong><div style="font-size:.8rem;color:var(--sub)">' + c.dept + '</div></div>'
+          + '</div>'
+          + '<span style="background:' + (tagColors[c.tag]||'#888') + '15;color:' + (tagColors[c.tag]||'#888') + ';padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600">' + c.tag + '</span>'
+          + '</div>'
+          + '<div style="font-size:.85rem;font-weight:600;color:var(--p);margin-bottom:8px">' + c.company + '</div>'
+          + '<div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.8rem;color:var(--sub)">'
+          + '<span>✉️</span><span>' + c.email + '</span>'
+          + '<span>📞</span><span>' + c.tel + '</span>'
+          + '<span>📅</span><span>最終接触: ' + c.met + '</span>'
+          + '</div>'
+          + '<div style="margin-top:10px;padding:8px 10px;background:rgba(99,102,241,.04);border-radius:6px;font-size:.8rem;color:var(--text)">📝 ' + c.memo + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>';
+}
+
+
+function renderMatching(container) {
+  if(!container)return;
+  var matchFilter = STATE._matchFilter || '全て';
+  var workers = [
+    {name:'山本建設',type:'法人',skills:['内装','クロス','建具'],area:'大阪府全域',rating:4.8,reviews:24,price:'￥18,000~/日',available:true,img:'🏢'},
+    {name:'佐藤電気工事',type:'法人',skills:['電気工事','空調','防災'],area:'関西全域',rating:4.6,reviews:18,price:'￥22,000~/日',available:true,img:'⚡'},
+    {name:'高橋職人',type:'個人',skills:['左官','タイル','防水'],area:'東京都・神奈川',rating:4.9,reviews:31,price:'￥25,000~/日',available:false,img:'🔨️'},
+    {name:'田中塗装',type:'法人',skills:['塗装','防水','外壁'],area:'京都府・滋賀県',rating:4.5,reviews:12,price:'￥16,000~/日',available:true,img:'🎨'},
+    {name:'渡辺設備',type:'法人',skills:['給排水','ガス','給湯'],area:'大阪府・兵庫県',rating:4.7,reviews:20,price:'￥20,000~/日',available:true,img:'🚣'}
+  ];
+  var allSkills = ['全て','内装','電気工事','左官','塗装','給排水','防水'];
+  var filtered = matchFilter === '全て' ? workers : workers.filter(function(w){return w.skills.indexOf(matchFilter)>=0});
+
+  container.innerHTML = '<div class="topbar"><h2>マッチング</h2><div style="display:flex;gap:8px"><button class="btn2">📊 分析</button><button class="btn">+ 案件登録</button></div></div>'
+    // Search & filter
+    + '<div style="padding:0 20px;margin-bottom:16px"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
+    + '<input class="inp" placeholder="🔍 職種・エリア・スキルで検索..." style="flex:1;min-width:200px">'
+    + allSkills.map(function(s) { return '<button class="' + (s===matchFilter?'btn':'btn2') + '" style="font-size:.8rem;padding:4px 12px" onclick="STATE._matchFilter=\'' + s + '\';renderMatching(document.querySelector(\'.main\'))">' + s + '</button>'; }).join('')
+    + '</div></div>'
+    // Stats row
+    + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:0 20px;margin-bottom:20px">'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:var(--p)">' + workers.length + '</div><div style="font-size:.8rem;color:var(--sub)">登録業者</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#10b981">' + workers.filter(function(w){return w.available}).length + '</div><div style="font-size:.8rem;color:var(--sub)">対応可能</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#f59e0b">4.7</div><div style="font-size:.8rem;color:var(--sub)">平均評価</div></div>'
+    + '<div class="kp" style="padding:14px;text-align:center"><div style="font-size:1.3rem;font-weight:800;color:#8b5cf6">3</div><div style="font-size:.8rem;color:var(--sub)">進行中案件</div></div>'
+    + '</div>'
+    // Worker cards
+    + '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 20px">'
+    + filtered.map(function(w) {
+        var stars = '';
+        for(var i=0;i<5;i++) stars += i < Math.floor(w.rating) ? '⭐' : '☆';
+        return '<div class="kp" style="padding:16px;transition:all .2s" onmouseover="this.style.transform=\'translateY(-2px)\';this.style.boxShadow=\'0 4px 16px rgba(0,0,0,.1)\'" onmouseout="this.style.transform=\'\';this.style.boxShadow=\'\'">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">'
+          + '<div style="display:flex;gap:12px;align-items:center">'
+          + '<div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem">' + w.img + '</div>'
+          + '<div><strong style="font-size:1rem">' + w.name + '</strong><div style="font-size:.8rem;color:var(--sub)">' + w.type + ' | ' + w.area + '</div></div>'
+          + '</div>'
+          + '<span style="padding:3px 8px;border-radius:6px;font-size:.75rem;font-weight:600;' + (w.available ? 'background:#10b98115;color:#10b981' : 'background:#9ca3af15;color:#9ca3af') + '">' + (w.available ? '対応可' : '対応不可') + '</span>'
+          + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">'
+          + w.skills.map(function(sk){return '<span style="background:rgba(99,102,241,.1);color:var(--p);padding:2px 8px;border-radius:4px;font-size:.75rem">' + sk + '</span>'}).join('')
+          + '</div>'
+          + '<div style="display:flex;justify-content:space-between;align-items:center;font-size:.85rem">'
+          + '<div><span style="color:#f59e0b;font-size:.8rem">' + stars + '</span> <span style="font-weight:600">' + w.rating + '</span> <span style="color:var(--sub)">(' + w.reviews + '件)</span></div>'
+          + '<span style="font-weight:700;color:var(--p)">' + w.price + '</span>'
+          + '</div>'
+          + '<div style="display:flex;gap:8px;margin-top:12px">'
+          + '<button class="btn" style="flex:1;font-size:.85rem" onclick="alert(\'見積依頼フォームを開きます\');">見積依頼</button>'
+          + '<button class="btn2" style="flex:1;font-size:.85rem" onclick="alert(\'詳細情報を表示します\');">詳細</button>'
+          + '</div></div>';
+      }).join('')
+    + '</div>';
+}
+
+
+
+
+// ============ MAIN API ============
+function switchTab(tabId){STATE.currentTab=tabId;saveState();buildSidebar();buildMainArea();}
+window._hataraiku={switchTab:switchTab,getState:function(){return STATE;},toggleFlowMode:toggleFlowMode,openProject:openProject,sendChat:function(){}};
+window.sw=function(page){var map={dash:'dash',proj:'project',flow:'project',chat:'chat',team:'matching',data:'folder',ai:'dash',log:'approval'};switchTab(map[page]||page);};
+  window.STATE=STATE;window.renderApproval=renderApproval;window.renderMatching=renderMatching;window.renderAttendance=renderAttendance;window.renderInvoice=renderInvoice;window.renderFinance=renderFinance;window.renderCard=renderCard;window.renderChat=renderChat;window.renderFolder=renderFolder;window.renderDashboard=renderDashboard;
+
+function init(){
+  if(!document.querySelector('.sidebar')||!document.querySelector('.main')){setTimeout(init,100);return;}
+  document.body.style.margin='0';
+  document.body.style.fontFamily='-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif';
+  document.body.style.background='#f5f5f7';
+  var footer=document.querySelector('footer');if(footer)footer.style.display='none';
+  // Clear old state to show new UI
+  sessionStorage.removeItem('hataraiku_state');
+  STATE.projects=SAMPLE_PROJECTS;STATE.approvals=SAMPLE_APPROVALS;STATE.attendance=SAMPLE_ATTENDANCE;
+  STATE.invoices=SAMPLE_INVOICES;STATE.transactions=SAMPLE_TRANSACTIONS;STATE.cards=SAMPLE_CARDS;STATE.matchings=SAMPLE_MATCHINGS;
+  buildSidebar();buildMainArea();
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
