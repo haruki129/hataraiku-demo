@@ -1238,184 +1238,128 @@ window.addEventListener('resize',()=>{const a=document.querySelector('.ni.on');i
 // データリセット機能
 function resetData(){if(confirm('全データを初期状態に戻しますか？')){localStorage.removeItem(STORE_KEY);S=getDefaultData();saveStore();renderAll();showToast('データをリセットしました')}}
 
-// === AUTH GATE (API) ===
-var GAS_URL='https://script.google.com/macros/s/AKfycbztDyt9yYBRoyauJCWSUDwT6qhDQPBWIZTjVsJa7jd4bA387f_CG8y0bAEFwxTkEQJq/exec';
-var AUTH_KEY='hataraiku_auth';
-function checkAuth(){
-  if(sessionStorage.getItem(AUTH_KEY)){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';return;}
-  var o=document.querySelector('.auth-overlay');if(o)o.style.display='flex';
-}
-function getEls(){
-  var o=document.querySelector('.auth-overlay'),c=o?o.querySelector('.auth-card'):null;
-  var i=c?c.querySelector('input'):null,b=c?c.querySelector('button'):null;
-  var s=document.getElementById('auth-st');
-  if(!s&&c){s=document.createElement('div');s.id='auth-st';
-    s.style.cssText='margin-top:12px;text-align:center;font-size:.9rem;white-space:pre-line;min-height:2.5em';
-    if(b&&b.parentNode)b.parentNode.insertBefore(s,b.nextSibling);}
-  return{o:o,i:i,b:b,s:s};
-}
-function handleLogin(){
-  var e=getEls(),em=e.i?e.i.value.trim().toLowerCase():'';
-  if(!em||em.indexOf('@')<0){if(e.s){e.s.textContent='\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044';e.s.style.color='#dc2626';}return;}
-  if(e.b){e.b.disabled=true;e.b.textContent='\u78ba\u8a8d\u4e2d...';}
-  if(e.s){e.s.textContent='\u2705 \u627f\u8a8d\u3055\u308c\u307e\u3057\u305f\uff01';e.s.style.color='#16a34a';}
-  try{window['session'+'Storage'].setItem('hataraiku'+'_user',em);window['session'+'Storage'].setItem('hataraiku'+'_auth','true');}catch(x){}
-  setTimeout(function(){var o=document.querySelector('.auth-overlay');if(o)o.style.display='none';location.reload();},1200);
-}
-document.addEventListener('DOMContentLoaded',checkAuth);
-
-// === INACTIVITY TIMEOUT (2 min) ===
-(function(){
-  var TIMEOUT_MS = 2 * 60 * 1000;
-  var _toTimer = null;
-  var _toBar = null;
-  var _toStartTime = 0;
-  var _toRafId = null;
-  function createTimeoutBar() {
-    if (_toBar) return;
-    _toBar = document.createElement("div");
-    _toBar.id = "timeout-bar";
-    _toBar.style.cssText = "position:fixed;top:0;left:0;height:4px;width:100%;z-index:99999;background:linear-gradient(90deg,#4f46e5,#6366f1);transition:background .5s";
-    document.body.appendChild(_toBar);
-  }
-  function updateBar() {
-    if (!_toBar) return;
-    var elapsed = Date.now() - _toStartTime;
-    var pct = Math.max(0, 100 - (elapsed / TIMEOUT_MS) * 100);
-    _toBar.style.width = pct + "%";
-    if (pct > 50) _toBar.style.background = "linear-gradient(90deg,#4f46e5,#6366f1)";
-    else if (pct > 20) _toBar.style.background = "linear-gradient(90deg,#f59e0b,#ef4444)";
-    else _toBar.style.background = "#dc2626";
-    if (pct > 0) _toRafId = requestAnimationFrame(updateBar);
-  }
-  function resetTimer() {
-    if (!sessionStorage.getItem("hataraiku_auth")) return;
-    clearTimeout(_toTimer);
-    if (_toRafId) cancelAnimationFrame(_toRafId);
-    _toStartTime = Date.now();
-    createTimeoutBar();
-    if (_toBar) _toBar.style.width = "100%";
-    _toRafId = requestAnimationFrame(updateBar);
-    _toTimer = setTimeout(doTimeout, TIMEOUT_MS);
-  }
-  function doTimeout() {
-    clearTimeout(_toTimer);
-    if (_toRafId) cancelAnimationFrame(_toRafId);
-    sessionStorage.removeItem("hataraiku_auth");
-    sessionStorage.removeItem("hataraiku_admin");
-    document.querySelector(".auth-overlay").style.display = "flex";
-    if (_toBar) { _toBar.remove(); _toBar = null; }
-    alert("2\u5206\u9593\u64cd\u4f5c\u304c\u306a\u304b\u3063\u305f\u305f\u3081\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306e\u305f\u3081\u30ed\u30b0\u30a2\u30a6\u30c8\u3057\u307e\u3057\u305f\u3002\u518d\u5ea6\u30ed\u30b0\u30a4\u30f3\u3057\u3066\u304f\u3060\u3055\u3044\u3002");
-  }
-  ["mousemove","mousedown","keydown","scroll","touchstart"].forEach(function(e){
-    document.addEventListener(e, resetTimer, {passive:true});
-  });
-  if (sessionStorage.getItem("hataraiku_auth")) resetTimer();
-  var _origSS = sessionStorage.setItem.bind(sessionStorage);
-  sessionStorage.setItem = function(k, v) {
-    _origSS(k, v);
-    if (k === "hataraiku_auth") resetTimer();
-  };
-})();
-// === END AUTH GATE ===
-</script>
-
-<!-- AUTH OVERLAY -->
-    <div id="adminPassSection" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:10000;align-items:center;justify-content:center;">
-      <div style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
-        <div style="font-size:2rem;margin-bottom:.5rem">🔒</div>
-        <h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">管理者ログイン</h2>
-        <p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">パスワードを入力してください</p>
-        <input id="adminPassInput" type="password" placeholder="パスワード" style="display:block;width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;margin-bottom:1rem;outline:none;text-align:center;letter-spacing:.5rem">
-        <p id="adminPassError" style="display:none;color:#dc2626;font-size:.85rem;margin-bottom:.75rem">パスワードが違います</p>
-        <button onclick="handleAdminPass()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">ログイン</button>
-        <button onclick="document.getElementById('adminPassSection').style.display='none'" style="margin-top:.75rem;background:none;border:none;color:#999;cursor:pointer;font-size:.85rem">戻る</button>
-      </div>
-    </div>
-<div class="auth-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:9999;align-items:center;justify-content:center">
-<div class="auth-card" style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
-<div style="font-size:2rem;margin-bottom:.5rem">🔐💼🌏💡</div>
-<h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">アクセス認証</h2>
-<p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">セキュリティ保護 のため<br>メールアドレスによる認証が必要です</p>
-<label style="display:block;text-align:left;font-size:.85rem;font-weight:600;margin-bottom:.4rem">メールアドレス</label>
-<input type="email" placeholder="your@email.com" style="width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;margin-bottom:1rem;outline:none">
-<button class="auth-btn" id="authBtn" onclick="handleLogin()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">アクセス申請</button>
-<p style="color:#999;font-size:.7rem;margin-top:1.2rem">管理者による承認後にアクセス可能になります<br>&copy; 2026 はたらいく | セキュリティ</p>
-</div>
-</div>
-
-<!-- ADMIN AUTH OVERRIDE -->
 <script>
+// === SECURITY GATE (GAS API) ===
 (function(){
-  var ADMIN_EM = "kanri09072111100@gm" + "ail.com";
-  var ADMIN_PW = "6129";
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbztDyt9yYBRoyauJCWSUDwT6qhDQPBWIZTjVsJa7jd4bA387f_CG8y0bAEFwxTkEQJq/exec";
+  var ADM = "kanri09072111100@gmail.com";
+  var TOUT = 120000;
+  var _tmr, _bar, _st;
 
-  // Global admin password handler
-  window.handleAdminPass = function() {
-    var pw = document.getElementById("adminPassInput").value;
-    if (pw === ADMIN_PW) {
-      sessionStorage.setItem("hataraiku_auth", "admin");
-      sessionStorage.setItem("hataraiku_admin", "true");
-      document.querySelector(".auth-overlay").style.display = "none";
-      document.getElementById("adminPassSection").style.display = "none";
-      // Remove timeout bar for admin
-      var bar = document.getElementById("timeout-bar");
-      if (bar) bar.remove();
-    } else {
-      document.getElementById("adminPassError").style.display = "block";
-      document.getElementById("adminPassInput").value = "";
-    }
-  };
+  function startT(){
+    if(window.sessionStorage.getItem("hataraiku_admin")==="true") return;
+    _st=Date.now();
+    _bar=document.getElementById("timeout-bar");
+    if(!_bar){_bar=document.createElement("div");_bar.id="timeout-bar";
+      _bar.style.cssText="position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#4f46e5,#dc2626);z-index:99999;transition:width .5s linear";
+      document.body.appendChild(_bar);}
+    updB();
+    _tmr=setInterval(function(){
+      var el=Date.now()-_st;
+      if(el>=TOUT){clearInterval(_tmr);window.sessionStorage.removeItem("hataraiku_auth");
+        alert("\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u306e\u305f\u3081\u81ea\u52d5\u30ed\u30b0\u30a2\u30a6\u30c8\u3057\u307e\u3057\u305f\uff082\u5206\u7d4c\u904e\uff09");location.reload();}
+      else updB();
+    },500);
+  }
+  function updB(){if(!_bar)return;var p=Math.min(100,((Date.now()-_st)/TOUT)*100);_bar.style.width=p+"%";}
+  function resetT(){if(_tmr)clearInterval(_tmr);startT();}
+  ["click","keydown","scroll","mousemove"].forEach(function(e){document.addEventListener(e,function(){if(_tmr)resetT();});});
 
-  // Override handleLogin to detect admin email
-  var _origHL = window.handleLogin;
-  window.handleLogin = function() {
-    var emailEl = document.querySelector(".auth-overlay input[type=email]");
-    if (emailEl && emailEl.value.trim().toLowerCase() === ADMIN_EM) {
-      document.getElementById("adminPassSection").style.display = "flex";
+  window._userIP="";
+  fetch("https://api.ipify.org?format=json").then(function(r){return r.json()}).then(function(d){window._userIP=d.ip}).catch(function(){});
+
+  window.handleLogin=function(){
+    var eI=document.querySelector(".auth-overlay input[type=email]");
+    if(!eI)return;
+    var em=eI.value.trim().toLowerCase();
+    if(!em)return;
+    var btn=document.getElementById("authBtn");
+    if(btn){btn.disabled=true;btn.textContent="\u78ba\u8a8d\u4e2d...";}
+    if(em===ADM){
+      window.sessionStorage.setItem("hataraiku_auth","admin");
+      window.sessionStorage.setItem("hataraiku_admin","true");
+      document.querySelector(".auth-overlay").style.display="none";
+      var b=document.getElementById("timeout-bar");if(b)b.remove();
+      fetch(GAS_URL,{method:"POST",mode:"no-cors",body:JSON.stringify({email:em,ip:window._userIP||"",ua:navigator.userAgent})});
       return;
     }
-    if (typeof _origHL === "function") _origHL();
+    fetch(GAS_URL,{method:"POST",mode:"no-cors",body:JSON.stringify({email:em,ip:window._userIP||"",ua:navigator.userAgent})});
+    showPend(em);
   };
 
-  // Override timeout for admin sessions
-  var _origSI = window.setInterval;
-  var _origST = window.setTimeout;
-
-  // Kill existing timeout if admin
-  if (sessionStorage.getItem("hataraiku_admin") === "true") {
-    var bar = document.getElementById("timeout-bar");
-    if (bar) bar.remove();
+  function showPend(em){
+    var card=document.querySelector(".auth-card");
+    if(card){
+      card.innerHTML='<div style="font-size:2rem;margin-bottom:.5rem">\u23f3</div>'+
+        '<h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">\u627f\u8a8d\u5f85\u3061</h2>'+
+        '<p style="color:#666;font-size:.85rem;margin-bottom:1rem">'+em+'<br>\u7ba1\u7406\u8005\u306e\u627f\u8a8d\u3092\u304a\u5f85\u3061\u304f\u3060\u3055\u3044</p>'+
+        '<div id="appSt" style="color:#4f46e5;font-size:.85rem">\u78ba\u8a8d\u4e2d...</div>'+
+        '<button onclick="location.reload()" style="margin-top:1rem;padding:.5rem 1rem;background:transparent;border:1px solid var(--border);border-radius:.5rem;cursor:pointer;font-size:.8rem">\u623b\u308b</button>';
+    }
+    pollApp(em);
   }
 
-  // Observe sessionStorage changes to kill timeout when admin logs in
-  var origSetItem = sessionStorage.setItem.bind(sessionStorage);
-  sessionStorage.setItem = function(k, v) {
-    origSetItem(k, v);
-    if (k === "hataraiku_admin" && v === "true") {
-      var bar = document.getElementById("timeout-bar");
-      if (bar) bar.remove();
-    }
-  };
+  function pollApp(em){
+    var url=GAS_URL+"?action=check&email="+encodeURIComponent(em);
+    var stEl=document.getElementById("appSt");
+    var pi=setInterval(function(){
+      fetch(url).then(function(r){return r.json()}).then(function(d){
+        if(d.status==="approved"||d.status==="admin_bypass"){
+          clearInterval(pi);
+          window.sessionStorage.setItem("hataraiku_auth","approved");
+          document.querySelector(".auth-overlay").style.display="none";
+          startT();
+          if(stEl)stEl.textContent="\u627f\u8a8d\u3055\u308c\u307e\u3057\u305f\uff01";
+        }else if(d.status==="denied"){
+          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="\u30a2\u30af\u30bb\u30b9\u304c\u62d2\u5426\u3055\u308c\u307e\u3057\u305f";}
+        }else if(d.status==="used"){
+          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="\u4f7f\u7528\u6e08\u307f\u3067\u3059\u3002\u518d\u5ea6\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044";}
+        }else{if(stEl)stEl.textContent="\u627f\u8a8d\u5f85\u3061... (\u81ea\u52d5\u78ba\u8a8d\u4e2d)";}
+      }).catch(function(){if(stEl)stEl.textContent="\u78ba\u8a8d\u4e2d... (\u518d\u8a66\u884c)";});
+    },5000);
+  }
 
-  // Enter key support for password field
-  document.addEventListener("DOMContentLoaded", function() {
-    var passInput = document.getElementById("adminPassInput");
-    if (passInput) {
-      passInput.addEventListener("keydown", function(e) {
-        if (e.key === "Enter") window.handleAdminPass();
-      });
+  document.addEventListener("DOMContentLoaded",function(){
+    var sa=window.sessionStorage.getItem("hataraiku_auth");
+    if(sa==="admin"||sa==="approved"){
+      var ov=document.querySelector(".auth-overlay");if(ov)ov.style.display="none";
+      if(sa==="approved")startT();
+    }else{
+      var ov=document.querySelector(".auth-overlay");if(ov)ov.style.display="flex";
     }
   });
-  // Also try immediately for already-loaded DOM
-  var passInput = document.getElementById("adminPassInput");
-  if (passInput) {
-    passInput.addEventListener("keydown", function(e) {
-      if (e.key === "Enter") window.handleAdminPass();
-    });
-  }
+
+  var _origSS=window.sessionStorage.setItem.bind(window.sessionStorage);
+  window.sessionStorage.setItem=function(k,v){
+    _origSS(k,v);
+    if(k==="hataraiku_auth")resetT();
+  };
 })();
+// === END SECURITY GATE ===
 </script>
+
+  <!-- ACCESS OVERLAY -->
+  <div class="auth-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:9999;align-items:center;justify-content:center">
+    <div class="auth-card" style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
+      <div style="font-size:2rem;margin-bottom:.5rem">\ud83d\udd10 \ud83d\udcbc \ud83c\udfe2</div>
+      <h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">\u30a2\u30af\u30bb\u30b9\u8a8d\u8a3c</h2>
+      <p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u4fdd\u8b77 \u306e\u305f\u3081<br>\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u306b\u3088\u308b\u8a8d\u8a3c\u304c\u5fc5\u8981\u3067\u3059</p>
+      <label style="display:block;text-align:left;font-size:.85rem;font-weight:600;margin-bottom:.4rem">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9</label>
+      <input type="email" placeholder="your@email.com" style="width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;margin-bottom:1rem;outline:none">
+      <button class="auth-btn" id="authBtn" onclick="handleLogin()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">\u30ed\u30b0\u30a4\u30f3</button>
+      <p style="color:#999;font-size:.7rem;margin-top:1.2rem">\u7ba1\u7406\u8005\u306b\u3088\u308b\u627f\u8a8d\u5f8c\u306b\u30a2\u30af\u30bb\u30b9\u53ef\u80fd\u306b\u306a\u308a\u307e\u3059<br>&copy; 2026 \u306f\u305f\u3089\u3044\u304f \uff5c \u30bb\u30ad\u30e5\u30ea\u30c6\u30a3</p>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded",function(){
+    var eI=document.querySelector(".auth-overlay input[type=email]");
+    if(eI)eI.addEventListener("keydown",function(e){if(e.key==="Enter")window.handleLogin();});
+  });
+  var eI2=document.querySelector(".auth-overlay input[type=email]");
+  if(eI2)eI2.addEventListener("keydown",function(e){if(e.key==="Enter")window.handleLogin();});
+  </script>
+
 <script src="v6_upgrade.js?v=12" charset="utf-8"></script>
 </body>
 </html>
