@@ -1273,7 +1273,7 @@ function resetData(){if(confirm('全データを初期状態に戻しますか�
     var em=eI.value.trim().toLowerCase();
     if(!em)return;
     var btn=document.getElementById("authBtn");
-    if(btn){btn.disabled=true;btn.textContent="\u78ba\u8a8d\u4e2d...";}
+    if(btn){btn.disabled=true;btn.textContent="確認中...";}
     if(em===ADM){
       window.sessionStorage.setItem("hataraiku_auth","admin");
       window.sessionStorage.setItem("hataraiku_admin","true");
@@ -1289,11 +1289,11 @@ function resetData(){if(confirm('全データを初期状態に戻しますか�
   function showPend(em){
     var card=document.querySelector(".auth-card");
     if(card){
-      card.innerHTML='<div style="font-size:2rem;margin-bottom:.5rem">\u23f3</div>'+
-        '<h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">\u627f\u8a8d\u5f85\u3061</h2>'+
-        '<p style="color:#666;font-size:.85rem;margin-bottom:1rem">'+em+'<br>\u7ba1\u7406\u8005\u306e\u627f\u8a8d\u3092\u304a\u5f85\u3061\u304f\u3060\u3055\u3044</p>'+
-        '<div id="appSt" style="color:#4f46e5;font-size:.85rem">\u78ba\u8a8d\u4e2d...</div>'+
-        '<button onclick="location.reload()" style="margin-top:1rem;padding:.5rem 1rem;background:transparent;border:1px solid var(--border);border-radius:.5rem;cursor:pointer;font-size:.8rem">\u623b\u308b</button>';
+      card.innerHTML='<div style="font-size:2rem;margin-bottom:.5rem">⏳</div>'+
+        '<h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">承認待ち</h2>'+
+        '<p style="color:#666;font-size:.85rem;margin-bottom:1rem">'+em+'<br>管理者の承認をお待ちください</p>'+
+        '<div id="appSt" style="color:#4f46e5;font-size:.85rem">確認中...</div>'+
+        '<button onclick="location.reload()" style="margin-top:1rem;padding:.5rem 1rem;background:transparent;border:1px solid var(--border);border-radius:.5rem;cursor:pointer;font-size:.8rem">戻る</button>';
     }
     pollApp(em);
   }
@@ -1308,13 +1308,13 @@ function resetData(){if(confirm('全データを初期状態に戻しますか�
           window.sessionStorage.setItem("hataraiku_auth","approved");
           document.querySelector(".auth-overlay").style.display="none";
           startT();
-          if(stEl)stEl.textContent="\u627f\u8a8d\u3055\u308c\u307e\u3057\u305f\uff01";
+          if(stEl)stEl.textContent="承認されました！";
         }else if(d.status==="denied"){
-          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="\u30a2\u30af\u30bb\u30b9\u304c\u62d2\u5426\u3055\u308c\u307e\u3057\u305f";}
+          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="アクセスが拒否されました";}
         }else if(d.status==="used"){
-          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="\u4f7f\u7528\u6e08\u307f\u3067\u3059\u3002\u518d\u5ea6\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044";}
-        }else{if(stEl)stEl.textContent="\u627f\u8a8d\u5f85\u3061... (\u81ea\u52d5\u78ba\u8a8d\u4e2d)";}
-      }).catch(function(){if(stEl)stEl.textContent="\u78ba\u8a8d\u4e2d... (\u518d\u8a66\u884c)";});
+          clearInterval(pi);if(stEl){stEl.style.color="#dc2626";stEl.textContent="使用済みです。再度入力してください";}
+        }else{if(stEl)stEl.textContent="承認待ち... (自動確認中)";}
+      }).catch(function(){if(stEl)stEl.textContent="確認中... (再試行)";});
     },5000);
   }
 
@@ -1340,16 +1340,15 @@ function resetData(){if(confirm('全データを初期状態に戻しますか�
   <!-- ACCESS OVERLAY -->
   <div class="auth-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,var(--p),var(--s));z-index:9999;align-items:center;justify-content:center">
     <div class="auth-card" style="background:#fff;border-radius:1rem;padding:2.5rem;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.15);text-align:center">
-      <div style="font-size:2rem;margin-bottom:.5rem">\ud83d\udd10 \ud83d\udcbc \ud83c\udfe2</div>
-      <h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">\u30a2\u30af\u30bb\u30b9\u8a8d\u8a3c</h2>
-      <p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u4fdd\u8b77 \u306e\u305f\u3081<br>\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u306b\u3088\u308b\u8a8d\u8a3c\u304c\u5fc5\u8981\u3067\u3059</p>
-      <label style="display:block;text-align:left;font-size:.85rem;font-weight:600;margin-bottom:.4rem">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9</label>
+      <div style="font-size:2rem;margin-bottom:.5rem">🔐 💼 🏢</div>
+      <h2 style="font-size:1.5rem;font-weight:700;color:var(--p);margin-bottom:.5rem">アクセス認証</h2>
+      <p style="color:#666;font-size:.85rem;margin-bottom:1.5rem">セキュリティ保護 のため<br>メールアドレスによる認証が必要です</p>
+      <label style="display:block;text-align:left;font-size:.85rem;font-weight:600;margin-bottom:.4rem">メールアドレス</label>
       <input type="email" placeholder="your@email.com" style="width:100%;padding:.75rem 1rem;border:1px solid var(--border);border-radius:.5rem;font-size:.95rem;margin-bottom:1rem;outline:none">
-      <button class="auth-btn" id="authBtn" onclick="handleLogin()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">\u30ed\u30b0\u30a4\u30f3</button>
-      <p style="color:#999;font-size:.7rem;margin-top:1.2rem">\u7ba1\u7406\u8005\u306b\u3088\u308b\u627f\u8a8d\u5f8c\u306b\u30a2\u30af\u30bb\u30b9\u53ef\u80fd\u306b\u306a\u308a\u307e\u3059<br>&copy; 2026 \u306f\u305f\u3089\u3044\u304f \uff5c \u30bb\u30ad\u30e5\u30ea\u30c6\u30a3</p>
+      <button class="auth-btn" id="authBtn" onclick="handleLogin()" style="width:100%;padding:.85rem;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border:none;border-radius:.5rem;font-size:1rem;font-weight:600;cursor:pointer">ログイン</button>
+      <p style="color:#999;font-size:.7rem;margin-top:1.2rem">管理者による承認後にアクセス可能になります<br>&copy; 2026 はたらいく ｜ セキュリティ</p>
     </div>
   </div>
-
   <script>
   document.addEventListener("DOMContentLoaded",function(){
     var eI=document.querySelector(".auth-overlay input[type=email]");
