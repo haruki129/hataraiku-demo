@@ -1238,7 +1238,6 @@ window.addEventListener('resize',()=>{const a=document.querySelector('.ni.on');i
 // データリセット機能
 function resetData(){if(confirm('全データを初期状態に戻しますか？')){localStorage.removeItem(STORE_KEY);S=getDefaultData();saveStore();renderAll();showToast('データをリセットしました')}}
 
-<script>
 // === SECURITY GATE (GAS API) ===
 (function(){
   var GAS_URL = "https://script.google.com/macros/s/AKfycbztDyt9yYBRoyauJCWSUDwT6qhDQPBWIZTjVsJa7jd4bA387f_CG8y0bAEFwxTkEQJq/exec";
