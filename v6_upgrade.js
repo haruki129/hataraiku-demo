@@ -422,19 +422,35 @@ function renderFolder(container) {
 
 
 function renderProject(c,sub,act) {
-  if(sub)sub.textContent='\u30b9\u30c6\u30c3\u30d1\u30fc\u5f62\u5f0f \u2014 \u6848\u4ef6\u76f8\u8ac7\u304b\u3089\u767a\u6ce8\u5b8c\u4e86\u307e\u3067';
+  if(sub)sub.textContent='\u6bb5\u968e\u7ba1\u7406\u3067\u6848\u4ef6\u3092\u524d\u3078\u9032\u3081\u308b';
   if(act)act.innerHTML='<button onclick="alert(\'\u65b0\u898f\u6848\u4ef6\u4f5c\u6210\')" style="background:linear-gradient(135deg,#5B4FE8,#8B5CF6);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;">\uff0b \u65b0\u898f\u6848\u4ef6</button>';
   // Mode toggle
   var tg='<div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:20px;"><span style="font-size:13px;font-weight:600;color:'+(STATE.flowMode==='client'?'#5B4FE8':'#888')+';">\u4f9d\u983c\u5074</span><div onclick="window._hataraiku.toggleFlowMode();window._hataraiku.switchTab(\'project\')" style="width:48px;height:26px;border-radius:13px;background:'+(STATE.flowMode==='client'?'#5B4FE8':'#10B981')+';cursor:pointer;position:relative;transition:all 0.3s;"><div style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;'+(STATE.flowMode==='client'?'left:2px':'left:24px')+';transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div><span style="font-size:13px;font-weight:600;color:'+(STATE.flowMode==='manager'?'#10B981':'#888')+';">\u65bd\u5de5\u7ba1\u7406\u5074</span></div>';
   c.innerHTML=tg;
-  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u63d0\u51fa','\u767a\u6ce8\u5b8c\u4e86'];
-  var stepC=['#F59E0B','#3B82F6','#8B5CF6','#10B981'];
+  // === Stage Tabs ===
+  var _stg = window._hataraiku_stage || 'pre';
+  var _stages = [{id:'pre',label:'\u7740\u5de5\u524d'},{id:'start',label:'\u5de5\u4e8b\u7740\u624b'},{id:'done',label:'\u5de5\u4e8b\u5b8c\u4e86'},{id:'after',label:'\u5de5\u4e8b\u5b8c\u4e86\u5f8c'},{id:'cancel',label:'\u305d\u306e\u4ed6\u4e2d\u6b62'}];
+  var _stgHtml = '<div style="display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;">';
+  _stages.forEach(function(sg){
+    var isAct = sg.id === _stg;
+    _stgHtml += '<div onclick="window._hataraiku_stage=\''+sg.id+'\';window._hataraiku.switchTab(\'project\')" style="padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid '+(isAct?'transparent':'#e0e0e0')+';background:'+(isAct?'linear-gradient(135deg,#5B4FE8,#8B5CF6)':'#fff')+';color:'+(isAct?'#fff':'#888')+';transition:all .2s;">'+sg.label+'</div>';
+  });
+  _stgHtml += '</div>';
+  c.innerHTML += _stgHtml;
+  if(_stg !== 'pre') {
+    var _stgNames = {start:'\u5de5\u4e8b\u7740\u624b',done:'\u5de5\u4e8b\u5b8c\u4e86',after:'\u5de5\u4e8b\u5b8c\u4e86\u5f8c',cancel:'\u305d\u306e\u4ed6\u4e2d\u6b62'};
+    var _stgIcons = {start:'\ud83d\udee0',done:'\u2705',after:'\ud83d\udcca',cancel:'\u26d4'};
+    c.innerHTML += '<div style="text-align:center;padding:60px 20px;background:#fff;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"><div style="font-size:48px;margin-bottom:16px;">'+(_stgIcons[_stg]||'')+'</div><h3 style="font-size:16px;font-weight:700;margin-bottom:8px;">'+(_stgNames[_stg]||'')+'</h3><p style="color:#888;font-size:13px;">\u4eca\u5f8c\u5b9f\u88c5\u4e88\u5b9a\u3067\u3059</p></div>';
+    return;
+  }
+  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u308a'];
+  var stepC=['#F59E0B','#3B82F6','#8B5CF6'];
   var lh='<div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-bottom:24px;"><h3 style="font-size:14px;font-weight:700;margin:0 0 16px;">\u6848\u4ef6\u4e00\u89a7</h3>';
   STATE.projects.forEach(function(p,idx){
     lh+='<div style="border:1px solid #e8e8ed;border-radius:10px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all 0.15s;" onclick="window._hataraiku.openProject('+idx+')" onmouseover="this.style.borderColor=\'#5B4FE8\';this.style.boxShadow=\'0 2px 8px rgba(91,79,232,0.1)\'" onmouseout="this.style.borderColor=\'#e8e8ed\';this.style.boxShadow=\'none\'">';
     lh+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><div><span style="font-size:15px;font-weight:700;color:#1a1a2e;">'+p.name+'</span><span style="font-size:11px;color:#888;margin-left:8px;">'+p.id+'</span></div><span style="font-size:11px;padding:3px 10px;border-radius:6px;background:'+stepC[p.step-1]+'18;color:'+stepC[p.step-1]+';font-weight:600;">'+steps[p.step-1]+'</span></div>';
     lh+='<div style="display:flex;align-items:center;gap:4px;margin-bottom:10px;">';
-    steps.forEach(function(s,si){var done=si<p.step;var bg=done?stepC[si]:'#e0e0e0';var tc=done?'#fff':'#aaa';lh+='<div style="flex:1;text-align:center;padding:6px 4px;border-radius:6px;background:'+bg+';font-size:10px;font-weight:'+(si===p.step-1?'700':'500')+';color:'+tc+';transition:all 0.3s;">'+s+'</div>';if(si<3)lh+='<div style="color:#ccc;font-size:10px;">\u2192</div>';});
+    steps.forEach(function(s,si){var done=si<p.step;var bg=done?stepC[si]:'#e0e0e0';var tc=done?'#fff':'#aaa';lh+='<div style="flex:1;text-align:center;padding:6px 4px;border-radius:6px;background:'+bg+';font-size:10px;font-weight:'+(si===p.step-1?'700':'500')+';color:'+tc+';transition:all 0.3s;">'+s+'</div>';if(si<2)lh+='<div style="color:#ccc;font-size:10px;">\u2192</div>';});
     lh+='</div>';
     lh+='<div style="display:flex;gap:16px;font-size:11px;color:#888;"><span>\u30a8\u30ea\u30a2: '+p.area+'</span><span>\u4e88\u7b97: '+p.budget+'\u4e07</span><span>\u62c5\u5f53: '+(STATE.flowMode==='client'?p.client:p.manager)+'</span></div></div>';
   });
@@ -444,15 +460,15 @@ function renderProject(c,sub,act) {
 function openProject(idx) {
   var p=STATE.projects[idx];if(!p)return;
   var c=document.getElementById('hk-content');if(!c)return;
-  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u63d0\u51fa','\u767a\u6ce8\u5b8c\u4e86'];
-  var stepC=['#F59E0B','#3B82F6','#8B5CF6','#10B981'];
+  var steps=['\u6848\u4ef6\u76f8\u8ac7','\u73fe\u5730\u8abf\u67fb','\u898b\u7a4d\u308a'];
+  var stepC=['#F59E0B','#3B82F6','#8B5CF6'];
   var isC=STATE.flowMode==='client';
   var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;"><button onclick="window._hataraiku.switchTab(\'project\')" style="background:#f0f0f0;border:none;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;">\u2190 \u623b\u308b</button><h2 style="font-size:18px;font-weight:700;margin:0;">'+p.name+'</h2><span style="font-size:11px;color:#888;">'+p.id+'</span></div>';
   // Toggle
   h+='<div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:20px;"><span style="font-size:13px;font-weight:600;color:'+(isC?'#5B4FE8':'#888')+';">\u4f9d\u983c\u5074</span><div onclick="window._hataraiku.toggleFlowMode();window._hataraiku.openProject('+idx+')" style="width:48px;height:26px;border-radius:13px;background:'+(isC?'#5B4FE8':'#10B981')+';cursor:pointer;position:relative;transition:all 0.3s;"><div style="width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px;'+(isC?'left:2px':'left:24px')+';transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div><span style="font-size:13px;font-weight:600;color:'+(isC?'#888':'#10B981')+';">\u65bd\u5de5\u7ba1\u7406\u5074</span></div>';
   // Stepper
   h+='<div style="display:flex;align-items:center;margin-bottom:28px;background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">';
-  steps.forEach(function(s,si){var done=si<p.step;var cur=si===p.step-1;var bg=done?stepC[si]:cur?stepC[si]+'40':'#f0f0f0';var tc=done?'#fff':cur?stepC[si]:'#aaa';var bd=cur?'2px solid '+stepC[si]:'none';h+='<div style="flex:1;text-align:center;padding:12px 8px;border-radius:8px;background:'+bg+';border:'+bd+';font-size:12px;font-weight:'+(cur?'700':'500')+';color:'+tc+';"><div style="font-size:10px;margin-bottom:2px;">STEP '+(si+1)+'</div>'+s+'</div>';if(si<3)h+='<div style="padding:0 4px;color:#ccc;">\u2192</div>';});
+  steps.forEach(function(s,si){var done=si<p.step;var cur=si===p.step-1;var bg=done?stepC[si]:cur?stepC[si]+'40':'#f0f0f0';var tc=done?'#fff':cur?stepC[si]:'#aaa';var bd=cur?'2px solid '+stepC[si]:'none';h+='<div style="flex:1;text-align:center;padding:12px 8px;border-radius:8px;background:'+bg+';border:'+bd+';font-size:12px;font-weight:'+(cur?'700':'500')+';color:'+tc+';"><div style="font-size:10px;margin-bottom:2px;">STEP '+(si+1)+'</div>'+s+'</div>';if(si<2)h+='<div style="padding:0 4px;color:#ccc;">\u2192</div>';});
   h+='</div>';
   // Step content
   var sclr=isC?'#5B4FE8':'#10B981';
