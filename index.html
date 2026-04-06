@@ -1,4 +1,4 @@
-h<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -69,6 +69,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .pc:hover{border-color:var(--p);box-shadow:0 2px 8px rgba(99,102,241,.1)}
 footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-top:1px solid var(--border);padding:.5rem 2rem;font-size:.75rem;color:var(--sub);text-align:center}
 @media(max-width:768px){.sidebar{width:60px}.sidebar h1,.ni span{display:none}.ni{padding:.75rem;justify-content:center}.main{margin-left:60px}footer{left:60px}}
+.stage-tabs{display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap}
+.stage-tab{padding:.5rem 1rem;border-radius:.5rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--sub);transition:all .2s}
+.stage-tab:hover{background:var(--hover);border-color:var(--p)}
+.stage-tab.active{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border-color:transparent}
+.stage-placeholder{text-align:center;padding:3rem;color:var(--sub)}
+.stage-placeholder h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:var(--text)}
 </style>
 </head>
 <body>
@@ -153,6 +159,14 @@ footer{position:fixed;bottom:0;right:0;left:240px;background:var(--card);border-
 </div>
 
 <!-- ステッパーバー -->
+<div class="stage-tabs" id="stageTabs">
+<div class="stage-tab active" data-stage="pre" onclick="switchStage('pre')">着工前</div>
+<div class="stage-tab" data-stage="start" onclick="switchStage('start')">工事着手</div>
+<div class="stage-tab" data-stage="done" onclick="switchStage('done')">工事完了</div>
+<div class="stage-tab" data-stage="after" onclick="switchStage('after')">工事完了後</div>
+<div class="stage-tab" data-stage="cancel" onclick="switchStage('cancel')">その他中止</div>
+</div>
+
 <div class="kp mb-4" style="padding:.75rem 1.5rem">
 <div class="flex items-center justify-between" id="stepperBar"></div>
 </div>
@@ -331,6 +345,7 @@ team:[
 {name:'高橋五郎',role:'worker',title:'電気工事',certs:['第2種電気','消防設備'],status:'休暇',initial:'高'}
 ],
 meeting:{
+stage:'pre',
 layer:'client',
 step:0,
 client:{
@@ -538,7 +553,7 @@ function editProject(id){openProjModal(id)}
 
 function saveProject(){
 const name=document.getElementById('pjName').value.trim();
-const amount=parseInt(document.getElementById('pjAmount').value)*10000;
+const amount=parseInt(String(document.getElementById('pjAmount').value).replace(/,/g,''))*10000;
 const manager=document.getElementById('pjManager').value.trim();
 const start=document.getElementById('pjStart').value;
 const end=document.getElementById('pjEnd').value;
@@ -570,9 +585,7 @@ saveStore();closeProjModal();renderAll();showToast('保存しました');
 const STEPS=[
 {id:'consult',label:'案件相談',icon:'📋'},
 {id:'survey',label:'現地調査',icon:'🔍'},
-{id:'estimate',label:'見積り',icon:'💰'},
-{id:'adjust',label:'発注調整',icon:'📝'},
-{id:'complete',label:'発注完了',icon:'✅'}
+{id:'estimate',label:'見積り',icon:'💰'}
 ];
 
 function toggleLayer(){
@@ -661,6 +674,10 @@ return '<div class="text-xs mt-1 px-2 py-1 rounded" style="background:'+(layer==
 
 function renderMeetingFlow(){
 const m=S.meeting;
+if(typeof currentStage!=='undefined'&&currentStage!=='pre'){
+const sb=document.getElementById('stepperBar');if(sb&&sb.parentElement)sb.parentElement.style.display='none';
+renderStageContent(currentStage,document.getElementById('flowStepContent'));return;
+}
 const step=m.step;
 const layer=m.layer;
 // ステッパーバー
@@ -701,8 +718,7 @@ const layerBadge=layer==='client'?'<span class="sb sb-p">依頼側</span>':'<spa
 if(step===0)renderStep0(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===1)renderStep1(area,layer,otherLayer,layerBadge,layerColor);
 else if(step===2)renderStep2(area,layer,otherLayer,layerBadge,layerColor);
-else if(step===3)renderStep3(area,layer,otherLayer,layerBadge,layerColor);
-else if(step===4)renderStep4(area,layer,otherLayer,layerBadge,layerColor);
+
 }
 
 // ===== Step0: 案件相談 =====
@@ -726,8 +742,8 @@ html+='</div></div>';
 // 工事内容
 html+='<div class="kp" style="grid-column:1/-1"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">3. 工事内容</h5>';
 html+='<div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
-html+='<div><label class="text-xs" style="color:var(--sub)">工事予算</label><div class="flex items-center gap-1">'+phInput('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
-html+='<div><label class="text-xs" style="color:var(--sub)">販売予定金額</label><div class="flex items-center gap-1">'+phInput('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">工事予算</label><div class="flex items-center gap-1">'+phInputNum('budget','budget','700')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
+html+='<div><label class="text-xs" style="color:var(--sub)">販売予定金額</label><div class="flex items-center gap-1">'+phInputNum('sale','sale_price','5,000')+'<span class="text-sm" style="color:var(--sub)">万</span></div></div>';
 html+='<div><label class="text-xs" style="color:var(--sub)">相見積業者</label>'+phTabs('competing_quotes',['1','2'])+'</div>';
 html+='</div>';
 html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">計画仕上り</label>'+phTabs('finish_quality',['品質と仕様が大切','品質が大切','工期予算が大切'])+'</div>';
@@ -855,96 +871,36 @@ html+='<p class="text-xs">施工期間: <strong>'+(from||'?')+' ～ '+(to||'?')+
 if(finish==='品質と仕様が大切')html+='<p class="text-xs mt-1 font-bold" style="color:#ca8a04">⚠ 高仕様案件 ― 詳細仕様書の作成を推奨</p>';
 html+='</div></div>';
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">← 現地調査</button><button class="btn text-sm" onclick="goStep(3)">次へ → 発注調整</button></div>';
+html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(1)">← 現地調査</button><button class="btn text-sm" onclick="goStep(0)">最初に戻る</button></div>';
 area.innerHTML=html;
 }
 
-// ===== Step3: 発注調整 =====
-function renderStep3(area,layer,otherLayer,badge,color){
-let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[3].icon+' '+STEPS[3].label+'</h4>'+badge+'</div>';
-if(layer==='client'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">依頼側 最終調整</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">仕様・仕上がり程度・予算の最終確認</p>';
-html+='<div class="space-y-2">';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">仕様:</span> <strong class="text-sm">'+(mfGetAny('client','finish_quality')||'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">予算:</span> <strong class="text-sm">'+(mfGetAny('client','budget')?fmtNum(mfGetAny('client','budget'))+'万':'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">販売予定:</span> <strong class="text-sm">'+(mfGetAny('client','sale_price')?fmtNum(mfGetAny('client','sale_price'))+'万':'未設定')+'</strong></div>';
-html+='</div>';
-html+='<div class="mt-3"><label class="text-xs" style="color:var(--sub)">調整メモ</label><textarea class="inp" rows="2" placeholder="最終調整事項を入力..." oninput="S.meeting.order_note=this.value;saveStore()">'+( S.meeting.order_note||'')+'</textarea></div>';
-html+='</div>';
-}else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">施工管理側 最終調整・確定</h5>';
-html+='<p class="text-xs mb-2" style="color:var(--sub)">期限の明確化・確定資料の保存</p>';
-html+='<div class="space-y-2">';
-const es=mfGetAny('contractor','earliest_start');
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">最短着工日:</span> <strong class="text-sm">'+(es||'未設定')+'</strong></div>';
-html+='<div class="p-2 rounded" style="background:var(--hover)"><span class="text-xs" style="color:var(--sub)">見積り回答日:</span> <strong class="text-sm">'+(mfGetAny('contractor','quote_days')?'調査日から'+mfGetAny('contractor','quote_days')+'日後':'未設定')+'</strong></div>';
-html+='</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_confirmed=!S.meeting.order_confirmed;saveStore();renderMeetingFlow()">'+(S.meeting.order_confirmed?'✓ 確定済み':'確定して資料保存')+'</button></div>';
-html+='</div>';
+// ===== 段階(ステージ)切替 =====
+let currentStage = 'pre';
+function switchStage(stage){
+currentStage = stage;
+document.querySelectorAll('.stage-tab').forEach(t=>{
+t.classList.toggle('active', t.dataset.stage===stage);
+});
+const stepperBar = document.getElementById('stepperBar');
+if(stepperBar&&stepperBar.parentElement){
+stepperBar.parentElement.style.display=stage==='pre'?'':'none';
 }
-// 双方の確認状況
-if(S.meeting.order_confirmed){
-html+='<div class="kp mt-3" style="border-left:3px solid #16a34a;background:#f0fdf4"><p class="text-xs font-bold" style="color:#16a34a">✓ 施工管理側が確定しました。依頼側はいつでもこの資料にアクセスできます。</p></div>';
+const flowContent = document.getElementById('flowStepContent');
+if(stage==='pre'){renderMeetingFlow();}else{renderStageContent(stage, flowContent);}
 }
-html+='<div class="flex justify-between mt-4"><button class="btn2 text-sm" onclick="goStep(2)">← 見積り</button><button class="btn text-sm" onclick="goStep(4)">次へ → 発注完了</button></div>';
-area.innerHTML=html;
+function renderStageContent(stage, area){
+const nm={start:'工事着手',done:'工事完了',after:'工事完了後',cancel:'その他中止'};
+const ds={start:'施工開始後の進捗管理・安全管理・品質チェックを行います',done:'完了検査・引渡し準備・最終確認を行います',after:'アフターサービス・保証対応・顧客フォローを管理します',cancel:'中止案件の記録・清算処理を管理します'};
+const ic={start:'🔨',done:'✅',after:'🔧',cancel:'⛔'};
+area.innerHTML='<div class="stage-placeholder"><div style="font-size:3rem;margin-bottom:1rem">'+ic[stage]+'</div><h3>'+nm[stage]+'</h3><p class="text-sm" style="color:var(--sub);margin-bottom:1.5rem">'+ds[stage]+'</p><p class="text-xs" style="color:var(--sub);padding:1rem;background:var(--hover);border-radius:.5rem;display:inline-block">この段階のフロー機能は今後実装予定です</p></div>';
 }
 
-// ===== Step4: 発注完了 =====
-function renderStep4(area,layer,otherLayer,badge,color){
-let html='<div class="flex items-center gap-2 mb-4"><h4 class="font-bold">'+STEPS[4].icon+' '+STEPS[4].label+'</h4>'+badge+'</div>';
-if(layer==='contractor'){
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書作成</h5>';
-html+='<p class="text-xs mb-3" style="color:var(--sub)">AI技術でドラフトを自動作成し、最終確認へ</p>';
-html+='<button class="btn text-sm mb-3" onclick="generateOrderDraft()">🤖 AIドラフト作成</button>';
-const draft=S.meeting.order_doc_draft;
-if(draft){
-html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+draft+'</div>';
-html+='<div class="mt-3"><button class="'+(S.meeting.order_doc_confirmed?'btn':'btn2')+' text-sm" onclick="S.meeting.order_doc_confirmed=!S.meeting.order_doc_confirmed;addLog(\'発注\',\'発注書\',S.meeting.order_doc_confirmed?\'確定\':\'取消\');saveStore();renderMeetingFlow()">'+(S.meeting.order_doc_confirmed?'✓ 発注書確定済':'発注書を確定する')+'</button></div>';
-}
-html+='</div>';
-}else{
-html+='<div class="kp"><h5 class="font-bold text-sm mb-3" style="color:'+color+'">発注書確認</h5>';
-if(S.meeting.order_doc_confirmed){
-html+='<div class="p-3 rounded mb-3" style="background:#f0fdf4;border:1px solid #bbf7d0"><p class="text-sm font-bold" style="color:#16a34a">✓ 発注書が確定されました</p></div>';
-if(S.meeting.order_doc_draft){
-html+='<div class="p-3 rounded" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
-}
-}else if(S.meeting.order_doc_draft){
-html+='<p class="text-xs" style="color:var(--sub)">施工管理側がドラフトを作成済み。確定をお待ちください。</p>';
-html+='<div class="p-3 rounded mt-2" style="background:var(--hover);border:1px solid var(--border);white-space:pre-wrap;font-size:.8rem;line-height:1.6">'+S.meeting.order_doc_draft+'</div>';
-}else{
-html+='<p class="text-xs" style="color:var(--sub)">施工管理側が発注書を作成中です。完成後に確認できます。</p>';
-}
-html+='</div>';
-}
-html+='<div class="flex justify-start mt-4"><button class="btn2 text-sm" onclick="goStep(3)">← 発注調整</button></div>';
-area.innerHTML=html;
-}
-
-function generateOrderDraft(){
-const c=S.meeting.client;const k=S.meeting.contractor;
-let draft='【発注書（ドラフト）】\n';
-draft+='━━━━━━━━━━━━━━━━━━━━\n';
-draft+='作成日: '+todayStr()+'\n\n';
-draft+='■ 物件情報\n';
-draft+='  エリア: '+(c.area||'未入力')+'\n';
-draft+='  建物: '+(c.building||'未入力')+(c.building_other?' ('+c.building_other+')':'')+'\n';
-draft+='  広さ: '+(c.size_m2?c.size_m2+'㎡':'未入力')+'\n\n';
-draft+='■ 工事内容\n';
-draft+='  予算: '+(c.budget?fmtNum(c.budget)+'万':'未入力')+'\n';
-draft+='  販売予定: '+(c.sale_price?fmtNum(c.sale_price)+'万':'未入力')+'\n';
-draft+='  仕上り方針: '+(c.finish_quality||'未入力')+'\n\n';
-draft+='■ 施工条件\n';
-draft+='  施工時期: '+(c.period_from||'?')+' ～ '+(c.period_to||'?')+'\n';
-draft+='  最短着工日: '+(k.earliest_start||'未定')+'\n';
-draft+='  見積り回答: 調査日から'+(k.quote_days||'?')+'日後\n';
-draft+='━━━━━━━━━━━━━━━━━━━━\n';
-draft+='※ AI自動生成ドラフト。内容をご確認の上、確定してください。';
-S.meeting.order_doc_draft=draft;
-addLog('AI生成','発注書ドラフト','自動作成');
-saveStore();renderMeetingFlow();
+// ===== カンマ表記 =====
+function phInputNum(id,key,ph,sfx){
+const v=mfGet(key);const dv=v?fmtNum(v):'';
+const ds=v?'color:var(--text)':'color:#94a3b8';
+return '<input class="inp" id="mf_'+id+'" value="'+(dv||'')+'" placeholder="'+ph+'" style="'+ds+'" oninput="var r=this.value.replace(/,/g,\'\');if(!isNaN(r)&&r!==\'\'){mfVal(\''+key+'\',r);this.value=Number(r).toLocaleString()};this.style.color=this.value?\'var(--text)\':\'#94a3b8\'">'+(sfx?'<span class="text-xs ml-1" style="color:var(--sub)">'+sfx+'</span>':'');
 }
 
 // 承認フロー: 実働する状態管理（他モジュールから参照）
@@ -1179,7 +1135,7 @@ function closeAddModal(){document.getElementById('addMod').classList.remove('sho
 // タブ切替 & 全体レンダリング
 // ==========================================
 const titles={dash:'ダッシュボード',proj:'プロジェクト',flow:'打合せフロー',chat:'チャット',team:'人材',data:'データ',ai:'AI分析',log:'承認履歴'};
-const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'ステッパー形式 ― 案件相談から発注完了まで',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
+const subs={dash:'リアルタイム経営指標',proj:'CRUD操作対応',flow:'ステッパー形式 ― 段階管理で案件を前へ進める',chat:'リアルタイム通信',team:'スキル・稼働管理',data:'ファイル管理',ai:'データ駆動分析',log:'全操作の監査証跡'};
 function sw(t){
 document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
 document.querySelectorAll('.ni').forEach(e=>e.classList.remove('on'));
